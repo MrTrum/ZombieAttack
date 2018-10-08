@@ -1,4 +1,5 @@
-#include "AppDelegate.h"
+﻿#include "AppDelegate.h"
+#include "Parameter.h"
 #include "HelloWorldScene.h"
 #include "GamePlayLayer.h"
 
@@ -60,7 +61,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("zombie2", cocos2d::Rect(0, 0, designResolutionSize.width / 2, designResolutionSize.height / 2));
+        glview = GLViewImpl::createWithRect("zombie2", cocos2d::Rect(0, 0, designResolutionSize.width * SCALE_PARAMETER_, designResolutionSize.height * SCALE_PARAMETER_));
 #else
         glview = GLViewImpl::create("zombie2");
 #endif
@@ -68,7 +69,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     // turn on display FPS
-    director->setDisplayStats(true);
+    director->setDisplayStats(false);
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0f / 60);
@@ -95,8 +96,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::create();
-
+	// tắt start scene để test cho lẹ.
+    //auto scene = HelloWorld::create();
+	auto scene = GamePlayLayer::createGamePlayLayer();
     // run
     director->runWithScene(scene);
 

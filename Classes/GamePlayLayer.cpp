@@ -46,16 +46,16 @@ bool GamePlayLayer::init()
 
 	//add hero
 	_hero = Hero::create();
-	this->addChild(_hero,100);
-	_hero->setPosition(winSize.width * 0.35f, winSize.height * 0.08f);
+	this->addChild(_hero,200);
+	//_hero->setPosition(winSize.width * 0.35f, winSize.height * 0.08f);
 
 	//add base
 	_base = Base::create();
 	this->addChild(_base);
 
 	//add bullet
-	_bullet = Bullet::create();
-	this->addChild(_bullet,200);
+	//_bullet = Bullet::create();
+	//this->addChild(_bullet,200);
 
 	//touch event
 	EventListenerTouchOneByOne *listenerTouch = EventListenerTouchOneByOne::create();
@@ -71,19 +71,12 @@ bool GamePlayLayer::init()
 	addChild(zombie, 3);
 
 	/*UI*/
-	_Coin = Coin::create();
-	_Coin->setPosition(winSize / 2);
-	this->addChild(_Coin);
+	//_Coin = Coin::create();
+	//_Coin->setPosition(winSize / 2);
+	//this->addChild(_Coin);
 
 	return true;
 }
-
-//void GamePlayLayer::onKeyPressed(cocos2d::EventKeyboard::KeyCode kc, cocos2d::Event* e)
-//{
-//	Size winSize = Director::getInstance()->getWinSize();
-//	_hero->shootAnimation();
-//	_bullet->BulletMoveto(winSize.width, winSize.height);
-//}
 
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
@@ -91,7 +84,7 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 	_hero->shootAnimation();	
 	_posX = this->convertToWorldSpace(touch->getLocation()).x;
 	_posY = this->convertToWorldSpace(touch->getLocation()).y;
-	_bullet->BulletMoveto(_posX, _posY);
+	//_bullet->BulletMoveto(_posX, _posY);
 	return true;
 }
 
