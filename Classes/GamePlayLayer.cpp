@@ -37,7 +37,7 @@ bool GamePlayLayer::init()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("sprite.plist",
 		"sprite.png");
 
-	Size winSize = Director::getInstance()->getWinSize();
+	winSize = Director::getInstance()->getWinSize();
 
 	/*Phần nhân vật*/
 	//add BG
@@ -80,18 +80,32 @@ bool GamePlayLayer::init()
 
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
-	Size winSize = Director::getInstance()->getWinSize();
 	_hero->shootAnimation();
+	Shooting(touch);
+	return true;
+}
+
+
+void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
+{
+
+}
+
+void GamePlayLayer::onTouchEnded(Touch* touch, Event* event) {
+	
+}
+
+void GamePlayLayer::Shooting(Touch *touch)
+{
 	Point location = touch->getLocationInView();
 	location = Director::getInstance()->convertToGL(location);
-
 	_bullet = Bullet::create();
 	this->addChild(_bullet, 200);
 
 	int offX = location.x - _bullet->getPosition().x;
 	int offY = location.y - _bullet->getPosition().y;
 
-	if (offX <= 0) return true;
+	if (offX <= -100) return;
 
 	int realX = winSize.width + (_bullet->getContentSize().width / 2);
 
@@ -105,23 +119,9 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 	int offRealY = realY - _bullet->getPosition().y;
 	float length = sqrtf((offRealX * offRealX) + (offRealY*offRealY));
 
-	float velocity = 480 / 1;
+	float velocity = 800 / 1;
 
 	float realMoveDuration = length / velocity;
 	auto bulletFire = MoveTo::create(realMoveDuration, realDest);
 	_bullet->runAction(bulletFire);
-	return true;
 }
-
-
-void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
-{
-
-	onTouchBegan(touch, event);
-}
-
-void GamePlayLayer::onTouchEnded(Touch* touch, Event* event) {
-	
-}
-
-

@@ -28,17 +28,19 @@ protected:
 	bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
 	void onTouchMoved(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touches, Event* event);
+	void Shooting(Touch *touch);
 
 private:
+	Size			winSize;
 	BackgroundLayer *_bg;
 	Hero			*_hero;
 	Base			*_base;
 	Bullet			*_bullet;
 	float			_posX;
 	float			_posY;
-	Sprite* _Barrier;
-	Coin* _Coin;
-	Sprite* _hpbar;
+	Sprite*			_Barrier;
+	Coin*			_Coin;
+	Sprite*			_hpbar;
 
 };
 
