@@ -1,6 +1,8 @@
 ﻿#ifndef __PARAMETER_H__
 #define __PARAMETER_H__
 
+//set scale
+#define SCALE_PARAMETER_						1.5f
 
 //thời gian
 #define TIME_CREATE_ZOMBIE_2					2.0f
@@ -45,3 +47,4 @@
 
 
 #endif // __PARAMETER_H__
+

@@ -1,4 +1,5 @@
 #include "Hero.h"
+#include "Parameter.h"
 
 USING_NS_CC;
 
@@ -19,11 +20,11 @@ bool Hero::init()
 	Size winSize = Director::getInstance()->getWinSize();
 	_sprhero = Sprite::createWithSpriteFrameName("1.png");
 	this->addChild(_sprhero);
-	_sprhero->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_sprhero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	this->setContentSize(_sprhero->getContentSize());
-	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	_sprhero->setPosition(winSize.width * 0.15f, winSize.height * 0.5f);
-	_sprhero->setScale(0.25f);
+	this->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	//_sprhero->setPosition(winSize.width * 0.15f, winSize.height * 0.5f);
+	_sprhero->setScale(0.3f * SCALE_PARAMETER_);
 	return true;
 }
 
