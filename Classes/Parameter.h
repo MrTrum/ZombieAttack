@@ -44,6 +44,8 @@
 //setTag
 #define ZOMBIE_TAG								1
 
+//Tốc độ đạn
+#define BULLET_VEC								800.0f
 
 
 #endif // __PARAMETER_H__

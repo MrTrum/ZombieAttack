@@ -37,9 +37,3 @@ bool Bullet::init()
 
 	return true;
 }
-
-void Bullet::BulletMoveto(float x, float y)
-{
-	MoveTo *bulletMove = MoveTo::create(0.5f, Vec2(x, y));
-	_sprBullet->runAction(bulletMove);
-}
