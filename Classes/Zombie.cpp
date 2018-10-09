@@ -6,6 +6,7 @@
 USING_NS_CC;
 
 Size		winSize;
+
 Node* Zombie::createNode()
 {
 	return Zombie::create();
@@ -20,12 +21,14 @@ bool Zombie::init()
 	}
 	winSize = Director::getInstance()->getWinSize();
 
-	scheduleOnce(schedule_selector(Zombie::createZombie_2), TIME_CREATE_ZOMBIE_2);
+	scheduleOnce(schedule_selector(Zombie::createPools), 1.0f);
+	schedule(schedule_selector(Zombie::createZombie_2), TIME_CREATE_ZOMBIE_2);
 	/*schedule(schedule_selector(Zombie::createZombie_3), TIME_CREATE_ZOMBIE_3);
 	schedule(schedule_selector(Zombie::createZombie_4), TIME_CREATE_ZOMBIE_4);
 	schedule(schedule_selector(Zombie::createZombie_5), TIME_CREATE_ZOMBIE_5);*/
 
-	Zombie::physicsForLine();
+
+	physicsForLine();
 
 	auto listenerContact = EventListenerPhysicsContact::create();
 	listenerContact->onContactBegin = CC_CALLBACK_1(Zombie::onContactBegan, this);
@@ -35,40 +38,66 @@ bool Zombie::init()
 	return true;
 }
 
+void Zombie::createPools(float unknown)
+{
+	Sprite *sprite;
+	_Zombie2 = new Vector<Sprite*>(5);
+	
+	for (int indexZombie = 0; indexZombie < 5; indexZombie++)
+	{
+		sprite = Sprite::createWithSpriteFrameName("Z2Walk1.png");
+		sprite->setVisible(false);
+		addChild(sprite);
+		_Zombie2->pushBack(sprite);
+	}
+}
+
+int i = 0;
 void Zombie::createZombie_2(float unknown)
 {
 	//Zombie 2
-	zomBie2 = Sprite::createWithSpriteFrameName("Z2Walk1.png");
-	
-	zomBie2->setPosition(winSize.width, 0.0);
-	zomBie2->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	zomBie2->setScale(0.4f * SCALE_PARAMETER_);
-	zomBie2->setTag(ZOMBIE_TAG);
-
-	//Set Physics
-	auto physics = PhysicsBody::createBox(zomBie2->getContentSize());
-	physics->setCollisionBitmask(ZOMBIE_BITMASK);
-	physics->setContactTestBitmask(true);
-	physics->setDynamic(false);
-	zomBie2->setPhysicsBody(physics);
-
-	addChild(zomBie2, 6);
-	//Diễn hoạt cho Zombie 2
-	auto *animation = Animation::create();
-	for (int i = 1; i < 7; i++)
+	/*zomBie2 = Sprite::createWithSpriteFrameName("Z2Walk1.png");*/
+	if (i < 5)
 	{
-		std::string zombieName = StringUtils::format("Z2Walk%d.png", i);
-		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(zombieName));
+		_Zombie2->at(i)->stopAllActions();
+		_Zombie2->at(i)->setPosition(winSize.width, 0.0);
+		_Zombie2->at(i)->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+		_Zombie2->at(i)->setScale(0.15f);
+		_Zombie2->at(i)->setTag(ZOMBIE_TAG);
+		/*_Zombie2->at(i)->retain();*/
+
+
+		//Set Physics
+		auto physics = PhysicsBody::createBox(_Zombie2->at(i)->getContentSize());
+		physics->setCollisionBitmask(ZOMBIE_BITMASK);
+		physics->setContactTestBitmask(true);
+		physics->setDynamic(false);
+		_Zombie2->at(i)->setPhysicsBody(physics);
+
+		/*addChild(zomBie2, 6);*/
+		//Diễn hoạt cho Zombie 2
+		auto *animation = Animation::create();
+		for (int i = 1; i < 7; i++)
+		{
+			std::string zombieName = StringUtils::format("Z2Walk%d.png", i);
+			animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(zombieName));
+		}
+		animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
+		auto *animate = Animate::create(animation);
+
+
+
+		//Move zombie 2
+		_Zombie2->at(i)->setVisible(true);
+		auto moveto = MoveTo::create(TIME_MOVETO_ZOMBIE, Vec2(winSize.width * LOCAL_MOVETO, 0.0));
+		auto spawn = Spawn::create(Repeat::create(animate, TIME_REPEAT_ANIMATE), moveto, nullptr);
+		_Zombie2->at(i)->runAction(spawn);
+		i++;
 	}
-	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
-	auto *animate = Animate::create(animation);
-
-
-
-	//Move zombie 2
-	auto moveto = MoveTo::create(TIME_MOVETO_ZOMBIE, Vec2(winSize.width * LOCAL_MOVETO, 0.0));
-	auto spawn = Spawn::create(Repeat::create(animate, TIME_REPEAT_ANIMATE), moveto, nullptr);
-	zomBie2->runAction(spawn);
+	if (i >= 4)
+	{
+		i = 0;
+	}
 }
 
 void Zombie::physicsForLine()
@@ -92,13 +121,13 @@ bool Zombie::onContactBegan(PhysicsContact &contact)
 	if (a->getCollisionBitmask() == ZOMBIE_BITMASK && b->getCollisionBitmask() == LINE_BITMASK ||
 		a->getCollisionBitmask() == LINE_BITMASK && b->getCollisionBitmask() == ZOMBIE_BITMASK);
 	{
-		//this->removeChildByTag(ZOMBIE_TAG, true);
+		_Zombie2->at(i)->removeChildByTag(ZOMBIE_TAG);
 	}
 
 	return true;
 }
 
-void Zombie::createZombie_3(float unknow)
+void Zombie::createZombie_3(float unknown)
 {
 	//Zombie 3
 	auto zomBie3 = Sprite::createWithSpriteFrameName("Z3Walk1.png");
@@ -125,7 +154,7 @@ void Zombie::createZombie_3(float unknow)
 
 }
 
-void Zombie::createZombie_4(float unknow)
+void Zombie::createZombie_4(float unknown)
 {
 	//Zombie 4
 	auto zomBie4 = Sprite::createWithSpriteFrameName("Z4Walk1.png");
@@ -151,7 +180,7 @@ void Zombie::createZombie_4(float unknow)
 	zomBie4->runAction(spawn);
 }
 
-void Zombie::createZombie_5(float unknow)
+void Zombie::createZombie_5(float unknown)
 {
 	//Zombie 5
 	auto zomBie5 = Sprite::createWithSpriteFrameName("Z5Walk1.png");
