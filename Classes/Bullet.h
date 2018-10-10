@@ -10,6 +10,7 @@ public:
 	~Bullet();
 	CREATE_FUNC(Bullet);
 	virtual bool init();
+	void BulletFire(float locationX, float locationY);
 protected:
 private:
 	cocos2d::Sprite * _sprBullet;

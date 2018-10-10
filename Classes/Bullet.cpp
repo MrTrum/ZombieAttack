@@ -11,7 +11,6 @@ Bullet::Bullet()
 Bullet::~Bullet()
 {
 }
-
 bool Bullet::init()
 {
 	if (!Node::init())
@@ -36,4 +35,30 @@ bool Bullet::init()
 	_sprBullet->setPhysicsBody(_BulletPhysicsBody);
 
 	return true;
+}
+void Bullet::BulletFire(float locationX, float locationY)
+{	
+	Size winSize = Director::getInstance()->getWinSize();
+	int offX = locationX - _sprBullet->getPosition().x;
+	int offY = locationY - _sprBullet->getPosition().y;
+
+	if (offX <= 0) return;
+
+	int realX = winSize.width + (_sprBullet->getContentSize().width / 2);
+
+	float ratio = (float)offY / (float)offX;
+
+	//int realY = winSize.height + (_bullet->getContentSize().height / 2);
+	int realY = (realX * ratio) + _sprBullet->getPosition().y;
+	auto realDest = Point(realX, realY);
+
+	int offRealX = realX - _sprBullet->getPosition().x;
+	int offRealY = realY - _sprBullet->getPosition().y;
+	float length = sqrtf((offRealX * offRealX) + (offRealY*offRealY));
+
+	float velocity = BULLET_VEC;
+
+	float realMoveDuration = length / velocity;
+	auto bulletFire = MoveTo::create(realMoveDuration, realDest);
+	_sprBullet->runAction(bulletFire);
 }

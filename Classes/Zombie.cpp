@@ -21,7 +21,7 @@ bool Zombie::init()
 	}
 	winSize = Director::getInstance()->getWinSize();
 
-	scheduleOnce(schedule_selector(Zombie::createPools), 1.0f);
+	scheduleOnce(schedule_selector(Zombie::createPools), 0.1f);
 	schedule(schedule_selector(Zombie::createZombie_2), TIME_CREATE_ZOMBIE_2);
 	/*schedule(schedule_selector(Zombie::createZombie_3), TIME_CREATE_ZOMBIE_3);
 	schedule(schedule_selector(Zombie::createZombie_4), TIME_CREATE_ZOMBIE_4);
@@ -62,7 +62,7 @@ void Zombie::createZombie_2(float unknown)
 		_Zombie2->at(i)->stopAllActions();
 		_Zombie2->at(i)->setPosition(winSize.width, 0.0);
 		_Zombie2->at(i)->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-		_Zombie2->at(i)->setScale(0.15f);
+		_Zombie2->at(i)->setScale(0.3f * SCALE_PARAMETER_);
 		_Zombie2->at(i)->setTag(ZOMBIE_TAG);
 		/*_Zombie2->at(i)->retain();*/
 
@@ -121,7 +121,7 @@ bool Zombie::onContactBegan(PhysicsContact &contact)
 	if (a->getCollisionBitmask() == ZOMBIE_BITMASK && b->getCollisionBitmask() == LINE_BITMASK ||
 		a->getCollisionBitmask() == LINE_BITMASK && b->getCollisionBitmask() == ZOMBIE_BITMASK);
 	{
-		_Zombie2->at(i)->removeChildByTag(ZOMBIE_TAG);
+		//_Zombie2->at(i)->removeChildByTag(ZOMBIE_TAG);
 	}
 
 	return true;

@@ -97,32 +97,11 @@ void GamePlayLayer::onTouchEnded(Touch* touch, Event* event) {
 
 void GamePlayLayer::Shooting(Touch *touch)
 {
+
 	Point location = touch->getLocationInView();
 	location = Director::getInstance()->convertToGL(location);
-
 	_bullet = Bullet::create();
 	this->addChild(_bullet, 200);
+	_bullet->BulletFire(location.x, location.y);
 
-	int offX = location.x - _bullet->getPosition().x;
-	int offY = location.y - _bullet->getPosition().y;
-
-	if (offX <= 0) return;
-
-	int realX = winSize.width + (_bullet->getContentSize().width / 2);
-
-	float ratio = (float)offY / (float)offX;
-
-	//int realY = winSize.height + (_bullet->getContentSize().height / 2);
-	int realY = (realX * ratio) + _bullet->getPosition().y;
-	auto realDest = Point(realX, realY);
-
-	int offRealX = realX - _bullet->getPosition().x;
-	int offRealY = realY - _bullet->getPosition().y;
-	float length = sqrtf((offRealX * offRealX) + (offRealY*offRealY));
-
-	float velocity = BULLET_VEC;
-
-	float realMoveDuration = length / velocity;
-	auto bulletFire = MoveTo::create(realMoveDuration, realDest);
-	_bullet->runAction(bulletFire);
 }
