@@ -139,9 +139,9 @@ bool Zombie::onContactBegan(PhysicsContact &contact)
 	if (tagZombie == ZOMBIE_TAG && tagLine == LINE_TAG ||
 		tagZombie == LINE_TAG && tagLine == ZOMBIE_TAG)
 	{
-		/*physicsZombie->setPosition(winSize.width, 0.0f);*/
-		/*physicsZombie->setVisible(false);*/
-		zombie_2Dead(physicsZombie);
+		physicsZombie->setPosition(winSize.width, 0.0f);
+		physicsZombie->setVisible(false);
+		/*zombie_2Dead(physicsZombie);*/
 	}
 
 	return true;
