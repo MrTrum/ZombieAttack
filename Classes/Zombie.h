@@ -18,13 +18,15 @@ public:
 	virtual bool				init();
 	CREATE_FUNC(Zombie);
 
-	void						createZombie_2(float unknown);
-	void						createZombie_3(float unknown);
-	void						createZombie_4(float unknown);
-	void						createZombie_5(float unknown);
+	void						createZombie_2(float delta);
+	void						createZombie_3(float delta);
+	void						createZombie_4(float delta);
+	void						createZombie_5(float delta);
 	void						physicsForLine();
 	bool						onContactBegan(PhysicsContact &contact);
-	void						createPools(float unknown);
+	void						createPools(float delta);
+	void						zombie_2Dead(Sprite* sprite);
+
 
 };
 
