@@ -1,6 +1,7 @@
 ﻿#ifndef __PARAMETER_H__
 #define __PARAMETER_H__
 
+#define SCALE_PARAMETER_						1.0f
 
 //thời gian
 #define TIME_CREATE_ZOMBIE_2					2.0f
@@ -38,6 +39,8 @@
 #define BULLET_CATEGORY_BITMASK					0010
 #define BULLET_COLLISION_AND_CONTACT_BITMASK	0001
 
+//bullet vec
+#define BULLET_VEC								800.0f
 
 //setTag
 #define ZOMBIE_TAG								1
