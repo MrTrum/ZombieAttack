@@ -46,12 +46,12 @@ bool GamePlayLayer::init()
 
 	//add hero
 	_hero = Hero::create();
-	this->addChild(_hero, 200);
-	//_hero->setPosition(winSize.width * 0.35f, winSize.height * 0.08f);
+	this->addChild(_hero, 3);
+	/*_hero->setPosition(winSize.width * 0.35f, winSize.height * 0.08f);*/
 
 	//add base
 	_base = Base::create();
-	this->addChild(_base);
+	this->addChild(_base, 2);
 
 	//add bullet
 	//_bullet = Bullet::create();
@@ -60,6 +60,7 @@ bool GamePlayLayer::init()
 	//touch event
 	EventListenerTouchOneByOne *listenerTouch = EventListenerTouchOneByOne::create();
 	listenerTouch->onTouchBegan = CC_CALLBACK_2(GamePlayLayer::onTouchBegan, this);
+	listenerTouch->onTouchMoved = CC_CALLBACK_2(GamePlayLayer::onTouchMoved, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerTouch, this);
 
 	/*Phần Zombie*/
@@ -88,7 +89,8 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 
 void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
-
+	_hero->shootAnimation();
+	Shooting(touch);
 }
 
 void GamePlayLayer::onTouchEnded(Touch* touch, Event* event) {

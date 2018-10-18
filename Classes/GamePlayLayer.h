@@ -23,8 +23,6 @@ public:
 	static cocos2d::Scene* createGamePlayLayer();
 
 protected:
-	void onKeyPressed(cocos2d::EventKeyboard::KeyCode kc, cocos2d::Event* e);
-	void onKeyReleased(cocos2d::EventKeyboard::KeyCode kc, cocos2d::Event* e);
 	bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
 	void onTouchMoved(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touches, Event* event);
