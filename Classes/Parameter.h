@@ -3,7 +3,7 @@
 
 
 //thời gian
-#define TIME_CREATE_ZOMBIE_2					2.0f
+#define TIME_CREATE_ZOMBIE_2					0.25f
 #define TIME_CREATE_ZOMBIE_3					3.0f
 #define TIME_CREATE_ZOMBIE_4					3.5f
 #define TIME_CREATE_ZOMBIE_5					4.0f

@@ -45,8 +45,11 @@ void Zombie::createPools(float delta)
 	for (int indexZombie = 0; indexZombie < ZOMBIE_2; indexZombie++)
 	{
 		auto sprite = Sprite::createWithSpriteFrameName("Z2Walk1.png");
+		sprite->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+		sprite->setPosition(winSize.width, 0.0f);
 		sprite->setVisible(false);
 		addChild(sprite);
+		
 
 		//Set Physics
 		auto physics = PhysicsBody::createBox(sprite->getContentSize());
@@ -78,15 +81,17 @@ void Zombie::createZombie_2(float delta)
 	if (check == false)
 	{
 		auto spriteNew = Sprite::createWithSpriteFrameName("Z2Walk1.png");
+		spriteNew->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+		spriteNew->setPosition(winSize.width, 0.0f);
 		spriteNew->setVisible(false);
 		addChild(spriteNew);
 
 		//Set Physics
-		auto physics = PhysicsBody::createBox(spriteNew->getContentSize());
-		physics->setCollisionBitmask(ZOMBIE_BITMASK);
-		physics->setContactTestBitmask(true);
-		physics->setDynamic(false);
-		spriteNew->setPhysicsBody(physics);
+		auto physicsNew = PhysicsBody::createBox(spriteNew->getContentSize());
+		physicsNew->setCollisionBitmask(ZOMBIE_BITMASK);
+		physicsNew->setContactTestBitmask(true);
+		physicsNew->setDynamic(false);
+		spriteNew->setPhysicsBody(physicsNew);
 
 		_Zombie2->pushBack(spriteNew);
 		zomBie2 = _Zombie2->at(_Zombie2->size() - 1);
@@ -96,7 +101,6 @@ void Zombie::createZombie_2(float delta)
 GoToSetPosition: int random0_3 = random(0, 3);
 	float positionY = (float)random0_3 / 10;
 	zomBie2->setPosition(winSize.width, winSize.height * positionY);
-	zomBie2->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	zomBie2->setScale(0.3f);
 	zomBie2->setTag(ZOMBIE_TAG);
 
@@ -110,7 +114,7 @@ GoToSetPosition: int random0_3 = random(0, 3);
 	}
 	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
 	auto *animate = Animate::create(animation);
-
+	
 
 	//Move zombie 2
 	zomBie2->setVisible(true);
@@ -125,7 +129,6 @@ void Zombie::physicsForLine()
 	addChild(linePhysics);
 	linePhysics->setPosition(winSize.width * 0.1, 0.0);
 	linePhysics->setTag(LINE_TAG);
-
 
 	auto physicsForLine = PhysicsBody::createBox(Size(1, winSize.height));
 	physicsForLine->setCollisionBitmask(LINE_BITMASK);
