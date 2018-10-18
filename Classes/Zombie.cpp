@@ -34,7 +34,6 @@ bool Zombie::init()
 	listenerContact->onContactBegin = CC_CALLBACK_1(Zombie::onContactBegan, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerContact, this);
 
-
 	return true;
 }
 
@@ -48,6 +47,14 @@ void Zombie::createPools(float delta)
 		auto sprite = Sprite::createWithSpriteFrameName("Z2Walk1.png");
 		sprite->setVisible(false);
 		addChild(sprite);
+
+		//Set Physics
+		auto physics = PhysicsBody::createBox(sprite->getContentSize());
+		physics->setCollisionBitmask(ZOMBIE_BITMASK);
+		physics->setContactTestBitmask(true);
+		physics->setDynamic(false);
+		sprite->setPhysicsBody(physics);
+
 		_Zombie2->pushBack(sprite);
 	}
 }
@@ -60,26 +67,33 @@ void Zombie::createZombie_2(float delta)
 	//Check trong Kho xem có con nào đang ẩn k hay gọi cách khác là đang rãnh
 	for (int index = 0; index < _Zombie2->size(); index++)
 	{
-		//Nếu có thì gán vào cho zomBie2 rồi goto đến setPosition
-		if (_Zombie2->at(index)->isVisible() == false)
+		if (_Zombie2->at(index)->isVisible() == false) //Nếu trong Kho có thì gán vào cho zomBie2 rồi goto đến setPosition
 		{
 			zomBie2 = _Zombie2->at(index);
 			check = true;
 			goto GoToSetPosition;
 		}
 	}
-	//Chổ này là check xong mà k có con nào rãnh thì tạo mới 1 con
+	//Check xong mà k có con nào rãnh thì tạo mới 1 con
 	if (check == false)
 	{
 		auto spriteNew = Sprite::createWithSpriteFrameName("Z2Walk1.png");
 		spriteNew->setVisible(false);
 		addChild(spriteNew);
+
+		//Set Physics
+		auto physics = PhysicsBody::createBox(spriteNew->getContentSize());
+		physics->setCollisionBitmask(ZOMBIE_BITMASK);
+		physics->setContactTestBitmask(true);
+		physics->setDynamic(false);
+		spriteNew->setPhysicsBody(physics);
+
 		_Zombie2->pushBack(spriteNew);
 		zomBie2 = _Zombie2->at(_Zombie2->size() - 1);
 	}
-	
+
 	//Phần này setPosition đem ra screen và move nó đến ngôi nhà
-	GoToSetPosition : int random0_3 = random(0, 3);
+GoToSetPosition: int random0_3 = random(0, 3);
 	float positionY = (float)random0_3 / 10;
 	zomBie2->setPosition(winSize.width, winSize.height * positionY);
 	zomBie2->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -87,14 +101,6 @@ void Zombie::createZombie_2(float delta)
 	zomBie2->setTag(ZOMBIE_TAG);
 
 
-	//Set Physics
-	auto physics = PhysicsBody::createBox(zomBie2->getContentSize());
-	physics->setCollisionBitmask(ZOMBIE_BITMASK);
-	physics->setContactTestBitmask(true);
-	physics->setDynamic(false);
-	zomBie2->setPhysicsBody(physics);
-
-	/*addChild(zomBie2, 6);*/
 	//Diễn hoạt cho Zombie 2
 	auto *animation = Animation::create();
 	for (int i = 1; i < 7; i++)
@@ -112,7 +118,6 @@ void Zombie::createZombie_2(float delta)
 	auto spawn = Spawn::create(Repeat::create(animate, TIME_REPEAT_ANIMATE), moveto, nullptr);
 	zomBie2->runAction(spawn);
 }
-//Hết phần pool
 
 void Zombie::physicsForLine()
 {
@@ -139,9 +144,7 @@ bool Zombie::onContactBegan(PhysicsContact &contact)
 	if (tagZombie == ZOMBIE_TAG && tagLine == LINE_TAG ||
 		tagZombie == LINE_TAG && tagLine == ZOMBIE_TAG)
 	{
-		physicsZombie->setPosition(winSize.width, 0.0f);
-		physicsZombie->setVisible(false);
-		/*zombie_2Dead(physicsZombie);*/
+		zombie_2Dead(physicsZombie);
 	}
 
 	return true;
@@ -151,15 +154,29 @@ void Zombie::zombie_2Dead(Sprite* sprite)
 {
 	sprite->stopAllActions();
 	sprite->setSpriteFrame("Z2Dead1.png");
+	//sprite->setScale(0.3f);
 	auto *animation = Animation::create();
 	for (int i = 1; i < 9; i++)
 	{
-		auto Z2Walk = StringUtils::format("Z2Dead%i", i);
+		std::string Z2Walk = StringUtils::format("Z2Dead%i.png", i);
 		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(Z2Walk));
 	}
 	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
-	auto animate = Animate::create(animation);
-	sprite->runAction(Repeat::create(animate, TIME_REPEAT_ANIMATE));
+
+	auto *animate = Animate::create(animation);
+	auto *zombieBackPool = CallFuncN::create([&, sprite](Ref *senfer)
+	{
+		sprite->setPosition(winSize.width, 0.0f);
+		sprite->setVisible(false);
+	});
+	auto squ = Sequence::create(animate, DelayTime::create(10.0f),zombieBackPool,nullptr);
+	sprite->runAction(squ);
+}
+
+void Zombie::zombieBackPool(Sprite* sprite)
+{
+	sprite->setPosition(winSize.width, 0.0f);
+	sprite->setVisible(false);
 }
 
 void Zombie::createZombie_3(float delta)

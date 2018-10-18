@@ -1,11 +1,9 @@
 ﻿#ifndef __PARAMETER_H__
 #define __PARAMETER_H__
 
-//set scale
-#define SCALE_PARAMETER_						1.0f
 
 //thời gian
-#define TIME_CREATE_ZOMBIE_2					0.5f
+#define TIME_CREATE_ZOMBIE_2					2.0f
 #define TIME_CREATE_ZOMBIE_3					3.0f
 #define TIME_CREATE_ZOMBIE_4					3.5f
 #define TIME_CREATE_ZOMBIE_5					4.0f
@@ -43,10 +41,10 @@
 
 //setTag
 #define ZOMBIE_TAG								1
+#define LINE_TAG								2
 
-//Tốc độ đạn
-#define BULLET_VEC								800.0f
+//Số lượng tạo Zombie
+#define ZOMBIE_2								8
 
 
 #endif // __PARAMETER_H__
-

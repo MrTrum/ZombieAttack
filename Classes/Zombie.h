@@ -26,6 +26,7 @@ public:
 	bool						onContactBegan(PhysicsContact &contact);
 	void						createPools(float delta);
 	void						zombie_2Dead(Sprite* sprite);
+	void						zombieBackPool(Sprite* sprite);
 
 
 };
