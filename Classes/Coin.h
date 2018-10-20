@@ -9,8 +9,12 @@ public:
 	virtual bool init();
 	CREATE_FUNC(Coin);
 	void PlayAnimation();
+	bool FlyAnimation();
+	void update(float dt);
 private:
 	cocos2d::Sprite* _Coin;
+	int _coinVal=1;
+	int static _totalVal;
 };
 
 
