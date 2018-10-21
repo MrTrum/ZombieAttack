@@ -50,10 +50,12 @@ private:
 	Money* _Money;
 	int _totalMoney = 0;
 	bool _checkMoney = false;
+	cocos2d::Label* _labelResume;
+	cocos2d::Label*_labelShop;
+	cocos2d::Label*_labelQuit;
 	cocos2d::ui::Button* _resumeBtn;
 	cocos2d::ui::Button* _quitBtn;
 	cocos2d::ui::Button* _shopBtn;
-};
 
 #endif // !_GAME_PLAY_LAYER
 
