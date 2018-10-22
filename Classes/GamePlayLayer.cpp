@@ -6,6 +6,8 @@
 #include "SimpleAudioEngine.h"
 #include "Zombie.h"
 #include "Parameter.h"
+#include "PoolZombie.h"
+#include "PZombie.h"
 
 USING_NS_CC;
 
@@ -34,8 +36,7 @@ bool GamePlayLayer::init()
 		return false;
 	}
 	this->removeAllChildren();
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("sprite.plist",
-		"sprite.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("sprite.plist", "sprite.png");
 
 	winSize = Director::getInstance()->getWinSize();
 
@@ -68,14 +69,19 @@ bool GamePlayLayer::init()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
 
 	//Gọi zombie
-	auto zombie = Zombie::create();
-	addChild(zombie, 3);
+	//auto zombie = Zombie::create();
+	//addChild(zombie, 3);
+	
+	auto poolZombie = PoolZombie::create();
+	addChild(poolZombie, 3);
 
 	/*UI*/
 	//_Coin = Coin::create();
 	//_Coin->setPosition(winSize / 2);
 	//this->addChild(_Coin);
-
+	auto listenerContact = EventListenerPhysicsContact::create();
+	listenerContact->onContactBegin = CC_CALLBACK_1(GamePlayLayer::onContactBegan, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerContact, this);
 	return true;
 }
 
@@ -106,4 +112,28 @@ void GamePlayLayer::Shooting(Touch *touch)
 	this->addChild(_bullet, 200);
 	_bullet->BulletFire(location.x, location.y);
 
+}
+
+bool GamePlayLayer::onContactBegan(cocos2d::PhysicsContact& contact)
+{
+	auto nodeA = contact.getShapeA()->getBody()->getNode();
+	int tagA = nodeA->getTag();
+	auto nodeB = contact.getShapeB()->getBody()->getNode();
+	int tagB = nodeB->getTag();
+
+	PZombie* zombie = nullptr;
+	if (tagA == ZOMBIE_TAG)
+	{
+		zombie = dynamic_cast<PZombie*>(nodeA);
+	}
+	else if (tagB == ZOMBIE_TAG)
+	{
+		zombie = dynamic_cast<PZombie*>(nodeB);
+	}
+	if (zombie)
+	{
+		zombie->dead();
+	}
+
+	return true;
 }

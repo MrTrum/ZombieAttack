@@ -27,7 +27,7 @@ protected:
 	void onTouchMoved(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touches, Event* event);
 	void Shooting(Touch *touch);
-
+	bool onContactBegan(cocos2d::PhysicsContact& contact);
 private:
 	Size			winSize;
 	BackgroundLayer *_bg;
