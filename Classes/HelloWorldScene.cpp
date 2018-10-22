@@ -20,7 +20,7 @@ bool HelloWorld::init()
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
 
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+   // Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	//background Menu
 	_menuSpr = Sprite::create("images/MenuScene.jpg");
@@ -37,23 +37,23 @@ bool HelloWorld::init()
 	_playBtn->addTouchEventListener(CC_CALLBACK_2(HelloWorld::TouchPlayButton, this));
 	this->addChild(_playBtn,2);
 
-	//Label Play
-	_labelPlay = Label::createWithTTF("Play", "fonts/kenvector_future.ttf", 25);
-	_labelPlay->setPosition(_playBtn->getPosition());
-	this->addChild(_labelPlay,2);
+	////Label Play
+	//_labelPlay = Label::createWithTTF("Play", "fonts/kenvector_future.ttf", 25);
+	//_labelPlay->setPosition(_playBtn->getPosition());
+	//this->addChild(_labelPlay,2);
 
-	//Button Quit
-	_quitBtn = ui::Button::create("images/QuitButton3.png");
-	_quitBtn->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height*0.1f));
-	_quitBtn->setScale((0.5f));
-	_quitBtn->setTag(2);
-	_quitBtn->addTouchEventListener(CC_CALLBACK_2(HelloWorld::TouchQuitButton, this));
-	this->addChild(_quitBtn, 2);
+	////Button Quit
+	//_quitBtn = ui::Button::create("images/QuitButton3.png");
+	//_quitBtn->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height*0.1f));
+	//_quitBtn->setScale((0.5f));
+	//_quitBtn->setTag(2);
+	//_quitBtn->addTouchEventListener(CC_CALLBACK_2(HelloWorld::TouchQuitButton, this));
+	//this->addChild(_quitBtn, 2);
 
-	//Label Quit
-	_labelQuit = Label::createWithTTF("Quit", "fonts/kenvector_future.ttf", 25);
-	_labelQuit->setPosition(_quitBtn->getPosition());
-	this->addChild(_labelQuit, 2);
+	////Label Quit
+	//_labelQuit = Label::createWithTTF("Quit", "fonts/kenvector_future.ttf", 25);
+	//_labelQuit->setPosition(_quitBtn->getPosition());
+	//this->addChild(_labelQuit, 2);
     return true;
 }
 
