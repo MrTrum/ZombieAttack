@@ -34,8 +34,8 @@ bool GameObject::init()
 	physicsForLine->setDynamic(false);
 	linePhysics->setPhysicsBody(physicsForLine);
 
-	auto moveto = MoveTo::create(TIME_MOVETO_ZOMBIE, Vec2(winSize.width * 0.9f, 0.0f));
-	linePhysics->runAction(moveto);
+	////auto moveto = MoveTo::create(TIME_MOVETO_ZOMBIE, Vec2(winSize.width * 0.9f, 0.0f));
+	////linePhysics->runAction(moveto);
 
 	return true;
 }

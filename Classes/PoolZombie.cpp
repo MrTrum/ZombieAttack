@@ -49,7 +49,7 @@ bool PoolZombie::init()
 
 	initZombie();
 	schedule(schedule_selector(PoolZombie::createZombie_2), TIME_CREATE_ZOMBIE_2);
-	scheduleOnce(schedule_selector(PoolZombie::createLine), 2.0f);
+	/*scheduleOnce(schedule_selector(PoolZombie::createLine), 2.0f);*/
 
 	return true;
 }

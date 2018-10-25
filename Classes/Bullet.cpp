@@ -47,10 +47,12 @@ void Bullet::BulletFire(float locationX, float locationY)
 	int realX = winSize.width + (_sprBullet->getContentSize().width / 2);
 
 	float ratio = (float)offY / (float)offX;
-
+	
 	//int realY = winSize.height + (_bullet->getContentSize().height / 2);
 	int realY = (realX * ratio) + _sprBullet->getPosition().y;
 	auto realDest = Point(realX, realY);
+	float angleRadians = atan2f(realY, realX);
+	angleRadians = CC_RADIANS_TO_DEGREES(angleRadians);
 
 	int offRealX = realX - _sprBullet->getPosition().x;
 	int offRealY = realY - _sprBullet->getPosition().y;
@@ -60,5 +62,7 @@ void Bullet::BulletFire(float locationX, float locationY)
 
 	float realMoveDuration = length / velocity;
 	auto bulletFire = MoveTo::create(realMoveDuration, realDest);
+	_sprBullet->setRotation(-angleRadians);
+
 	_sprBullet->runAction(bulletFire);
 }
