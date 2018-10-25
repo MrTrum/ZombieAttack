@@ -24,59 +24,49 @@ bool Money::init()
 	Size winSize = Director::getInstance()->getWinSize();
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/numbers.plist",
 		"images/numbers.png");
-	if (_beginMoney == false)
+	for (int i = 0; i < 6; i++)
 	{
-		_money1 = Sprite::createWithSpriteFrameName("0.png");
-		_money1->setPosition(Vec2(winSize.width*0.063f, winSize.height*0.968f));
-		_money1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-		_money1->setScale(0.15f);
-		this->addChild(_money1, 2);
-		_money2 = Sprite::createWithSpriteFrameName("0.png");
-		_money2->setPosition(Vec2(winSize.width*0.089f, winSize.height*0.968f));
-		_money1->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		_money2->setScale(0.15f);
-		this->addChild(_money2, 2);
-		_money3 = Sprite::createWithSpriteFrameName("0.png");
-		_money3->setPosition(Vec2(winSize.width*0.115f, winSize.height*0.968f));
-		_money3->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		_money3->setScale(0.15f);
-		this->addChild(_money3, 2);
-		_money4 = Sprite::createWithSpriteFrameName("0.png");
-		_money4->setPosition(Vec2(winSize.width*0.142f, winSize.height*0.968f)); 
-		_money4->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		_money4->setScale(0.15f);
-		this->addChild(_money4, 2);
-		_money5 = Sprite::createWithSpriteFrameName("0.png");
-		_money5->setPosition(Vec2(winSize.width*0.169f, winSize.height*0.968f)); 
-		_money5->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		_money5->setScale(0.15f);
-		this->addChild(_money5, 2);
-		_money6 = Sprite::createWithSpriteFrameName("0.png");
-		_money6->setPosition(Vec2(winSize.width*0.196f, winSize.height*0.968f)); 
-		_money6->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		_money6->setScale(0.15f);
-		this->addChild(_money6, 2);
-		_beginMoney = true;
+		_money = Sprite::createWithSpriteFrameName("0.png");
+		if (i == 0)
+		{
+			_money->setPosition(Vec2(winSize.width*NUMBER_GAMEPLAY_POSITION_WIDTH, winSize.height*NUMBER_GAMEPLAY_POSITION_HEIGHT));
+		}
+		else
+		{
+			_money->setPosition(Vec2(winSize.width*(NUMBER_GAMEPLAY_POSITION_WIDTH+(NUMBER_DISTANT*i)), winSize.height*NUMBER_GAMEPLAY_POSITION_HEIGHT));
+		}
+		_money->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		_money->setScale(0.15f);
+		_listSprite.pushBack(_money);
+		this->addChild(_money, 2);
 	}
 	return true;
+}
+void Money::setShopMoneyPos()
+{
+	Size winSize = Director::getInstance()->getWinSize();
+	for (int i = 0; i < 6; i++)
+	{
+		if (i == 0)
+		{
+			_listSprite.at(i)->setPosition(Vec2(winSize.width*NUMBER_SHOP_POSITION_WIDTH, winSize.height*NUMBER_SHOP_POSITION_HEIGHT));
+		}
+		else
+		{
+			_listSprite.at(i)->setPosition(Vec2(winSize.width*(NUMBER_SHOP_POSITION_WIDTH + (NUMBER_DISTANT*i)), winSize.height*NUMBER_SHOP_POSITION_HEIGHT));
+		}
+	}
 }
 void Money::setMoney(int money)
 {
 	if (money >= ENDNUM)
 	{
 		int max = 9;
-		std::string tempscore1 = StringUtils::format("%i.png", max);
-		_money6->setSpriteFrame(tempscore1);
-		std::string tempscore2 = StringUtils::format("%i.png", max);
-		_money5->setSpriteFrame(tempscore2);
-		std::string tempscore3 = StringUtils::format("%i.png", max);
-		_money4->setSpriteFrame(tempscore3);
-		std::string tempscore4 = StringUtils::format("%i.png", max);
-		_money3->setSpriteFrame(tempscore4);
-		std::string tempscore5 = StringUtils::format("%i.png", max);
-		_money2->setSpriteFrame(tempscore5);
-		std::string tempscore6 = StringUtils::format("%i.png", max);
-		_money1->setSpriteFrame(tempscore6);
+		std::string tempscore = StringUtils::format("%i.png", max);
+		for (int i = 0; i < 6; i++)
+		{
+			_listSprite.at(i)->setSpriteFrame(tempscore);
+		}
 
 	}
 	else if (money >= HUNDREDSOFTHOUSANDS)
@@ -88,17 +78,17 @@ void Money::setMoney(int money)
 		int tensofthousands = (money / TENSOFTHOUSANDS) % DOZENS;
 		int hundredofthousands = money / HUNDREDSOFTHOUSANDS;
 		std::string tempscore1 = StringUtils::format("%i.png", unit);
-		_money6->setSpriteFrame(tempscore1);
+		_listSprite.at(5)->setSpriteFrame(tempscore1);
 		std::string tempscore2 = StringUtils::format("%i.png", dozens);
-		_money5->setSpriteFrame(tempscore2);
+		_listSprite.at(4)->setSpriteFrame(tempscore2);
 		std::string tempscore3 = StringUtils::format("%i.png", hundreds);
-		_money4->setSpriteFrame(tempscore3);
+		_listSprite.at(3)->setSpriteFrame(tempscore3);
 		std::string tempscore4 = StringUtils::format("%i.png", thousands);
-		_money3->setSpriteFrame(tempscore4);
+		_listSprite.at(2)->setSpriteFrame(tempscore4);
 		std::string tempscore5 = StringUtils::format("%i.png", tensofthousands);
-		_money2->setSpriteFrame(tempscore5);
+		_listSprite.at(1)->setSpriteFrame(tempscore5);
 		std::string tempscore6 = StringUtils::format("%i.png", hundredofthousands);
-		_money1->setSpriteFrame(tempscore6);
+		_listSprite.at(0)->setSpriteFrame(tempscore6);
 	}
 	else if (money >= TENSOFTHOUSANDS)
 	{
@@ -108,15 +98,15 @@ void Money::setMoney(int money)
 		int thousands = (money / THOUSANDS) % DOZENS;
 		int tensofthousands = money / TENSOFTHOUSANDS;
 		std::string tempscore1 = StringUtils::format("%i.png", unit);
-		_money6->setSpriteFrame(tempscore1);
+		_listSprite.at(5)->setSpriteFrame(tempscore1);
 		std::string tempscore2 = StringUtils::format("%i.png", dozens);
-		_money5->setSpriteFrame(tempscore2);
+		_listSprite.at(4)->setSpriteFrame(tempscore2);
 		std::string tempscore3 = StringUtils::format("%i.png", hundreds);
-		_money4->setSpriteFrame(tempscore3);
+		_listSprite.at(3)->setSpriteFrame(tempscore3);
 		std::string tempscore4 = StringUtils::format("%i.png", thousands);
-		_money3->setSpriteFrame(tempscore4);
+		_listSprite.at(2)->setSpriteFrame(tempscore4);
 		std::string tempscore5 = StringUtils::format("%i.png", tensofthousands);
-		_money2->setSpriteFrame(tempscore5);
+		_listSprite.at(1)->setSpriteFrame(tempscore5);
 	}
 	else if (money >= THOUSANDS)
 	{
@@ -125,13 +115,13 @@ void Money::setMoney(int money)
 		int hundreds = (money / HUNDREDS)  % DOZENS;
 		int thousands = money / THOUSANDS;
 		std::string tempscore1 = StringUtils::format("%i.png", unit);
-		_money6->setSpriteFrame(tempscore1);
+		_listSprite.at(5)->setSpriteFrame(tempscore1);
 		std::string tempscore2 = StringUtils::format("%i.png", dozens);
-		_money5->setSpriteFrame(tempscore2);
+		_listSprite.at(4)->setSpriteFrame(tempscore2);
 		std::string tempscore3 = StringUtils::format("%i.png", hundreds);
-		_money4->setSpriteFrame(tempscore3);
+		_listSprite.at(3)->setSpriteFrame(tempscore3);
 		std::string tempscore4 = StringUtils::format("%i.png", thousands);
-		_money3->setSpriteFrame(tempscore4);
+		_listSprite.at(2)->setSpriteFrame(tempscore4);
 	}
 	else if (money >= HUNDREDS)
 	{
@@ -139,25 +129,25 @@ void Money::setMoney(int money)
 		int dozens = (money / DOZENS) % UNIT;
 		int hundreds = money / HUNDREDS;
 		std::string tempscore1 = StringUtils::format("%i.png", unit);
-		_money6->setSpriteFrame(tempscore1);
+		_listSprite.at(5)->setSpriteFrame(tempscore1);
 		std::string tempscore2 = StringUtils::format("%i.png", dozens);
-		_money5->setSpriteFrame(tempscore2);
+		_listSprite.at(4)->setSpriteFrame(tempscore2);
 		std::string tempscore3 = StringUtils::format("%i.png", hundreds);
-		_money4->setSpriteFrame(tempscore3);
+		_listSprite.at(3)->setSpriteFrame(tempscore3);
 	}
 	else if (money >= DOZENS)
 	{
 		int unit = money % UNIT;
 		int dozens = money / DOZENS;
 		std::string tempscore1 = StringUtils::format("%i.png", unit);
-		_money6->setSpriteFrame(tempscore1);
+		_listSprite.at(5)->setSpriteFrame(tempscore1);
 		std::string tempscore2 = StringUtils::format("%i.png", dozens);
-		_money5->setSpriteFrame(tempscore2);
+		_listSprite.at(4)->setSpriteFrame(tempscore2);
 	}
 	else
 	{
 		std::string tempscore = StringUtils::format("%i.png", money);
-		_money6->setSpriteFrame(tempscore);
+		_listSprite.at(5)->setSpriteFrame(tempscore);
 	}
 	_moneyGO = money;
 }

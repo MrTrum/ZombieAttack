@@ -14,6 +14,7 @@ public:
 
 private:
 	cocos2d::Sprite	 *_sprhero;
+	cocos2d::Sprite	 *_sprheroarm;
 };
 
 #endif // !_HERO_H_

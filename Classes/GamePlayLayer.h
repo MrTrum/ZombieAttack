@@ -4,13 +4,15 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "ui/UIButton.h"
-#include "Coin.h"
+#include "Money.h"
+#include "StoreLayer.h"
 
 
 class BackgroundLayer;
 class Hero;
 class Base;
 class Bullet;
+class Coin;
 
 using namespace cocos2d;
 class GamePlayLayer : public cocos2d::Node
@@ -22,17 +24,36 @@ public:
 	virtual bool init();
 	static cocos2d::Scene* createGamePlayLayer();
 
+	/*Tú*/
+public:
+	void IconCoinCreate();
+	void TouchPauseButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
+	void TouchResumeButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
+	void TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
+	void TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
+	void resumeGame();
+	void update(float dt);
+	void removeCoin();
+	void test();
+
 protected:
-<<<<<<< HEAD
 	bool onContactBegin(PhysicsContact &contact);
-=======
+
+/*Khoa*/
+protected:
 	bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
 	void onTouchMoved(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touches, Event* event);
 	void Shooting(Touch *touch);
+	void handlingState();
+	enum State
+	{
+		STATE_STANDING,
+		STATE_SHOOTING,
+		STATE_RELOADING,
+	};
 
 private:
-	Size			winSize;
 	BackgroundLayer *_bg;
 	Hero			*_hero;
 	Base			*_base;
@@ -40,10 +61,21 @@ private:
 	float			_posX;
 	float			_posY;
 	Sprite*			_Barrier;
-	Coin*			_Coin;
 	Sprite*			_hpbar;
->>>>>>> 66a4e0b2ce8c4a497db11a83ce597bca9992a3bd
 
+/*Tú*/
+private:
+	StoreLayer* _Shop;
+	Coin* _Coin;
+	Money* _Money;
+	int _totalMoney = 0;
+	bool _checkMoney = false;
+	cocos2d::Label* _labelResume;
+	cocos2d::Label*_labelShop;
+	cocos2d::Label*_labelQuit;
+	cocos2d::ui::Button* _resumeBtn;
+	cocos2d::ui::Button* _quitBtn;
+	cocos2d::ui::Button* _shopBtn;
 };
 
 #endif // !_GAME_PLAY_LAYER

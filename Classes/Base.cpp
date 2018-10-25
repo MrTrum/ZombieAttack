@@ -19,10 +19,11 @@ bool Base::init()
 	}
 	Size winSize = Director::getInstance()->getWinSize();
 	//add base
-	_sprBase = Sprite::create("base100.png");
+	_sprBase = Sprite::create("house.png");
 	this->addChild(_sprBase);
-	_sprBase->setScale(0.5f * SCALE_PARAMETER_);
-	_sprBase->setAnchorPoint(Vec2(0.75f, 0.0f));
+	_sprBase->setScale(1.0f * SCALE_PARAMETER_);
+	_sprBase->setAnchorPoint(Vec2(0.0f, 0.0f));
+
 
 	return true;
 }

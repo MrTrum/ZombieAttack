@@ -10,8 +10,10 @@ public:
 	virtual bool init();
 	static int _moneyGO;
 	void setMoney(int);
+	void setShopMoneyPos();
 	void resetMoney();
 private:
+	cocos2d::Sprite* _money;
 	cocos2d::Sprite* _money1;
 	cocos2d::Sprite* _money2;
 	cocos2d::Sprite* _money3;
@@ -19,6 +21,7 @@ private:
 	cocos2d::Sprite* _money5;
 	cocos2d::Sprite* _money6;
 	static bool _beginMoney;
+	cocos2d::Vector<cocos2d::Sprite*> _listSprite;
 
 };
 

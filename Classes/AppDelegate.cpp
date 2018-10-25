@@ -97,8 +97,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
 	// tắt start scene để test cho lẹ.
-    //auto scene = HelloWorld::create();
-	auto scene = GamePlayLayer::createGamePlayLayer();
+    auto scene = HelloWorld::create();
+	/*auto scene = GamePlayLayer::createGamePlayLayer();*/
     // run
     director->runWithScene(scene);
 
