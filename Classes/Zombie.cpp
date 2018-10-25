@@ -2,6 +2,8 @@
 #include "SimpleAudioEngine.h"
 #include "Parameter.h"
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
+
 
 
 USING_NS_CC;
@@ -21,6 +23,7 @@ bool Zombie::init()
 		return false;
 	}
 	winSize = Director::getInstance()->getWinSize();
+
 
 	scheduleOnce(schedule_selector(Zombie::createPools), 0.1f);
 	schedule(schedule_selector(Zombie::createZombie_2), TIME_CREATE_ZOMBIE_2);
@@ -49,6 +52,12 @@ void Zombie::createPools(float delta)
 		sprite->setPosition(winSize.width, 0.0f);
 		sprite->setVisible(false);
 		addChild(sprite);
+
+		auto loadingbar = ui::LoadingBar::create("loadBar.png");
+		loadingbar->setDirection(ui::LoadingBar::Direction::LEFT);
+		loadingbar->setPercent(50.0f);
+		loadingbar->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+		addChild(loadingbar);
 		
 
 		//Set Physics

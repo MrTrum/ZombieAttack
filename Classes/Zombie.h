@@ -28,7 +28,8 @@ public:
 	void						zombie_2Dead(Sprite* sprite);
 	void						zombieBackPool(Sprite* sprite);
 
-
+private:
+	int							health = 200;
 };
 
 #endif // __ZOMBIE_H__
