@@ -48,12 +48,11 @@ bool GamePlayLayer::init()
 
 	//add BG
 	_bg = BackgroundLayer::create();
-	this->addChild(_bg);
+	this->addChild(_bg, 1);
 
 	//add hero
-	_hero = Hero::create();
-	this->addChild(_hero, 3);
-	/*_hero->setPosition(winSize.width * 0.35f, winSize.height * 0.08f);*/
+	/*_hero = Hero::create();
+	this->addChild(_hero, 3);*/
 
 	//add base
 	_base = Base::create();
@@ -71,7 +70,7 @@ bool GamePlayLayer::init()
 
 
 	auto poolZombie = PoolZombie::create();
-	this->addChild(poolZombie);
+	this->addChild(poolZombie, 3);
 
 	auto listenEventPhysic = EventListenerPhysicsContact::create();
 	listenEventPhysic->onContactBegin = CC_CALLBACK_1(GamePlayLayer::onContactBegin, this);
@@ -88,13 +87,13 @@ bool GamePlayLayer::init()
 	this->scheduleUpdate();
 	// tạo số tiền
 	_Money = Money::create();
-	this->addChild(_Money);
+	this->addChild(_Money, 4);
 	// tao nut pause
 	auto _pauseBtn = cocos2d::ui::Button::create("images/PauseButton.png");
 	_pauseBtn->setPosition(Vec2(winSize.width*0.025f, winSize.height*0.968f));
 	_pauseBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchPauseButton, this));
 
-	this->addChild(_pauseBtn);
+	this->addChild(_pauseBtn, 4);
 	// all button
 	_resumeBtn = cocos2d::ui::Button::create("images/PlayButton4.png");
 	_resumeBtn->setPosition(Vec2(winSize.width*0.5f, winSize.height*0.7f));
@@ -103,24 +102,24 @@ bool GamePlayLayer::init()
 	_resumeBtn->setVisible(false);
 
 	_resumeBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchResumeButton, this));
-	this->addChild(_resumeBtn, 1);
+	this->addChild(_resumeBtn, 4);
 	//Label Play
 	_labelResume = Label::createWithTTF("Resume", "fonts/kenvector_future.ttf", 25);
 	_labelResume->setPosition(_resumeBtn->getPosition());
 	_labelResume->setVisible(false);
-	this->addChild(_labelResume, 1);
+	this->addChild(_labelResume, 4);
 	_shopBtn = cocos2d::ui::Button::create("images/ShopButton.png");
 	_shopBtn->setPosition(Vec2(winSize.width*0.5f, winSize.height*0.5f));
 	_shopBtn->setScale(1.0f);
 	_shopBtn->setTag(1);
 	_shopBtn->setVisible(false);
 	_shopBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchShopButton, this));
-	this->addChild(_shopBtn, 1);
+	this->addChild(_shopBtn, 4);
 	//Label Play
 	_labelShop = Label::createWithTTF("Shop", "fonts/kenvector_future.ttf", 25);
 	_labelShop->setPosition(_shopBtn->getPosition());
 	_labelShop->setVisible(false);
-	this->addChild(_labelShop, 1);
+	this->addChild(_labelShop, 4);
 	//Button Quit
 	_quitBtn = cocos2d::ui::Button::create("images/QuitButton3.png");
 	_quitBtn->setPosition(Vec2(winSize.width*0.5f, winSize.height*0.3f));
@@ -128,12 +127,12 @@ bool GamePlayLayer::init()
 	_quitBtn->setTag(1);
 	_quitBtn->setVisible(false);
 	_quitBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchQuitButton, this));
-	this->addChild(_quitBtn, 1);
+	this->addChild(_quitBtn, 4);
 	//Label Quit
 	_labelQuit = Label::createWithTTF("Quit", "fonts/kenvector_future.ttf", 25);
 	_labelQuit->setPosition(_quitBtn->getPosition());
 	_labelQuit->setVisible(false);
-	this->addChild(_labelQuit, 1);
+	this->addChild(_labelQuit, 4);
 
 	return true;
 }

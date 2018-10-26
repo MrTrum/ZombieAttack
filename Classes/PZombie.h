@@ -21,7 +21,7 @@ protected:
 
 	void   					    dead();
 	void						reset();
-	void						playWalkAnimation();
+	void						playWalkAnimation(std::string &sprite);
 	void						playDeadAnimation();
 	void						updateLoadingHealth(float percent);
 private:

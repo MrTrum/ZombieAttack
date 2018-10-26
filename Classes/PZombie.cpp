@@ -22,6 +22,7 @@ bool PZombie::init()
 	auto winSize = Director::getInstance()->getWinSize();
 
 	_spr = Sprite::createWithSpriteFrameName("Z2Walk1.png");
+	_spr->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	addChild(_spr);
 
 
@@ -31,6 +32,7 @@ bool PZombie::init()
 	physics->setContactTestBitmask(true);
 	physics->setDynamic(false);
 	physics->setGroup(-1);
+	physics->setPositionOffset(_spr->getPosition());
 	this->setPhysicsBody(physics);
 
 	this->setTag(ZOMBIE_TAG);
@@ -87,13 +89,13 @@ void PZombie::reset()
 	playWalkAnimation();
 }
 
-void PZombie::playWalkAnimation()
+void PZombie::playWalkAnimation(std::string &sprite)
 {
 	_spr->stopAllActions();
 	auto *animation = Animation::create();
 	for (int i = 1; i < 7; i++)
 	{
-		std::string zombieName = StringUtils::format("Z2Walk%d.png", i);
+		std::string zombieName = StringUtils::format(sprite + "%d.png", i);
 		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(zombieName));
 	}
 	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);

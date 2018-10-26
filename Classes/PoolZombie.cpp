@@ -46,10 +46,11 @@ bool PoolZombie::init()
 	{
 		return false;
 	}
+	
 
 	initZombie();
 	schedule(schedule_selector(PoolZombie::createZombie_2), TIME_CREATE_ZOMBIE_2);
-	/*schedule(schedule_selector(PoolZombie::createLine), 2.0f);*/
+	schedule(schedule_selector(PoolZombie::createLine), 2.0f);
 
 	return true;
 }
@@ -64,7 +65,8 @@ void PoolZombie::createZombie_2(float delta)
 	{
 		// check if it has parent 
 		zombie->removeFromParent();
-		this->addChild(zombie);
+		addChild(zombie);
+		zombie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 		zombie->_health;
 		zombie->getLoadingHealth(zombie->_health);
 

@@ -32,10 +32,10 @@ void GameObject::onCollission(GameObject *obj)
 	{
 		obj->dead();
 	}
-	//else if (obj->getTag() == LINE_TAG)
-	//{
-	//	this->removeChildByTag(LINE_TAG);
-	//}
+	else if (obj->getTag() == LINE_TAG)
+	{
+		obj->removeChildByTag(LINE_TAG);
+	}
 }
 
 
