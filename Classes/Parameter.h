@@ -4,7 +4,7 @@
 #define SCALE_PARAMETER_						1.0f
 
 //thời gian
-#define TIME_CREATE_ZOMBIE_2					2.0f
+#define TIME_CREATE_ZOMBIE_2					3.0f
 #define TIME_CREATE_ZOMBIE_3					3.0f
 #define TIME_CREATE_ZOMBIE_4					3.5f
 #define TIME_CREATE_ZOMBIE_5					4.0f
@@ -26,7 +26,7 @@
 #define BASE_SIZE_HEIGHT						0.0007f
 
 //vị trí moveto zombie
-#define LOCAL_MOVETO							0.1f
+#define LOCAL_MOVETO							0.25f
 
 //setPosition cho zombie 3
 #define HEIGHT_POSITION_Z3						0.15f

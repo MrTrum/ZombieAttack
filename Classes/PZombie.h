@@ -16,14 +16,13 @@ public:
 	bool init();
 	CREATE_FUNC(PZombie);
 
+	void						setLoadingHealth(float percent);
 	void						getLoadingHealth(float percent);
-protected:
-
+	void						updateLoadingHealth(float percent);
 	void   					    dead();
 	void						reset();
-	void						playWalkAnimation(std::string &sprite);
+	void						playWalkAnimation();
 	void						playDeadAnimation();
-	void						updateLoadingHealth(float percent);
 private:
 	cocos2d::Sprite* _spr;
 };

@@ -16,8 +16,7 @@ public:
 	~GameObject();
 	bool init();
 
-	virtual void   					    dead() = 0;
-	virtual void						getLoadingHealth(float percent) = 0;
+	virtual void   					    dead()=0;
 	void								onCollission(GameObject *obj);
 };
 

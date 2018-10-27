@@ -17,11 +17,12 @@ void PoolZombie::initZombie()
 	for (int indexZombie = 0; indexZombie < ZOMBIE_2; indexZombie++)
 	{
 		auto zombie = PZombie::create();
+		zombie->getLoadingHealth(zombie->_health);
 		_listZombie.pushBack(zombie);
 	}
 }
 
-PZombie* PoolZombie::getZombie() //đây là kiểu hàm gì???
+PZombie* PoolZombie::getZombie() 
 {
 	PZombie* zombie = nullptr;
 	for (int index = 0; index < _listZombie.size(); index++)
@@ -29,11 +30,14 @@ PZombie* PoolZombie::getZombie() //đây là kiểu hàm gì???
 		if (_listZombie.at(index)->isVisible() == false)
 		{
 			zombie = _listZombie.at(index); //Nếu nó tìm thấy rồi tại sao k thoát khỏi vòng lặp mà lại chạy hết size???
+			auto resetHealth = zombie->_health;
+			zombie->updateLoadingHealth(resetHealth);
 		}
 	}
 	if (zombie == nullptr)
 	{
 		zombie = PZombie::create();
+		zombie->getLoadingHealth(zombie->_health);
 		_listZombie.pushBack(zombie);
 	}
 	return zombie;
@@ -50,7 +54,7 @@ bool PoolZombie::init()
 
 	initZombie();
 	schedule(schedule_selector(PoolZombie::createZombie_2), TIME_CREATE_ZOMBIE_2);
-	schedule(schedule_selector(PoolZombie::createLine), 2.0f);
+	/*schedule(schedule_selector(PoolZombie::createLine), 2.0f);*/
 
 	return true;
 }
@@ -60,23 +64,31 @@ bool PoolZombie::init()
 void PoolZombie::createZombie_2(float delta)
 {
 	auto zombie = this->getZombie();
-	scheduleUpdate();
 	if (zombie != nullptr)
 	{
 		// check if it has parent 
 		zombie->removeFromParent();
 		addChild(zombie);
 		zombie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-		zombie->_health;
-		zombie->getLoadingHealth(zombie->_health);
-
 		zombie->setVisible(true);
-
-		int random0_3 = random(0, 3);
-		float positionY = (float)random0_3 / 10;
+		
+		float positionY = 0.1f;
+		int random1_2 = random(1, 4);
+		if (random1_2 == 3)
+		{
+			positionY = 0.15f;
+		}
+		else if (random1_2 == 4)
+		{
+			positionY = 0.25f;
+		}
+		else
+		{
+			positionY = (float)random1_2 / 10;
+		}
 
 		auto winSize = Director::getInstance()->getWinSize();
-		zombie->setPosition(winSize.width, winSize.height * positionY);
+		zombie->setPosition(winSize.width * 0.8f, winSize.height * positionY);
 		zombie->setScale(0.3f);
 
 
@@ -94,7 +106,6 @@ void PoolZombie::createLine(float delta)
 	linePhysics->setPosition(winSize.width * 0.1, 0.0);
 
 	auto physicsForLine = PhysicsBody::createBox(Size(1, winSize.height));
-	physicsForLine->setCollisionBitmask(12);
 	physicsForLine->setContactTestBitmask(true);
 	physicsForLine->setDynamic(false);
 	linePhysics->setPhysicsBody(physicsForLine);
