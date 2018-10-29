@@ -49,14 +49,9 @@ bool GamePlayLayer::init()
 	//add BG
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg, 1);
-
 	//add hero
 	/*_hero = Hero::create();
 	this->addChild(_hero, 3);*/
-
-	//add base
-	_base = Base::create();
-	this->addChild(_base, 2);
 
 	//touch event
 	EventListenerTouchOneByOne *listenerTouch = EventListenerTouchOneByOne::create();
@@ -72,8 +67,8 @@ bool GamePlayLayer::init()
 	auto poolZombie = PoolZombie::create();
 	this->addChild(poolZombie, 3);
 
-	auto testline = TestLine::create();
-	this->addChild(testline, 3);
+	/*auto testline = TestLine::create();
+	this->addChild(testline, 3);*/
 
 	auto listenEventPhysic = EventListenerPhysicsContact::create();
 	listenEventPhysic->onContactBegin = CC_CALLBACK_1(GamePlayLayer::onContactBegin, this);
@@ -266,10 +261,10 @@ void GamePlayLayer::onTouchEnded(Touch* touch, Event* event) {
 void GamePlayLayer::Shooting(Touch *touch)
 {
 
-	Point location = touch->getLocationInView();
-	location = Director::getInstance()->convertToGL(location);
 	_bullet = Bullet::create();
 	this->addChild(_bullet, 200);
+	Point location = touch->getLocationInView();
+	location = Director::getInstance()->convertToGL(location);
 	_bullet->BulletFire(location.x, location.y);
 
 }

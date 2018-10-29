@@ -12,9 +12,6 @@ public:
 	CREATE_FUNC(Base);
 private:
 	cocos2d::Sprite *_sprBase;
-	cocos2d::Sprite *_sprBar1;
-	cocos2d::Sprite *_sprBar2;
-	cocos2d::Sprite *_sprBar3;
 };
 
 

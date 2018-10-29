@@ -36,6 +36,10 @@ void GameObject::onCollission(GameObject *obj)
 	{
 		obj->removeChildByTag(LINE_TAG);
 	}
+	if (obj->getTag() == BULLET_TAG)
+	{
+		obj->dead();
+	}
 }
 
 
