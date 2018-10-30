@@ -14,9 +14,9 @@
 struct AnimationInfo {
 	std::string _name;
 	int _numframe;
-	int _fps;
-	int _loop;
-	AnimationInfo(std::string name, int numframe, int fps, int loop) {
+	float _fps;
+	float _loop;
+	AnimationInfo(std::string name, int numframe, float fps, float loop) {
 		_name = name;
 		_numframe = numframe;
 		_fps = fps;

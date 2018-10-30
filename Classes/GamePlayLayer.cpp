@@ -9,6 +9,7 @@
 #include "PoolZombie.h"
 #include "Coin.h"
 #include "TestLine.h"
+#include <ui/UIWidget.h>
 
 
 USING_NS_CC;
@@ -41,8 +42,8 @@ bool GamePlayLayer::init()
 	Size winSize = Director::getInstance()->getWinSize();
 	this->removeAllChildren();
 	/*Khoa*/
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Redneck.plist",
-		"Redneck.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("redneck_idle.plist",
+		"redneck_idle.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("shotgun.plist",
 		"shotgun.png");
 
@@ -50,13 +51,47 @@ bool GamePlayLayer::init()
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg, 1);
 	//add hero
-	/*_hero = Hero::create();
-	this->addChild(_hero, 3);*/
-
+	_hero = Hero::create();
+	this->addChild(_hero, 3);
+	_hero->playAnimation("idle", 16, 4,100);
+	//add throw item btn
+	_dynamiteBtn = ui::Button::create("btn_dynamite.png","btn_dynamite.png","btn_dynamite_empty.png");
+	//_dynamiteBtn = Sprite::create("btn_dynamite.png");
+	this->addChild(_dynamiteBtn,200);
+	_dynamiteBtn->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.07f));
+	/*_dynamiteBtn->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) 
+	{
+		Touch *touch;
+		switch (type)
+		{
+		case ui::Widget::TouchEventType::BEGAN:
+		{
+			
+			Point location = touch->getLocationInView();
+			auto moveto = MoveTo::create(0.2f, location);
+			_dynamiteBtn->runAction(moveto);
+		}
+		break;
+		case ui::Widget::TouchEventType::MOVED:
+		{
+			Point location = touch->getLocationInView();
+			auto moveto = MoveTo::create(0.2f, location);
+			_dynamiteBtn->runAction(moveto);
+		}
+		break;
+		case ui::Widget::TouchEventType::ENDED:
+			break;
+		default:
+			break;
+		}
+	});*/
+	
 	//touch event
 	EventListenerTouchOneByOne *listenerTouch = EventListenerTouchOneByOne::create();
 	listenerTouch->onTouchBegan = CC_CALLBACK_2(GamePlayLayer::onTouchBegan, this);
 	listenerTouch->onTouchMoved = CC_CALLBACK_2(GamePlayLayer::onTouchMoved, this);
+	listenerTouch->onTouchEnded = CC_CALLBACK_2(GamePlayLayer::onTouchEnded, this);
+	listenerTouch->onTouchCancelled = CC_CALLBACK_2(GamePlayLayer::onTouchCancelled, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerTouch, this);
 
 	/*Phần Zombie*/
@@ -242,20 +277,36 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 /*Khoa*/
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
-	_hero->shootAnimation();
-	Shooting(touch);
-	return true;
+	Point touchLoc = touch->getLocationInView();
+
+	if (_dynamiteBtn->getBoundingBox().containsPoint(touchLoc))
+	{
+		return true;
+	}
+	else
+	{
+		_hero->shootAnimation();
+		Shooting(touch);
+		return true;
+	}
+	return false;
+	
 }
 
 
 void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
+	
 	_hero->shootAnimation();
 	Shooting(touch);
 }
 
 void GamePlayLayer::onTouchEnded(Touch* touch, Event* event) {
+}
 
+void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event) {
+	Size winSize = Director::getInstance()->getWinSize();
+	_dynamiteBtn->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.07f));
 }
 
 void GamePlayLayer::Shooting(Touch *touch)

@@ -44,6 +44,7 @@ protected:
 	bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
 	void onTouchMoved(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touches, Event* event);
+	void onTouchCancelled(Touch* touches, Event* event);
 	void Shooting(Touch *touch);
 	void handlingState();
 	enum State
@@ -60,9 +61,9 @@ private:
 	Bullet			*_bullet;
 	float			_posX;
 	float			_posY;
-	Sprite*			_Barrier;
-	Sprite*			_hpbar;
-
+	Sprite			*_Barrier;
+	Sprite			*_hpbar;
+	ui::Widget		*_dynamiteBtn;
 /*Tú*/
 private:
 	StoreLayer* _Shop;
