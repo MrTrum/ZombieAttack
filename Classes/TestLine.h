@@ -14,7 +14,6 @@ public:
 	CREATE_FUNC(TestLine);
 
 	void dead();
-	void createLine(float delta);
-
+	void attack();
 };
 #endif // !_TESTLINE_H_

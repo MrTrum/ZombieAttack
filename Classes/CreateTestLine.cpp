@@ -1,20 +1,20 @@
-﻿#include "TestLine.h"
+﻿#include "TestLine2.h"
 #include "Parameter.h"
-#include "PZombie.h"
-
+#include "TestLine.h"
+#include "CreateTestLine.h"
 
 
 USING_NS_CC;
 
-TestLine::TestLine()
+CreateTestLine::CreateTestLine()
 {
 }
 
-TestLine::~TestLine()
+CreateTestLine::~CreateTestLine()
 {
 }
 
-bool TestLine::init()
+bool CreateTestLine::init()
 {
 	if (!GameObject::init())
 	{
@@ -24,21 +24,24 @@ bool TestLine::init()
 
 	auto linePhysics = Node::create();
 	this->addChild(linePhysics);
-	this->setTag(LINE_TAG);
-	
+	this->setTag(LINE_TAG2);
+
 
 	auto physicsForLine = PhysicsBody::createBox(Size(1, winSize.height));
 	physicsForLine->setContactTestBitmask(true);
 	physicsForLine->setDynamic(false);
 	this->setPhysicsBody(physicsForLine);
+
 	return true;
 }
-
-void TestLine::dead()
+void CreateTestLine::dead()
 {
 	this->removeChildByTag(LINE_TAG);
 }
-void TestLine::attack()
+void CreateTestLine::attack()
 {
 
 }
+
+
+

@@ -17,7 +17,9 @@ public:
 	bool init();
 
 	virtual void   					    dead()=0;
-	void								onCollission(GameObject *obj);
+	virtual void   					    attack() = 0;
+	void								onCollissionDead(GameObject *obj);
+	void								onCollissionAttack(GameObject *obj);
 };
 
 
