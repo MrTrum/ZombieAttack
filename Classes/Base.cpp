@@ -24,6 +24,5 @@ bool Base::init()
 	_sprBase->setScale(1.0f * SCALE_PARAMETER_);
 	_sprBase->setAnchorPoint(Vec2(0.0f, 0.0f));
 
-
 	return true;
 }

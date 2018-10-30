@@ -55,7 +55,7 @@ bool HelloWorld::init()
 
 void HelloWorld::TouchPlayButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
 {
-	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
+	if (eEventType == cocos2d::ui::Widget::TouchEventType::BEGAN)
 	{
 		Director::getInstance()->replaceScene(GamePlayLayer::createGamePlayLayer());
 	}

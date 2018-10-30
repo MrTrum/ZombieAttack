@@ -12,8 +12,8 @@
 #define TIME_CREATE_ZOMBIE_7					5.0f
 
 #define TIME_ACTION_ANIMATION					7.0f
-#define TIME_MOVETO_ZOMBIE						7.0f
-#define TIME_REPEAT_ANIMATE						9.0f
+#define TIME_MOVETO_ZOMBIE						10.0f
+#define TIME_REPEAT_ANIMATE						12.0f
 
 //scale
 #define ZOMBIE_SIZE_WIDTH						0.0004f
@@ -43,6 +43,7 @@
 //setTag
 #define ZOMBIE_TAG								3
 #define LINE_TAG								4
+#define LINE_TAG2								5
 
 //Số lượng tạo Zombie
 #define ZOMBIE_2								3

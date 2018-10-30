@@ -26,15 +26,18 @@ bool GameObject::init()
 }
 
 
-void GameObject::onCollission(GameObject *obj)
+void GameObject::onCollissionDead(GameObject *obj)
 {
 	if (obj->getTag() == ZOMBIE_TAG)
 	{
 		obj->dead();
 	}
-	else if (obj->getTag() == LINE_TAG)
+}
+void GameObject::onCollissionAttack(GameObject *obj)
+{
+	if (obj->getTag() == ZOMBIE_TAG)
 	{
-		obj->removeChildByTag(LINE_TAG);
+		obj->attack();
 	}
 }
 

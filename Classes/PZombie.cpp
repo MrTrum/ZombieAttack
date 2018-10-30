@@ -39,42 +39,47 @@ bool PZombie::init()
 	return true;
 }
 
-void PZombie::setLoadingHealth(float percent)
+void PZombie::setHealthBar(float percent)
 {
 	auto winSize = Director::getInstance()->getWinSize();
 
-	loadingbar = ui::LoadingBar::create("loadBar.png");
-	this->addChild(loadingbar);
-	loadingbar->setDirection(ui::LoadingBar::Direction::LEFT);
-	loadingbar->setScaleX(0.25f);
-	loadingbar->setScaleY(1.2f);
-	loadingbar->setPercent(percent);
-	loadingbar->setPosition(Vec2(0.0f, 200.0f));
+	healthbarZombie = ui::LoadingBar::create("HealthBar.png");
+	this->addChild(healthbarZombie);
+	healthbarZombie->setDirection(ui::LoadingBar::Direction::LEFT);
+	healthbarZombie->setScaleX(0.25f);
+	healthbarZombie->setScaleY(1.2f);
+	healthbarZombie->setPercent(percent);
+	healthbarZombie->setPosition(Vec2(0.0f, 200.0f));
 }
 
-void PZombie::getLoadingHealth(float percent)
+void PZombie::getHealthBar(float percent)
 {
-	setLoadingHealth(percent);
+	setHealthBar(percent);
 }
 
-void PZombie::updateLoadingHealth(float percent)
+void PZombie::updateHealthBar(float percent)
 {
-	loadingbar->removeFromParent();
-	setLoadingHealth(percent);
+	healthbarZombie->removeFromParent();
+	setHealthBar(percent);
 }
+
 
 void PZombie::dead()
 {
 	this->_health = this->_health - _damge;
-	this->updateLoadingHealth(this->_health);
+	this->updateHealthBar(this->_health);
 	if (this->_health == 0)
 	{
 		playDeadAnimation();
-		this->updateLoadingHealth(this->_health);
+		this->updateHealthBar(this->_health);
 		this->_health = HEALTH_ZOMBIE2;
 	}
 }
 
+void PZombie::attack()
+{
+	playAttackAnimation();
+}
 
 void PZombie::reset()
 {
@@ -113,9 +118,24 @@ void PZombie::playDeadAnimation()
 		auto winSize = Director::getInstance()->getWinSize();
 		this->setVisible(false);
 		this->removeFromParent();
-		this->setPosition(winSize.width * 0.8f, 0.0f);
 		this->reset();
 	});
 	auto squ = Sequence::create(animate, DelayTime::create(0.5f), zombieBackPool, nullptr);
 	_spr->runAction(squ);
+}
+
+void PZombie::playAttackAnimation()
+{
+	_spr->stopAllActions();
+	_spr->setSpriteFrame("Z2Attack1.png");
+	auto *animation = Animation::create();
+	for (int i = 1; i < 7; i++)
+	{
+		std::string zombieName = StringUtils::format("Z2Attack%d.png", i);
+		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(zombieName));
+	}
+	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
+	auto *animate = Animate::create(animation);
+	_spr->runAction(RepeatForever::create(animate));
+
 }

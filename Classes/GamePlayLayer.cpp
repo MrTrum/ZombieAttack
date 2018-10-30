@@ -8,7 +8,9 @@
 #include "GameObject.h"
 #include "PoolZombie.h"
 #include "Coin.h"
+#include "TestLine2.h"
 #include "TestLine.h"
+#include "CreateTestLine.h"
 
 
 USING_NS_CC;
@@ -26,7 +28,7 @@ Scene * GamePlayLayer::createGamePlayLayer()
 	Scene* scene = Scene::createWithPhysics();
 	PhysicsWorld* world = scene->getPhysicsWorld();
 	//remember to turn off debug when release
-	/*world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);*/
+	world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	GamePlayLayer* node = GamePlayLayer::create();
 	scene->addChild(node);
 	return scene;
@@ -72,8 +74,12 @@ bool GamePlayLayer::init()
 	auto poolZombie = PoolZombie::create();
 	this->addChild(poolZombie, 3);
 
-	auto testline = TestLine::create();
-	this->addChild(testline, 3);
+	/*auto testline = TestLine2::create();
+	this->addChild(testline, 3);*/
+
+
+	auto testline2 = TestLine2::create();
+	this->addChild(testline2, 3);
 
 	auto listenEventPhysic = EventListenerPhysicsContact::create();
 	listenEventPhysic->onContactBegin = CC_CALLBACK_1(GamePlayLayer::onContactBegin, this);
@@ -141,6 +147,8 @@ bool GamePlayLayer::init()
 }
 
 
+
+
 bool GamePlayLayer::onContactBegin(PhysicsContact &contact)
 {
 	PhysicsBody *a = contact.getShapeA()->getBody();
@@ -149,10 +157,15 @@ bool GamePlayLayer::onContactBegin(PhysicsContact &contact)
 	GameObject *objA = static_cast<GameObject*>(a->getNode());
 	GameObject *objB = static_cast<GameObject*>(b->getNode());
 
-	if (objA && objB)
+	if (objA->getTag() == ZOMBIE_TAG && objB->getTag() == LINE_TAG)
 	{
-		objB->onCollission(objA);
-		objA->onCollission(objB);
+		objB->onCollissionDead(objA);
+		objA->onCollissionDead(objB);
+	}
+	else if (objA->getTag() == ZOMBIE_TAG && objB->getTag() == LINE_TAG2)
+	{
+		objB->onCollissionAttack(objA);
+		objA->onCollissionAttack(objB);
 	}
 	return true;
 }

@@ -36,9 +36,9 @@ public:
 	void removeCoin();
 	void test();
 
+/*Thanh*/
 protected:
 	bool onContactBegin(PhysicsContact &contact);
-
 /*Khoa*/
 protected:
 	bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);

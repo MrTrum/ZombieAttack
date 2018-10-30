@@ -5,25 +5,30 @@
 #include "GameObject.h"
 #include "ui/CocosGUI.h"
 
+using namespace cocos2d;
 class PZombie : public GameObject
 {
 public:
-	ui::LoadingBar *loadingbar;
-
+	ui::LoadingBar *healthbarZombie;
 public:
 	PZombie();
 	~PZombie();
 	bool init();
 	CREATE_FUNC(PZombie);
 
-	void						setLoadingHealth(float percent);
-	void						getLoadingHealth(float percent);
-	void						updateLoadingHealth(float percent);
+
+	
+	void						setHealthBar(float percent);
+	void						getHealthBar(float percent);
+	void						updateHealthBar(float percent);
 	void   					    dead();
+	void   					    attack();
 	void						reset();
 	void						playWalkAnimation();
 	void						playDeadAnimation();
-private:
-	cocos2d::Sprite* _spr;
+	void						playAttackAnimation();
+	Sprite* _spr;
+
+
 };
 #endif // !_P_ZOMBIE_H_
