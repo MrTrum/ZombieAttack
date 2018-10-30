@@ -14,6 +14,7 @@ public:
 
 private:
 	void    dead();
+	void	attack();
 private:
 	cocos2d::Sprite *_sprBullet;
 };

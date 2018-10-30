@@ -23,7 +23,7 @@ bool BulletObject::init()
 	PhysicsBody* _BulletPhysicsBody = PhysicsBody::createBox(Size(820, 450));
 	_BulletPhysicsBody->setCollisionBitmask(12);
 	_BulletPhysicsBody->setContactTestBitmask(true);
-	//_BulletPhysicsBody->setDynamic(false);
+	_BulletPhysicsBody->setDynamic(true);
 	_sprBullet->setPhysicsBody(_BulletPhysicsBody);
 
 	setTag(BULLET_TAG);
@@ -33,4 +33,9 @@ bool BulletObject::init()
 void BulletObject::dead()
 {
 	this->removeFromParent();
+}
+
+void BulletObject::attack()
+{
+
 }
