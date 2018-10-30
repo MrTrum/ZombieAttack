@@ -39,6 +39,10 @@ void GameObject::onCollissionAttack(GameObject *obj)
 	{
 		obj->attack();
 	}
+	if (obj->getTag() == BULLET_TAG)
+	{
+		obj->dead();
+	}
 }
 
 
