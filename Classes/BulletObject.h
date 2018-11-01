@@ -11,13 +11,11 @@ public:
 	~BulletObject();
 	virtual bool init();
 	CREATE_FUNC(BulletObject);
-
-	void						onCollission(GameObject *obj) override;
-
+	
 
 private:
+	void   					    attack();
 	void    dead();
-	void	attack();
 private:
 	cocos2d::Sprite *_sprBullet;
 };

@@ -6,12 +6,11 @@
 #include "SimpleAudioEngine.h"
 #include "Parameter.h"
 #include "GameObject.h"
-#include "PoolObject/PoolZombie.h"
-#include "Coin.h"
-#include "Zombie/TestLine2.h"
-#include "Zombie/TestLine.h"
-#include <ui/UIWidget.h>
-#include "Zombie/CreateTestLine.h"
+#include "PoolZombie.h"
+#include "UI/Coin/Coin.h"
+#include "TestLine2.h"
+#include "TestLine.h"
+#include "CreateTestLine.h"
 
 
 USING_NS_CC;
@@ -52,52 +51,14 @@ bool GamePlayLayer::init()
 	//add BG
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg, 1);
-
 	//add hero
-	_hero = Hero::create();
-	this->addChild(_hero, 3);
-	_hero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
-	_hero->playAnimation("Redneck", 16, 4,100);
-	_hero->getHealthBar(100);
-	////add throw item btn
-	//_dynamiteBtn = ui::Button::create("btn_dynamite.png","btn_dynamite.png","btn_dynamite_empty.png");
-	////_dynamiteBtn = Sprite::create("btn_dynamite.png");
-	//this->addChild(_dynamiteBtn,200);
-	//_dynamiteBtn->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.07f));
-	/*_dynamiteBtn->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) 
-	{
-		Touch *touch;
-		switch (type)
-		{
-		case ui::Widget::TouchEventType::BEGAN:
-		{
-			
-			Point location = touch->getLocationInView();
-			auto moveto = MoveTo::create(0.2f, location);
-			_dynamiteBtn->runAction(moveto);
-		}
-		break;
-		case ui::Widget::TouchEventType::MOVED:
-		{
-			Point location = touch->getLocationInView();
-			auto moveto = MoveTo::create(0.2f, location);
-			_dynamiteBtn->runAction(moveto);
-		}
-		break;
-		case ui::Widget::TouchEventType::ENDED:
-			break;
-		default:
-			break;
-		}
-	});*/
-	
+	/*_hero = Hero::create();
+	this->addChild(_hero, 3);*/
+
 	//touch event
 	EventListenerTouchOneByOne *listenerTouch = EventListenerTouchOneByOne::create();
 	listenerTouch->onTouchBegan = CC_CALLBACK_2(GamePlayLayer::onTouchBegan, this);
 	listenerTouch->onTouchMoved = CC_CALLBACK_2(GamePlayLayer::onTouchMoved, this);
-	listenerTouch->onTouchEnded = CC_CALLBACK_2(GamePlayLayer::onTouchEnded, this);
-	listenerTouch->onTouchCancelled = CC_CALLBACK_2(GamePlayLayer::onTouchCancelled, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerTouch, this);
 
 	/*Phần Zombie*/
@@ -105,7 +66,8 @@ bool GamePlayLayer::init()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
 
 
-	auto poolZombie = PoolZombie::create();
+	auto poolZombie = PoolZombie::create(this);
+	
 	this->addChild(poolZombie, 3);
 
 	
@@ -122,10 +84,6 @@ bool GamePlayLayer::init()
 	//tao icon tien
 	this->IconCoinCreate();
 	// tạo tiền
-	CallFunc* loop = CallFunc::create(CC_CALLBACK_0(GamePlayLayer::test, this));
-	Sequence* coinloop = Sequence::create(loop, DelayTime::create(0.7), nullptr);
-	RepeatForever* b = RepeatForever::create(coinloop);
-	this->runAction(b);
 	this->scheduleUpdate();
 	// tạo số tiền
 	_Money = Money::create();
@@ -181,7 +139,6 @@ bool GamePlayLayer::init()
 
 
 
-
 bool GamePlayLayer::onContactBegin(PhysicsContact &contact)
 {
 	PhysicsBody *a = contact.getShapeA()->getBody();
@@ -190,10 +147,15 @@ bool GamePlayLayer::onContactBegin(PhysicsContact &contact)
 	GameObject *objA = static_cast<GameObject*>(a->getNode());
 	GameObject *objB = static_cast<GameObject*>(b->getNode());
 
-	if (objA && objB)
+	if (objA->getTag() == ZOMBIE_TAG && objB->getTag() == LINE_TAG)
 	{
-		objB->onCollission(objA);
-		objA->onCollission(objB);
+		objB->onCollissionDead(objA);
+		objA->onCollissionDead(objB);
+	}
+	else if (objA->getTag() == ZOMBIE_TAG && objB->getTag() == LINE_TAG2)
+	{
+		objB->onCollissionAttack(objA);
+		objA->onCollissionAttack(objB);
 	}
 	return true;
 }
@@ -236,14 +198,22 @@ void GamePlayLayer::IconCoinCreate()
 	_IconCoin->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_IconCoin->setScale(0.15f);
 	_IconCoin->setPosition(Vec2(winSize.width*0.23f, winSize.height*0.968f));
-	this->addChild(_IconCoin);
+	_iconPos = _IconCoin->getPosition();
+	this->addChild(_IconCoin,10);
 }
-void GamePlayLayer::test()
+
+void GamePlayLayer::CoinFly(Vec2 deadPos)
 {
-	_Coin = Coin::create();
-	_Coin->PlayAnimation();
-	_checkMoney = _Coin->FlyAnimation();
-	this->addChild(_Coin);
+	CallFunc* loop = CallFunc::create([=]
+	{
+		_Coin = Coin::create();
+		this->addChild(_Coin, 10);
+		_Coin->setPosition(deadPos);
+		_Coin->PlayAnimation();
+		_checkMoney = _Coin->FlyAnimation(_iconPos);
+	});
+	Sequence* coinloop = Sequence::create(loop, DelayTime::create(0.7), nullptr);
+	this->runAction(coinloop);
 }
 void GamePlayLayer::TouchPauseButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
 {
@@ -274,7 +244,7 @@ void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 		_Shop->setGamePlayLayerPtr(this);
 		_Shop->setTotalMoney(_totalMoney);
 		_Money->setVisible(false);
-		this->addChild(_Shop, 2);
+		this->addChild(_Shop, 10);
 	}
 }
 void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
@@ -288,36 +258,20 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 /*Khoa*/
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
-	/*Point touchLoc = touch->getLocationInView();
-
-	if (_dynamiteBtn->getBoundingBox().containsPoint(touchLoc))
-	{
-		return true;
-	}
-	else
-	{
-		_hero->shootAnimation();
-		Shooting(touch);
-		return true;
-	}*/
-	return false;
-	
+	_hero->shootAnimation();
+	Shooting(touch);
+	return true;
 }
 
 
 void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
-	
 	_hero->shootAnimation();
 	Shooting(touch);
 }
 
 void GamePlayLayer::onTouchEnded(Touch* touch, Event* event) {
-}
 
-void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event) {
-	Size winSize = Director::getInstance()->getWinSize();
-	_dynamiteBtn->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.07f));
 }
 
 void GamePlayLayer::Shooting(Touch *touch)

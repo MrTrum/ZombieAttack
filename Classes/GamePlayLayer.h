@@ -4,9 +4,9 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "ui/UIButton.h"
-#include "Money.h"
-#include "StoreLayer.h"
-
+#include "UI/NumberMoney/Money.h"
+#include "UI/StoreItem/StoreLayer.h"
+#include "PZombie.h"
 
 class BackgroundLayer;
 class Hero;
@@ -34,8 +34,7 @@ public:
 	void resumeGame();
 	void update(float dt);
 	void removeCoin();
-	void test();
-
+	void CoinFly(Vec2 deadPos);
 /*Thanh*/
 protected:
 	bool onContactBegin(PhysicsContact &contact);
@@ -44,9 +43,7 @@ protected:
 	bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
 	void onTouchMoved(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touches, Event* event);
-	void onTouchCancelled(Touch* touches, Event* event);
 	void Shooting(Touch *touch);
-	void handlingState();
 	enum State
 	{
 		STATE_STANDING,
@@ -61,14 +58,16 @@ private:
 	Bullet			*_bullet;
 	float			_posX;
 	float			_posY;
-	Sprite			*_Barrier;
-	Sprite			*_hpbar;
-	ui::Widget		*_dynamiteBtn;
+	Sprite*			_Barrier;
+	Sprite*			_hpbar;
+
 /*Tú*/
 private:
+	Vec2 _iconPos;
 	StoreLayer* _Shop;
 	Coin* _Coin;
 	Money* _Money;
+	PZombie* _coinFunc;
 	int _totalMoney = 0;
 	bool _checkMoney = false;
 	cocos2d::Label* _labelResume;

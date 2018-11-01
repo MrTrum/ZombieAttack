@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI">
+      <UniqueIdentifier>{c342903b-d33c-4988-8819-30cdee112754}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI\Menu">
+      <UniqueIdentifier>{1fd890ec-9aa1-4c16-b541-b823eb950a56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI\Coin">
+      <UniqueIdentifier>{48e32ecd-a6cd-44e7-8ece-82ab55c1ac71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI\NumberMoney">
+      <UniqueIdentifier>{73784776-6e49-4667-961b-536713558afe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI\StoreItem">
+      <UniqueIdentifier>{bef5f642-2f22-44d4-b08b-a9d6d1c23d00}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\NumberMoney\Money.cpp">
+      <Filter>src\UI\NumberMoney</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\StoreItem\StoreLayer.cpp">
+      <Filter>src\UI\StoreItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\Coin\Coin.cpp">
+      <Filter>src\UI\Coin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\Menu\MenuLayer.cpp">
+      <Filter>src\UI\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Zombie\CreateTestLine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Zombie\PZombie.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Zombie\TestLine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Zombie\TestLine2.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\NumberMoney\Money.h">
+      <Filter>src\UI\NumberMoney</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\StoreItem\StoreLayer.h">
+      <Filter>src\UI\StoreItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\Coin\Coin.h">
+      <Filter>src\UI\Coin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\Menu\MenuLayer.h">
+      <Filter>src\UI\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Zombie\CreateTestLine.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Zombie\PZombie.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Zombie\TestLine.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Zombie\TestLine2.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="game.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
