@@ -8,18 +8,17 @@ using namespace cocos2d;
 
 class GameObject : public cocos2d::Node
 {
-public:
-	float _health		= HEALTH_ZOMBIE2;
-	float _damge		= DAMGE_ZOMBIE2;
+
 public:
 	GameObject();
 	~GameObject();
 	bool init();
 
-	virtual void   					    dead()=0;
+	/*virtual void   					    dead()=0;
 	virtual void   					    attack() = 0;
 	void								onCollissionDead(GameObject *obj);
-	void								onCollissionAttack(GameObject *obj);
+	void								onCollissionAttack(GameObject *obj);*/
+	virtual void						onCollission(GameObject *obj) = 0;
 };
 
 

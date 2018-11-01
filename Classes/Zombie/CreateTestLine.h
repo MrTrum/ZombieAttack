@@ -12,8 +12,8 @@ public:
 	bool init();
 
 	CREATE_FUNC(CreateTestLine);
-	void dead();
-	void attack();
-
+	//void dead();
+	//void attack();
+	void						onCollission(GameObject *obj);
 };
 #endif // !_CREATE_TESTLINE_H_

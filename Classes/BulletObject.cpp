@@ -39,3 +39,8 @@ void BulletObject::attack()
 {
 
 }
+
+void BulletObject::onCollission(GameObject *obj)
+{
+
+}

@@ -1,12 +1,14 @@
 #include "Hero.h"
 #include "Parameter.h"
+#include "Zombie/PZombie.h"
 
 USING_NS_CC;
 
+#define HEALTH_HERO = 100.0f;
 
-
-Hero::Hero()
+Hero::Hero() 
 {
+	_health = 100.0f;
 }
 
 Hero::~Hero()
@@ -15,31 +17,70 @@ Hero::~Hero()
 
 bool Hero::init()
 {
-	if (!Node::init())
+	if (!GameObject::init())
 	{
 		return false;
 	}
 	Size winSize = Director::getInstance()->getWinSize();
-	_sprhero = Sprite::createWithSpriteFrameName("idle00.png");
+	_sprhero = Sprite::createWithSpriteFrameName("Redneck0.png");
 	this->addChild(_sprhero);
+	this->setTag(HERO_TAG);
 	_sprhero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	this->setContentSize(_sprhero->getContentSize());
-	this->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_sprhero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
 	_sprhero->setScale(1.0f * SCALE_PARAMETER_);
-/*
+
+	auto physicForHero = PhysicsBody::createBox(_sprhero->getContentSize() * 2.0f);
+	physicForHero->setDynamic(false);
+	physicForHero->setContactTestBitmask(true);
+	this->setPhysicsBody(physicForHero);
+
 	Animation* fatguyanim = Animation::create();
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 8; i++)
 	{
-		std::string name = StringUtils::format("idle%02d.png", i);
+		std::string name = StringUtils::format("Redneck%d.png", i);
 		fatguyanim->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(name));
 	}
 	fatguyanim->setDelayPerUnit(1 / 4.0f);
 	Animate* animate = Animate::create(fatguyanim);
-	_sprhero->runAction(RepeatForever::create(animate));*/
+	_sprhero->runAction(RepeatForever::create(animate));
 
 	return true;
+}
+
+void Hero::onCollission(GameObject *obj)
+{
+	if (obj->getTag() == ZOMBIE_TAG)
+	{
+		_health -= PZombie::damageOfZombie;
+		updateHealthBar(_health);
+		if (_health <= 0)
+		{
+			CCLOG("Dead");
+		}
+	}
+}
+
+void Hero::setHealthBar(float percent)
+{
+	auto winSize = Director::getInstance()->getWinSize();
+
+	_healthbarHero = ui::LoadingBar::create("HeroBar.png");
+	this->addChild(_healthbarHero);
+	_healthbarHero->setDirection(ui::LoadingBar::Direction::LEFT);
+	_healthbarHero->setScaleX(0.4f);
+	_healthbarHero->setScaleY(0.4f);
+	_healthbarHero->setPercent(percent);
+	_healthbarHero->setPosition(Vec2(50.0f, 150.0f));
+}
+void Hero::getHealthBar(float percent)
+{
+	setHealthBar(percent);
+}
+void Hero::updateHealthBar(float percent)
+{
+	_healthbarHero->removeFromParent();
+	setHealthBar(percent);
 }
 
 void Hero::shootAnimation()

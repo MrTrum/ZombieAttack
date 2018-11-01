@@ -45,6 +45,7 @@
 #define LINE_TAG								4
 #define BULLET_TAG								5
 #define LINE_TAG2								5
+#define HERO_TAG								6
 
 //Số lượng tạo Zombie
 #define ZOMBIE_2								3
@@ -55,6 +56,7 @@
 
 //Damge Zombie
 #define DAMGE_ZOMBIE2							50.0f
+#define DAMGE_OF_ZOMBIE2						10.0f
 
 
 #endif // __PARAMETER_H__

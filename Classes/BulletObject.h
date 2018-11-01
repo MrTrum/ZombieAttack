@@ -12,6 +12,9 @@ public:
 	virtual bool init();
 	CREATE_FUNC(BulletObject);
 
+	void						onCollission(GameObject *obj) override;
+
+
 private:
 	void    dead();
 	void	attack();

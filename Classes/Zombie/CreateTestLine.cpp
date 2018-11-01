@@ -34,14 +34,9 @@ bool CreateTestLine::init()
 
 	return true;
 }
-void CreateTestLine::dead()
-{
-	this->removeChildByTag(LINE_TAG);
-}
-void CreateTestLine::attack()
+void CreateTestLine::onCollission(GameObject *obj)
 {
 
 }
-
 
 
