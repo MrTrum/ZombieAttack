@@ -38,10 +38,10 @@ bool Money::init()
 	for (int i = 0; i < NUM_SPRITE; i++)
 	{
 		_money = Sprite::createWithSpriteFrameName("0.png");
-		/*_money->setPosition(Vec2(winSize.width*(NUMBER_GAMEPLAY_POSITION_WIDTH + (NUMBER_DISTANT*i)), winSize.height*NUMBER_GAMEPLAY_POSITION_HEIGHT));*/
+		_money->setPosition(Vec2(winSize.width*(NUMBER_GAMEPLAY_POSITION_WIDTH + (NUMBER_DISTANT*i)), winSize.height*NUMBER_GAMEPLAY_POSITION_HEIGHT));
 		_money->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		_money->setScale(0.15f);
-		this->addChild(_money, 2);
+		this->addChild(_money);
 		_listSprite.pushBack(_money);
 	}
 	return true;

@@ -23,6 +23,9 @@ public:
 private:
 	int _shopTotalMoney;
 	cocos2d::ui::Button* _quitShop;
+	cocos2d::ui::Button* _upgradeBtn;
+	cocos2d::ui::Button* _weaponBtn;
+	cocos2d::ui::Button* _itemBtn;
 	GamePlayLayer* _btnGamePlayLayer;
 	Money* _Money;
 };

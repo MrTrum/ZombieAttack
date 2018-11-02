@@ -98,7 +98,7 @@ bool GamePlayLayer::init()
 	this->scheduleUpdate();
 	// tạo số tiền
 	_Money = Money::create();
-	this->addChild(_Money, 4);
+	this->addChild(_Money,4);
 	// tao nut pause
 	auto _pauseBtn = cocos2d::ui::Button::create("images/PauseButton.png");
 	_pauseBtn->setPosition(Vec2(winSize.width*0.025f, winSize.height*0.968f));
@@ -182,17 +182,17 @@ void GamePlayLayer::resumeGame()
 void GamePlayLayer::removeCoin()
 {
 	_Money->setMoney(_totalMoney);
-	this->removeChild(_Coin);
+	this->removeChildByTag(5);
 }
 void GamePlayLayer::update(float dt)
 {
 	if (_checkMoney == true)
 	{
 		_totalMoney = _totalMoney + 1;
-		_checkMoney = false;
 		CallFunc* remove = CallFunc::create(CC_CALLBACK_0(GamePlayLayer::removeCoin, this));
 		Sequence* delayremove = Sequence::create(DelayTime::create(0.5), remove, nullptr);
 		this->runAction(delayremove);
+		_checkMoney = false;
 	}
 }
 
@@ -206,7 +206,7 @@ void GamePlayLayer::IconCoinCreate()
 	_IconCoin->setScale(0.15f);
 	_IconCoin->setPosition(Vec2(winSize.width*0.23f, winSize.height*0.968f));
 	_iconPos = _IconCoin->getPosition();
-	this->addChild(_IconCoin);
+	this->addChild(_IconCoin,4);
 }
 
 void GamePlayLayer::CoinFly(Vec2 deadPos)
@@ -214,6 +214,7 @@ void GamePlayLayer::CoinFly(Vec2 deadPos)
 	CallFunc* loop = CallFunc::create([=]
 	{
 		_Coin = Coin::create();
+		_Coin->setTag(5);
 		this->addChild(_Coin, 10);
 		_Coin->setPosition(deadPos);
 		_Coin->PlayAnimation();
