@@ -27,6 +27,14 @@ bool Hero::init()
 		return false;
 	}
 	Size winSize = Director::getInstance()->getWinSize();
+
+	auto frameBloodBar = Sprite::create("BloodBarHero.png");
+	frameBloodBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+	frameBloodBar->setPosition(Vec2(90.0f, 520.0f));
+	frameBloodBar->setScaleY(0.17f);
+	frameBloodBar->setScaleX(0.25f);
+	addChild(frameBloodBar, 1);
+
 	_sprhero = Sprite::createWithSpriteFrameName("Redneck0.png");
 	this->addChild(_sprhero);
 	this->setTag(HERO_TAG);
@@ -71,12 +79,13 @@ void Hero::setHealthBar(float percent)
 	auto winSize = Director::getInstance()->getWinSize();
 
 	_healthbarHero = ui::LoadingBar::create("HeroBar.png");
-	this->addChild(_healthbarHero);
+	this->addChild(_healthbarHero, 2);
 	_healthbarHero->setDirection(ui::LoadingBar::Direction::LEFT);
-	_healthbarHero->setScaleX(0.4f);
-	_healthbarHero->setScaleY(0.4f);
+	_healthbarHero->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+	_healthbarHero->setScaleX(0.26f);
+	_healthbarHero->setScaleY(0.20f);
 	_healthbarHero->setPercent(percent);
-	_healthbarHero->setPosition(Vec2(50.0f, 150.0f));
+	_healthbarHero->setPosition(Vec2(89.0f, 520.0f));
 }
 void Hero::getHealthBar(float percent)
 {

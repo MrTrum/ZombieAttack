@@ -4,16 +4,16 @@
 #define SCALE_PARAMETER_						1.0f
 
 //thời gian
-#define TIME_CREATE_ZOMBIE_2					3.0f
+#define TIME_CREATE_ZOMBIE_2					4.0f
 #define TIME_CREATE_ZOMBIE_3					3.0f
 #define TIME_CREATE_ZOMBIE_4					3.5f
 #define TIME_CREATE_ZOMBIE_5					4.0f
 #define TIME_CREATE_ZOMBIE_6					4.5f
 #define TIME_CREATE_ZOMBIE_7					5.0f
 
-#define TIME_ACTION_ANIMATION					7.0f
-#define TIME_MOVETO_ZOMBIE						10.0f
-#define TIME_REPEAT_ANIMATE						12.0f
+#define TIME_ACTION_ANIMATION					6.0f
+#define TIME_MOVETO_ZOMBIE						15.0f
+#define TIME_REPEAT_ANIMATE						15.0f
 
 //scale
 #define ZOMBIE_SIZE_WIDTH						0.0004f
@@ -48,7 +48,7 @@
 #define HERO_TAG								6
 
 //Số lượng tạo Zombie
-#define ZOMBIE_2								3
+#define ZOMBIE_2								20
 
 
 //Health Zombie

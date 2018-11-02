@@ -26,9 +26,9 @@ bool TestLine2::init()
 	getline->setPosition(winSize.width * 0.8, 0.0);
 	this->addChild(getline);
 
-	auto getline2 = CreateTestLine::create();
+	/*auto getline2 = CreateTestLine::create();
 	getline2->setPosition(winSize.width * 0.4, 0.0);
-	this->addChild(getline2);
+	this->addChild(getline2);*/
 
 	return true;
 }

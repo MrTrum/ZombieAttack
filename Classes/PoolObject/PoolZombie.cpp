@@ -131,18 +131,18 @@ void PoolZombie::setFrameBloodBar()
 
 	auto frameBloodBar = Sprite::create("FrameBloodBar.png");
 	frameBloodBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-	frameBloodBar->setPosition(winSize.width - 25.0f, winSize.height - 25.0f);
-	frameBloodBar->setScaleY(0.15f);
+	frameBloodBar->setPosition(winSize.width - 10.0f, winSize.height - 20.0f);
+	frameBloodBar->setScaleY(0.17f);
 	frameBloodBar->setScaleX(0.25f);
 	addChild(frameBloodBar, 1);
 
 	auto booshead = Sprite::create("BossHead.png");
-	booshead->setPosition(winSize.width - 190.0f, winSize.height - 45.0f);
+	booshead->setPosition(winSize.width - 175.0f, winSize.height - 42.0f);
 	booshead->setScale(0.1f);
 	addChild(booshead, 1);
 
 	auto zombiehead = Sprite::create("ZombieHead.png");
-	zombiehead->setPosition(winSize.width - 245.0f, winSize.height - 25.0f);
+	zombiehead->setPosition(winSize.width - 230.0f, winSize.height - 20.0f);
 	zombiehead->setScale(0.25f);
 	addChild(zombiehead, 1);
 }
@@ -158,7 +158,7 @@ void PoolZombie::setBloodBar(float percent)
 	bloodbar->setScaleX(0.26f);
 	bloodbar->setScaleY(0.20f);
 	bloodbar->setPercent(percent);
-	bloodbar->setPosition(Vec2(winSize.width - 25.5f, winSize.height - 25.0f));
+	bloodbar->setPosition(Vec2(winSize.width - 10.0f, winSize.height - 20.0f));
 }
 
 void PoolZombie::updateBloodBar(float percent)
