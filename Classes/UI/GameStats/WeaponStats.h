@@ -7,7 +7,7 @@ public:
 	~WeaponStats();
 
 private:
-
+	int _Damage,_BulletNumber;
 };
 
 #endif // !_WEAPON_STATS_H

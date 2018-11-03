@@ -179,23 +179,29 @@ void GamePlayLayer::resumeGame()
 	_labelShop->setVisible(false);
 	_Money->setVisible(true);
 }
-void GamePlayLayer::removeCoin()
+void GamePlayLayer::moneyChange()
 {
+	_totalMoney = _totalMoney + 1;
 	_Money->setMoney(_totalMoney);
-	this->removeChildByTag(5);
 }
 void GamePlayLayer::update(float dt)
 {
-	if (_checkMoney == true)
-	{
-		_totalMoney = _totalMoney + 1;
-		CallFunc* remove = CallFunc::create(CC_CALLBACK_0(GamePlayLayer::removeCoin, this));
-		Sequence* delayremove = Sequence::create(DelayTime::create(0.5), remove, nullptr);
-		this->runAction(delayremove);
-		_checkMoney = false;
-	}
-}
 
+}
+void GamePlayLayer::CoinFly(Vec2 deadPos)
+{
+	CallFunc* loop = CallFunc::create([=]
+	{
+		_Coin = Coin::create();
+		_Coin->setGamePlayLayer(this);
+		this->addChild(_Coin, 10);
+		_Coin->setPosition(deadPos);
+		_Coin->PlayAnimation();
+		_checkMoney = _Coin->FlyAnimation(_iconPos);
+	});
+	Sequence* coinloop = Sequence::create(loop, DelayTime::create(0.5), nullptr);
+	this->runAction(coinloop);
+}
 void GamePlayLayer::IconCoinCreate()
 {
 	Size winSize = Director::getInstance()->getWinSize();
@@ -207,21 +213,6 @@ void GamePlayLayer::IconCoinCreate()
 	_IconCoin->setPosition(Vec2(winSize.width*0.57f, winSize.height*0.968f));
 	_iconPos = _IconCoin->getPosition();
 	this->addChild(_IconCoin,4);
-}
-
-void GamePlayLayer::CoinFly(Vec2 deadPos)
-{
-	CallFunc* loop = CallFunc::create([=]
-	{
-		_Coin = Coin::create();
-		_Coin->setTag(5);
-		this->addChild(_Coin, 10);
-		_Coin->setPosition(deadPos);
-		_Coin->PlayAnimation();
-		_checkMoney = _Coin->FlyAnimation(_iconPos);
-	});
-	Sequence* coinloop = Sequence::create(loop, DelayTime::create(0.7), nullptr);
-	this->runAction(coinloop);
 }
 
 void GamePlayLayer::TouchPauseButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
