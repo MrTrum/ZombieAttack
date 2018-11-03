@@ -143,8 +143,7 @@ void PZombie::playDeadAnimation(Vec2 deadPos)
 	});
 	auto squ = Sequence::create(animate, DelayTime::create(0.5f), zombieBackPool, nullptr);
 	_spr->runAction(squ);
-	//Tú đã sửa
-	/*_coinFunc->CoinFly(deadPos);*/
+	_coinFunc->CoinFly(deadPos);
 }
 
 void PZombie::playAttackAnimation()
