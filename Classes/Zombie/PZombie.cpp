@@ -28,7 +28,7 @@ bool PZombie::init()
 
 	std::string zombieName = "Z2Walk";
 	_spr = Sprite::createWithSpriteFrameName(zombieName + "1.png");
-	addChild(_spr);
+	this->addChild(_spr);
 
 
 	//Set Physics
@@ -82,15 +82,16 @@ void PZombie::onCollission(GameObject *obj)
 
 void PZombie::dead()
 {
-	health -= damage;
-	updateHealthBar(health);
-	if (health == 0)
+	this->health -= this->damage;
+	this->updateHealthBar(this->health);
+	if (this->health == 0)
 	{
 		//Tú đã sửa
 		auto deadPos = this->getPosition();
-		playDeadAnimation(deadPos);
-		updateHealthBar(health);
-		health = HEALTH_ZOMBIE2;
+		this->getPhysicsBody()->setContactTestBitmask(false);
+		this->playDeadAnimation(deadPos);
+		this->updateHealthBar(this->health);
+		this->health = HEALTH_ZOMBIE2;
 	}
 }
 
@@ -137,8 +138,8 @@ void PZombie::playDeadAnimation(Vec2 deadPos)
 	auto *animate = Animate::create(animation);
 	auto *zombieBackPool = CallFunc::create([=]
 	{
-		auto winSize = Director::getInstance()->getWinSize();
 		this->setVisible(false);
+		this->getPhysicsBody()->setContactTestBitmask(true);
 		this->removeFromParent();
 		this->reset();
 	});

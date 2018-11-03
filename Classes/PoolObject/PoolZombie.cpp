@@ -29,11 +29,17 @@ PZombie* PoolZombie::getZombie()
 	PZombie* zombie = nullptr;
 	for (int index = 0; index < _listZombie.size(); index++)
 	{
+		int findAZombie = 0;
 		if (_listZombie.at(index)->isVisible() == false)
 		{
-			zombie = _listZombie.at(index); //Nếu nó tìm thấy rồi tại sao k thoát khỏi vòng lặp mà lại chạy hết size???
+			zombie = _listZombie.at(index); 
 			auto resetHealth = zombie->health;
 			zombie->updateHealthBar(resetHealth);
+			findAZombie = 1;
+		}
+		if (findAZombie == 1)
+		{
+			break;
 		}
 	}
 	if (zombie == nullptr)
@@ -90,7 +96,7 @@ void PoolZombie::createZombie_2(float delta)
 	if (zombie != nullptr)
 	{
 		// check if it has parent 
-		zombie->removeFromParent();
+		/*zombie->removeFromParent();*/
 
 		zombie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 		zombie->setVisible(true);
@@ -100,7 +106,7 @@ void PoolZombie::createZombie_2(float delta)
 		zombie->setPosition(winSize.width * 1.2f, winSize.height * positionY);
 
 		auto Z_Order = ZOrder(positionY);
-		addChild(zombie, Z_Order);
+		this->addChild(zombie, Z_Order);
 
 		if (numberZombie < 80)
 		{
