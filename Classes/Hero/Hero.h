@@ -40,22 +40,24 @@ public:
 	~Hero();
 	CREATE_FUNC(Hero);
 	virtual bool init();
-	void shootAnimation();
-	void playAnimation(std::string name, int numframe, int fps, int loop);
-	void playAnimation(AnimationInfo info);
+	void						shootAnimation();
+	void						playAnimation(std::string name, int numframe, int fps, int loop);
+	void						playAnimation(AnimationInfo info);
 
 	void						setHealthBar(float percent);
 	void						getHealthBar(float percent);
 	void						updateHealthBar(float percent);
 protected:
 	void						onCollission(GameObject *obj) override;
-
+	void						heroWounded(float delta);
 private:
 	static std::map<AnimationType, AnimationInfo>	_mapAnimation;
-	cocos2d::Sprite	 *_sprhero;
-	cocos2d::Sprite	 *_sprheroarm;
-	ui::LoadingBar   *_healthbarHero;
+	cocos2d::Sprite				*_sprhero;
+	cocos2d::Sprite				*_sprheroarm;
+	ui::LoadingBar				*_healthbarHero;
 	float _health;
+	cocos2d::Vector<GameObject*>_zombiesAreAttackingHeroes;
+	void						theHealthOfZombiesAreAttacking(GameObject *obj);
 };
 
 

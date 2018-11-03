@@ -18,7 +18,7 @@ void PoolZombie::initZombie()
 	{
 		auto zombie = PZombie::create();
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
-		zombie->getHealthBar(zombie->health);
+		zombie->setHealthBar(zombie->health);
 		zombie->setVisible(false);
 		_listZombie.pushBack(zombie);
 	}
@@ -33,7 +33,8 @@ PZombie* PoolZombie::getZombie()
 		if (_listZombie.at(index)->isVisible() == false)
 		{
 			zombie = _listZombie.at(index); 
-			auto resetHealth = zombie->health;
+			zombie->health = HEALTH_ZOMBIE2;
+			auto resetHealth = HEALTH_ZOMBIE2;
 			zombie->updateHealthBar(resetHealth);
 			findAZombie = 1;
 		}
@@ -45,7 +46,7 @@ PZombie* PoolZombie::getZombie()
 	if (zombie == nullptr)
 	{
 		zombie = PZombie::create();
-		zombie->getHealthBar(zombie->health);
+		zombie->setHealthBar(zombie->health);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie->setVisible(false);
 		_listZombie.pushBack(zombie);
@@ -96,7 +97,7 @@ void PoolZombie::createZombie_2(float delta)
 	if (zombie != nullptr)
 	{
 		// check if it has parent 
-		/*zombie->removeFromParent();*/
+		zombie->removeFromParent();
 
 		zombie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 		zombie->setVisible(true);

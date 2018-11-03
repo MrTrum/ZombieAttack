@@ -29,7 +29,7 @@ public:
 
 	void						setGamePlayLayerPtr(GamePlayLayer* ptr);
 	void						setHealthBar(float percent);
-	void						getHealthBar(float percent);
+	float						getHealthBar();
 	void						updateHealthBar(float percent);
 	void   					    dead();
 	void   					    attack();

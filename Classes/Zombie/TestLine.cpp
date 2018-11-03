@@ -36,5 +36,12 @@ bool TestLine::init()
 
 void TestLine::onCollission(GameObject *obj)
 {
-
+	if (obj->getTag() == ZOMBIE_TAG)
+	{
+		PZombie *pZombie = static_cast<PZombie*>(obj);
+		if (pZombie->getHealthBar() <= 0)
+		{
+			PZombie::damageOfZombie -= 0.5;
+		}
+	}
 }

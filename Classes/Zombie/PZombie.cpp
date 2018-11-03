@@ -16,7 +16,7 @@ PZombie::~PZombie()
 {
 }
 
-float PZombie::damageOfZombie = DAMGE_OF_ZOMBIE2;
+float PZombie::damageOfZombie = 0;
 
 bool PZombie::init()
 {
@@ -57,9 +57,9 @@ void PZombie::setHealthBar(float percent)
 	healthbarZombie->setPosition(Vec2(0.0f, 200.0f));
 }
 
-void PZombie::getHealthBar(float percent)
+float PZombie::getHealthBar()
 {
-	setHealthBar(percent);
+	return this->health;
 }
 
 void PZombie::updateHealthBar(float percent)
@@ -70,13 +70,13 @@ void PZombie::updateHealthBar(float percent)
 
 void PZombie::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == LINE_TAG)
+	if (obj->getTag() == LINE_TAG || obj->getTag() == HERO_TAG)
 	{
 		this->dead();
 	}
 	else if (obj->getTag() == LINE_TAG2)
 	{
-		this->dead();
+		this->attack();
 	}
 }
 
@@ -90,8 +90,6 @@ void PZombie::dead()
 		auto deadPos = this->getPosition();
 		this->getPhysicsBody()->setContactTestBitmask(false);
 		this->playDeadAnimation(deadPos);
-		this->updateHealthBar(this->health);
-		this->health = HEALTH_ZOMBIE2;
 	}
 }
 
@@ -116,7 +114,7 @@ void PZombie::playWalkAnimation()
 	}
 	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
 	auto *animate = Animate::create(animation);
-	_spr->runAction(Repeat::create(animate, TIME_REPEAT_ANIMATE));
+	_spr->runAction(RepeatForever::create(animate));
 }
 //Tú đã sửa
 void PZombie::setGamePlayLayerPtr(GamePlayLayer* ptr)
@@ -146,7 +144,7 @@ void PZombie::playDeadAnimation(Vec2 deadPos)
 	auto squ = Sequence::create(animate, DelayTime::create(0.5f), zombieBackPool, nullptr);
 	_spr->runAction(squ);
 	//Tú đã sửa
-	_coinFunc->CoinFly(deadPos);
+	/*_coinFunc->CoinFly(deadPos);*/
 }
 
 void PZombie::playAttackAnimation()

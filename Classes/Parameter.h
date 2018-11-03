@@ -13,7 +13,7 @@
 
 #define TIME_ACTION_ANIMATION					6.0f
 #define TIME_MOVETO_ZOMBIE						15.0f
-#define TIME_REPEAT_ANIMATE						15.0f
+//#define TIME_REPEAT_ANIMATE						15.0f
 
 //scale
 #define ZOMBIE_SIZE_WIDTH						0.0004f
@@ -56,7 +56,7 @@
 
 //Damge Zombie
 #define DAMGE_ZOMBIE2							50.0f
-#define DAMGE_OF_ZOMBIE2						10.0f
+#define DAMAGE_OF_ZOMBIE2						0.5f
 
 
 #endif // __PARAMETER_H__

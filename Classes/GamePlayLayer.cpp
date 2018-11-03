@@ -92,13 +92,13 @@ bool GamePlayLayer::init()
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist", "images/coin.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/numbers.plist", "images/numbers.png");
-	//tao icon tien
-	this->IconCoinCreate();
-	// tạo tiền
-	this->scheduleUpdate();
-	// tạo số tiền
-	_Money = Money::create();
-	this->addChild(_Money,4);
+	////tao icon tien
+	//this->IconCoinCreate();
+	//// tạo tiền
+	//this->scheduleUpdate();
+	//// tạo số tiền
+	//_Money = Money::create();
+	//this->addChild(_Money,4);
 	// tao nut pause
 	auto _pauseBtn = cocos2d::ui::Button::create("images/PauseButton.png");
 	_pauseBtn->setPosition(Vec2(winSize.width*0.025f, winSize.height*0.968f));

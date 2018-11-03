@@ -4,11 +4,11 @@
 
 USING_NS_CC;
 
-#define HEALTH_HERO = 100.0f;
+#define HEALTH_HERO  100.0f;
 
-Hero::Hero() 
+Hero::Hero()
 {
-	_health = 100.0f;
+	_health = HEALTH_HERO;
 }
 
 Hero::~Hero()
@@ -63,14 +63,35 @@ bool Hero::init()
 
 void Hero::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == ZOMBIE_TAG)
+	if (obj->getTag() == ZOMBIE_TAG && PZombie::damageOfZombie <= 0)
 	{
-		_health -= PZombie::damageOfZombie;
-		updateHealthBar(_health);
-		if (_health <= 0)
-		{
-			CCLOG("Dead");
-		}
+		PZombie::damageOfZombie = DAMAGE_OF_ZOMBIE2;
+		scheduleOnce(schedule_selector(Hero::heroWounded), 0.0f);
+		schedule(schedule_selector(Hero::heroWounded), 0.5f);
+		theHealthOfZombiesAreAttacking(obj);
+	}
+	else if (obj->getTag() == ZOMBIE_TAG && PZombie::damageOfZombie > 0)
+	{
+		PZombie::damageOfZombie += 0.5;
+	}
+}
+
+void Hero::heroWounded(float delta)
+{
+	this->_health -= PZombie::damageOfZombie;
+	this->updateHealthBar(_health);
+	if (this->_health <= 0)
+	{
+		CCLOG("Dead");
+	}
+}
+
+void Hero::theHealthOfZombiesAreAttacking(GameObject *obj)
+{
+	PZombie *pZombie = static_cast<PZombie*>(obj);
+	if (pZombie->getHealthBar() <= 0)
+	{
+		PZombie::damageOfZombie -= 0.5;
 	}
 }
 
@@ -125,18 +146,18 @@ void Hero::playAnimation(AnimationInfo info)
 	_sprhero->runAction(animate);
 }
 
-void Hero::playAnimation(std::string name, int numframe, int fps, int loop )
+void Hero::playAnimation(std::string name, int numframe, int fps, int loop)
 {
 	cocos2d::Animation* charAnimation = cocos2d::AnimationCache::getInstance()->getAnimation(_name);
 	if (charAnimation == NULL) { // not in cached yet
 		cocos2d::Vector<cocos2d::SpriteFrame*> animFrames;
 		for (int i = 0; i < numframe; i++) {
 			cocos2d::SpriteFrame* frame = cocos2d::SpriteFrameCache::getInstance()->getSpriteFrameByName(String::createWithFormat(_name.c_str(), i)->getCString());
-			if (frame == nullptr || frame == (void*)0x1) 
+			if (frame == nullptr || frame == (void*)0x1)
 			{
 				continue;
 			}
-			else 
+			else
 			{
 				animFrames.pushBack(frame);
 			}
