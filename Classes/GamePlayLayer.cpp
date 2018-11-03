@@ -204,7 +204,7 @@ void GamePlayLayer::IconCoinCreate()
 	auto _IconCoin = Sprite::createWithSpriteFrameName("coin1.png");
 	_IconCoin->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_IconCoin->setScale(0.15f);
-	_IconCoin->setPosition(Vec2(winSize.width*0.23f, winSize.height*0.968f));
+	_IconCoin->setPosition(Vec2(winSize.width*0.57f, winSize.height*0.968f));
 	_iconPos = _IconCoin->getPosition();
 	this->addChild(_IconCoin,4);
 }

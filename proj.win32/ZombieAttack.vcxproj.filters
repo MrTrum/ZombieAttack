@@ -40,6 +40,9 @@
     <Filter Include="src\Base">
       <UniqueIdentifier>{67591a14-a19a-4be1-b7a5-8940dad39f6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\UI\GameStats">
+      <UniqueIdentifier>{50ac22fd-934c-4fdf-86a1-6cedca7d9e18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -98,6 +101,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\PoolObject\Bullet.cpp">
       <Filter>src\PoolObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\GameStats\WeaponStats.cpp">
+      <Filter>src\UI\GameStats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\GameStats\ItemStats.cpp">
+      <Filter>src\UI\GameStats</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +172,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\PoolObject\Bullet.h">
       <Filter>src\PoolObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\GameStats\ItemStats.h">
+      <Filter>src\UI\GameStats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\GameStats\WeaponStats.h">
+      <Filter>src\UI\GameStats</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

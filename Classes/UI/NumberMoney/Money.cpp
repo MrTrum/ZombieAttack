@@ -13,7 +13,7 @@ USING_NS_CC;
 #define HUNDREDSOFTHOUSANDS 100000
 #define NUM_SPRITE 6
 #define NUMBER_GAMEPLAY_POSITION_HEIGHT 0.968f
-#define NUMBER_GAMEPLAY_POSITION_WIDTH 0.063f
+#define NUMBER_GAMEPLAY_POSITION_WIDTH 0.4f
 #define NUMBER_DISTANT 0.026f
 #define NUMBER_SHOP_POSITION_WIDTH 0.433f
 #define NUMBER_SHOP_POSITION_HEIGHT 0.968f
@@ -40,7 +40,7 @@ bool Money::init()
 		_money = Sprite::createWithSpriteFrameName("0.png");
 		_money->setPosition(Vec2(winSize.width*(NUMBER_GAMEPLAY_POSITION_WIDTH + (NUMBER_DISTANT*i)), winSize.height*NUMBER_GAMEPLAY_POSITION_HEIGHT));
 		_money->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-		_money->setScale(0.15f);
+		_money->setScale(0.13f);
 		this->addChild(_money);
 		_listSprite.pushBack(_money);
 	}
