@@ -59,6 +59,7 @@ bool GamePlayLayer::init()
 	_hero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
 	_hero->playAnimation("Redneck", 16, 4,100);
+	_hero->getHealthBar(100);
 
 	
 	//touch event

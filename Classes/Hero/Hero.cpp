@@ -46,6 +46,7 @@ bool Hero::init()
 	auto physicForHero = PhysicsBody::createBox(_sprhero->getContentSize() * 2.0f);
 	physicForHero->setDynamic(false);
 	physicForHero->setContactTestBitmask(true);
+	physicForHero->setGroup(2);
 	this->setPhysicsBody(physicForHero);
 
 	Animation* fatguyanim = Animation::create();
@@ -124,7 +125,7 @@ void Hero::updateHealthBar(float percent)
 
 void Hero::shootAnimation()
 {
-	/*Size winSize = Director::getInstance()->getWinSize();
+	Size winSize = Director::getInstance()->getWinSize();
 	Animation* animation = Animation::create();
 
 	for (int i = 1; i < 11; i++)
@@ -134,7 +135,7 @@ void Hero::shootAnimation()
 	}
 	animation->setDelayPerUnit(1 / 30.0f);
 	Animate* animate = Animate::create(animation);
-	_sprhero->runAction(animate);*/
+	_sprhero->runAction(animate);
 }
 
 void Hero::playAnimation(AnimationInfo info)

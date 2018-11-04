@@ -29,16 +29,16 @@ PZombie* PoolZombie::getZombie()
 	PZombie* zombie = nullptr;
 	for (int index = 0; index < _listZombie.size(); index++)
 	{
-		int findAZombie = 0;
+		bool foundZombie = false;
 		if (_listZombie.at(index)->isVisible() == false)
 		{
 			zombie = _listZombie.at(index); 
 			zombie->health = HEALTH_ZOMBIE2;
 			auto resetHealth = HEALTH_ZOMBIE2;
 			zombie->updateHealthBar(resetHealth);
-			findAZombie = 1;
+			foundZombie = true;
 		}
-		if (findAZombie == 1)
+		if (foundZombie)
 		{
 			break;
 		}

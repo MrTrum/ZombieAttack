@@ -35,7 +35,7 @@ bool PZombie::init()
 	auto physics = PhysicsBody::createBox(_spr->getContentSize());
 	physics->setContactTestBitmask(true);
 	physics->setDynamic(false);
-	physics->setGroup(-1);
+	physics->setGroup(1);
 	this->setPhysicsBody(physics);
 
 	this->setTag(ZOMBIE_TAG);
