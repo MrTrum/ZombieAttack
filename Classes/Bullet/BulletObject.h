@@ -13,8 +13,8 @@ public:
 	CREATE_FUNC(BulletObject);
 
 	void onCollission(GameObject *obj) override;
-
-
+	void bulletFire(float locationX, float locationY);
+	void removeBullet();
 private:
 	cocos2d::Sprite *_sprBullet;
 };

@@ -6,6 +6,7 @@
 #include <string>
 #include "GameObject.h"
 #include "ui/CocosGUI.h"
+#include "Zombie/PZombie.h"
 
 //std::map<std::string, AnimationInfo> _mapAnimation =
 //{
@@ -55,9 +56,10 @@ private:
 	cocos2d::Sprite				*_sprheroarm;
 	ui::LoadingBar				*_healthbarHero;
 	float _health;
-	cocos2d::Vector<GameObject*>_zombiesAreAttackingHeroes;
-	void						theHealthOfZombiesAreAttacking(GameObject *obj);
-};
+	cocos2d::Vector<GameObject*>	_zombiesAreAttackingHeroes;
+	cocos2d::Vector<PZombie*>		_listZombieCollision;
+	void							update(float delta);
+};	
 
 
 

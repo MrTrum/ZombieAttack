@@ -70,7 +70,7 @@ void PZombie::updateHealthBar(float percent)
 
 void PZombie::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == LINE_TAG || obj->getTag() == HERO_TAG)
+	if (obj->getTag() == LINE_TAG || obj->getTag() == HERO_TAG || obj->getTag() == BULLET_TAG)
 	{
 		this->dead();
 	}

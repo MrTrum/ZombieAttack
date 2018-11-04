@@ -17,6 +17,7 @@ protected:
 private:
 	cocos2d::Vector<BulletObject*> BulletPool;
 	BulletObject* _bullet;
+	BulletObject*				   getBullet();
 };
 
 #endif // !_BULLET_H_

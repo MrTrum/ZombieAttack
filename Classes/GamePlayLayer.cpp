@@ -6,6 +6,7 @@
 #include "SimpleAudioEngine.h"
 #include "Parameter.h"
 #include "GameObject.h"
+#include "Bullet/BulletObject.h"
 #include "PoolObject/PoolZombie.h"
 #include "UI/Coin/Coin.h"
 #include "Zombie/TestLine2.h"
@@ -59,7 +60,7 @@ bool GamePlayLayer::init()
 	_hero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
 	_hero->playAnimation("Redneck", 16, 4,100);
-	_hero->getHealthBar(100);
+	//_hero->getHealthBar(100);
 
 	
 	//touch event
@@ -259,19 +260,8 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 /*Khoa*/
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
-	/*Point touchLoc = touch->getLocationInView();
-
-	if (_dynamiteBtn->getBoundingBox().containsPoint(touchLoc))
-	{
-		return true;
-	}
-	else
-	{
-		_hero->shootAnimation();
-		Shooting(touch);
-		return true;
-	}*/
-	return false;
+	Shooting(touch);
+	return true;
 	
 }
 
@@ -279,7 +269,6 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
 	
-	_hero->shootAnimation();
 	Shooting(touch);
 }
 
@@ -288,18 +277,16 @@ void GamePlayLayer::onTouchEnded(Touch* touch, Event* event) {
 
 void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event) {
 	Size winSize = Director::getInstance()->getWinSize();
-	_dynamiteBtn->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.07f));
 }
 
 void GamePlayLayer::Shooting(Touch *touch)
 {
 
-	_bullet = Bullet::create();
-	this->addChild(_bullet, 200);
+	auto _bullet = Bullet::create();
+	this->addChild(_bullet, 3);
 	Point location = touch->getLocationInView();
 	location = Director::getInstance()->convertToGL(location);
 	_bullet->BulletFire(location.x, location.y);
-
 }
 
 

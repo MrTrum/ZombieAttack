@@ -44,8 +44,8 @@
 #define ZOMBIE_TAG								3
 #define LINE_TAG								4
 #define BULLET_TAG								5
-#define LINE_TAG2								5
-#define HERO_TAG								6
+#define LINE_TAG2								6
+#define HERO_TAG								7
 
 //Số lượng tạo Zombie
 #define ZOMBIE_2								20
