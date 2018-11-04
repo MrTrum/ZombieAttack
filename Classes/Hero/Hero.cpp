@@ -41,6 +41,7 @@ bool Hero::init()
 	_sprhero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	this->setContentSize(_sprhero->getContentSize());
 	_sprhero->setScale(1.0f * SCALE_PARAMETER_);
+	this->setHealthBar(100);
 
 	auto physicForHero = PhysicsBody::createBox(_sprhero->getContentSize() * 2.0f);
 	physicForHero->setDynamic(false);
@@ -78,6 +79,10 @@ void Hero::onCollission(GameObject *obj)
 
 void Hero::heroWounded(float delta)
 {
+	if (PZombie::damageOfZombie <= 0)
+	{
+		_healthbarHero->stopAllActions();
+	}
 	this->_health -= PZombie::damageOfZombie;
 	this->updateHealthBar(_health);
 	if (this->_health <= 0)
@@ -108,14 +113,13 @@ void Hero::setHealthBar(float percent)
 	_healthbarHero->setPercent(percent);
 	_healthbarHero->setPosition(Vec2(89.0f, 520.0f));
 }
-void Hero::getHealthBar(float percent)
-{
-	setHealthBar(percent);
-}
+
 void Hero::updateHealthBar(float percent)
 {
 	_healthbarHero->removeFromParent();
 	setHealthBar(percent);
+	auto tintTo = TintTo::create(0.5f, 255, 50, 50);
+	_healthbarHero->runAction(tintTo);
 }
 
 void Hero::shootAnimation()

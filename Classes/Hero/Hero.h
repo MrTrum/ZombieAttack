@@ -45,7 +45,6 @@ public:
 	void						playAnimation(AnimationInfo info);
 
 	void						setHealthBar(float percent);
-	void						getHealthBar(float percent);
 	void						updateHealthBar(float percent);
 protected:
 	void						onCollission(GameObject *obj) override;
