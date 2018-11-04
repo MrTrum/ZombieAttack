@@ -20,8 +20,12 @@ bool Coin::init()
 
 	_Coin = Sprite::createWithSpriteFrameName("coin0.png");
 	_Coin->setScale(0.15f);
-	this->addChild(_Coin, 2);
+	this->addChild(_Coin);
 	return true;
+}
+void Coin::setGamePlayLayer(GamePlayLayer* ptr)
+{
+	_GamePlayLayerPtr = ptr;
 }
 void Coin::PlayAnimation()
 {
@@ -39,8 +43,15 @@ void Coin::PlayAnimation()
 bool Coin::FlyAnimation(cocos2d::Vec2 iconPos)
 {
 	Size winSize = Director::getInstance()->getWinSize();
-	MoveTo* coinFly = MoveTo::create(0.5f,Vec2(winSize.width*0.24f, winSize.height*0.975f));
-	this->runAction(coinFly);
+	MoveTo* coinFly = MoveTo::create(0.5f,Vec2(iconPos));
+	auto callfunc = CallFunc::create([=]
+	{
+
+		this->removeFromParent();
+		_GamePlayLayerPtr->moneyChange();
+	});
+	Sequence* seq = Sequence::create(DelayTime::create(0.3),coinFly, callfunc, nullptr);
+	this->runAction(seq);
 	return true;
 }
 void Coin::update(float dt)

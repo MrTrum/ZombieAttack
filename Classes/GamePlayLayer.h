@@ -34,7 +34,7 @@ public:
 	void TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void resumeGame();
 	void update(float dt);
-	void removeCoin();
+	void moneyChange();
 	void CoinFly(Vec2 deadPos);
 
 /*Thanh*/
