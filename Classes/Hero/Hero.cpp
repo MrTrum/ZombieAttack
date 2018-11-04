@@ -40,13 +40,13 @@ bool Hero::init()
 	this->setTag(HERO_TAG);
 	_sprhero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	this->setContentSize(_sprhero->getContentSize());
-	_sprhero->setScale(1.0f * SCALE_PARAMETER_);
+	_sprhero->setScale(1.0f);
 	this->setHealthBar(100);
 
 	auto physicForHero = PhysicsBody::createBox(_sprhero->getContentSize() * 2.0f);
 	physicForHero->setDynamic(false);
 	physicForHero->setContactTestBitmask(true);
-	physicForHero->setGroup(2);
+	physicForHero->setGroup(-2);
 	this->setPhysicsBody(physicForHero);
 
 	Animation* fatguyanim = Animation::create();

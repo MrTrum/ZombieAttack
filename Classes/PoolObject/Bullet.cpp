@@ -3,6 +3,7 @@
 #include "physics/CCPhysicsBody.h"
 #include "Parameter.h"
 
+
 USING_NS_CC;
 
 Bullet::Bullet()
@@ -21,36 +22,7 @@ bool Bullet::init()
 	Size winSize = Director::getInstance()->getWinSize();
 	_bullet = BulletObject::create();
 	addChild(_bullet);
-	/*for (int i = 0; i < 8; i++)
-	{
-		_bullet = BulletObject::create();
-		addChild(_bullet);
-		BulletPool.pushBack(_bullet);
-	}
-	_bullet = this->createBullet();
-	if (_bullet = nullptr)
-	{
-		_bullet->removeFromParent();
-		addChild(_bullet);
-		_bullet->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-		_bullet->setVisible(true);
-	}*/
-
-
-	#pragma region sprite and physic Bullet
-	//_sprBullet = Sprite::create("test_bullet.png");
-	//_sprBullet->setPosition(winSize.width * 0.1f, winSize.height * 0.12f);
-	////this->setContentSize(_sprBullet->getContentSize());
-	//this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	//this->addChild(_sprBullet);
-	//_sprBullet->setScale(0.01f);
-	////apply physics
-	//PhysicsBody* _BulletPhysicsBody = PhysicsBody::createBox(Size(820, 450));
-	//_BulletPhysicsBody->setCollisionBitmask(12);
-	//_BulletPhysicsBody->setContactTestBitmask(true);
-	//_BulletPhysicsBody->setDynamic(false);
-	//_sprBullet->setPhysicsBody(_BulletPhysicsBody);
-	#pragma endregion
+	
 
 	return true;
 }

@@ -43,7 +43,7 @@
 //setTag
 #define ZOMBIE_TAG								3
 #define LINE_TAG								4
-#define BULLET_TAG								5
+#define BULLET_TAG								200
 #define LINE_TAG2								5
 #define HERO_TAG								6
 

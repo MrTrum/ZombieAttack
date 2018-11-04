@@ -12,7 +12,7 @@
 class BackgroundLayer;
 class Hero;
 class Base;
-class Bullet;
+class BulletObject;
 class Coin;
 
 using namespace cocos2d;
@@ -58,7 +58,7 @@ private:
 	BackgroundLayer *_bg;
 	Hero			*_hero;
 	Base			*_base;
-	Bullet			*_bullet;
+	BulletObject			*_bullet;
 	float			_posX;
 	float			_posY;
 	Sprite			*_Barrier;
