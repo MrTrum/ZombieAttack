@@ -13,6 +13,8 @@ class BackgroundLayer;
 class Hero;
 class Base;
 class BulletObject;
+class PoolBullet;
+class Dynamite;
 class Coin;
 
 using namespace cocos2d;
@@ -47,6 +49,8 @@ protected:
 	void onTouchEnded(Touch* touches, Event* event);
 	void onTouchCancelled(Touch* touches, Event* event);
 	void Shooting(Touch *touch);
+	bool isTouchingSprite(Touch* touch);
+	Point touchToPoint(Touch* touch);
 	enum State
 	{
 		STATE_STANDING,
@@ -55,14 +59,19 @@ protected:
 	};
 
 private:
+	Dynamite		*_dynamite;
+	Point		touchOffset;
+	int				getTag;
 	BackgroundLayer *_bg;
 	Hero			*_hero;
 	Base			*_base;
-	BulletObject			*_bullet;
+	BulletObject	*_bullet;
+	PoolBullet		*_poolBullet;
 	float			_posX;
 	float			_posY;
 	Sprite			*_Barrier;
 	Sprite			*_hpbar;
+	Sprite			*_iconDynamite;
 	ui::Widget		*_dynamiteBtn;
 /*Tú*/
 private:

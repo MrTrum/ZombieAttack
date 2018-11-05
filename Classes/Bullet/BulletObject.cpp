@@ -22,28 +22,41 @@ bool BulletObject::init()
 	_sprBullet->setScale(0.01f);
 	_sprBullet->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
 	PhysicsBody* _bulletPhysicBody = PhysicsBody::createBox(Size(820, 450));
-	_bulletPhysicBody->setDynamic(false);
+	_bulletPhysicBody->setCategoryBitmask(2);
+	_bulletPhysicBody->setCollisionBitmask(1);
+	_bulletPhysicBody->setDynamic(true);
 	_bulletPhysicBody->setGroup(-2);
 	_sprBullet->setPhysicsBody(_bulletPhysicBody);
 
 	setTag(BULLET_TAG);
+	scheduleUpdate();
 	return true;
 }
 
+void BulletObject::reset(float x, float y)
+{
+	this->setVisible(true);
+	bulletFire(x,y);
+	scheduleUpdate();
+}
 
 void BulletObject::onCollission(GameObject *obj)
 {
 	if (obj->getTag() == ZOMBIE_TAG)
 		{
-			removeBullet();
+		_willBeDestroy = true;
 		}
 	
+}
+
+void BulletObject::setOnDestroyCallback(OnBulletDestroyCallback callback)
+{
+	_onBulletDestroyCallback = callback;
 }
 
 void BulletObject::bulletFire(float locationX, float locationY)
 {
 	Size winSize = Director::getInstance()->getWinSize();
-
 	int offX = locationX - _sprBullet->getPosition().x;
 	int offY = locationY - _sprBullet->getPosition().y;
 
@@ -60,17 +73,35 @@ void BulletObject::bulletFire(float locationX, float locationY)
 	int offRealX = realX - _sprBullet->getPosition().x;
 	int offRealY = realY - _sprBullet->getPosition().y;
 	float length = sqrtf((offRealX * offRealX) + (offRealY*offRealY));
-
 	float velocity = BULLET_VEC;
-
 	float realMoveDuration = length / velocity;
 	auto bulletFire = MoveTo::create(realMoveDuration, realDest);
 	_sprBullet->setRotation(-angleRadians);
-
-	_sprBullet->runAction(bulletFire);
+	DelayTime *delay = DelayTime::create(1.5);
+	CallFunc *callback = CallFunc::create([=]
+		{
+			_willBeDestroy = true;
+		}
+	);
+	
+	this->runAction(Sequence::create(bulletFire, delay, callback, NULL));
 }
 
 void BulletObject::removeBullet()
 {
 	this->removeFromParent();
+}
+
+void BulletObject::update(float delta)
+{
+	if (_willBeDestroy)
+	{
+		if (_onBulletDestroyCallback)
+		{
+			_onBulletDestroyCallback(this);
+		}
+		stopAllActions();
+		this->removeFromParent();
+		_willBeDestroy = false;
+	}
 }

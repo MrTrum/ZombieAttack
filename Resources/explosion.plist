@@ -4,140 +4,110 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>Redneck0.png</key>
+            <key>explo00.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
-                <string>{-2,2}</string>
+                <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{89,127}</string>
+                <string>{37,31}</string>
                 <key>spriteSourceSize</key>
-                <string>{95,133}</string>
+                <string>{37,31}</string>
                 <key>textureRect</key>
-                <string>{{1,107},{89,127}}</string>
+                <string>{{80,83},{37,31}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>explo02.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{35,29}</string>
+                <key>spriteSourceSize</key>
+                <string>{35,29}</string>
+                <key>textureRect</key>
+                <string>{{51,46},{35,29}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>explo03.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{39,38}</string>
+                <key>spriteSourceSize</key>
+                <string>{39,38}</string>
+                <key>textureRect</key>
+                <string>{{40,83},{39,38}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>explo04.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{-1,-1}</string>
+                <key>spriteSize</key>
+                <string>{44,37}</string>
+                <key>spriteSourceSize</key>
+                <string>{46,41}</string>
+                <key>textureRect</key>
+                <string>{{1,83},{44,37}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>explo05.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{-2,-1}</string>
+                <key>spriteSize</key>
+                <string>{52,38}</string>
+                <key>spriteSourceSize</key>
+                <string>{56,46}</string>
+                <key>textureRect</key>
+                <string>{{1,1},{52,38}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Redneck1.png</key>
+            <key>explo06.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
-                <string>{1,0}</string>
+                <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{89,127}</string>
+                <string>{48,40}</string>
                 <key>spriteSourceSize</key>
-                <string>{97,129}</string>
+                <string>{48,40}</string>
                 <key>textureRect</key>
-                <string>{{92,128},{89,127}}</string>
-                <key>textureRotated</key>
-                <true/>
-            </dict>
-            <key>Redneck2.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{-1,1}</string>
-                <key>spriteSize</key>
-                <string>{87,129}</string>
-                <key>spriteSourceSize</key>
-                <string>{97,133}</string>
-                <key>textureRect</key>
-                <string>{{92,219},{87,129}}</string>
-                <key>textureRotated</key>
-                <true/>
-            </dict>
-            <key>Redneck3.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{-1,1}</string>
-                <key>spriteSize</key>
-                <string>{85,129}</string>
-                <key>spriteSourceSize</key>
-                <string>{99,133}</string>
-                <key>textureRect</key>
-                <string>{{89,308},{85,129}}</string>
-                <key>textureRotated</key>
-                <true/>
-            </dict>
-            <key>Redneck4.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{-3,0}</string>
-                <key>spriteSize</key>
-                <string>{86,130}</string>
-                <key>spriteSourceSize</key>
-                <string>{94,130}</string>
-                <key>textureRect</key>
-                <string>{{1,236},{86,130}}</string>
+                <string>{{1,41},{48,40}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>Redneck5.png</key>
+            <key>explo07.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
-                <string>{2,0}</string>
+                <string>{-1,0}</string>
                 <key>spriteSize</key>
-                <string>{82,129}</string>
+                <string>{49,43}</string>
                 <key>spriteSourceSize</key>
-                <string>{96,131}</string>
+                <string>{51,43}</string>
                 <key>textureRect</key>
-                <string>{{89,395},{82,129}}</string>
-                <key>textureRotated</key>
-                <true/>
-            </dict>
-            <key>Redneck6.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{1,1}</string>
-                <key>spriteSize</key>
-                <string>{86,126}</string>
-                <key>spriteSourceSize</key>
-                <string>{102,128}</string>
-                <key>textureRect</key>
-                <string>{{1,368},{86,126}}</string>
+                <string>{{55,1},{49,43}}</string>
                 <key>textureRotated</key>
                 <false/>
-            </dict>
-            <key>Redneck7.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{-4,4}</string>
-                <key>spriteSize</key>
-                <string>{91,125}</string>
-                <key>spriteSourceSize</key>
-                <string>{103,135}</string>
-                <key>textureRect</key>
-                <string>{{128,1},{91,125}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>Redneck8.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{3,5}</string>
-                <key>spriteSize</key>
-                <string>{104,125}</string>
-                <key>spriteSourceSize</key>
-                <string>{110,137}</string>
-                <key>textureRect</key>
-                <string>{{1,1},{104,125}}</string>
-                <key>textureRotated</key>
-                <true/>
             </dict>
         </dict>
         <key>metadata</key>
@@ -149,13 +119,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>Redneck.png</string>
+            <string>explosion.png</string>
             <key>size</key>
-            <string>{222,495}</string>
+            <string>{112,128}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:7fd9839d642a44c7aa2ff8265edb4863:1df3637366d530be4277839f35a282b2:751cd89fde512f0b4d6d9a7d38c5c8bc$</string>
+            <string>$TexturePacker:SmartUpdate:89e1705d24dd4e844b26afec34ee2fe0:bd1cbf3d0fa860f46764ce5a845b95c6:c5a2c42043f2b0dda1e7e7adb0cc6144$</string>
             <key>textureFileName</key>
-            <string>Redneck.png</string>
+            <string>explosion.png</string>
         </dict>
     </dict>
 </plist>

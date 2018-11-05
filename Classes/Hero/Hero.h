@@ -41,9 +41,9 @@ public:
 	CREATE_FUNC(Hero);
 	virtual bool init();
 	void						shootAnimation();
-	void						playAnimation(std::string name, int numframe, int fps, int loop);
+	//void						playAnimation(std::string name, int numframe, int fps, int loop);
 	void						playAnimation(AnimationInfo info);
-
+	void						playAnimation(AnimationType type);
 	void						setHealthBar(float percent);
 	void						updateHealthBar(float percent);
 protected:

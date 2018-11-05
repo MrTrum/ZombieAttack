@@ -38,12 +38,12 @@
 #define BULLET_COLLISION_AND_CONTACT_BITMASK	0001
 
 //bullet vec
-#define BULLET_VEC								2000.0f
+#define BULLET_VEC								800.0f
 
 //setTag
 #define ZOMBIE_TAG								3
 #define LINE_TAG								4
-#define BULLET_TAG								200
+#define BULLET_TAG								7
 #define LINE_TAG2								5
 #define HERO_TAG								6
 

@@ -151,13 +151,13 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\BackgroundLayer.cpp" />
-    <ClCompile Include="..\Classes\Base\Base.cpp" />
     <ClCompile Include="..\Classes\Bullet\BulletObject.cpp" />
+    <ClCompile Include="..\Classes\Dynamite.cpp" />
     <ClCompile Include="..\Classes\GameObject.cpp" />
     <ClCompile Include="..\Classes\GamePlayLayer.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\Hero\Hero.cpp" />
-    <ClCompile Include="..\Classes\PoolObject\Bullet.cpp" />
+    <ClCompile Include="..\Classes\PoolObject\PoolBullet.cpp" />
     <ClCompile Include="..\Classes\PoolObject\PoolZombie.cpp" />
     <ClCompile Include="..\Classes\UI\Coin\Coin.cpp" />
     <ClCompile Include="..\Classes\UI\GameStats\ItemStats.cpp" />
@@ -174,15 +174,15 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\BackgroundLayer.h" />
-    <ClInclude Include="..\Classes\Base\Base.h" />
     <ClInclude Include="..\Classes\Bullet\BulletObject.h" />
+    <ClInclude Include="..\Classes\Dynamite.h" />
     <ClInclude Include="..\Classes\GameObject.h" />
     <ClInclude Include="..\Classes\GamePlayLayer.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\Hero\Hero.h" />
     <ClInclude Include="..\Classes\NumberConst.h" />
     <ClInclude Include="..\Classes\Parameter.h" />
-    <ClInclude Include="..\Classes\PoolObject\Bullet.h" />
+    <ClInclude Include="..\Classes\PoolObject\PoolBullet.h" />
     <ClInclude Include="..\Classes\PoolObject\PoolZombie.h" />
     <ClInclude Include="..\Classes\UI\Coin\Coin.h" />
     <ClInclude Include="..\Classes\UI\GameStats\ItemStats.h" />

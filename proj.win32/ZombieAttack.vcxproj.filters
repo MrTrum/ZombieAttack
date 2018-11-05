@@ -37,9 +37,6 @@
     <Filter Include="src\Bullet">
       <UniqueIdentifier>{c4fcae37-893f-4d7d-b19d-a88eb761a8e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Base">
-      <UniqueIdentifier>{67591a14-a19a-4be1-b7a5-8940dad39f6f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\UI\GameStats">
       <UniqueIdentifier>{50ac22fd-934c-4fdf-86a1-6cedca7d9e18}</UniqueIdentifier>
     </Filter>
@@ -93,17 +90,18 @@
     <ClCompile Include="..\Classes\Hero\Hero.cpp">
       <Filter>src\Hero</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Base\Base.cpp">
-      <Filter>src\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\PoolObject\Bullet.cpp">
-      <Filter>src\PoolObject</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\UI\GameStats\WeaponStats.cpp">
       <Filter>src\UI\GameStats</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\UI\GameStats\ItemStats.cpp">
       <Filter>src\UI\GameStats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Classes\PoolObject\PoolBullet.cpp">
+      <Filter>src\PoolObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Dynamite.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,17 +156,19 @@
     <ClInclude Include="..\Classes\Hero\Hero.h">
       <Filter>src\Hero</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Base\Base.h">
-      <Filter>src\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\PoolObject\Bullet.h">
-      <Filter>src\PoolObject</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\UI\GameStats\ItemStats.h">
       <Filter>src\UI\GameStats</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\UI\GameStats\WeaponStats.h">
       <Filter>src\UI\GameStats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\NumberConst.h" />
+    <ClInclude Include="..\Classes\PoolObject\PoolBullet.h">
+      <Filter>src\PoolObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Dynamite.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

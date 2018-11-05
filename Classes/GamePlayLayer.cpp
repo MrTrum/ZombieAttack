@@ -1,7 +1,6 @@
 ﻿#include "GamePlayLayer.h"
 #include "BackgroundLayer.h"
 #include "Hero/Hero.h"
-#include "Base/Base.h"
 #include "PoolObject/Bullet.h"
 #include "SimpleAudioEngine.h"
 #include "Parameter.h"
@@ -13,7 +12,8 @@
 #include "Zombie/TestLine.h"
 #include <ui/UIWidget.h>
 #include "Zombie/CreateTestLine.h"
-
+#include "PoolObject/PoolBullet.h"
+#include "Dynamite.h"
 
 USING_NS_CC;
 
@@ -45,11 +45,12 @@ bool GamePlayLayer::init()
 	Size winSize = Director::getInstance()->getWinSize();
 	this->removeAllChildren();
 	/*Khoa*/
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Redneck.plist",
-		"Redneck.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("redneck_idle.plist",
+		"redneck_idle.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("shotgun.plist",
 		"shotgun.png");
-
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("explosion.plist",
+		"explosion.png");
 	//add BG
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg, 1);
@@ -59,10 +60,13 @@ bool GamePlayLayer::init()
 	this->addChild(_hero, 3);
 	_hero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
-	_hero->playAnimation("Redneck", 16, 4,100);
-	//_hero->getHealthBar(100);
+	_poolBullet = new PoolBullet();
+	//dynamite
+	_iconDynamite = Sprite::create("btn_dynamite.png");
+	addChild(_iconDynamite,2);
+	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.06f));
+	_iconDynamite->setTag(200);
 
-	
 	//touch event
 	EventListenerTouchOneByOne *listenerTouch = EventListenerTouchOneByOne::create();
 	listenerTouch->onTouchBegan = CC_CALLBACK_2(GamePlayLayer::onTouchBegan, this);
@@ -78,9 +82,6 @@ bool GamePlayLayer::init()
 
 	auto poolZombie = PoolZombie::create(this);
 	this->addChild(poolZombie, 3);
-
-	
-
 
 	auto testline2 = TestLine2::create();
 	this->addChild(testline2, 3);
@@ -258,37 +259,83 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 }
 
 /*Khoa*/
+
+#pragma region Khoa
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
-	Shooting(touch);
-	return true;
-	
+	Point location = touch->getLocationInView();
+	location = CCDirector::sharedDirector()->convertToGL(location);
+	if (_iconDynamite->boundingBox().containsPoint(location) && _iconDynamite->getTag() == 1)
+	{
+		getTag = 200;
+		if (this->isTouchingSprite(touch))
+		{
+			this->touchOffset = ccpSub(_iconDynamite->getPosition(),
+				this->touchToPoint(touch));
+		}
+		return true;
+	}
+	else
+	{
+		Shooting(touch);
+		return true;
+	}
+	return false;
 }
-
 
 void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
-	
-	Shooting(touch);
+	CCPoint location = touch->getLocationInView();
+	location = CCDirector::sharedDirector()->convertToGL(location);
+
+
+	if (touch && touchOffset.x && touchOffset.y)
+	{
+		if (getTag == 1)
+			this->_iconDynamite->setPosition(ccpAdd(this->touchToPoint(touch), this->touchOffset));
+	}
+	else
+	{
+		Shooting(touch);
+	}
 }
 
-void GamePlayLayer::onTouchEnded(Touch* touch, Event* event) {
-}
-
-void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event) {
+void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
+{
 	Size winSize = Director::getInstance()->getWinSize();
+	Vec2 droppedPos = _iconDynamite->getPosition();
+	/*_dynamite = Dynamite::create();
+	this->addChild(_dynamite);
+	_dynamite->throwDynamite(droppedPos.x, droppedPos.y);
+	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.12f));*/
+}
+
+void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event)
+{
+
 }
 
 void GamePlayLayer::Shooting(Touch *touch)
 {
-
-	_bullet = BulletObject::create();
-	this->addChild(_bullet);
 	Point location = touch->getLocationInView();
 	location = Director::getInstance()->convertToGL(location);
-	_bullet->bulletFire(location.x, location.y);
-
+	auto bullet = _poolBullet->createBullet(location.x, location.y);
+	this->addChild(bullet);
+	bullet->reset(location.x, location.y);
 }
+bool GamePlayLayer::isTouchingSprite(Touch* touch)
+{
+	if (getTag == 200)
+		return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
+}
+Point GamePlayLayer::touchToPoint(Touch* touch)
+{
+	// convert the touch object to a position in our cocos2d space
+	return Director::getInstance()->convertToGL(touch->getLocationInView());
+}
+#pragma endregion
+
+
 
 
 
