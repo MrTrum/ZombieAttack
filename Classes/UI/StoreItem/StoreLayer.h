@@ -5,7 +5,7 @@
 #include "ui/CocosGUI.h"
 #include "ui/UIButton.h"
 #include "UI/NumberMoney/Money.h"
-
+#include "Weapon/M4A1/M4A1.h"
 USING_NS_CC;
 
 class GamePlayLayer;
@@ -27,6 +27,7 @@ private:
 	cocos2d::ui::Button* _weaponBtn;
 	cocos2d::ui::Button* _itemBtn;
 	GamePlayLayer* _btnGamePlayLayer;
+	M4A1* _iconGun;
 	Money* _Money;
 };
 

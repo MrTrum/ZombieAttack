@@ -11,14 +11,14 @@ public:
 	virtual bool init();
 	CREATE_FUNC(Coin);
 	void PlayAnimation();
-	bool FlyAnimation(cocos2d::Vec2 iconPos);
+	bool FlyAnimation(cocos2d::Vec2 iconPos, std::function<void()> callback);
 	void update(float dt);
-	void setGamePlayLayer(GamePlayLayer* ptr);
 private:
 	cocos2d::Sprite* _Coin;
 	int _coinVal = 1;
 	int static _totalVal;
 	GamePlayLayer* _GamePlayLayerPtr;
+	std::function<void()> _callback;
 };
 
 

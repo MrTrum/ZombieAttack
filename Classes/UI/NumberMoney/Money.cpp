@@ -1,7 +1,4 @@
 #include "UI/NumberMoney/Money.h"
-#include "NumberConst.h"
-
-
 USING_NS_CC;
 
 #define ENDNUM 999999

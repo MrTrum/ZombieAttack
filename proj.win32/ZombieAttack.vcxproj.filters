@@ -40,6 +40,12 @@
     <Filter Include="src\UI\GameStats">
       <UniqueIdentifier>{50ac22fd-934c-4fdf-86a1-6cedca7d9e18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Weapon">
+      <UniqueIdentifier>{d579296d-297a-4f7b-a53d-7c58f2f693e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Weapon\M4A1">
+      <UniqueIdentifier>{b8baf54b-5fb9-470a-98a7-3a1db646d012}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -96,12 +102,14 @@
     <ClCompile Include="..\Classes\UI\GameStats\ItemStats.cpp">
       <Filter>src\UI\GameStats</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\PoolObject\PoolBullet.cpp">
       <Filter>src\PoolObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Dynamite.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Weapon\M4A1\M4A1.cpp">
+      <Filter>src\Weapon\M4A1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,13 +170,14 @@
     <ClInclude Include="..\Classes\UI\GameStats\WeaponStats.h">
       <Filter>src\UI\GameStats</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h" />
-    <ClInclude Include="..\Classes\NumberConst.h" />
     <ClInclude Include="..\Classes\PoolObject\PoolBullet.h">
       <Filter>src\PoolObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Dynamite.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Weapon\M4A1\M4A1.h">
+      <Filter>src\Weapon\M4A1</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,5 @@
 ﻿#include "AppDelegate.h"
 #include "Parameter.h"
-#include "HelloWorldScene.h"
 #include "GamePlayLayer.h"
 
 // #define USE_AUDIO_ENGINE 1

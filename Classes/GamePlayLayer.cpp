@@ -210,11 +210,13 @@ void GamePlayLayer::CoinFly(Vec2 deadPos)
 	CallFunc* loop = CallFunc::create([=]
 	{
 		_Coin = Coin::create();
-		_Coin->setGamePlayLayer(this);
 		this->addChild(_Coin, 10);
 		_Coin->setPosition(deadPos);
 		_Coin->PlayAnimation();
-		_checkMoney = _Coin->FlyAnimation(_iconPos);
+		_checkMoney = _Coin->FlyAnimation(_iconPos, [=] {
+			this->moneyChange();
+		});
+
 	});
 	Sequence* coinloop = Sequence::create(loop, DelayTime::create(0.5), nullptr);
 	this->runAction(coinloop);
