@@ -28,7 +28,7 @@ bool BulletObject::init()
 	_bulletPhysicBody->setGroup(-2);
 	_sprBullet->setPhysicsBody(_bulletPhysicBody);
 
-	setTag(BULLET_TAG);
+	setTag(TAG_BULLET);
 	scheduleUpdate();
 	return true;
 }
@@ -42,7 +42,7 @@ void BulletObject::reset(float x, float y)
 
 void BulletObject::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == ZOMBIE_TAG)
+	if (obj->getTag() == TAG_ZOMBIE)
 		{
 		_willBeDestroy = true;
 		}

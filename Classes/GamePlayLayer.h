@@ -60,7 +60,7 @@ protected:
 
 private:
 	Dynamite		*_dynamite;
-	Point		touchOffset;
+	Point			touchOffset;
 	int				getTag;
 	BackgroundLayer *_bg;
 	Hero			*_hero;

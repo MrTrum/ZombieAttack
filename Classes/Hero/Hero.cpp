@@ -17,7 +17,7 @@ Hero::~Hero()
 
 std::map<Hero::AnimationType, AnimationInfo> Hero::_mapAnimation =
 {
-	{Hero::AnimationType::IDLE, AnimationInfo("idle%02.png",16,8,CC_REPEAT_FOREVER)}
+	{Hero::AnimationType::IDLE, AnimationInfo("idle%02.png",16,4,CC_REPEAT_FOREVER)}
 };
 
 bool Hero::init()
@@ -37,42 +37,58 @@ bool Hero::init()
 
 	_sprhero = Sprite::createWithSpriteFrameName("idle00.png");
 	this->addChild(_sprhero);
-	this->setTag(HERO_TAG);
+	this->setTag(TAG_HERO);
 	_sprhero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	this->setContentSize(_sprhero->getContentSize());
 	_sprhero->setScale(1.0f);
 	this->setHealthBar(100);
+
+	_sprheroarm = Sprite::createWithSpriteFrameName("SGidle00.png");
+	addChild(_sprheroarm);
+	_sprheroarm->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_sprheroarm->setPosition(winSize.width * 0.015f, winSize.height * 0.06f);
 
 	auto physicForHero = PhysicsBody::createBox(_sprhero->getContentSize() * 2.0f);
 	physicForHero->setDynamic(false);
 	physicForHero->setContactTestBitmask(true);
 	physicForHero->setGroup(-2);
 	this->setPhysicsBody(physicForHero);
-	playAnimation(AnimationType::IDLE);
-	/*Animation* fatguyanim = Animation::create();
-
-	for (int i = 0; i < 8; i++)
+	//playAnimation(AnimationType::IDLE);
+	#pragma region Animation
+	Animation* fatguyanim = Animation::create();
+	for (int i = 0; i < 16; i++)
 	{
-		std::string name = StringUtils::format("Redneck%d.png", i);
-		fatguyanim->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(name));
+		std::string heroAnimName = StringUtils::format("idle%02d.png", i);
+		fatguyanim->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(heroAnimName));
 	}
 	fatguyanim->setDelayPerUnit(1 / 4.0f);
-	Animate* animate = Animate::create(fatguyanim);
-	_sprhero->runAction(RepeatForever::create(animate));*/
+	Animate* bodyAnimate = Animate::create(fatguyanim);
+	_sprhero->runAction(RepeatForever::create(bodyAnimate));
+
+	Animation *fatguyarm = Animation::create();
+	for (int j = 0; j < 16; j++)
+	{
+		std::string armAnimName = StringUtils::format("SGidle%02d.png", j);
+		fatguyarm->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(armAnimName));
+	}
+	fatguyarm->setDelayPerUnit(1 / 4.0f);
+	Animate *armAnimate = Animate::create(fatguyarm);
+	_sprheroarm->runAction(RepeatForever::create(armAnimate));
+	#pragma endregion
 
 	return true;
 }
 
 void Hero::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == ZOMBIE_TAG && PZombie::damageOfZombie <= 0)
+	if (obj->getTag() == TAG_ZOMBIE && PZombie::damageOfZombie <= 0)
 	{
 		PZombie::damageOfZombie = DAMAGE_OF_ZOMBIE2;
 		scheduleOnce(schedule_selector(Hero::heroWounded), 0.0f);
 		schedule(schedule_selector(Hero::heroWounded), 0.5f);
 		theHealthOfZombiesAreAttacking(obj);
 	}
-	else if (obj->getTag() == ZOMBIE_TAG && PZombie::damageOfZombie > 0)
+	else if (obj->getTag() == TAG_ZOMBIE && PZombie::damageOfZombie > 0)
 	{
 		PZombie::damageOfZombie += 0.5;
 	}
@@ -123,20 +139,17 @@ void Hero::updateHealthBar(float percent)
 	_healthbarHero->runAction(tintTo);
 }
 
-
 void Hero::shootAnimation()
 {
-	Size winSize = Director::getInstance()->getWinSize();
-	Animation* animation = Animation::create();
-
-	for (int i = 1; i < 11; i++)
+	Animation *fatguyarm = Animation::create();
+	for (int j = 0; j < 10; j++)
 	{
-		std::string name = StringUtils::format("fireSG%02d.png", i);
-		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(name));
+		std::string armAnimName = StringUtils::format("fireSG%02d.png", j);
+		fatguyarm->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(armAnimName));
 	}
-	animation->setDelayPerUnit(1 / 30.0f);
-	Animate* animate = Animate::create(animation);
-	_sprhero->runAction(animate);
+	fatguyarm->setDelayPerUnit(1 / 45.0f);
+	Animate *armAnimate = Animate::create(fatguyarm);
+	_sprheroarm->runAction(armAnimate);
 }
 
 void Hero::playAnimation(AnimationInfo info)

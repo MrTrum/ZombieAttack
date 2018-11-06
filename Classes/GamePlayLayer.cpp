@@ -1,7 +1,6 @@
 ﻿#include "GamePlayLayer.h"
 #include "BackgroundLayer.h"
 #include "Hero/Hero.h"
-#include "PoolObject/Bullet.h"
 #include "SimpleAudioEngine.h"
 #include "Parameter.h"
 #include "GameObject.h"
@@ -45,16 +44,20 @@ bool GamePlayLayer::init()
 	Size winSize = Director::getInstance()->getWinSize();
 	this->removeAllChildren();
 	/*Khoa*/
+	#pragma region Plist
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("redneck_idle.plist",
 		"redneck_idle.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("shotgun.plist",
 		"shotgun.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("explosion.plist",
 		"explosion.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SGidle.plist",
+		"SGidle.png");
+	#pragma endregion
+	#pragma region khoa
 	//add BG
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg, 1);
-
 	//add hero
 	_hero = Hero::create();
 	this->addChild(_hero, 3);
@@ -63,10 +66,24 @@ bool GamePlayLayer::init()
 	_poolBullet = new PoolBullet();
 	//dynamite
 	_iconDynamite = Sprite::create("btn_dynamite.png");
-	addChild(_iconDynamite,2);
+	addChild(_iconDynamite, 2);
 	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.06f));
 	_iconDynamite->setTag(200);
-
+	auto readyTxt = Label::createWithTTF("READY !!!", "fonts/Creepster-Regular.ttf", 80);
+	addChild(readyTxt, 2);
+	readyTxt->setColor(cocos2d::Color3B::GREEN);
+	readyTxt->enableOutline(cocos2d::Color4B::RED, 2);
+	readyTxt->enableShadow(Color4B::RED, Size(10, -10), -5);
+	readyTxt->setPosition(winSize.width * 0.5f, winSize.height * 0.75f);
+	Blink *rdTxtBlink = Blink::create(5, 12);
+	readyTxt->runAction(rdTxtBlink);
+	DelayTime *readyTime = DelayTime::create(5);
+	CallFunc *removeRdTxt = CallFunc::create([=]
+	{
+		readyTxt->removeFromParent();
+	}
+	);
+	runAction(Sequence::create(readyTime, removeRdTxt, NULL));
 	//touch event
 	EventListenerTouchOneByOne *listenerTouch = EventListenerTouchOneByOne::create();
 	listenerTouch->onTouchBegan = CC_CALLBACK_2(GamePlayLayer::onTouchBegan, this);
@@ -74,6 +91,7 @@ bool GamePlayLayer::init()
 	listenerTouch->onTouchEnded = CC_CALLBACK_2(GamePlayLayer::onTouchEnded, this);
 	listenerTouch->onTouchCancelled = CC_CALLBACK_2(GamePlayLayer::onTouchCancelled, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerTouch, this);
+	#pragma endregion
 
 	/*Phần Zombie*/
 	//Set tấm ảnh sau khi texturePacker
@@ -149,9 +167,6 @@ bool GamePlayLayer::init()
 
 	return true;
 }
-
-
-
 
 bool GamePlayLayer::onContactBegin(PhysicsContact &contact)
 {
@@ -265,7 +280,7 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
 	Point location = touch->getLocationInView();
 	location = CCDirector::sharedDirector()->convertToGL(location);
-	if (_iconDynamite->boundingBox().containsPoint(location) && _iconDynamite->getTag() == 1)
+	if (_iconDynamite->boundingBox().containsPoint(location) && _iconDynamite->getTag() == 200)
 	{
 		getTag = 200;
 		if (this->isTouchingSprite(touch))
@@ -277,6 +292,7 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 	}
 	else
 	{
+		_hero->shootAnimation();
 		Shooting(touch);
 		return true;
 	}
@@ -296,6 +312,7 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 	}
 	else
 	{
+		_hero->shootAnimation();
 		Shooting(touch);
 	}
 }

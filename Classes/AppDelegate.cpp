@@ -61,7 +61,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("zombie2", cocos2d::Rect(0, 0, designResolutionSize.width * SCALE_PARAMETER_, designResolutionSize.height * SCALE_PARAMETER_));
+        glview = GLViewImpl::createWithRect("zombie2", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
 #else
         glview = GLViewImpl::create("zombie2");
 #endif
