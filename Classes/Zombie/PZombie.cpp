@@ -8,7 +8,7 @@ USING_NS_CC;
 
 PZombie::PZombie() : 
 	health(HEALTH_ZOMBIE2),
-	damage(DAMGE_ZOMBIE2)
+	damage(DAMAGE_ZOMBIE2)
 {
 }
 
@@ -38,7 +38,7 @@ bool PZombie::init()
 	physics->setGroup(1);
 	this->setPhysicsBody(physics);
 
-	this->setTag(ZOMBIE_TAG);
+	this->setTag(TAG_ZOMBIE);
 
 	playWalkAnimation();
 	return true;
@@ -70,11 +70,11 @@ void PZombie::updateHealthBar(float percent)
 
 void PZombie::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == LINE_TAG || obj->getTag() == HERO_TAG || obj->getTag() == BULLET_TAG)
+	if (obj->getTag() == TAG_LINE || obj->getTag() == TAG_HERO || obj->getTag() == TAG_BULLET)
 	{
 		this->dead();
 	}
-	else if (obj->getTag() == LINE_TAG2)
+	else if (obj->getTag() == TAG_LINE2)
 	{
 		this->attack();
 	}

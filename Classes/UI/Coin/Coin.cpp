@@ -23,10 +23,6 @@ bool Coin::init()
 	this->addChild(_Coin);
 	return true;
 }
-void Coin::setGamePlayLayer(GamePlayLayer* ptr)
-{
-	_GamePlayLayerPtr = ptr;
-}
 void Coin::PlayAnimation()
 {
 	Animation* animation = Animation::create();
@@ -40,15 +36,18 @@ void Coin::PlayAnimation()
 	Animate* animate = Animate::create(animation);
 	_Coin->runAction(RepeatForever::create(animate));
 }
-bool Coin::FlyAnimation(cocos2d::Vec2 iconPos)
+bool Coin::FlyAnimation(cocos2d::Vec2 iconPos, std::function<void()> callback)
 {
+	_callback = callback;
 	Size winSize = Director::getInstance()->getWinSize();
 	MoveTo* coinFly = MoveTo::create(0.5f,Vec2(iconPos));
 	auto callfunc = CallFunc::create([=]
 	{
-
+		if (_callback)
+		{
+			_callback();
+		}
 		this->removeFromParent();
-		_GamePlayLayerPtr->moneyChange();
 	});
 	Sequence* seq = Sequence::create(DelayTime::create(0.3),coinFly, callfunc, nullptr);
 	this->runAction(seq);

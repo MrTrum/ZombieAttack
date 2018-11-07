@@ -5,9 +5,9 @@ class WeaponStats
 public:
 	WeaponStats();
 	~WeaponStats();
-
-private:
-	int _Damage,_BulletNumber;
+	void setStats(int Damage,int BulletNumber);
+	int _Damage;
+	int _BulletNumber;
 };
 
 #endif // !_WEAPON_STATS_H

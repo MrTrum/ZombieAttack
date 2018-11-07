@@ -1,8 +1,6 @@
 ﻿#include "GamePlayLayer.h"
 #include "BackgroundLayer.h"
 #include "Hero/Hero.h"
-#include "Base/Base.h"
-#include "PoolObject/Bullet.h"
 #include "SimpleAudioEngine.h"
 #include "Parameter.h"
 #include "GameObject.h"
@@ -50,10 +48,13 @@ bool GamePlayLayer::init()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("shotgun.plist",
 		"shotgun.png");
 
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SGidle.plist",
+		"SGidle.png");
+	#pragma endregion
+	#pragma region khoa
 	//add BG
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg, 1);
-
 	//add hero
 	_hero = Hero::create();
 	this->addChild(_hero, 3);
@@ -61,7 +62,21 @@ bool GamePlayLayer::init()
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
 	_hero->playAnimation("Redneck", 16, 4,100);
 	//_hero->getHealthBar(100);
-
+	auto readyTxt = Label::createWithTTF("READY !!!", "fonts/Creepster-Regular.ttf", 80);
+	addChild(readyTxt, 2);
+	readyTxt->setColor(cocos2d::Color3B::GREEN);
+	readyTxt->enableOutline(cocos2d::Color4B::RED, 2);
+	readyTxt->enableShadow(Color4B::RED, Size(10, -10), -5);
+	readyTxt->setPosition(winSize.width * 0.5f, winSize.height * 0.75f);
+	Blink *rdTxtBlink = Blink::create(5, 12);
+	readyTxt->runAction(rdTxtBlink);
+	DelayTime *readyTime = DelayTime::create(5);
+	CallFunc *removeRdTxt = CallFunc::create([=]
+	{
+		readyTxt->removeFromParent();
+	}
+	);
+	runAction(Sequence::create(readyTime, removeRdTxt, NULL));
 	
 	//touch event
 	EventListenerTouchOneByOne *listenerTouch = EventListenerTouchOneByOne::create();
@@ -70,6 +85,7 @@ bool GamePlayLayer::init()
 	listenerTouch->onTouchEnded = CC_CALLBACK_2(GamePlayLayer::onTouchEnded, this);
 	listenerTouch->onTouchCancelled = CC_CALLBACK_2(GamePlayLayer::onTouchCancelled, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerTouch, this);
+	#pragma endregion
 
 	/*Phần Zombie*/
 	//Set tấm ảnh sau khi texturePacker
@@ -149,9 +165,6 @@ bool GamePlayLayer::init()
 	return true;
 }
 
-
-
-
 bool GamePlayLayer::onContactBegin(PhysicsContact &contact)
 {
 	PhysicsBody *a = contact.getShapeA()->getBody();
@@ -194,11 +207,13 @@ void GamePlayLayer::CoinFly(Vec2 deadPos)
 	CallFunc* loop = CallFunc::create([=]
 	{
 		_Coin = Coin::create();
-		_Coin->setGamePlayLayer(this);
 		this->addChild(_Coin, 10);
 		_Coin->setPosition(deadPos);
 		_Coin->PlayAnimation();
-		_checkMoney = _Coin->FlyAnimation(_iconPos);
+		_checkMoney = _Coin->FlyAnimation(_iconPos, [=] {
+			this->moneyChange();
+	});
+
 	});
 	Sequence* coinloop = Sequence::create(loop, DelayTime::create(0.5), nullptr);
 	this->runAction(coinloop);
@@ -260,6 +275,21 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 /*Khoa*/
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
+	Point location = touch->getLocationInView();
+	location = CCDirector::sharedDirector()->convertToGL(location);
+	if (_iconDynamite->boundingBox().containsPoint(location) && _iconDynamite->getTag() == 200)
+	{
+		getTag = 200;
+		if (this->isTouchingSprite(touch))
+		{
+			this->touchOffset = ccpSub(_iconDynamite->getPosition(),
+				this->touchToPoint(touch));
+		}
+		return true;
+	}
+	else
+	{
+		_hero->shootAnimation();
 	Shooting(touch);
 	return true;
 	
@@ -269,6 +299,7 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
 	
+		_hero->shootAnimation();
 	Shooting(touch);
 }
 

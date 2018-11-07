@@ -24,7 +24,7 @@ bool TestLine::init()
 
 	auto linePhysics = Node::create();
 	this->addChild(linePhysics);
-	this->setTag(LINE_TAG);
+	this->setTag(TAG_LINE);
 	
 
 	auto physicsForLine = PhysicsBody::createBox(Size(1, winSize.height));
@@ -36,7 +36,7 @@ bool TestLine::init()
 
 void TestLine::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == ZOMBIE_TAG)
+	if (obj->getTag() == TAG_ZOMBIE)
 	{
 		PZombie *pZombie = static_cast<PZombie*>(obj);
 		if (pZombie->getHealthBar() <= 0)

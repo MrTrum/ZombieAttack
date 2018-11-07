@@ -34,7 +34,7 @@ bool BulletObject::init()
 
 void BulletObject::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == ZOMBIE_TAG)
+	if (obj->getTag() == TAG_ZOMBIE)
 	{
 		auto callfunc = CallFunc::create([=]
 		{

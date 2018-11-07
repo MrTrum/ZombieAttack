@@ -24,7 +24,7 @@ bool CreateTestLine::init()
 
 	auto linePhysics = Node::create();
 	this->addChild(linePhysics);
-	this->setTag(LINE_TAG2);
+	this->setTag(TAG_LINE2);
 
 
 	auto physicsForLine = PhysicsBody::createBox(Size(1, winSize.height));

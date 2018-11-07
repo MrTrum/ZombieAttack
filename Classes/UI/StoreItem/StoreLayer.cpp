@@ -73,7 +73,10 @@ bool StoreLayer::init()
 	_Money = Money::create();
 	_Money->setShopMoneyPos();
 	this->addChild(_Money);
-
+	//Icon gun
+	_iconGun = M4A1::create();
+	_iconGun->setIcon();
+	this->addChild(_iconGun, 4);
 	return true;
 }
 void StoreLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)

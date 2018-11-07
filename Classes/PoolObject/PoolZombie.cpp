@@ -179,7 +179,7 @@ void PoolZombie::createLine()
 	auto winSize = Director::getInstance()->getWinSize();
 	auto linePhysics = Node::create();
 	this->addChild(linePhysics, 1);
-	this->setTag(LINE_TAG);
+	this->setTag(TAG_LINE);
 	linePhysics->setPosition(winSize.width * 0.6, 0.0);
 
 	auto physicsForLine = PhysicsBody::createBox(Size(1, winSize.height));

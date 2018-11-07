@@ -1,8 +1,6 @@
 ﻿#ifndef __PARAMETER_H__
 #define __PARAMETER_H__
 
-#define SCALE_PARAMETER_						1.0f
-
 //thời gian
 #define TIME_CREATE_ZOMBIE_2					4.0f
 #define TIME_CREATE_ZOMBIE_3					3.0f
@@ -34,8 +32,6 @@
 #define HEIGHT_POSITION_Z5						0.4f
 #define LINE_BITMASK							1
 #define ZOMBIE_BITMASK							2
-#define BULLET_CATEGORY_BITMASK					0010
-#define BULLET_COLLISION_AND_CONTACT_BITMASK	0001
 
 //bullet vec
 #define BULLET_VEC								2000.0f
@@ -54,8 +50,8 @@
 //Health Zombie
 #define HEALTH_ZOMBIE2							100.0f
 
-//Damge Zombie
-#define DAMGE_ZOMBIE2							50.0f
+//DAMAGE Zombie
+#define DAMAGE_ZOMBIE2							50.0f
 #define DAMAGE_OF_ZOMBIE2						0.5f
 
 
