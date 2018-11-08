@@ -165,6 +165,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\UI\Menu\MenuLayer.cpp" />
     <ClCompile Include="..\Classes\UI\NumberMoney\Money.cpp" />
     <ClCompile Include="..\Classes\UI\StoreItem\StoreLayer.cpp" />
+    <ClCompile Include="..\Classes\Weapon\M4A1\M4A1.cpp" />
     <ClCompile Include="..\Classes\Zombie\CreateTestLine.cpp" />
     <ClCompile Include="..\Classes\Zombie\PZombie.cpp" />
     <ClCompile Include="..\Classes\Zombie\TestLine.cpp" />
@@ -190,6 +191,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\UI\Menu\MenuLayer.h" />
     <ClInclude Include="..\Classes\UI\NumberMoney\Money.h" />
     <ClInclude Include="..\Classes\UI\StoreItem\StoreLayer.h" />
+    <ClInclude Include="..\Classes\Weapon\M4A1\M4A1.h" />
     <ClInclude Include="..\Classes\Zombie\CreateTestLine.h" />
     <ClInclude Include="..\Classes\Zombie\PZombie.h" />
     <ClInclude Include="..\Classes\Zombie\TestLine.h" />

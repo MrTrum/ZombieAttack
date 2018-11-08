@@ -10,7 +10,7 @@ BulletObject::~BulletObject()
 {
 }
 
-bool BulletObject::init()
+bool BulletObject::init(float x, float y)
 {
 	if (!GameObject::init())
 	{
@@ -19,18 +19,31 @@ bool BulletObject::init()
 	auto winSize = Director::getInstance()->getWinSize();
 	_sprBullet = Sprite::create("test_bullet.png");
 	addChild(_sprBullet);
-	_sprBullet->setScale(0.01f);
-	_sprBullet->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
-	PhysicsBody* _bulletPhysicBody = PhysicsBody::createBox(Size(820, 450));
-	_bulletPhysicBody->setCategoryBitmask(2);
-	_bulletPhysicBody->setCollisionBitmask(1);
-	_bulletPhysicBody->setDynamic(true);
+	PhysicsBody* _bulletPhysicBody = PhysicsBody::createBox(_sprBullet->getContentSize());
+	_bulletPhysicBody->setContactTestBitmask(true);
+	_bulletPhysicBody->setDynamic(false);
 	_bulletPhysicBody->setGroup(-2);
-	_sprBullet->setPhysicsBody(_bulletPhysicBody);
-
-	setTag(TAG_BULLET);
+	this->setPhysicsBody(_bulletPhysicBody);
+	bulletFire(x, y);
+	this->setTag(TAG_BULLET);
 	scheduleUpdate();
 	return true;
+}
+
+BulletObject *BulletObject::create(float x, float y)
+{
+	BulletObject *pRet = new(std::nothrow) BulletObject();
+	if (pRet && pRet->init(x, y))
+	{
+		pRet->autorelease();
+		return pRet;
+	}
+	else
+	{
+		delete pRet;
+		pRet = nullptr;
+		return nullptr;
+	}
 }
 
 void BulletObject::reset(float x, float y)

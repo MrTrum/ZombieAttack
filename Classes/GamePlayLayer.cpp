@@ -47,12 +47,16 @@ bool GamePlayLayer::init()
 	#pragma region Plist
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("redneck_idle.plist",
 		"redneck_idle.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("shotgun.plist",
-		"shotgun.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/shotgun.plist",
+		"weapon/shotgun.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("explosion.plist",
 		"explosion.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SGidle.plist",
-		"SGidle.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/SGidle.plist",
+		"weapon/SGidle.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/M16idle.plist",
+		"weapon/M16idle.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/M16firing.plist",
+		"weapon/M16firing.png");
 	#pragma endregion
 	#pragma region khoa
 	//add BG
@@ -338,9 +342,9 @@ void GamePlayLayer::Shooting(Touch *touch)
 {
 	Point location = touch->getLocationInView();
 	location = Director::getInstance()->convertToGL(location);
-	auto bullet = _poolBullet->createBullet(location.x, location.y);
-	this->addChild(bullet);
-	bullet->reset(location.x, location.y);
+	_poolBullet = PoolBullet::create(location.x, location.y);
+	this->addChild(_poolBullet,10);
+	//bullet->reset(location.x, location.y);
 }
 bool GamePlayLayer::isTouchingSprite(Touch* touch)
 {
