@@ -44,7 +44,7 @@ bool Hero::init()
 	_sprhero->setScale(1.0f);
 	this->setHealthBar(100);
 
-	_sprheroarm = Sprite::createWithSpriteFrameName("SGidle00.png");
+	_sprheroarm = Sprite::createWithSpriteFrameName("M16idle00.png");
 	addChild(_sprheroarm);
 	_sprheroarm->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_sprheroarm->setPosition(winSize.width * 0.015f, winSize.height * 0.06f);
@@ -69,7 +69,7 @@ bool Hero::init()
 	Animation *fatguyarm = Animation::create();
 	for (int j = 0; j < 16; j++)
 	{
-		std::string armAnimName = StringUtils::format("SGidle%02d.png", j);
+		std::string armAnimName = StringUtils::format("M16idle%02d.png", j);
 		fatguyarm->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(armAnimName));
 	}
 	fatguyarm->setDelayPerUnit(1 / 4.0f);
@@ -156,7 +156,7 @@ void Hero::shootAnimation()
 	Animation *fatguyarm = Animation::create();
 	for (int j = 0; j < 10; j++)
 	{
-		std::string armAnimName = StringUtils::format("fireSG%02d.png", j);
+		std::string armAnimName = StringUtils::format("M16firing%02d.png", j);
 		fatguyarm->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(armAnimName));
 	}
 	fatguyarm->setDelayPerUnit(1 / 45.0f);

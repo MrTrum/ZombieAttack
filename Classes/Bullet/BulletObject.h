@@ -11,8 +11,9 @@ class BulletObject : public GameObject
 public:
 	BulletObject();
 	~BulletObject();
-	virtual bool init();
-	CREATE_FUNC(BulletObject);
+	bool init(float x, float y);
+	static BulletObject *create(float x, float y);
+	//CREATE_FUNC(BulletObject);
 	void onCollission(GameObject *obj) override;
 	void removeBullet();
 	void reset(float x, float y);
