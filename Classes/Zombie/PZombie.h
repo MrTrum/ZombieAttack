@@ -5,16 +5,19 @@
 #include "GameObject.h"
 #include "ui/CocosGUI.h"
 
-//Tú đã sửa
+
+
 class GamePlayLayer;
+class PoolZombie;
 
 using namespace cocos2d;
 class PZombie : public GameObject
 {
 public:
-	ui::LoadingBar *healthbarZombie;
+	ui::LoadingBar				*healthbarZombie;
 	//Tú đã sửa
-	GamePlayLayer* _coinFunc;
+	GamePlayLayer				*ptrGamePlayLayer;
+	PoolZombie					*ptrPoolZombie;
 	Sprite* _spr;
 	float health;
 	float damage;
@@ -23,8 +26,8 @@ public:
 public:
 	PZombie();
 	~PZombie();
-	bool init();
-	CREATE_FUNC(PZombie);
+	bool init(PoolZombie *ptr);
+	static PZombie* create(PoolZombie *ptr);
 
 
 	void						setGamePlayLayerPtr(GamePlayLayer* ptr);

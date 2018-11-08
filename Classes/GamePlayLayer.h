@@ -40,8 +40,8 @@ public:
 	void CoinFly(Vec2 deadPos);
 
 /*Thanh*/
-protected:
 	bool onContactBegin(PhysicsContact &contact);
+	void createGoldBag(Vec2 deadPos);
 /*Khoa*/
 protected:
 	bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
