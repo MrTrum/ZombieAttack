@@ -1,6 +1,7 @@
 ﻿#include "PZombie.h"
 #include "Parameter.h"
 #include "GamePlayLayer.h"
+#include "PoolObject/PoolZombie.h"
 
 
 
@@ -18,13 +19,29 @@ PZombie::~PZombie()
 
 float PZombie::damageOfZombie = 0;
 
-bool PZombie::init()
+PZombie* PZombie::create(PoolZombie *ptr)
+{
+	PZombie *pRet = new(std::nothrow) PZombie();
+	if (pRet && pRet->init(ptr))
+	{
+		pRet->autorelease();
+		return pRet;
+	}
+	else
+	{
+		delete pRet;
+		pRet = nullptr;
+		return nullptr;
+	}
+}
+
+bool PZombie::init(PoolZombie *ptr)
 {
 	if (!GameObject::init())
 	{
 		return false;
 	}
-	auto winSize = Director::getInstance()->getWinSize();
+	ptrPoolZombie = ptr;
 
 	std::string zombieName = "Z2Walk";
 	_spr = Sprite::createWithSpriteFrameName(zombieName + "1.png");
@@ -119,7 +136,7 @@ void PZombie::playWalkAnimation()
 //Tú đã sửa
 void PZombie::setGamePlayLayerPtr(GamePlayLayer* ptr)
 {
-	_coinFunc = ptr;
+	ptrGamePlayLayer = ptr;
 }
 void PZombie::playDeadAnimation(Vec2 deadPos)
 {
@@ -136,14 +153,18 @@ void PZombie::playDeadAnimation(Vec2 deadPos)
 	auto *animate = Animate::create(animation);
 	auto *zombieBackPool = CallFunc::create([=]
 	{
-		this->setVisible(false);
 		this->getPhysicsBody()->setContactTestBitmask(true);
+		this->setVisible(false);
+		if (ptrPoolZombie->checkTheLastZombie())
+		{
+			ptrGamePlayLayer->createGoldBag(deadPos);
+		}
 		this->removeFromParent();
 		this->reset();
 	});
-	auto squ = Sequence::create(animate, DelayTime::create(0.5f), zombieBackPool, nullptr);
+	auto squ = Sequence::create(animate, zombieBackPool, nullptr);
 	_spr->runAction(squ);
-	_coinFunc->CoinFly(deadPos);
+	ptrGamePlayLayer->CoinFly(deadPos);
 }
 
 void PZombie::playAttackAnimation()

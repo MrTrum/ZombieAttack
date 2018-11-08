@@ -189,6 +189,14 @@ bool GamePlayLayer::onContactBegin(PhysicsContact &contact)
 	return true;
 }
 
+void GamePlayLayer::createGoldBag(Vec2 deadPos)
+{
+	auto goldBag = Sprite::create("goldBag.png");
+	this->addChild(goldBag, 3);
+	goldBag->setScale(0.2f);
+	goldBag->setPosition(deadPos);
+}
+
 /*Tú*/
 void GamePlayLayer::resumeGame()
 {
@@ -352,8 +360,13 @@ void GamePlayLayer::Shooting(Touch *touch)
 bool GamePlayLayer::isTouchingSprite(Touch* touch)
 {
 	if (getTag == 200)
+<<<<<<< .mine
 	{
 	return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
+=======
+		return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
+
+>>>>>>> .theirs
 	}
 	return false;
 }

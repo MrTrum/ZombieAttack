@@ -4,7 +4,7 @@
 
 USING_NS_CC;
 
-PoolZombie::PoolZombie()
+PoolZombie::PoolZombie() : numberZombie(0)
 {
 }
 
@@ -16,7 +16,7 @@ void PoolZombie::initZombie()
 {
 	for (int indexZombie = 0; indexZombie < ZOMBIE_2; indexZombie++)
 	{
-		auto zombie = PZombie::create();
+		auto zombie = PZombie::create(this);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie->setHealthBar(zombie->health);
 		zombie->setVisible(false);
@@ -45,7 +45,7 @@ PZombie* PoolZombie::getZombie()
 	}
 	if (zombie == nullptr)
 	{
-		zombie = PZombie::create();
+		zombie = PZombie::create(this);
 		zombie->setHealthBar(zombie->health);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie->setVisible(false);
@@ -69,7 +69,7 @@ bool PoolZombie::init(GamePlayLayer* ptr)
 	createLine();
 	initZombie();
 
-	schedule(schedule_selector(PoolZombie::createZombie_2), TIME_CREATE_ZOMBIE_2);
+	scheduleOnce(schedule_selector(PoolZombie::createZombie_2), TIME_CREATE_ZOMBIE_2);
 	
 
 	return true;
@@ -171,6 +171,22 @@ void PoolZombie::updateBloodBar(float percent)
 {
 	bloodbar->removeFromParent();
 	setBloodBar(percent);
+}
+
+bool PoolZombie::checkTheLastZombie()
+{
+	for (int index = 0; index < _listZombie.size(); index++)
+	{
+		if (_listZombie.at(index)->isVisible() == true)
+		{
+			return false;
+		}
+	}
+	if (numberZombie == 100)
+	{
+		return true;
+	}
+	return false;
 }
 
 void PoolZombie::createLine()

@@ -20,10 +20,11 @@ public:
 	void						createZombie_2(float delta);
 	void						initZombie();
 	void						createLine();
+	bool						checkTheLastZombie();
 private:
 	cocos2d::Vector<PZombie*>   _listZombie;
 	ui::LoadingBar				*bloodbar;
-	int							numberZombie = 0;
+	int							numberZombie;
 
 	
 	float						randomPositionY();
