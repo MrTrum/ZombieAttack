@@ -98,7 +98,6 @@ void PoolZombie::createZombie_2(float delta)
 	{
 		// check if it has parent 
 		zombie->removeFromParent();
-
 		zombie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 		zombie->setVisible(true);
 		zombie->setScale(0.3f);
@@ -176,7 +175,7 @@ void PoolZombie::updateBloodBar(float percent)
 
 void PoolZombie::createLine()
 {
-	auto winSize = Director::getInstance()->getWinSize();
+	/*auto winSize = Director::getInstance()->getWinSize();
 	auto linePhysics = Node::create();
 	this->addChild(linePhysics, 1);
 	this->setTag(TAG_LINE);
@@ -185,7 +184,7 @@ void PoolZombie::createLine()
 	auto physicsForLine = PhysicsBody::createBox(Size(1, winSize.height));
 	physicsForLine->setContactTestBitmask(true);
 	physicsForLine->setDynamic(false);
-	this->setPhysicsBody(physicsForLine);
+	this->setPhysicsBody(physicsForLine);*/
 }
 
 void PoolZombie::pauseSchedule()

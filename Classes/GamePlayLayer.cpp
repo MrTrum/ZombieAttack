@@ -340,16 +340,22 @@ void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event)
 
 void GamePlayLayer::Shooting(Touch *touch)
 {
+	auto winSize = Director::getInstance()->getWinSize();
 	Point location = touch->getLocationInView();
 	location = Director::getInstance()->convertToGL(location);
-	_poolBullet = PoolBullet::create(location.x, location.y);
-	this->addChild(_poolBullet,10);
-	//bullet->reset(location.x, location.y);
+	//_poolBullet = PoolBullet::create(location.x, location.y);
+	//this->addChild(_poolBullet,10);
+	auto bullet = _poolBullet->createBullet(location.x, location.y);
+	this->addChild(bullet);
+	bullet->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
 }
 bool GamePlayLayer::isTouchingSprite(Touch* touch)
 {
 	if (getTag == 200)
+	{
 	return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
+	}
+	return false;
 }
 Point GamePlayLayer::touchToPoint(Touch* touch)
 {
