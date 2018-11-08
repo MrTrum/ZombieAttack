@@ -123,8 +123,8 @@ bool GamePlayLayer::init()
 	this->scheduleUpdate();
 	// tạo số tiền
 	_Money = Money::create();
-	this->addChild(_Money,4);
-	 //tao nut pause
+	this->addChild(_Money, 4);
+	//tao nut pause
 	auto _pauseBtn = cocos2d::ui::Button::create("images/PauseButton.png");
 	_pauseBtn->setPosition(Vec2(winSize.width*0.025f, winSize.height*0.968f));
 	_pauseBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchPauseButton, this));
@@ -247,7 +247,7 @@ void GamePlayLayer::IconCoinCreate()
 	_IconCoin->setScale(0.15f);
 	_IconCoin->setPosition(Vec2(winSize.width*0.57f, winSize.height*0.968f));
 	_iconPos = _IconCoin->getPosition();
-	this->addChild(_IconCoin,4);
+	this->addChild(_IconCoin, 4);
 }
 
 void GamePlayLayer::TouchPauseButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
@@ -351,16 +351,22 @@ void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event)
 
 void GamePlayLayer::Shooting(Touch *touch)
 {
+	auto winSize = Director::getInstance()->getWinSize();
 	Point location = touch->getLocationInView();
 	location = Director::getInstance()->convertToGL(location);
-	_poolBullet = PoolBullet::create(location.x, location.y);
-	this->addChild(_poolBullet,10);
-	//bullet->reset(location.x, location.y);
+	//_poolBullet = PoolBullet::create(location.x, location.y);
+	//this->addChild(_poolBullet,10);
+	auto bullet = _poolBullet->createBullet(location.x, location.y);
+	this->addChild(bullet);
+	bullet->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
 }
 bool GamePlayLayer::isTouchingSprite(Touch* touch)
 {
 	if (getTag == 200)
+	{
 		return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
+	}
+	return false;
 }
 Point GamePlayLayer::touchToPoint(Touch* touch)
 {

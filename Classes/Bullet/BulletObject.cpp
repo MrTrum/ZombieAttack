@@ -19,6 +19,7 @@ bool BulletObject::init(float x, float y)
 	auto winSize = Director::getInstance()->getWinSize();
 	_sprBullet = Sprite::create("test_bullet.png");
 	addChild(_sprBullet);
+	//_sprBullet->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
 	PhysicsBody* _bulletPhysicBody = PhysicsBody::createBox(_sprBullet->getContentSize());
 	_bulletPhysicBody->setContactTestBitmask(true);
 	_bulletPhysicBody->setDynamic(false);

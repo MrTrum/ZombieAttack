@@ -97,7 +97,6 @@ void PoolZombie::createZombie_2(float delta)
 	{
 		// check if it has parent 
 		zombie->removeFromParent();
-
 		zombie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 		zombie->setVisible(true);
 		zombie->setScale(0.3f);

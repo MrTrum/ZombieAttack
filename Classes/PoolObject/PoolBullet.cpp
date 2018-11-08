@@ -44,12 +44,10 @@ void PoolBullet::addBullet()
 	auto bullet = this->createBullet(xFromGameLayer, yFromGameLayer);
 	if (bullet != nullptr)
 	{
-		//bullet->removeFromParent();
-		bullet->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+		bullet->removeFromParent();
 		bullet->setVisible(true);
 		//bullet->setScale(0.01f);
 		bullet->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
-		bullet->setPosition(winSize.width * 1.2f, winSize.height * 0.5f);
 		this->addChild(bullet);
 		bullet->reset(xFromGameLayer, yFromGameLayer);
 	}
