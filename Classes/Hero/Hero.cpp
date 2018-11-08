@@ -13,6 +13,7 @@ Hero::Hero()
 
 Hero::~Hero()
 {
+
 }
 
 std::map<Hero::AnimationType, AnimationInfo> Hero::_mapAnimation =
@@ -48,13 +49,13 @@ bool Hero::init()
 	_sprheroarm->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_sprheroarm->setPosition(winSize.width * 0.015f, winSize.height * 0.06f);
 
-	auto physicForHero = PhysicsBody::createBox(_sprhero->getContentSize() * 2.0f);
+	auto physicForHero = PhysicsBody::createBox(_sprhero->getContentSize() * 2.5f);
 	physicForHero->setDynamic(false);
 	physicForHero->setContactTestBitmask(true);
 	physicForHero->setGroup(-2);
 	this->setPhysicsBody(physicForHero);
 	//playAnimation(AnimationType::IDLE);
-	#pragma region Animation
+
 	Animation* fatguyanim = Animation::create();
 	for (int i = 0; i < 16; i++)
 	{
@@ -74,22 +75,23 @@ bool Hero::init()
 	fatguyarm->setDelayPerUnit(1 / 4.0f);
 	Animate *armAnimate = Animate::create(fatguyarm);
 	_sprheroarm->runAction(RepeatForever::create(armAnimate));
-	#pragma endregion
 
 	return true;
 }
 
 void Hero::onCollission(GameObject *obj)
 {
+	PZombie *pzombie = static_cast<PZombie*>(obj);
 	if (obj->getTag() == TAG_ZOMBIE && PZombie::damageOfZombie <= 0)
 	{
 		PZombie::damageOfZombie = DAMAGE_OF_ZOMBIE2;
-		scheduleOnce(schedule_selector(Hero::heroWounded), 0.0f);
 		schedule(schedule_selector(Hero::heroWounded), 0.5f);
-		theHealthOfZombiesAreAttacking(obj);
+		_listZombieCollision.pushBack(pzombie);
+		scheduleUpdate();
 	}
 	else if (obj->getTag() == TAG_ZOMBIE && PZombie::damageOfZombie > 0)
 	{
+		_listZombieCollision.pushBack(pzombie);
 		PZombie::damageOfZombie += 0.5;
 	}
 }
@@ -102,20 +104,14 @@ void Hero::heroWounded(float delta)
 	}
 	this->_health -= PZombie::damageOfZombie;
 	this->updateHealthBar(_health);
+	auto tintTo = TintTo::create(0.5f, 255, 50, 50);
+	_healthbarHero->runAction(tintTo);
 	if (this->_health <= 0)
 	{
 		CCLOG("Dead");
 	}
 }
 
-void Hero::theHealthOfZombiesAreAttacking(GameObject *obj)
-{
-	PZombie *pZombie = static_cast<PZombie*>(obj);
-	if (pZombie->getHealthBar() <= 0)
-	{
-		PZombie::damageOfZombie -= 0.5;
-	}
-}
 
 void Hero::setHealthBar(float percent)
 {
@@ -135,8 +131,24 @@ void Hero::updateHealthBar(float percent)
 {
 	_healthbarHero->removeFromParent();
 	setHealthBar(percent);
-	auto tintTo = TintTo::create(0.5f, 255, 50, 50);
-	_healthbarHero->runAction(tintTo);
+}
+
+void Hero::update(float delta)
+{
+	for (int index = 0; index < _listZombieCollision.size(); index++)
+	{
+		if (_listZombieCollision.at(index)->health == 0)
+		{
+			PZombie::damageOfZombie -= 0.5f;
+			_listZombieCollision.erase(index);
+		}
+	}
+	if (_listZombieCollision.size() == 0)
+	{
+		this->unschedule(schedule_selector(Hero::heroWounded));
+		_healthbarHero->stopAllActions();
+		updateHealthBar(_health);
+	}
 }
 
 void Hero::shootAnimation()
