@@ -195,6 +195,9 @@ void GamePlayLayer::createGoldBag(Vec2 deadPos)
 	this->addChild(goldBag, 3);
 	goldBag->setScale(0.2f);
 	goldBag->setPosition(deadPos);
+
+	auto scaleto = ScaleTo::create(3.0f, 0.4f);
+	goldBag->runAction(scaleto);
 }
 
 /*Tú*/

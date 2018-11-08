@@ -66,7 +66,6 @@ bool PoolZombie::init(GamePlayLayer* ptr)
 	//
 	setFrameBloodBar();
 	setBloodBar(0);
-	createLine();
 	initZombie();
 
 	scheduleOnce(schedule_selector(PoolZombie::createZombie_2), TIME_CREATE_ZOMBIE_2);
@@ -183,26 +182,13 @@ bool PoolZombie::checkTheLastZombie()
 			return false;
 		}
 	}
-	if (numberZombie == 100)
+	if (numberZombie <= 100)
 	{
 		return true;
 	}
 	return false;
 }
 
-void PoolZombie::createLine()
-{
-	auto winSize = Director::getInstance()->getWinSize();
-	auto linePhysics = Node::create();
-	this->addChild(linePhysics, 1);
-	this->setTag(TAG_LINE);
-	linePhysics->setPosition(winSize.width * 0.6, 0.0);
-
-	auto physicsForLine = PhysicsBody::createBox(Size(1, winSize.height));
-	physicsForLine->setContactTestBitmask(true);
-	physicsForLine->setDynamic(false);
-	this->setPhysicsBody(physicsForLine);
-}
 
 void PoolZombie::pauseSchedule()
 {
