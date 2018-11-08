@@ -44,7 +44,6 @@ bool GamePlayLayer::init()
 	Size winSize = Director::getInstance()->getWinSize();
 	this->removeAllChildren();
 	/*Khoa*/
-	#pragma region Plist
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("redneck_idle.plist",
 		"redneck_idle.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("shotgun.plist",
@@ -53,16 +52,17 @@ bool GamePlayLayer::init()
 		"explosion.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SGidle.plist",
 		"SGidle.png");
-	#pragma endregion
-	#pragma region khoa
+
 	//add BG
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg, 1);
+
 	//add hero
 	_hero = Hero::create();
 	this->addChild(_hero, 3);
 	_hero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
+
 	_poolBullet = new PoolBullet();
 	//dynamite
 	_iconDynamite = Sprite::create("btn_dynamite.png");
@@ -91,9 +91,8 @@ bool GamePlayLayer::init()
 	listenerTouch->onTouchEnded = CC_CALLBACK_2(GamePlayLayer::onTouchEnded, this);
 	listenerTouch->onTouchCancelled = CC_CALLBACK_2(GamePlayLayer::onTouchCancelled, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerTouch, this);
-	#pragma endregion
 
-	/*Phần Zombie*/
+	/*Thanh*/
 	//Set tấm ảnh sau khi texturePacker
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
 
@@ -277,7 +276,6 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 
 /*Khoa*/
 
-#pragma region Khoa
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
 	Point location = touch->getLocationInView();
@@ -345,14 +343,13 @@ void GamePlayLayer::Shooting(Touch *touch)
 bool GamePlayLayer::isTouchingSprite(Touch* touch)
 {
 	if (getTag == 200)
-		return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
+	return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
 }
 Point GamePlayLayer::touchToPoint(Touch* touch)
 {
 	// convert the touch object to a position in our cocos2d space
 	return Director::getInstance()->convertToGL(touch->getLocationInView());
 }
-#pragma endregion
 
 
 
