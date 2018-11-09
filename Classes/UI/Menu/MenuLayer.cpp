@@ -9,7 +9,16 @@ MenuLayer::MenuLayer()
 MenuLayer::~MenuLayer()
 {
 }
-
+Scene * MenuLayer::createScene()
+{
+	Scene* scene = Scene::createWithPhysics();
+	//PhysicsWorld* world = scene->getPhysicsWorld();
+	////remember to turn off debug when release
+	//world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	MenuLayer* node = MenuLayer::create();
+	scene->addChild(node);
+	return scene;
+}
 bool MenuLayer::init()
 {
 	if (!Node::init())

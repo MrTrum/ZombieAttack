@@ -53,6 +53,11 @@
 //DAMAGE Zombie
 #define DAMAGE_ZOMBIE2							50.0f
 #define DAMAGE_OF_ZOMBIE2						0.5f
-
+//DAMAGE M4A1
+#define DAMAGE_M4A1                             20
+//NUMBER BULLET M4A1
+#define NUMBER_BULLET_M4A1                      60
+//PRICE M4A1
+#define PRICE_M4A1                              200
 
 #endif // __PARAMETER_H__

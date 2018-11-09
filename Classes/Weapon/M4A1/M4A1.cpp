@@ -1,4 +1,5 @@
 #include "Weapon/M4A1/M4A1.h"
+#include "Parameter.h"
 USING_NS_CC;
 M4A1::M4A1()
 {
@@ -14,8 +15,6 @@ bool M4A1::init()
 		return false;
 	}
 	Size winSize = Director::getInstance()->getWinSize();
-	_Stats.setStats(20, 60);
-
 	return true;
 }
 void M4A1::setIcon()

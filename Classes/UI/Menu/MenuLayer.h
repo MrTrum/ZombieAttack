@@ -14,7 +14,7 @@ public:
 	~MenuLayer();
 	CREATE_FUNC(MenuLayer);
 	virtual bool init();
-
+	static cocos2d::Scene* createScene();
 	void TouchPlayButton(Ref* pSender, ui::Widget::TouchEventType eEventType);
 	void TouchQuitButton(Ref* pSender, ui::Widget::TouchEventType eEventType);
 private:

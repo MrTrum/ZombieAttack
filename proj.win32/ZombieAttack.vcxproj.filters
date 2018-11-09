@@ -44,7 +44,7 @@
       <UniqueIdentifier>{d579296d-297a-4f7b-a53d-7c58f2f693e1}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Weapon\M4A1">
-      <UniqueIdentifier>{b8baf54b-5fb9-470a-98a7-3a1db646d012}</UniqueIdentifier>
+      <UniqueIdentifier>{63308d51-18c2-431a-b537-8cde1024df8b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
