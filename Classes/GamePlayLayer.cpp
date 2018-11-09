@@ -196,7 +196,31 @@ void GamePlayLayer::createGoldBag(Vec2 deadPos)
 	goldBag->setScale(0.2f);
 	goldBag->setPosition(deadPos);
 
-	auto scaleto = ScaleTo::create(3.0f, 0.4f);
+	auto scaleto = ScaleTo::create(2.0f, 0.3f);
+	/*goldBag->runAction(scaleto);*/
+
+	auto button = CallFunc::create([=]
+	{
+		auto buttonHide = cocos2d::ui::Button::create("goldBag.png");
+		this->addChild(buttonHide, 2);
+		buttonHide->setScale(0.2f);
+		buttonHide->setPosition(deadPos);
+		buttonHide->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::testButton, this));
+	});
+
+	auto sqe = Sequence::create(scaleto, button, nullptr);
+	goldBag->runAction(sqe);
+}
+
+void GamePlayLayer::testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
+{
+	Size winSize = Director::getInstance()->getWinSize();
+	auto goldBag = Sprite::create("goldBag.png");
+	this->addChild(goldBag, 3);
+	goldBag->setScale(0.2f);
+	goldBag->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+
+	auto scaleto = ScaleTo::create(2.0f, 0.4f);
 	goldBag->runAction(scaleto);
 }
 

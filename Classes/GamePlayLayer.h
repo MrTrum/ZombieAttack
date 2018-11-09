@@ -42,6 +42,7 @@ public:
 /*Thanh*/
 	bool onContactBegin(PhysicsContact &contact);
 	void createGoldBag(Vec2 deadPos);
+	void testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 /*Khoa*/
 protected:
 	bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
