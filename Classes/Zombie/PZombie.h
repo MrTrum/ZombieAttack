@@ -20,14 +20,15 @@ public:
 	PoolZombie					*ptrPoolZombie;
 	Sprite* _spr;
 	float health;
+	float health3;
 	float damage;
 
 	static float damageOfZombie;
 public:
 	PZombie();
 	~PZombie();
-	bool init(PoolZombie *ptr);
-	static PZombie* create(PoolZombie *ptr);
+	bool init(PoolZombie *ptr, std::string zombieName);
+	static PZombie* create(PoolZombie *ptr, std::string zombieName);
 
 
 	void						setGamePlayLayerPtr(GamePlayLayer* ptr);

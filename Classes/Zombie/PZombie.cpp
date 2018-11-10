@@ -9,6 +9,7 @@ USING_NS_CC;
 
 PZombie::PZombie() : 
 	health(HEALTH_ZOMBIE2),
+	health3(HEALTH_ZOMBIE3),
 	damage(DAMAGE_ZOMBIE2)
 {
 }
@@ -19,10 +20,10 @@ PZombie::~PZombie()
 
 float PZombie::damageOfZombie = 0;
 
-PZombie* PZombie::create(PoolZombie *ptr)
+PZombie* PZombie::create(PoolZombie *ptr, std::string zombieName)
 {
 	PZombie *pRet = new(std::nothrow) PZombie();
-	if (pRet && pRet->init(ptr))
+	if (pRet && pRet->init(ptr, zombieName))
 	{
 		pRet->autorelease();
 		return pRet;
@@ -35,7 +36,7 @@ PZombie* PZombie::create(PoolZombie *ptr)
 	}
 }
 
-bool PZombie::init(PoolZombie *ptr)
+bool PZombie::init(PoolZombie *ptr, std::string zombieName)
 {
 	if (!GameObject::init())
 	{
@@ -43,7 +44,6 @@ bool PZombie::init(PoolZombie *ptr)
 	}
 	ptrPoolZombie = ptr;
 
-	std::string zombieName = "Z2Walk";
 	_spr = Sprite::createWithSpriteFrameName(zombieName + "1.png");
 	this->addChild(_spr);
 
