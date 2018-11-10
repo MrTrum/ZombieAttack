@@ -198,7 +198,6 @@ void GamePlayLayer::createGoldBag(Vec2 deadPos)
 	goldBag->setPosition(deadPos);
 
 	auto scaleto = ScaleTo::create(2.0f, 0.3f);
-	/*goldBag->runAction(scaleto);*/
 
 	auto button = CallFunc::create([=]
 	{

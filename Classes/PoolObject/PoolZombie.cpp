@@ -4,7 +4,9 @@
 
 USING_NS_CC;
 
-PoolZombie::PoolZombie() : numberZombie(0)
+PoolZombie::PoolZombie() :
+	numberZombie(0),
+	_check(1)
 {
 }
 
@@ -16,23 +18,29 @@ void PoolZombie::initZombie()
 {
 	for (int indexZombie = 0; indexZombie < ZOMBIE_2; indexZombie++)
 	{
-		auto zombie = PZombie::create(this);
+		auto zombie = PZombie::create(this, "Z2Walk");
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
-		zombie->setHealthBar(zombie->health);
+		zombie->setHealthBar(HEALTH_ZOMBIE2);
 		zombie->setVisible(false);
-		_listZombie.pushBack(zombie);
+		_listZombie1.pushBack(zombie);
+
+		auto zombie2 = PZombie::create(this, "Z3Walk");
+		zombie2->setGamePlayLayerPtr(_gamePlayLayerPtr);
+		zombie2->setHealthBar(HEALTH_ZOMBIE3);
+		zombie2->setVisible(false);
+		_listZombie2.pushBack(zombie2);
 	}
 }
 
 PZombie* PoolZombie::getZombie()
 {
 	PZombie* zombie = nullptr;
-	for (int index = 0; index < _listZombie.size(); index++)
+	for (int index = 0; index < _listZombie1.size(); index++)
 	{
 		bool foundZombie = false;
-		if (_listZombie.at(index)->isVisible() == false)
+		if (_listZombie1.at(index)->isVisible() == false)
 		{
-			zombie = _listZombie.at(index); 
+			zombie = _listZombie1.at(index);
 			zombie->health = HEALTH_ZOMBIE2;
 			auto resetHealth = HEALTH_ZOMBIE2;
 			zombie->updateHealthBar(resetHealth);
@@ -45,14 +53,45 @@ PZombie* PoolZombie::getZombie()
 	}
 	if (zombie == nullptr)
 	{
-		zombie = PZombie::create(this);
+		zombie = PZombie::create(this, "Z2Walk");
 		zombie->setHealthBar(zombie->health);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie->setVisible(false);
-		_listZombie.pushBack(zombie);
+		_listZombie1.pushBack(zombie);
 	}
 	return zombie;
 }
+
+PZombie* PoolZombie::getZombie3()
+{
+	PZombie* zombie = nullptr;
+	for (int index = 0; index < _listZombie2.size(); index++)
+	{
+		bool foundZombie = false;
+		if (_listZombie2.at(index)->isVisible() == false)
+		{
+			zombie = _listZombie2.at(index);
+			zombie->health3 = HEALTH_ZOMBIE3;
+			auto resetHealth = HEALTH_ZOMBIE3;
+			zombie->updateHealthBar(resetHealth);
+			foundZombie = true;
+		}
+		if (foundZombie)
+		{
+			break;
+		}
+	}
+	if (zombie == nullptr)
+	{
+		zombie = PZombie::create(this, "Z3Walk");
+		zombie->setHealthBar(zombie->health3);
+		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
+		zombie->setVisible(false);
+		_listZombie2.pushBack(zombie);
+	}
+	return zombie;
+}
+
 
 
 bool PoolZombie::init(GamePlayLayer* ptr)
@@ -68,8 +107,8 @@ bool PoolZombie::init(GamePlayLayer* ptr)
 	setBloodBar(0);
 	initZombie();
 
-	scheduleOnce(schedule_selector(PoolZombie::createZombie_2), TIME_CREATE_ZOMBIE_2);
-	
+	schedule(schedule_selector(PoolZombie::createZombie_2), 3.0f);
+	schedule(schedule_selector(PoolZombie::createZombie_3), 3.0f);
 
 	return true;
 }
@@ -97,6 +136,9 @@ void PoolZombie::createZombie_2(float delta)
 	{
 		// check if it has parent 
 		zombie->removeFromParent();
+
+		changeSchedule(2);
+
 		zombie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 		zombie->setVisible(true);
 		zombie->setScale(0.3f);
@@ -107,21 +149,32 @@ void PoolZombie::createZombie_2(float delta)
 		auto Z_Order = ZOrder(positionY);
 		this->addChild(zombie, Z_Order);
 
-		if (numberZombie < 80)
-		{
-			numberZombie = numberZombie + 5;
-			updateBloodBar(numberZombie);
-		}
-		if (numberZombie == 100)
-		{
-			pauseSchedule();
-		}
-		else if (numberZombie >= 80)
-		{
-			numberZombie = numberZombie + 1;
-			updateBloodBar(numberZombie);
-			updateSchedule();
-		}
+		//Move zombie 2	
+		float positionX = randomPositionX(positionY);
+		auto moveto = MoveTo::create(TIME_MOVETO_ZOMBIE, Vec2(winSize.width * positionX, winSize.height * positionY));
+		zombie->runAction(moveto);
+	}
+}
+
+void PoolZombie::createZombie_3(float delta)
+{
+	auto zombie = this->getZombie3();
+	if (zombie != nullptr)
+	{
+		// check if it has parent 
+		zombie->removeFromParent();
+
+		changeSchedule(3);
+
+		zombie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+		zombie->setVisible(true);
+		zombie->setScale(0.3f);
+		float positionY = randomPositionY();
+		auto winSize = Director::getInstance()->getWinSize();
+		zombie->setPosition(winSize.width * 1.2f, winSize.height * positionY);
+
+		auto Z_Order = ZOrder(positionY);
+		this->addChild(zombie, Z_Order);
 
 		//Move zombie 2	
 		float positionX = randomPositionX(positionY);
@@ -174,14 +227,14 @@ void PoolZombie::updateBloodBar(float percent)
 
 bool PoolZombie::checkTheLastZombie()
 {
-	for (int index = 0; index < _listZombie.size(); index++)
+	for (int index = 0; index < _listZombie1.size(); index++)
 	{
-		if (_listZombie.at(index)->isVisible() == true)
+		if (_listZombie1.at(index)->isVisible() == true)
 		{
 			return false;
 		}
 	}
-	if (numberZombie <= 100)
+	if (numberZombie >= 100)
 	{
 		return true;
 	}
@@ -189,14 +242,73 @@ bool PoolZombie::checkTheLastZombie()
 }
 
 
-void PoolZombie::pauseSchedule()
+void PoolZombie::changeSchedule(int NOZombie)
 {
-	this->unschedule(schedule_selector(PoolZombie::createZombie_2));
+	if (numberZombie < 10)
+	{
+		if (_check == 1)
+		{
+			updateSchedule(1.0f, NOZombie);
+			_check++;
+		}
+		numberZombie = numberZombie + 2;
+		updateBloodBar(numberZombie);
+	}
+	else if (numberZombie >= 10 && numberZombie < 40)
+	{
+		if (_check == 2)
+		{
+			updateSchedule(2.0f, NOZombie);
+			_check++;
+		}
+		numberZombie = numberZombie + 2;
+		updateBloodBar(numberZombie);
+	}
+	else if (numberZombie >= 40 && numberZombie < 80)
+	{
+		if (_check == 3)
+		{
+			updateSchedule(3.0f, NOZombie);
+			_check++;
+		}
+		numberZombie = numberZombie + 2;
+		updateBloodBar(numberZombie);
+	}
+	else if (numberZombie >= 80 && numberZombie < 100)
+	{
+		if (_check == 4)
+		{
+			updateSchedule(6.0f, NOZombie);
+			_check++;
+		}
+		numberZombie = numberZombie + 1;
+		updateBloodBar(numberZombie);
+	}
+	else
+	{
+		if (NOZombie == 2)
+		{
+			unschedule(schedule_selector(PoolZombie::createZombie_2));
+		}
+		else if (NOZombie == 3)
+		{
+			unschedule(schedule_selector(PoolZombie::createZombie_3));
+		}
+	}
 }
-void PoolZombie::updateSchedule()
+
+void PoolZombie::updateSchedule(int NOZombie, float time)
 {
-	this->unschedule(schedule_selector(PoolZombie::createZombie_2));
-	schedule(schedule_selector(PoolZombie::createZombie_2), 0.7f);
+	if (NOZombie == 2)
+	{
+		this->unschedule(schedule_selector(PoolZombie::createZombie_2));
+		this->schedule(schedule_selector(PoolZombie::createZombie_2), TIME_CREATE_ZOMBIE_2 / time);
+	}
+	else if (NOZombie == 3)
+	{
+		this->unschedule(schedule_selector(PoolZombie::createZombie_3));
+		this->schedule(schedule_selector(PoolZombie::createZombie_3), TIME_CREATE_ZOMBIE_3 / time);
+	}
 }
 
 float PoolZombie::randomPositionY()
