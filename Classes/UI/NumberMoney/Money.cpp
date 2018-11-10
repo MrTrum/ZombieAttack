@@ -101,6 +101,7 @@ void Money::setMoney(int money)
 		int hundreds = (money / HUNDREDS) % DOZENS;
 		int thousands = (money / THOUSANDS) % DOZENS;
 		int tensofthousands = money / TENSOFTHOUSANDS;
+		int hundredofthousands = money / HUNDREDSOFTHOUSANDS;
 		std::string tempscore1 = StringUtils::format("%i.png", unit);
 		_listSprite.at(5)->setSpriteFrame(tempscore1);
 		std::string tempscore2 = StringUtils::format("%i.png", dozens);
@@ -111,41 +112,91 @@ void Money::setMoney(int money)
 		_listSprite.at(2)->setSpriteFrame(tempscore4);
 		std::string tempscore5 = StringUtils::format("%i.png", tensofthousands);
 		_listSprite.at(1)->setSpriteFrame(tempscore5);
+		std::string tempscore6 = StringUtils::format("%i.png", hundredofthousands);
+		_listSprite.at(0)->setSpriteFrame(tempscore6);
 	}
 	else if (money >= THOUSANDS)
 	{
 		int unit = money % UNIT;
 		int dozens = (money / DOZENS) % UNIT;
-		int hundreds = money / HUNDREDS;
+		int hundreds = (money / HUNDREDS) % DOZENS;
+		int thousands = money / THOUSANDS;
+		int tensofthousands = money / TENSOFTHOUSANDS;
+		int hundredofthousands = money / HUNDREDSOFTHOUSANDS;
 		std::string tempscore1 = StringUtils::format("%i.png", unit);
 		_listSprite.at(5)->setSpriteFrame(tempscore1);
 		std::string tempscore2 = StringUtils::format("%i.png", dozens);
 		_listSprite.at(4)->setSpriteFrame(tempscore2);
 		std::string tempscore3 = StringUtils::format("%i.png", hundreds);
 		_listSprite.at(3)->setSpriteFrame(tempscore3);
+		std::string tempscore4 = StringUtils::format("%i.png", thousands);
+		_listSprite.at(2)->setSpriteFrame(tempscore4);
+		std::string tempscore5 = StringUtils::format("%i.png", tensofthousands);
+		_listSprite.at(1)->setSpriteFrame(tempscore5);
+		std::string tempscore6 = StringUtils::format("%i.png", hundredofthousands);
+		_listSprite.at(0)->setSpriteFrame(tempscore6);
 	}
 	else if (money >= HUNDREDS)
 	{
 		int unit = money % UNIT;
-		int dozens = money / DOZENS;
+		int dozens = (money / DOZENS) % UNIT;
+		int hundreds = money / HUNDREDS;
+		int thousands = money / THOUSANDS;
+		int tensofthousands = money / TENSOFTHOUSANDS;
+		int hundredofthousands = money / HUNDREDSOFTHOUSANDS;
 		std::string tempscore1 = StringUtils::format("%i.png", unit);
 		_listSprite.at(5)->setSpriteFrame(tempscore1);
 		std::string tempscore2 = StringUtils::format("%i.png", dozens);
 		_listSprite.at(4)->setSpriteFrame(tempscore2);
+		std::string tempscore3 = StringUtils::format("%i.png", hundreds);
+		_listSprite.at(3)->setSpriteFrame(tempscore3);
+		std::string tempscore4 = StringUtils::format("%i.png", thousands);
+		_listSprite.at(2)->setSpriteFrame(tempscore4);
+		std::string tempscore5 = StringUtils::format("%i.png", tensofthousands);
+		_listSprite.at(1)->setSpriteFrame(tempscore5);
+		std::string tempscore6 = StringUtils::format("%i.png", hundredofthousands);
+		_listSprite.at(0)->setSpriteFrame(tempscore6);
 	}
 	else if (money >= DOZENS)
 	{
 		int unit = money % UNIT;
 		int dozens = money / DOZENS;
+		int hundreds = money / HUNDREDS;
+		int thousands = money / THOUSANDS;
+		int tensofthousands = money / TENSOFTHOUSANDS;
+		int hundredofthousands = money / HUNDREDSOFTHOUSANDS;
 		std::string tempscore1 = StringUtils::format("%i.png", unit);
 		_listSprite.at(5)->setSpriteFrame(tempscore1);
 		std::string tempscore2 = StringUtils::format("%i.png", dozens);
 		_listSprite.at(4)->setSpriteFrame(tempscore2);
+		std::string tempscore3 = StringUtils::format("%i.png", hundreds);
+		_listSprite.at(3)->setSpriteFrame(tempscore3);
+		std::string tempscore4 = StringUtils::format("%i.png", thousands);
+		_listSprite.at(2)->setSpriteFrame(tempscore4);
+		std::string tempscore5 = StringUtils::format("%i.png", tensofthousands);
+		_listSprite.at(1)->setSpriteFrame(tempscore5);
+		std::string tempscore6 = StringUtils::format("%i.png", hundredofthousands);
+		_listSprite.at(0)->setSpriteFrame(tempscore6);
 	}
 	else
 	{
-		std::string tempscore = StringUtils::format("%i.png", money);
-		_listSprite.at(5)->setSpriteFrame(tempscore);
+		int dozens = money / DOZENS;
+		int hundreds = money / HUNDREDS;
+		int thousands = money / THOUSANDS;
+		int tensofthousands = money / TENSOFTHOUSANDS;
+		int hundredofthousands = money / HUNDREDSOFTHOUSANDS;
+		std::string tempscore1 = StringUtils::format("%i.png", money);
+		_listSprite.at(5)->setSpriteFrame(tempscore1);
+		std::string tempscore2 = StringUtils::format("%i.png", dozens);
+		_listSprite.at(4)->setSpriteFrame(tempscore2);
+		std::string tempscore3 = StringUtils::format("%i.png", hundreds);
+		_listSprite.at(3)->setSpriteFrame(tempscore3);
+		std::string tempscore4 = StringUtils::format("%i.png", thousands);
+		_listSprite.at(2)->setSpriteFrame(tempscore4);
+		std::string tempscore5 = StringUtils::format("%i.png", tensofthousands);
+		_listSprite.at(1)->setSpriteFrame(tempscore5);
+		std::string tempscore6 = StringUtils::format("%i.png", hundredofthousands);
+		_listSprite.at(0)->setSpriteFrame(tempscore6);
 	}
 	_moneyGO = money;
 }

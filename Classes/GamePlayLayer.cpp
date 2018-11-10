@@ -123,6 +123,7 @@ bool GamePlayLayer::init()
 	this->scheduleUpdate();
 	// tạo số tiền
 	_Money = Money::create();
+	_Money->setMoney(_totalMoney);
 	this->addChild(_Money, 4);
 	//tao nut pause
 	auto _pauseBtn = cocos2d::ui::Button::create("images/PauseButton.png");
@@ -225,6 +226,11 @@ void GamePlayLayer::testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType
 }
 
 /*Tú*/
+void GamePlayLayer::setTotalMoney(int shopMoney)
+{
+	_totalMoney = shopMoney;
+	_Money->setMoney(_totalMoney);
+}
 void GamePlayLayer::resumeGame()
 {
 	Director::getInstance()->resume();

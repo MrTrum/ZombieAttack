@@ -27,9 +27,12 @@ private:
 	cocos2d::ui::Button* _upgradeBtn;
 	cocos2d::ui::Button* _weaponBtn;
 	cocos2d::ui::Button* _itemBtn;
+	cocos2d::Label* _labelUpgrade;
 	GamePlayLayer* _btnGamePlayLayer;
 	M4A1* _iconGun;
-	Money* _Money;
+	Money* _Money; 
+	UserDefault* def;
+	bool check = false;
 };
 
 

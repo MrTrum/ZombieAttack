@@ -38,6 +38,7 @@ public:
 	void update(float dt);
 	void moneyChange();
 	void CoinFly(Vec2 deadPos);
+	void setTotalMoney(int shopMoney);
 
 /*Thanh*/
 	bool onContactBegin(PhysicsContact &contact);
@@ -81,7 +82,7 @@ private:
 	Coin* _Coin;
 	Money* _Money;
 	PZombie* _coinFunc;
-	int _totalMoney = 0;
+	int _totalMoney = 1000;
 	bool _checkMoney = false;
 	cocos2d::Label* _labelResume;
 	cocos2d::Label*_labelShop;

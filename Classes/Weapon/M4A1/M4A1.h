@@ -10,12 +10,16 @@ public:
 	CREATE_FUNC(M4A1);
 	virtual bool init();
 	void setIcon();
-	int _Level;
+	void setLabelStats();
+	int _Level=1;
 	WeaponStats _Stats; 
 private:
 
 	cocos2d::Sprite* _iconGun;
-	
+	cocos2d::Sprite* _Dmg;
+	cocos2d::Sprite* _bulletNum;
+	cocos2d::Label* _labelDmg;
+	cocos2d::Label* _labelNum;
 };
 
 #endif // !_M4A1_H

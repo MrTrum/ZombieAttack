@@ -1,6 +1,6 @@
 #include "UI/StoreItem/StoreLayer.h"
 #include "GamePlayLayer.h"
-
+#include "Parameter.h"
 
 #define ITEM_WIDTH_POSITION 0.05f
 #define ITEM_HEIGHT_POSITION 0.25f
@@ -49,6 +49,7 @@ bool StoreLayer::init()
 	//Upgrade button
 	_upgradeBtn = cocos2d::ui::Button::create("images/UpgradeWeapon.png");
 	_upgradeBtn->setPosition(Vec2(winSize.width*(UPGRADEBTN_WIDTH_POSITION), winSize.height*UPGRADEBTN_HEIGHT_POSITION));
+	_upgradeBtn->addTouchEventListener(CC_CALLBACK_2(StoreLayer::TouchUpgradeButton, this));
 	this->addChild(_upgradeBtn);
 	//quit button
 	_quitShop = cocos2d::ui::Button::create("images/quit_shop.png");
@@ -77,17 +78,17 @@ bool StoreLayer::init()
 	this->addChild(_Money);
 	//Icon gun
 	_iconGun = M4A1::create();
-	_iconGun->setIcon();
 	_iconGun->_Stats.setStats(DAMAGE_M4A1, NUMBER_BULLET_M4A1, PRICE_M4A1);
+	_iconGun->setIcon();
 	this->addChild(_iconGun, 4);
 	//Price
 	auto _Price = Sprite::createWithSpriteFrameName("coin1.png");
-	_Price->setPosition(Vec2(winSize.width*(PRICE_WIDTH_POSITION + (PRICE_DISTANCT_POSITION)), winSize.height*PRICE_HEIGHT_POSITION));
+	_Price->setPosition(Vec2(winSize.width*(PRICE_WIDTH_POSITION), winSize.height*PRICE_HEIGHT_POSITION));
 	_Price->setScale(0.15f);
 	this->addChild(_Price);
 	std::string _priceStr = StringUtils::format("  %i", _iconGun->_Stats._Price);
-	auto _labelUpgrade = Label::createWithTTF(_priceStr, "fonts/kenvector_future.ttf", 25);
-	_labelUpgrade->setPosition(Vec2(winSize.width*(PRICE_LABEL_WIDTH_POSITION + (PRICE_DISTANCT_POSITION)), winSize.height*PRICE_LABEL_HEIGHT_POSITION));
+	_labelUpgrade = Label::createWithTTF(_priceStr, "fonts/kenvector_future.ttf", 25);
+	_labelUpgrade->setPosition(Vec2(winSize.width*(PRICE_LABEL_WIDTH_POSITION), winSize.height*PRICE_LABEL_HEIGHT_POSITION));
 	_labelUpgrade->setColor(cocos2d::Color3B(0, 0, 0));
 	this->addChild(_labelUpgrade);
 	return true;
@@ -102,13 +103,23 @@ void StoreLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventTy
 }
 void StoreLayer::TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
 {
-	UserDefault* def = UserDefault::getInstance();
-	_iconGun->_Level = def->getIntegerForKey("LevelM4A1", 1);
+	if (check == false)
+	{
+		 def = UserDefault::getInstance();
+		_iconGun->_Level = def->getIntegerForKey("LevelM4A1");
+		check = true;
+	}
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
-		/*_shopTotalMoney = _shopTotalMoney - _iconGun->_Stats._Price;*/
+		_shopTotalMoney = _shopTotalMoney - _iconGun->_Stats._Price;
+		_btnGamePlayLayer->setTotalMoney(_shopTotalMoney);
+		_Money->setMoney(_shopTotalMoney);
 		def->setIntegerForKey("LevelM4A1", _iconGun->_Level++);
 		_iconGun->_Stats.setStats(DAMAGE_M4A1*1.5*_iconGun->_Level, NUMBER_BULLET_M4A1*1.5*_iconGun->_Level, PRICE_M4A1*1.5*_iconGun->_Level);
+		_iconGun->setLabelStats();
+		std::string _priceStr = StringUtils::format("  %i", _iconGun->_Stats._Price);
+		_labelUpgrade->setString(_priceStr);
+		def->flush();
 	}
 }
 
