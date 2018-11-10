@@ -50,17 +50,17 @@ BulletObject *BulletObject::create(float x, float y)
 void BulletObject::reset(float x, float y)
 {
 	this->setVisible(true);
-	bulletFire(x,y);
+	bulletFire(x, y);
 	scheduleUpdate();
 }
 
 void BulletObject::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == TAG_ZOMBIE)
-		{
+	if (obj->getTag() == TAG_ZOMBIE2 || obj->getTag() == TAG_ZOMBIE3)
+	{
 		_willBeDestroy = true;
-		}
-	
+	}
+
 }
 
 void BulletObject::setOnDestroyCallback(OnBulletDestroyCallback callback)
@@ -93,11 +93,11 @@ void BulletObject::bulletFire(float locationX, float locationY)
 	_sprBullet->setRotation(-angleRadians);
 	DelayTime *delay = DelayTime::create(1.5);
 	CallFunc *callback = CallFunc::create([=]
-		{
-			_willBeDestroy = true;
-		}
+	{
+		_willBeDestroy = true;
+	}
 	);
-	
+
 	this->runAction(Sequence::create(bulletFire, delay, callback, NULL));
 }
 

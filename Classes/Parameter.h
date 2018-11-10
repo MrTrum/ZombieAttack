@@ -37,11 +37,14 @@
 #define BULLET_VEC								800.0f
 
 //setTag
-#define TAG_ZOMBIE								3
-#define TAG_LINE								4
-#define TAG_LINE2								5
-#define TAG_HERO								6
-#define TAG_BULLET								7
+#define TAG_ZOMBIE2								2
+#define TAG_ZOMBIE3								3
+#define TAG_ZOMBIE4								4
+#define TAG_ZOMBIE5								5
+#define TAG_LINE								6
+#define TAG_LINE2								7
+#define TAG_HERO								8
+#define TAG_BULLET								9
 
 //Số lượng tạo Zombie
 #define ZOMBIE_2								20
@@ -49,7 +52,7 @@
 
 //Health Zombie
 #define HEALTH_ZOMBIE2							100.0f
-#define HEALTH_ZOMBIE3							150.0f
+#define HEALTH_ZOMBIE3							100.0f
 
 //DAMAGE Zombie
 #define DAMAGE_ZOMBIE2							50.0f

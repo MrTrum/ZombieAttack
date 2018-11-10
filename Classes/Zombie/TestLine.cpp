@@ -36,7 +36,7 @@ bool TestLine::init()
 
 void TestLine::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == TAG_ZOMBIE)
+	if (obj->getTag() == TAG_ZOMBIE2 || obj->getTag() == TAG_ZOMBIE3)
 	{
 		PZombie *pZombie = static_cast<PZombie*>(obj);
 		if (pZombie->getHealthBar() <= 0)

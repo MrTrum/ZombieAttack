@@ -18,13 +18,13 @@ void PoolZombie::initZombie()
 {
 	for (int indexZombie = 0; indexZombie < ZOMBIE_2; indexZombie++)
 	{
-		auto zombie = PZombie::create(this, "Z2Walk");
+		auto zombie = PZombie::create(this, "Z2Walk", TAG_ZOMBIE2);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie->setHealthBar(HEALTH_ZOMBIE2);
 		zombie->setVisible(false);
 		_listZombie1.pushBack(zombie);
 
-		auto zombie2 = PZombie::create(this, "Z3Walk");
+		auto zombie2 = PZombie::create(this, "Z3Walk", TAG_ZOMBIE3);
 		zombie2->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie2->setHealthBar(HEALTH_ZOMBIE3);
 		zombie2->setVisible(false);
@@ -53,7 +53,7 @@ PZombie* PoolZombie::getZombie()
 	}
 	if (zombie == nullptr)
 	{
-		zombie = PZombie::create(this, "Z2Walk");
+		zombie = PZombie::create(this, "Z2Walk", TAG_ZOMBIE2);
 		zombie->setHealthBar(zombie->health);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie->setVisible(false);
@@ -83,7 +83,7 @@ PZombie* PoolZombie::getZombie3()
 	}
 	if (zombie == nullptr)
 	{
-		zombie = PZombie::create(this, "Z3Walk");
+		zombie = PZombie::create(this, "Z3Walk", TAG_ZOMBIE3);
 		zombie->setHealthBar(zombie->health3);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie->setVisible(false);
@@ -161,7 +161,7 @@ void PoolZombie::createZombie_3(float delta)
 	auto zombie = this->getZombie3();
 	if (zombie != nullptr)
 	{
-		// check if it has parent 
+		//check if it has parent 
 		zombie->removeFromParent();
 
 		changeSchedule(3);
@@ -286,14 +286,8 @@ void PoolZombie::changeSchedule(int NOZombie)
 	}
 	else
 	{
-		if (NOZombie == 2)
-		{
-			unschedule(schedule_selector(PoolZombie::createZombie_2));
-		}
-		else if (NOZombie == 3)
-		{
-			unschedule(schedule_selector(PoolZombie::createZombie_3));
-		}
+		unschedule(schedule_selector(PoolZombie::createZombie_2));
+		unschedule(schedule_selector(PoolZombie::createZombie_3));
 	}
 }
 
