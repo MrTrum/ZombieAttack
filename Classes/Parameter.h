@@ -47,12 +47,11 @@
 #define TAG_BULLET								9
 
 //Số lượng tạo Zombie
-#define ZOMBIE_2								20
+#define ZOMBIE_SIZE								20
 
 
 //Health Zombie
-#define HEALTH_ZOMBIE2							100.0f
-#define HEALTH_ZOMBIE3							100.0f
+#define HEALTH_ZOMBIE							100.0f
 
 //DAMAGE Zombie
 #define DAMAGE_ZOMBIE2							50.0f

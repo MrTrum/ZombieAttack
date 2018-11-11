@@ -8,8 +8,6 @@
 USING_NS_CC;
 
 PZombie::PZombie() : 
-	health(HEALTH_ZOMBIE2),
-	health3(HEALTH_ZOMBIE3),
 	damage(DAMAGE_ZOMBIE2)
 {
 }
@@ -108,8 +106,8 @@ void PZombie::dead()
 		//Tú đã sửa
 		auto deadPos = this->getPosition();
 		this->getPhysicsBody()->setContactTestBitmask(false);
-		auto stringName = convertFromTagToStringDead(this->getTag());
-		this->playDeadAnimation(deadPos, stringName);
+		auto stringname = convertFromTagToStringDead(this->getTag());
+		this->playDeadAnimation(deadPos, stringname);
 	}
 }
 
@@ -138,7 +136,7 @@ void PZombie::playWalkAnimation(std::string zombieName)
 	auto *animate = Animate::create(animation);
 	_spr->runAction(RepeatForever::create(animate));
 }
-//Tú đã sửa
+
 void PZombie::setGamePlayLayerPtr(GamePlayLayer* ptr)
 {
 	ptrGamePlayLayer = ptr;

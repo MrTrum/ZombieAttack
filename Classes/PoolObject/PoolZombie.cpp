@@ -3,6 +3,10 @@
 #include "Parameter.h"
 
 USING_NS_CC;
+#define PositionY1 0.1f
+#define PositionY2 0.13f
+#define PositionY3 0.16f
+#define PositionY4 0.19f
 
 PoolZombie::PoolZombie() :
 	numberZombie(0),
@@ -16,20 +20,26 @@ PoolZombie::~PoolZombie()
 
 void PoolZombie::initZombie()
 {
-	for (int indexZombie = 0; indexZombie < ZOMBIE_2; indexZombie++)
+	for (int indexZombie = 0; indexZombie < ZOMBIE_SIZE; indexZombie++)
 	{
 		auto zombie = PZombie::create(this, "Z2Walk", TAG_ZOMBIE2);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
-		zombie->setHealthBar(HEALTH_ZOMBIE2);
+		zombie->setHealthBar(HEALTH_ZOMBIE);
 		zombie->setVisible(false);
 		_listZombie1.pushBack(zombie);
 
 		auto zombie2 = PZombie::create(this, "Z3Walk", TAG_ZOMBIE3);
 		zombie2->setGamePlayLayerPtr(_gamePlayLayerPtr);
-		zombie2->setHealthBar(HEALTH_ZOMBIE3);
+		zombie2->setHealthBar(HEALTH_ZOMBIE);
 		zombie2->setVisible(false);
 		_listZombie2.pushBack(zombie2);
 	}
+	for (int index = 0; index < ZOMBIE_SIZE; index++)
+	{
+		_listZombie2Total.pushBack(_listZombie1.at(index));
+		_listZombie2Total.pushBack(_listZombie2.at(index));
+	}
+	 
 }
 
 PZombie* PoolZombie::getZombie()
@@ -41,8 +51,8 @@ PZombie* PoolZombie::getZombie()
 		if (_listZombie1.at(index)->isVisible() == false)
 		{
 			zombie = _listZombie1.at(index);
-			zombie->health = HEALTH_ZOMBIE2;
-			auto resetHealth = HEALTH_ZOMBIE2;
+			zombie->health = HEALTH_ZOMBIE;
+			auto resetHealth = HEALTH_ZOMBIE;
 			zombie->updateHealthBar(resetHealth);
 			foundZombie = true;
 		}
@@ -54,7 +64,7 @@ PZombie* PoolZombie::getZombie()
 	if (zombie == nullptr)
 	{
 		zombie = PZombie::create(this, "Z2Walk", TAG_ZOMBIE2);
-		zombie->setHealthBar(zombie->health);
+		zombie->setHealthBar(HEALTH_ZOMBIE);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie->setVisible(false);
 		_listZombie1.pushBack(zombie);
@@ -71,8 +81,8 @@ PZombie* PoolZombie::getZombie3()
 		if (_listZombie2.at(index)->isVisible() == false)
 		{
 			zombie = _listZombie2.at(index);
-			zombie->health3 = HEALTH_ZOMBIE3;
-			auto resetHealth = HEALTH_ZOMBIE3;
+			zombie->health = HEALTH_ZOMBIE;
+			auto resetHealth = HEALTH_ZOMBIE;
 			zombie->updateHealthBar(resetHealth);
 			foundZombie = true;
 		}
@@ -84,7 +94,7 @@ PZombie* PoolZombie::getZombie3()
 	if (zombie == nullptr)
 	{
 		zombie = PZombie::create(this, "Z3Walk", TAG_ZOMBIE3);
-		zombie->setHealthBar(zombie->health3);
+		zombie->setHealthBar(HEALTH_ZOMBIE);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie->setVisible(false);
 		_listZombie2.pushBack(zombie);
@@ -100,9 +110,7 @@ bool PoolZombie::init(GamePlayLayer* ptr)
 	{
 		return false;
 	}
-	//Tú đã sửa
 	_gamePlayLayerPtr = ptr;
-	//
 	setFrameBloodBar();
 	setBloodBar(0);
 	initZombie();
@@ -227,15 +235,19 @@ void PoolZombie::updateBloodBar(float percent)
 
 bool PoolZombie::checkTheLastZombie()
 {
-	for (int index = 0; index < _listZombie1.size(); index++)
+	if (numberZombie < 100)
 	{
-		if (_listZombie1.at(index)->isVisible() == true)
-		{
-			return false;
-		}
+		return false;
 	}
-	if (numberZombie >= 100)
+	else
 	{
+		for (int index = 0; index < _listZombie2Total.size(); index++)
+		{
+			if (_listZombie2Total.at(index)->isVisible() == true)
+			{
+				return false;
+			}
+		}
 		return true;
 	}
 	return false;
@@ -291,7 +303,7 @@ void PoolZombie::changeSchedule(int NOZombie)
 	}
 }
 
-void PoolZombie::updateSchedule(int NOZombie, float time)
+void PoolZombie::updateSchedule(float time, int NOZombie)
 {
 	if (NOZombie == 2)
 	{
@@ -311,34 +323,34 @@ float PoolZombie::randomPositionY()
 	int random1_4 = random(1, 4);
 	if (random1_4 == 1)
 	{
-		position_Y = 0.1f;
+		position_Y = PositionY1;
 	}
 	else if (random1_4 == 2)
 	{
-		position_Y = 0.13f;
+		position_Y = PositionY2;
 	}
 	else if (random1_4 == 3)
 	{
-		position_Y = 0.16f;
+		position_Y = PositionY3;
 	}
 	else
 	{
-		position_Y = 0.19f;
+		position_Y = PositionY4;
 	}
 	return position_Y;
 }
 float PoolZombie::randomPositionX(float position_y)
 {
 	float position_x = 0.1f;
-	if (position_y >= 0.1 && position_y < 0.12)
+	if (position_y >= PositionY1 && position_y < PositionY2 - 1)
 	{
 		position_x = 0.23f;
 	}
-	else if (position_y <= 0.13)
+	else if (position_y <= PositionY2)
 	{
 		position_x = 0.27f;
 	}
-	else if (position_y <= 0.16)
+	else if (position_y <= PositionY3)
 	{
 		position_x = 0.3f;
 	}
@@ -352,15 +364,15 @@ float PoolZombie::randomPositionX(float position_y)
 int PoolZombie::ZOrder(float position_y)
 {
 	auto zOrder = 1;
-	if (position_y >= 0.1 && position_y < 0.12)
+	if (position_y >= PositionY1 && position_y < PositionY2 - 1)
 	{
 		zOrder = 4;
 	}
-	else if (position_y <= 0.13)
+	else if (position_y <= PositionY2)
 	{
 		zOrder = 3;
 	}
-	else if (position_y <= 0.16)
+	else if (position_y <= PositionY3)
 	{
 		zOrder = 2;
 	}

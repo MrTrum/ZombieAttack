@@ -26,6 +26,7 @@ public:
 private:
 	cocos2d::Vector<PZombie*>   _listZombie1;
 	cocos2d::Vector<PZombie*>   _listZombie2;
+	cocos2d::Vector<PZombie*>   _listZombie2Total;
 	ui::LoadingBar				*bloodbar;
 	int							numberZombie;
 	int							_check;
@@ -36,7 +37,7 @@ private:
 	void						setBloodBar(float percent);
 	void						updateBloodBar(float percent);
 	void						setFrameBloodBar();
-	void						updateSchedule(int NOZombie,float time);
+	void						updateSchedule(float time, int NOZombie);
 	//Tú đã sửa
 	GamePlayLayer*				_gamePlayLayerPtr;
 };

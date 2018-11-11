@@ -82,14 +82,14 @@ bool Hero::init()
 void Hero::onCollission(GameObject *obj)
 {
 	PZombie *pzombie = static_cast<PZombie*>(obj);
-	if (obj->getTag() == TAG_ZOMBIE2 || obj->getTag() == TAG_ZOMBIE3 && PZombie::damageOfZombie <= 0)
+	if ((obj->getTag() == TAG_ZOMBIE2 || obj->getTag() == TAG_ZOMBIE3) && PZombie::damageOfZombie <= 0)
 	{
 		PZombie::damageOfZombie = DAMAGE_OF_ZOMBIE2;
 		schedule(schedule_selector(Hero::heroWounded), 0.5f);
 		_listZombieCollision.pushBack(pzombie);
 		scheduleUpdate();
 	}
-	else if (obj->getTag() == TAG_ZOMBIE2 || obj->getTag() == TAG_ZOMBIE3 && PZombie::damageOfZombie > 0)
+	else if ((obj->getTag() == TAG_ZOMBIE2 || obj->getTag() == TAG_ZOMBIE3) && PZombie::damageOfZombie > 0)
 	{
 		_listZombieCollision.pushBack(pzombie);
 		PZombie::damageOfZombie += 0.5;
@@ -104,8 +104,10 @@ void Hero::heroWounded(float delta)
 	}
 	this->_health -= PZombie::damageOfZombie;
 	this->updateHealthBar(_health);
+
 	auto tintTo = TintTo::create(0.5f, 255, 50, 50);
 	_healthbarHero->runAction(tintTo);
+
 	if (this->_health <= 0)
 	{
 		CCLOG("Dead");
