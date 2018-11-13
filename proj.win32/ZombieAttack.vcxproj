@@ -168,7 +168,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Weapon\M4A1\M4A1.cpp" />
     <ClCompile Include="..\Classes\Zombie\CreateTestLine.cpp" />
     <ClCompile Include="..\Classes\Zombie\PZombie.cpp" />
-    <ClCompile Include="..\Classes\Zombie\TestLine.cpp" />
     <ClCompile Include="..\Classes\Zombie\TestLine2.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -194,7 +193,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Weapon\M4A1\M4A1.h" />
     <ClInclude Include="..\Classes\Zombie\CreateTestLine.h" />
     <ClInclude Include="..\Classes\Zombie\PZombie.h" />
-    <ClInclude Include="..\Classes\Zombie\TestLine.h" />
     <ClInclude Include="..\Classes\Zombie\TestLine2.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>

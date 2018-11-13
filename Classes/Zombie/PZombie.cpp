@@ -187,66 +187,18 @@ void PZombie::playAttackAnimation(std::string stringname)
 
 std::string	PZombie::convertFromTagToStringWalk(int tag)
 {
-	std::string stringName;
-	if (tag == TAG_ZOMBIE2)
-	{
-		stringName = "Z2Walk";
-	}
-	else if (tag == TAG_ZOMBIE3)
-	{
-		stringName = "Z3Walk";
-	}
-	else if (tag == TAG_ZOMBIE4)
-	{
-		stringName = "Z4Walk";
-	}
-	else if (tag == TAG_ZOMBIE5)
-	{
-		stringName = "Z5Walk";
-	}
+	std::string stringName = StringUtils::format("Z%dWalk", tag);
 	return stringName;
 }
 
 std::string	PZombie::convertFromTagToStringAttack(int tag)
 {
-	std::string stringName;
-	if (tag == TAG_ZOMBIE2)
-	{
-		stringName = "Z2Attack";
-	}
-	else if (tag == TAG_ZOMBIE3)
-	{
-		stringName = "Z3Attack";
-	}
-	else if (tag == TAG_ZOMBIE4)
-	{
-		stringName = "Z4Attack";
-	}
-	else if (tag == TAG_ZOMBIE5)
-	{
-		stringName = "Z5Attack";
-	}
+	std::string stringName = StringUtils::format("Z%dAttack", tag);
 	return stringName;
 }
 
 std::string	PZombie::convertFromTagToStringDead(int tag)
 {
-	std::string stringName;
-	if (tag == TAG_ZOMBIE2)
-	{
-		stringName = "Z2Dead";
-	}
-	else if (tag == TAG_ZOMBIE3)
-	{
-		stringName = "Z3Dead";
-	}
-	else if (tag == TAG_ZOMBIE4)
-	{
-		stringName = "Z4Dead";
-	}
-	else if (tag == TAG_ZOMBIE5)
-	{
-		stringName = "Z5Dead";
-	}
+	std::string stringName = StringUtils::format("Z%dDead", tag);
 	return stringName;
 }

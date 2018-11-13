@@ -90,6 +90,8 @@ private:
 	cocos2d::ui::Button* _resumeBtn;
 	cocos2d::ui::Button* _quitBtn;
 	cocos2d::ui::Button* _shopBtn;
+
+	int scenePlay;
 };
 
 #endif // !_GAME_PLAY_LAYER

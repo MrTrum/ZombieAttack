@@ -37,10 +37,10 @@
 #define BULLET_VEC								800.0f
 
 //setTag
-#define TAG_ZOMBIE2								2
-#define TAG_ZOMBIE3								3
-#define TAG_ZOMBIE4								4
-#define TAG_ZOMBIE5								5
+#define TAG_ZOMBIE1								2
+#define TAG_ZOMBIE2								3
+#define TAG_ZOMBIE3								4
+#define TAG_ZOMBIE4								5
 #define TAG_LINE								6
 #define TAG_LINE2								7
 #define TAG_HERO								8

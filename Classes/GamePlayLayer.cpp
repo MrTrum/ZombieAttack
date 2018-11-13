@@ -16,7 +16,7 @@
 
 USING_NS_CC;
 
-GamePlayLayer::GamePlayLayer()
+GamePlayLayer::GamePlayLayer() : scenePlay(1)
 {
 }
 
@@ -103,7 +103,7 @@ bool GamePlayLayer::init()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
 
 
-	auto poolZombie = PoolZombie::create(this);
+	auto poolZombie = PoolZombie::create(this, scenePlay);
 	this->addChild(poolZombie, 3);
 
 	auto testline2 = TestLine2::create();

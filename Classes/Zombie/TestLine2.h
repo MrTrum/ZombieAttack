@@ -11,8 +11,6 @@ public:
 	TestLine2();
 	~TestLine2();
 	bool init();
-
-	void createLine(float delta);
 	
 	CREATE_FUNC(TestLine2);
 };
