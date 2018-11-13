@@ -50,19 +50,11 @@ protected:
 	void onTouchMoved(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touches, Event* event);
 	void onTouchCancelled(Touch* touches, Event* event);
-	void Shooting(Touch *touch);
-	bool isTouchingSprite(Touch* touch);
-	Point touchToPoint(Touch* touch);
-	enum State
-	{
-		STATE_STANDING,
-		STATE_SHOOTING,
-		STATE_RELOADING,
-	};
+	void Shooting();
 
 private:
-	Dynamite		*_dynamite;
-	Point			touchOffset;
+	Point			_location;
+	bool			_isPressed = false;
 	int				getTag;
 	BackgroundLayer *_bg;
 	Hero			*_hero;

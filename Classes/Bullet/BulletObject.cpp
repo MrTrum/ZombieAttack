@@ -19,7 +19,7 @@ bool BulletObject::init(float x, float y)
 	auto winSize = Director::getInstance()->getWinSize();
 	_sprBullet = Sprite::create("test_bullet.png");
 	addChild(_sprBullet);
-	//_sprBullet->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
+	setScale(0.15f);
 	PhysicsBody* _bulletPhysicBody = PhysicsBody::createBox(_sprBullet->getContentSize() / 2);
 	_bulletPhysicBody->setContactTestBitmask(true);
 	_bulletPhysicBody->setDynamic(false);
@@ -49,6 +49,8 @@ BulletObject *BulletObject::create(float x, float y)
 
 void BulletObject::reset(float x, float y)
 {
+	Size winSize = Director::getInstance()->getWinSize();
+	this->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
 	this->setVisible(true);
 	bulletFire(x, y);
 	scheduleUpdate();
@@ -72,34 +74,19 @@ void BulletObject::setOnDestroyCallback(OnBulletDestroyCallback callback)
 void BulletObject::bulletFire(float locationX, float locationY)
 {
 	Size winSize = Director::getInstance()->getWinSize();
-	int offX = locationX - _sprBullet->getPosition().x;
-	int offY = locationY - _sprBullet->getPosition().y;
-
-	if (offX <= 0) return;
-
-	int realX = winSize.width + (_sprBullet->getContentSize().width / 2);
-
-	float ratio = (float)offY / (float)offX;
-	int realY = (realX * ratio) + _sprBullet->getPosition().y;
-	auto realDest = Point(realX, realY);
-	float angleRadians = atan2f(realY, realX);
-	angleRadians = CC_RADIANS_TO_DEGREES(angleRadians);
-
-	int offRealX = realX - _sprBullet->getPosition().x;
-	int offRealY = realY - _sprBullet->getPosition().y;
-	float length = sqrtf((offRealX * offRealX) + (offRealY*offRealY));
-	float velocity = BULLET_VEC;
-	float realMoveDuration = length / velocity;
-	auto bulletFire = MoveTo::create(realMoveDuration, realDest);
-	_sprBullet->setRotation(-angleRadians);
-	DelayTime *delay = DelayTime::create(1.5);
+	auto startPos = this->getPosition();
+	auto target = Vec2(locationX, locationY);
+	auto distance = target - startPos;
+	auto vector = distance.getNormalized() * BULLET_VEC;
+	auto aBulletFire = MoveBy::create(1.0f, vector);
+	DelayTime *delay = DelayTime::create(1);
 	CallFunc *callback = CallFunc::create([=]
 	{
 		_willBeDestroy = true;
 	}
 	);
 
-	this->runAction(Sequence::create(bulletFire, delay, callback, NULL));
+	this->runAction(Sequence::create(aBulletFire, delay, callback, NULL));
 }
 
 void BulletObject::removeBullet()
