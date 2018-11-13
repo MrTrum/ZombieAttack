@@ -23,11 +23,14 @@ public:
 	float damage;
 
 	static float damageOfZombie;
+private:
+	int							_tag;
+	std::string					_stringName;
 public:
 	PZombie();
 	~PZombie();
-	bool init(PoolZombie *ptr);
-	static PZombie* create(PoolZombie *ptr);
+	bool init(PoolZombie *ptr, std::string zombieName, int tag);
+	static PZombie* create(PoolZombie *ptr, std::string zombieName, int tag);
 
 
 	void						setGamePlayLayerPtr(GamePlayLayer* ptr);
@@ -37,9 +40,12 @@ public:
 	void   					    dead();
 	void   					    attack();
 	void						reset();
-	void						playWalkAnimation();
-	void						playAttackAnimation();
-	void						playDeadAnimation(Vec2 deadPos);
+	void						playWalkAnimation(std::string zombieName);
+	void						playAttackAnimation(std::string stringname);
+	void						playDeadAnimation(Vec2 deadPos, std::string stringname);
 	void						onCollission(GameObject *obj) override;
+	std::string					convertFromTagToStringWalk(int tag);
+	std::string					convertFromTagToStringAttack(int tag);
+	std::string					convertFromTagToStringDead(int tag);
 };
 #endif // !_P_ZOMBIE_H_

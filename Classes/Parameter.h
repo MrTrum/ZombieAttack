@@ -2,8 +2,8 @@
 #define __PARAMETER_H__
 
 //thời gian
-#define TIME_CREATE_ZOMBIE_2					4.0f
-#define TIME_CREATE_ZOMBIE_3					3.0f
+#define TIME_CREATE_ZOMBIE_2					6.0f
+#define TIME_CREATE_ZOMBIE_3					6.0f
 #define TIME_CREATE_ZOMBIE_4					3.5f
 #define TIME_CREATE_ZOMBIE_5					4.0f
 #define TIME_CREATE_ZOMBIE_6					4.5f
@@ -37,22 +37,30 @@
 #define BULLET_VEC								2000.0f
 
 //setTag
-#define TAG_ZOMBIE								3
-#define TAG_LINE								4
-#define TAG_LINE2								5
-#define TAG_HERO								6
-#define TAG_BULLET								7
+#define TAG_ZOMBIE1								2
+#define TAG_ZOMBIE2								3
+#define TAG_ZOMBIE3								4
+#define TAG_ZOMBIE4								5
+#define TAG_LINE								6
+#define TAG_LINE2								7
+#define TAG_HERO								8
+#define TAG_BULLET								9
 
 //Số lượng tạo Zombie
-#define ZOMBIE_2								20
+#define ZOMBIE_SIZE								20
 
 
 //Health Zombie
-#define HEALTH_ZOMBIE2							100.0f
+#define HEALTH_ZOMBIE							100.0f
 
 //DAMAGE Zombie
 #define DAMAGE_ZOMBIE2							50.0f
 #define DAMAGE_OF_ZOMBIE2						0.5f
-
+//DAMAGE M4A1
+#define DAMAGE_M4A1                             20
+//NUMBER BULLET M4A1
+#define NUMBER_BULLET_M4A1                      60
+//PRICE M4A1
+#define PRICE_M4A1                              200
 
 #endif // __PARAMETER_H__

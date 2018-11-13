@@ -15,7 +15,7 @@
 
 USING_NS_CC;
 
-GamePlayLayer::GamePlayLayer()
+GamePlayLayer::GamePlayLayer() : scenePlay(1)
 {
 }
 
@@ -117,12 +117,34 @@ void GamePlayLayer::addUI()
 	);
 	runAction(Sequence::create(readyTime, removeRdTxt, NULL));
 
+	/*Thanh*/
+	//Set tấm ảnh sau khi texturePacker
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
+
+
+	auto poolZombie = PoolZombie::create(this, scenePlay);
+	this->addChild(poolZombie, 3);
+
+	auto testline2 = TestLine2::create();
+	this->addChild(testline2, 3);
+
+	auto listenEventPhysic = EventListenerPhysicsContact::create();
+	listenEventPhysic->onContactBegin = CC_CALLBACK_1(GamePlayLayer::onContactBegin, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenEventPhysic, this);
+
+	/*Tú*/
+
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist", "images/coin.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/numbers.plist", "images/numbers.png");
 	//tao icon tien
 	this->IconCoinCreate();
 	// tạo tiền
 	this->scheduleUpdate();
 	// tạo số tiền
 	_Money = Money::create();
+	_Money->setMoney(_totalMoney);
+	this->addChild(_Money, 4);
+	//tao nut pause
 	this->addChild(_Money, 4);
 	//tao nut pause
 	auto _pauseBtn = cocos2d::ui::Button::create("images/PauseButton.png");
@@ -192,9 +214,40 @@ void GamePlayLayer::createGoldBag(Vec2 deadPos)
 	this->addChild(goldBag, 3);
 	goldBag->setScale(0.2f);
 	goldBag->setPosition(deadPos);
+
+	auto scaleto = ScaleTo::create(2.0f, 0.3f);
+
+	auto button = CallFunc::create([=]
+	{
+		auto buttonHide = cocos2d::ui::Button::create("goldBag.png");
+		this->addChild(buttonHide, 2);
+		buttonHide->setScale(0.2f);
+		buttonHide->setPosition(deadPos);
+		buttonHide->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::testButton, this));
+	});
+
+	auto sqe = Sequence::create(scaleto, button, nullptr);
+	goldBag->runAction(sqe);
+}
+
+void GamePlayLayer::testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
+{
+	Size winSize = Director::getInstance()->getWinSize();
+	auto goldBag = Sprite::create("goldBag.png");
+	this->addChild(goldBag, 3);
+	goldBag->setScale(0.2f);
+	goldBag->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+
+	auto scaleto = ScaleTo::create(2.0f, 0.4f);
+	goldBag->runAction(scaleto);
 }
 
 /*Tú*/
+void GamePlayLayer::setTotalMoney(int shopMoney)
+{
+	_totalMoney = shopMoney;
+	_Money->setMoney(_totalMoney);
+}
 void GamePlayLayer::resumeGame()
 {
 	Director::getInstance()->resume();
@@ -324,6 +377,21 @@ void GamePlayLayer::Shooting()
 	auto bullet = _poolBullet->createBullet(_location.x, _location.y);
 	this->addChild(bullet, 2);
 	
+}
+	if (getTag == 200)
+bool GamePlayLayer::isTouchingSprite(Touch* touch)
+{
+	if (getTag == 200)
+	{
+		return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
+	}
+	}
+	return false;
+}
+Point GamePlayLayer::touchToPoint(Touch* touch)
+{
+	// convert the touch object to a position in our cocos2d space
+	return Director::getInstance()->convertToGL(touch->getLocationInView());
 }
 
 

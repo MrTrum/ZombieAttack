@@ -8,7 +8,6 @@
 USING_NS_CC;
 
 PZombie::PZombie() : 
-	health(HEALTH_ZOMBIE2),
 	damage(DAMAGE_ZOMBIE2)
 {
 }
@@ -19,10 +18,10 @@ PZombie::~PZombie()
 
 float PZombie::damageOfZombie = 0;
 
-PZombie* PZombie::create(PoolZombie *ptr)
+PZombie* PZombie::create(PoolZombie *ptr, std::string zombieName, int tag)
 {
 	PZombie *pRet = new(std::nothrow) PZombie();
-	if (pRet && pRet->init(ptr))
+	if (pRet && pRet->init(ptr, zombieName, tag))
 	{
 		pRet->autorelease();
 		return pRet;
@@ -35,15 +34,16 @@ PZombie* PZombie::create(PoolZombie *ptr)
 	}
 }
 
-bool PZombie::init(PoolZombie *ptr)
+bool PZombie::init(PoolZombie *ptr, std::string zombieName, int tag)
 {
 	if (!GameObject::init())
 	{
 		return false;
 	}
 	ptrPoolZombie = ptr;
+	_tag = tag;
+	_stringName = zombieName;
 
-	std::string zombieName = "Z2Walk";
 	_spr = Sprite::createWithSpriteFrameName(zombieName + "1.png");
 	this->addChild(_spr);
 
@@ -55,9 +55,9 @@ bool PZombie::init(PoolZombie *ptr)
 	physics->setGroup(1);
 	this->setPhysicsBody(physics);
 
-	this->setTag(TAG_ZOMBIE);
+	this->setTag(tag);
 
-	playWalkAnimation();
+	playWalkAnimation(zombieName);
 	return true;
 }
 
@@ -101,52 +101,55 @@ void PZombie::dead()
 {
 	this->health -= this->damage;
 	this->updateHealthBar(this->health);
-	if (this->health == 0)
+	if (this->health <= 0)
 	{
 		//Tú đã sửa
 		auto deadPos = this->getPosition();
 		this->getPhysicsBody()->setContactTestBitmask(false);
-		this->playDeadAnimation(deadPos);
+		auto stringname = convertFromTagToStringDead(this->getTag());
+		this->playDeadAnimation(deadPos, stringname);
 	}
 }
 
 void PZombie::attack()
 {
-	playAttackAnimation();
+	auto stringName = convertFromTagToStringAttack(this->getTag());
+	playAttackAnimation(stringName);
 }
 
 void PZombie::reset()
 {
-	playWalkAnimation();
+	auto stringName = convertFromTagToStringWalk(this->getTag());
+	playWalkAnimation(stringName);
 }
 
-void PZombie::playWalkAnimation()
+void PZombie::playWalkAnimation(std::string zombieName)
 {
 	_spr->stopAllActions();
 	auto *animation = Animation::create();
 	for (int i = 1; i < 7; i++)
 	{
-		std::string zombieName = StringUtils::format("Z2Walk%d.png", i);
-		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(zombieName));
+		std::string zombiename = StringUtils::format("%d.png", i);
+		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(zombieName + zombiename));
 	}
 	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
 	auto *animate = Animate::create(animation);
 	_spr->runAction(RepeatForever::create(animate));
 }
-//Tú đã sửa
+
 void PZombie::setGamePlayLayerPtr(GamePlayLayer* ptr)
 {
 	ptrGamePlayLayer = ptr;
 }
-void PZombie::playDeadAnimation(Vec2 deadPos)
+void PZombie::playDeadAnimation(Vec2 deadPos, std::string stringname)
 {
 	_spr->stopAllActions();
-	_spr->setSpriteFrame("Z2Dead1.png");
+	_spr->setSpriteFrame(stringname + "1.png");
 	auto *animation = Animation::create();
 	for (int i = 1; i < 9; i++)
 	{
-		std::string Z2Walk = StringUtils::format("Z2Dead%i.png", i);
-		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(Z2Walk));
+		std::string Z2Walk = StringUtils::format("%i.png", i);
+		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(stringname + Z2Walk));
 	}
 	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
 
@@ -167,17 +170,35 @@ void PZombie::playDeadAnimation(Vec2 deadPos)
 	ptrGamePlayLayer->CoinFly(deadPos);
 }
 
-void PZombie::playAttackAnimation()
+void PZombie::playAttackAnimation(std::string stringname)
 {
 	_spr->stopAllActions();
-	_spr->setSpriteFrame("Z2Attack1.png");
+	_spr->setSpriteFrame(stringname + "1.png");
 	auto *animation = Animation::create();
 	for (int i = 1; i < 7; i++)
 	{
-		std::string zombieName = StringUtils::format("Z2Attack%d.png", i);
-		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(zombieName));
+		std::string zombieName = StringUtils::format("%d.png", i);
+		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(stringname + zombieName));
 	}
 	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
 	auto *animate = Animate::create(animation);
 	_spr->runAction(RepeatForever::create(animate));
+}
+
+std::string	PZombie::convertFromTagToStringWalk(int tag)
+{
+	std::string stringName = StringUtils::format("Z%dWalk", tag);
+	return stringName;
+}
+
+std::string	PZombie::convertFromTagToStringAttack(int tag)
+{
+	std::string stringName = StringUtils::format("Z%dAttack", tag);
+	return stringName;
+}
+
+std::string	PZombie::convertFromTagToStringDead(int tag)
+{
+	std::string stringName = StringUtils::format("Z%dDead", tag);
+	return stringName;
 }

@@ -24,7 +24,7 @@ bool BulletObject::init(float x, float y)
 	xFromParent = x;
 	yFromParent = y;
 	//this->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
-	PhysicsBody* _bulletPhysicBody = PhysicsBody::createBox(_sprBullet->getContentSize());
+	PhysicsBody* _bulletPhysicBody = PhysicsBody::createBox(_sprBullet->getContentSize() / 2);
 	_bulletPhysicBody->setContactTestBitmask(true);
 	_bulletPhysicBody->setDynamic(false);
 	_bulletPhysicBody->setGroup(-2);
@@ -58,6 +58,7 @@ void BulletObject::reset(float x, float y)
 	auto winSize = Director::getInstance()->getWinSize();
 	this->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
 	this->setVisible(true);
+	bulletFire(x, y);
 	//scheduleOnce(schedule_selector(BulletObject::gunRecoil), M16_RECOIL);
 	bulletFire(x, y);
 	scheduleUpdate();
@@ -66,11 +67,12 @@ void BulletObject::reset(float x, float y)
 
 void BulletObject::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == TAG_ZOMBIE)
-		{
+	if (obj->getTag() == TAG_ZOMBIE1 || obj->getTag() == TAG_ZOMBIE2 || 
+		obj->getTag() == TAG_ZOMBIE3 || obj->getTag() == TAG_ZOMBIE4)
+	{
 		_willBeDestroy = true;
-		}
-	
+	}
+
 }
 
 void BulletObject::setOnDestroyCallback(OnBulletDestroyCallback callback)
@@ -104,11 +106,11 @@ void BulletObject::bulletFire(float locationX, float locationY)
 	auto aBulletFire = MoveBy::create(1.0f, vector);
 	DelayTime *delay = DelayTime::create(1.5);
 	CallFunc *callback = CallFunc::create([=]
-		{
-			_willBeDestroy = true;
-		}
+	{
+		_willBeDestroy = true;
+	}
 	);
-	
+
 	this->runAction(Sequence::create(aBulletFire, delay, callback, NULL));
 }
 

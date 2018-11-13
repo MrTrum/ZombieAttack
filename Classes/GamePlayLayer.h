@@ -38,10 +38,12 @@ public:
 	void update(float dt);
 	void moneyChange();
 	void CoinFly(Vec2 deadPos);
+	void setTotalMoney(int shopMoney);
 
 /*Thanh*/
 	bool onContactBegin(PhysicsContact &contact);
 	void createGoldBag(Vec2 deadPos);
+	void testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 /*Khoa*/
 protected:
 	bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
@@ -71,7 +73,7 @@ private:
 	Coin* _Coin;
 	Money* _Money;
 	PZombie* _coinFunc;
-	int _totalMoney = 0;
+	int _totalMoney = 1000;
 	bool _checkMoney = false;
 	cocos2d::Label* _labelResume;
 	cocos2d::Label*_labelShop;
@@ -79,6 +81,8 @@ private:
 	cocos2d::ui::Button* _resumeBtn;
 	cocos2d::ui::Button* _quitBtn;
 	cocos2d::ui::Button* _shopBtn;
+
+	int scenePlay;
 };
 
 #endif // !_GAME_PLAY_LAYER

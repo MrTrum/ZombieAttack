@@ -22,8 +22,6 @@ bool TestLine2::init()
 	}
 	auto winSize = Director::getInstance()->getWinSize();
 
-	scheduleOnce(schedule_selector(TestLine2::createLine), 25.0f);
-
 	auto getline2 = CreateTestLine::create();
 	getline2->setPosition(winSize.width * 0.4, 0.0);
 	this->addChild(getline2);
@@ -31,17 +29,6 @@ bool TestLine2::init()
 	return true;
 }
 
-void TestLine2::createLine(float delta)
-{
-	auto winSize = Director::getInstance()->getWinSize();
-
-	auto getline = TestLine::create();
-	getline->setPosition(winSize.width * 0.8, 0.0);
-	this->addChild(getline);
-
-	auto moveto = MoveTo::create(4.0f, Vec2(winSize.width *0.1f, 0.0f));
-	getline->runAction(moveto);
-}
 	
 
 

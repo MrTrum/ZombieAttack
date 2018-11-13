@@ -1,6 +1,7 @@
 ﻿#include "AppDelegate.h"
 #include "Parameter.h"
 #include "GamePlayLayer.h"
+#include "UI/Menu/MenuLayer.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -96,8 +97,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
 	// tắt start scene để test cho lẹ.
-    //auto scene = HelloWorld::create();
 	auto scene = GamePlayLayer::createGamePlayLayer();
+	//auto scene = MenuLayer::createScene();
     // run
     director->runWithScene(scene);
 
