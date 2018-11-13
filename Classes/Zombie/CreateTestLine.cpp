@@ -22,15 +22,15 @@ bool CreateTestLine::init()
 	}
 	auto winSize = Director::getInstance()->getWinSize();
 
-	auto linePhysics = Node::create();
+	/*auto linePhysics = Node::create();
 	this->addChild(linePhysics);
-	this->setTag(TAG_LINE2);
+	this->setTag(TAG_LINE2);*/
 
 
-	auto physicsForLine = PhysicsBody::createBox(Size(1, winSize.height));
+	/*auto physicsForLine = PhysicsBody::createBox(Size(1, winSize.height));
 	physicsForLine->setContactTestBitmask(true);
 	physicsForLine->setDynamic(false);
-	this->setPhysicsBody(physicsForLine);
+	this->setPhysicsBody(physicsForLine);*/
 
 	return true;
 }

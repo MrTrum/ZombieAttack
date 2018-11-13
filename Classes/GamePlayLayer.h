@@ -48,20 +48,11 @@ protected:
 	void onTouchMoved(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touches, Event* event);
 	void onTouchCancelled(Touch* touches, Event* event);
-	void Shooting(Touch *touch);
-	bool isTouchingSprite(Touch* touch);
-	Point touchToPoint(Touch* touch);
-	enum State
-	{
-		STATE_STANDING,
-		STATE_SHOOTING,
-		STATE_RELOADING,
-	};
+	void Shooting();
 
 private:
-	Dynamite		*_dynamite;
-	Point			touchOffset;
-	int				getTag;
+	bool			_isPressed;
+	Point			_location;
 	BackgroundLayer *_bg;
 	Hero			*_hero;
 	Base			*_base;
@@ -71,9 +62,9 @@ private:
 	float			_posY;
 	Sprite			*_Barrier;
 	Sprite			*_hpbar;
-	Sprite			*_iconDynamite;
-	ui::Widget		*_dynamiteBtn;
 /*Tú*/
+protected:
+	void addUI();
 private:
 	Vec2 _iconPos;
 	StoreLayer* _Shop;

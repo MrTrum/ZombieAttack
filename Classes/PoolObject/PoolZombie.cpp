@@ -66,7 +66,7 @@ bool PoolZombie::init(GamePlayLayer* ptr)
 	//
 	setFrameBloodBar();
 	setBloodBar(0);
-	createLine();
+	//createLine();
 	initZombie();
 
 	scheduleOnce(schedule_selector(PoolZombie::createZombie_2), TIME_CREATE_ZOMBIE_2);

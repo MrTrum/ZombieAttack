@@ -16,7 +16,7 @@ bool Dynamite::init()
 	}
 	_sprDynamite = Sprite::create("weapon_dynamite.png");
 	addChild(_sprDynamite);
-
+	
 
 	return true;
 }

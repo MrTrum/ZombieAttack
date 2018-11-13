@@ -12,7 +12,6 @@
 #include <ui/UIWidget.h>
 #include "Zombie/CreateTestLine.h"
 #include "PoolObject/PoolBullet.h"
-#include "Dynamite.h"
 
 USING_NS_CC;
 
@@ -44,6 +43,7 @@ bool GamePlayLayer::init()
 	Size winSize = Director::getInstance()->getWinSize();
 	this->removeAllChildren();
 	/*Khoa*/
+#pragma region SpriteFrameCache
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("redneck_idle.plist",
 		"redneck_idle.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/shotgun.plist",
@@ -58,23 +58,49 @@ bool GamePlayLayer::init()
 		"weapon/M16idle.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/M16firing.plist",
 		"weapon/M16firing.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist", "images/coin.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/numbers.plist", "images/numbers.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
+#pragma endregion
 
 	//add BG
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg, 1);
-
 	//add hero
 	_hero = Hero::create();
 	this->addChild(_hero, 3);
 	_hero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
-
 	_poolBullet = new PoolBullet();
-	//dynamite
-	_iconDynamite = Sprite::create("btn_dynamite.png");
+	//touch event
+	EventListenerTouchOneByOne *listenerTouch = EventListenerTouchOneByOne::create();
+	listenerTouch->onTouchBegan = CC_CALLBACK_2(GamePlayLayer::onTouchBegan, this);
+	listenerTouch->onTouchMoved = CC_CALLBACK_2(GamePlayLayer::onTouchMoved, this);
+	listenerTouch->onTouchEnded = CC_CALLBACK_2(GamePlayLayer::onTouchEnded, this);
+	listenerTouch->onTouchCancelled = CC_CALLBACK_2(GamePlayLayer::onTouchCancelled, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerTouch, this);
+
+	/*Thanh*/
+	auto poolZombie = PoolZombie::create(this);
+	this->addChild(poolZombie, 3);
+	auto testline2 = TestLine2::create();
+	//this->addChild(testline2, 3);
+	auto listenEventPhysic = EventListenerPhysicsContact::create();
+	listenEventPhysic->onContactBegin = CC_CALLBACK_1(GamePlayLayer::onContactBegin, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenEventPhysic, this);
+	/*Tú*/
+	addUI();
+	this->scheduleUpdate();
+	return true;
+}
+
+void GamePlayLayer::addUI()
+{
+	Size winSize = Director::getInstance()->getWinSize();
+	/*_iconDynamite = Sprite::create("btn_dynamite.png");
 	addChild(_iconDynamite, 2);
-	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.06f));
-	_iconDynamite->setTag(200);
+	_iconDynamite->setPosition(Vec2(winSize.width * 0.95f, winSize.height * 0.06f));
+	_iconDynamite->setTag(200);*/
 	auto readyTxt = Label::createWithTTF("READY !!!", "fonts/Creepster-Regular.ttf", 80);
 	addChild(readyTxt, 2);
 	readyTxt->setColor(cocos2d::Color3B::GREEN);
@@ -90,41 +116,15 @@ bool GamePlayLayer::init()
 	}
 	);
 	runAction(Sequence::create(readyTime, removeRdTxt, NULL));
-	//touch event
-	EventListenerTouchOneByOne *listenerTouch = EventListenerTouchOneByOne::create();
-	listenerTouch->onTouchBegan = CC_CALLBACK_2(GamePlayLayer::onTouchBegan, this);
-	listenerTouch->onTouchMoved = CC_CALLBACK_2(GamePlayLayer::onTouchMoved, this);
-	listenerTouch->onTouchEnded = CC_CALLBACK_2(GamePlayLayer::onTouchEnded, this);
-	listenerTouch->onTouchCancelled = CC_CALLBACK_2(GamePlayLayer::onTouchCancelled, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerTouch, this);
 
-	/*Thanh*/
-	//Set tấm ảnh sau khi texturePacker
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
-
-
-	auto poolZombie = PoolZombie::create(this);
-	this->addChild(poolZombie, 3);
-
-	auto testline2 = TestLine2::create();
-	this->addChild(testline2, 3);
-
-	auto listenEventPhysic = EventListenerPhysicsContact::create();
-	listenEventPhysic->onContactBegin = CC_CALLBACK_1(GamePlayLayer::onContactBegin, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenEventPhysic, this);
-
-	/*Tú*/
-
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist", "images/coin.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/numbers.plist", "images/numbers.png");
 	//tao icon tien
 	this->IconCoinCreate();
 	// tạo tiền
 	this->scheduleUpdate();
 	// tạo số tiền
 	_Money = Money::create();
-	this->addChild(_Money,4);
-	 //tao nut pause
+	this->addChild(_Money, 4);
+	//tao nut pause
 	auto _pauseBtn = cocos2d::ui::Button::create("images/PauseButton.png");
 	_pauseBtn->setPosition(Vec2(winSize.width*0.025f, winSize.height*0.968f));
 	_pauseBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchPauseButton, this));
@@ -169,10 +169,7 @@ bool GamePlayLayer::init()
 	_labelQuit->setPosition(_quitBtn->getPosition());
 	_labelQuit->setVisible(false);
 	this->addChild(_labelQuit, 4);
-
-	return true;
 }
-
 bool GamePlayLayer::onContactBegin(PhysicsContact &contact)
 {
 	PhysicsBody *a = contact.getShapeA()->getBody();
@@ -214,10 +211,7 @@ void GamePlayLayer::moneyChange()
 	_totalMoney = _totalMoney + 1;
 	_Money->setMoney(_totalMoney);
 }
-void GamePlayLayer::update(float dt)
-{
 
-}
 void GamePlayLayer::CoinFly(Vec2 deadPos)
 {
 	CallFunc* loop = CallFunc::create([=]
@@ -244,7 +238,7 @@ void GamePlayLayer::IconCoinCreate()
 	_IconCoin->setScale(0.15f);
 	_IconCoin->setPosition(Vec2(winSize.width*0.57f, winSize.height*0.968f));
 	_iconPos = _IconCoin->getPosition();
-	this->addChild(_IconCoin,4);
+	this->addChild(_IconCoin, 4);
 }
 
 void GamePlayLayer::TouchPauseButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
@@ -290,90 +284,46 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 
 /*Khoa*/
 
+void GamePlayLayer::update(float dt)
+{
+	if (_isPressed)
+	{
+		_hero->shootAnimation();
+		Shooting();
+	}
+}
+
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
 	Point location = touch->getLocationInView();
-	location = CCDirector::sharedDirector()->convertToGL(location);
-	if (_iconDynamite->boundingBox().containsPoint(location) && _iconDynamite->getTag() == 200)
-	{
-		getTag = 200;
-		if (this->isTouchingSprite(touch))
-		{
-			this->touchOffset = ccpSub(_iconDynamite->getPosition(),
-				this->touchToPoint(touch));
-		}
-		return true;
-	}
-	else
-	{
-		_hero->shootAnimation();
-		Shooting(touch);
-		return true;
-	}
-	return false;
+	_location = CCDirector::sharedDirector()->convertToGL(location);
+	//_hero->shootAnimation();
+	//Shooting(touch);
+	_isPressed = true;
+	return true;
 }
 
 void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
 	CCPoint location = touch->getLocationInView();
-	location = CCDirector::sharedDirector()->convertToGL(location);
-
-
-	if (touch && touchOffset.x && touchOffset.y)
-	{
-		if (getTag == 1)
-			this->_iconDynamite->setPosition(ccpAdd(this->touchToPoint(touch), this->touchOffset));
-	}
-	else
-	{
-		_hero->shootAnimation();
-		Shooting(touch);
-	}
+	_location = CCDirector::sharedDirector()->convertToGL(location);
 }
 
 void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
 {
 	Size winSize = Director::getInstance()->getWinSize();
-	Vec2 droppedPos = _iconDynamite->getPosition();
-	/*_dynamite = Dynamite::create();
-	this->addChild(_dynamite);
-	_dynamite->throwDynamite(droppedPos.x, droppedPos.y);
-	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.12f));*/
+	_isPressed = false;
 }
-
 void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event)
 {
-
+	_isPressed = false;
 }
 
-void GamePlayLayer::Shooting(Touch *touch)
+void GamePlayLayer::Shooting()
 {
-	auto winSize = Director::getInstance()->getWinSize();
-	Point location = touch->getLocationInView();
-	location = Director::getInstance()->convertToGL(location);
-	//_poolBullet = PoolBullet::create(location.x, location.y);
-	//this->addChild(_poolBullet,10);
-	auto bullet = _poolBullet->createBullet(location.x, location.y);
-	this->addChild(bullet);
-	bullet->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
-}
-bool GamePlayLayer::isTouchingSprite(Touch* touch)
-{
-	if (getTag == 200)
-<<<<<<< .mine
-	{
-	return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
-=======
-		return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
-
->>>>>>> .theirs
-	}
-	return false;
-}
-Point GamePlayLayer::touchToPoint(Touch* touch)
-{
-	// convert the touch object to a position in our cocos2d space
-	return Director::getInstance()->convertToGL(touch->getLocationInView());
+	auto bullet = _poolBullet->createBullet(_location.x, _location.y);
+	this->addChild(bullet, 2);
+	
 }
 
 
