@@ -18,6 +18,7 @@ public:
 	void removeBullet();
 	void reset(float x, float y);
 	void setOnDestroyCallback(OnBulletDestroyCallback callback);
+	void preventShooting();
 private:
 	void update(float delta);
 	void bulletFire(float locationX, float locationY);
@@ -25,6 +26,7 @@ private:
 	cocos2d::Sprite *_sprBullet;
 	OnBulletDestroyCallback _onBulletDestroyCallback;
 	bool _willBeDestroy;
+	bool _isShooting;
 };
 
 #endif // !_BULLETOBJECT_H_

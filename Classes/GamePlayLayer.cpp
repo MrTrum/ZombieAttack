@@ -67,7 +67,7 @@ bool GamePlayLayer::init()
 	this->addChild(_hero, 3);
 	_hero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
-
+	this->schedule(schedule_selector(GamePlayLayer::updatePressed), 0.4f);
 	_poolBullet = new PoolBullet();
 	//dynamite
 	_iconDynamite = Sprite::create("btn_dynamite.png");
@@ -118,8 +118,6 @@ bool GamePlayLayer::init()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/numbers.plist", "images/numbers.png");
 	//tao icon tien
 	this->IconCoinCreate();
-	// tạo tiền
-	this->scheduleUpdate();
 	// tạo số tiền
 	_Money = Money::create();
 	_Money->setMoney(_totalMoney);
@@ -245,14 +243,7 @@ void GamePlayLayer::moneyChange()
 	_totalMoney = _totalMoney + 1;
 	_Money->setMoney(_totalMoney);
 }
-void GamePlayLayer::update(float dt)
-{
-	if (_isPressed)
-	{
-		_hero->shootAnimation();
-		Shooting();
-	}
-}
+
 void GamePlayLayer::CoinFly(Vec2 deadPos)
 {
 	CallFunc* loop = CallFunc::create([=]
@@ -329,6 +320,7 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 	Point location = touch->getLocationInView();
 	_location = CCDirector::sharedDirector()->convertToGL(location);
 	_isPressed = true;
+	//scheduleOnce(schedule_selector(GamePlayLayer::updatePressed), 0.15f);
 	return true;
 }
 
@@ -336,6 +328,7 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
 	Point location = touch->getLocationInView();
 	_location = CCDirector::sharedDirector()->convertToGL(location);
+	//scheduleOnce(schedule_selector(GamePlayLayer::updatePressed), 0.15f);
 }
 
 void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
@@ -348,13 +341,28 @@ void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event)
 {
 
 }
+void GamePlayLayer::updatePressed(float dt)
+{
+	if (_isPressed)
+	{
+		Shooting();
+	}
+}
+
 
 void GamePlayLayer::Shooting()
 {
 	Size winSize = Director::getInstance()->getWinSize();
-	auto bullet = _poolBullet->createBullet(_location.x, _location.y);
-	this->addChild(bullet, 2);
-	bullet->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
+	_hero->shootAnimation();
+	CallFunc *createBullet = CallFunc::create([=] {
+		_bullet = _poolBullet->createBullet(_location.x, _location.y);
+		this->addChild(_bullet, 2);
+		_bullet->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
+	});
+	runAction(Sequence::create(createBullet, DelayTime::create(1.5), nullptr));
+	//_bullet = _poolBullet->createBullet(_location.x, _location.y);
+	
+	
 }
 
 
