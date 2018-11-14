@@ -99,15 +99,15 @@
     <ClCompile Include="..\Classes\UI\GameStats\ItemStats.cpp">
       <Filter>src\UI\GameStats</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\PoolObject\PoolBullet.cpp">
-      <Filter>src\PoolObject</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Dynamite.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\Weapon\M4A1\M4A1.cpp">
       <Filter>src\Weapon\M4A1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PoolObject\PoolBullet.cpp">
+      <Filter>src\PoolObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

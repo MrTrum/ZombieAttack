@@ -74,12 +74,17 @@ void BulletObject::setOnDestroyCallback(OnBulletDestroyCallback callback)
 void BulletObject::bulletFire(float locationX, float locationY)
 {
 	Size winSize = Director::getInstance()->getWinSize();
+	float recoil = random(-20, 10);
 	auto startPos = this->getPosition();
 	auto target = Vec2(locationX, locationY);
 	auto distance = target - startPos;
+	distance.y += recoil;
 	auto vector = distance.getNormalized() * BULLET_VEC;
 	auto aBulletFire = MoveBy::create(1.0f, vector);
-	DelayTime *delay = DelayTime::create(1);
+	float angleRadians = atan2f(locationY - winSize.height * 0.25f, locationX - winSize.width * 0.25f);
+	angleRadians = CC_RADIANS_TO_DEGREES(angleRadians);
+	this->setRotation(-angleRadians);
+	DelayTime *delay = DelayTime::create(0.5);
 	CallFunc *callback = CallFunc::create([=]
 	{
 		_willBeDestroy = true;
@@ -93,6 +98,10 @@ void BulletObject::removeBullet()
 {
 	this->removeFromParent();
 }
+void BulletObject::preventShooting()
+{
+	_isShooting = false;
+}
 
 void BulletObject::update(float delta)
 {
@@ -105,5 +114,9 @@ void BulletObject::update(float delta)
 		stopAllActions();
 		this->removeFromParent();
 		_willBeDestroy = false;
+	}
+	if (!_isShooting)
+	{
+		this->removeFromParent();
 	}
 }
