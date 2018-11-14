@@ -21,6 +21,7 @@ public:
 	void TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void setGamePlayLayerPtr(GamePlayLayer* ptr);
 	void setTotalMoney(int _GameTotalMoney);
+	void setCallBack(std::function<void(M4A1* Gun)> callback);
 private:
 	int _shopTotalMoney;
 	cocos2d::ui::Button* _quitShop;
@@ -32,7 +33,7 @@ private:
 	M4A1* _iconGun;
 	Money* _Money; 
 	UserDefault* def;
-	bool check = false;
+	std::function<void(M4A1* Gun)> _callback;
 };
 
 

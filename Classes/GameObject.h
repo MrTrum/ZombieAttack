@@ -15,6 +15,8 @@ public:
 	bool init();
 
 	virtual void						onCollission(GameObject *obj) = 0;
+protected:
+	int _Dmg;
 };
 
 

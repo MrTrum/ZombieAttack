@@ -1,4 +1,4 @@
-#include "Weapon/M4A1/M4A1.h"
+﻿#include "Weapon/M4A1/M4A1.h"
 #include "Parameter.h"
 USING_NS_CC;
 M4A1::M4A1()
@@ -15,6 +15,7 @@ bool M4A1::init()
 		return false;
 	}
 	Size winSize = Director::getInstance()->getWinSize();
+	//Tạo súng
 	return true;
 }
 void M4A1::setIcon()
@@ -50,3 +51,4 @@ void M4A1::setLabelStats()
 	std::string _numStr = StringUtils::format("  %i", _Stats._BulletNumber);
 	_labelNum->setString(_numStr);
 }
+

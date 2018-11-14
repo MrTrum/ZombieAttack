@@ -30,7 +30,10 @@ bool BulletObject::init(float x, float y)
 	scheduleUpdate();
 	return true;
 }
-
+void BulletObject::setDamageBullet(int Dmg)
+{
+	 _Dmg = Dmg;
+}
 BulletObject *BulletObject::create(float x, float y)
 {
 	BulletObject *pRet = new(std::nothrow) BulletObject();

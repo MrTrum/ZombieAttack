@@ -8,7 +8,6 @@
 #include "PoolObject/PoolZombie.h"
 #include "UI/Coin/Coin.h"
 #include "Zombie/TestLine2.h"
-#include "Zombie/TestLine.h"
 #include <ui/UIWidget.h>
 #include "Zombie/CreateTestLine.h"
 #include "PoolObject/PoolBullet.h"
@@ -114,7 +113,6 @@ bool GamePlayLayer::init()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenEventPhysic, this);
 
 	/*Tú*/
-
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist", "images/coin.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/numbers.plist", "images/numbers.png");
 	//tao icon tien
@@ -170,7 +168,8 @@ bool GamePlayLayer::init()
 	_labelQuit->setPosition(_quitBtn->getPosition());
 	_labelQuit->setVisible(false);
 	this->addChild(_labelQuit, 4);
-
+	//Level
+	_Bullet = NUMBER_BULLET_M4A1;
 	return true;
 }
 
@@ -306,6 +305,12 @@ void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
 		_Shop = StoreLayer::create();
+		_Shop->setCallBack([=](M4A1* Gun)
+		{
+			this->_Level = Gun->_Level;
+			this->_Bullet += Gun->_Stats._BulletNumber;
+			this->_gunM4A1 = Gun;
+		});
 		_Shop->setGamePlayLayerPtr(this);
 		_Shop->setTotalMoney(_totalMoney);
 		_Money->setVisible(false);
@@ -324,6 +329,7 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
+
 	Point location = touch->getLocationInView();
 	location = CCDirector::sharedDirector()->convertToGL(location);
 	if (_iconDynamite->boundingBox().containsPoint(location) && _iconDynamite->getTag() == 200)
@@ -338,9 +344,19 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 	}
 	else
 	{
-		_hero->shootAnimation();
-		Shooting(touch);
-		return true;
+		//Tú đã sửa
+		if (_Bullet >= 0)
+		{
+			_hero->shootAnimation();
+			Shooting(touch);
+			_Bullet--;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
 	}
 	return false;
 }
@@ -387,6 +403,7 @@ void GamePlayLayer::Shooting(Touch *touch)
 	//this->addChild(_poolBullet,10);
 	auto bullet = _poolBullet->createBullet(location.x, location.y);
 	this->addChild(bullet);
+	bullet->setDamageBullet(_gunM4A1->_Stats._Damage);
 	bullet->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
 }
 bool GamePlayLayer::isTouchingSprite(Touch* touch)

@@ -11,10 +11,11 @@ public:
 	virtual bool init();
 	void setIcon();
 	void setLabelStats();
-	int _Level=1;
+	void setPtr();
+	int _Level;
 	WeaponStats _Stats; 
 private:
-
+	cocos2d::Sprite* _Gun;
 	cocos2d::Sprite* _iconGun;
 	cocos2d::Sprite* _Dmg;
 	cocos2d::Sprite* _bulletNum;

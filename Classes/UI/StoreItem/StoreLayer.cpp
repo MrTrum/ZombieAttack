@@ -78,9 +78,12 @@ bool StoreLayer::init()
 	this->addChild(_Money);
 	//Icon gun
 	_iconGun = M4A1::create();
-	_iconGun->_Stats.setStats(DAMAGE_M4A1, NUMBER_BULLET_M4A1, PRICE_M4A1);
+	def = UserDefault::getInstance();
+	_iconGun->_Level = def->getIntegerForKey("LevelM4A1");
+	_iconGun->_Stats.setStats(DAMAGE_M4A1*1.5*_iconGun->_Level, NUMBER_BULLET_M4A1*1.5*_iconGun->_Level, PRICE_M4A1*1.5*_iconGun->_Level);
 	_iconGun->setIcon();
 	this->addChild(_iconGun, 4);
+	
 	//Price
 	auto _Price = Sprite::createWithSpriteFrameName("coin1.png");
 	_Price->setPosition(Vec2(winSize.width*(PRICE_WIDTH_POSITION), winSize.height*PRICE_HEIGHT_POSITION));
@@ -102,25 +105,33 @@ void StoreLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventTy
 	}
 }
 void StoreLayer::TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
-{
-	if (check == false)
-	{
-		 def = UserDefault::getInstance();
-		_iconGun->_Level = def->getIntegerForKey("LevelM4A1");
-		check = true;
-	}
+{ 
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
-		_shopTotalMoney = _shopTotalMoney - _iconGun->_Stats._Price;
-		_btnGamePlayLayer->setTotalMoney(_shopTotalMoney);
-		_Money->setMoney(_shopTotalMoney);
-		def->setIntegerForKey("LevelM4A1", _iconGun->_Level++);
-		_iconGun->_Stats.setStats(DAMAGE_M4A1*1.5*_iconGun->_Level, NUMBER_BULLET_M4A1*1.5*_iconGun->_Level, PRICE_M4A1*1.5*_iconGun->_Level);
-		_iconGun->setLabelStats();
-		std::string _priceStr = StringUtils::format("  %i", _iconGun->_Stats._Price);
-		_labelUpgrade->setString(_priceStr);
-		def->flush();
+		if (_shopTotalMoney >= _iconGun->_Stats._Price)
+		{
+			_shopTotalMoney = _shopTotalMoney - _iconGun->_Stats._Price;
+			_btnGamePlayLayer->setTotalMoney(_shopTotalMoney);
+			_Money->setMoney(_shopTotalMoney);
+			_iconGun->_Level++;
+			def->setIntegerForKey("LevelM4A1", _iconGun->_Level);
+			int bulletNum = NUMBER_BULLET_M4A1 * 1.5*_iconGun->_Level;
+			_iconGun->_Stats.setStats(DAMAGE_M4A1*1.5*_iconGun->_Level, bulletNum, PRICE_M4A1*1.5*_iconGun->_Level);
+			_iconGun->setLabelStats();
+			std::string _priceStr = StringUtils::format("  %i", _iconGun->_Stats._Price);
+			_labelUpgrade->setString(_priceStr);
+			if (_callback)
+			{
+				_callback(_iconGun);
+			}
+
+		}
 	}
+}
+void StoreLayer::setCallBack(std::function<void(M4A1* Gun)> callback)
+{
+	_callback = callback;
+	
 }
 
 void StoreLayer::setGamePlayLayerPtr(GamePlayLayer* ptr)
