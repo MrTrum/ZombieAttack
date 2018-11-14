@@ -2,7 +2,7 @@
 #define __PARAMETER_H__
 
 //thời gian
-#define TIME_CREATE_ZOMBIE_2					6.0f
+#define TIME_CREATE_ZOMBIE_2					8.0f
 #define TIME_CREATE_ZOMBIE_3					6.0f
 #define TIME_CREATE_ZOMBIE_4					3.5f
 #define TIME_CREATE_ZOMBIE_5					4.0f
