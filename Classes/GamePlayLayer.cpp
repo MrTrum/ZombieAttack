@@ -15,7 +15,7 @@
 
 USING_NS_CC;
 
-GamePlayLayer::GamePlayLayer() : scenePlay(1)
+GamePlayLayer::GamePlayLayer() : scenePlay(2)
 {
 }
 
