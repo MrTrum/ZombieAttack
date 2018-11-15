@@ -25,7 +25,7 @@ public:
 	void						createZombie_4(float delta);
 	void						initZombie();
 	bool						checkTheLastZombie();
-	void						changeSchedule(int NOZombie);
+	void						changeSchedule();
 	static int					scene;
 private:
 	cocos2d::Vector<PZombie*>   _listZombie1;
@@ -35,20 +35,25 @@ private:
 	cocos2d::Vector<PZombie*>   _listZombie2Total;
 	GamePlayLayer*				_gamePlayLayerPtr;
 	ui::LoadingBar				*bloodbar;
-	int							numberZombie;
+	int							_numberZombie;
 	int							_check;
-	int							setZombie1;
-	int							setZombie2;
-	int							setZombie3;
-	int							setZombie4;
-	
+	int							_setZombie1;
+	int							_setZombie2;
+	int							_setZombie3;
+	int							_setZombie4;
+	bool						_checkPositionY1;
+	bool						_checkPositionY2;
+	bool						_checkPositionY3;
+	bool						_checkPositionY4;
+
+
 	float						randomPositionY();
 	float						randomPositionX(float position_y);
 	int							ZOrder(float position_y);
 	void						setBloodBar(float percent);
 	void						updateBloodBar(float percent);
 	void						setFrameBloodBar();
-	void						updateSchedule(float time, int NOZombie);
+	void						updateSchedule(int numberZombie);
 	void						scenePlay(int sceneplay);
 	std::string					getNameZombie(int setzombie);
 };

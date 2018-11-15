@@ -47,5 +47,6 @@ public:
 	std::string					convertFromTagToStringWalk(int tag);
 	std::string					convertFromTagToStringAttack(int tag);
 	std::string					convertFromTagToStringDead(int tag);
+	void						droppedItems(Vec2 deadPos);
 };
 #endif // !_P_ZOMBIE_H_
