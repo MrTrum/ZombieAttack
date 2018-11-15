@@ -67,7 +67,7 @@ bool GamePlayLayer::init()
 	this->addChild(_hero, 3);
 	_hero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
-
+	this->schedule(schedule_selector(GamePlayLayer::updatePressed), 0.4f);
 	_poolBullet = new PoolBullet();
 	//dynamite
 	_iconDynamite = Sprite::create("btn_dynamite.png");
@@ -113,12 +113,11 @@ bool GamePlayLayer::init()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenEventPhysic, this);
 
 	/*Tú*/
+
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist", "images/coin.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/numbers.plist", "images/numbers.png");
 	//tao icon tien
 	this->IconCoinCreate();
-	// tạo tiền
-	this->scheduleUpdate();
 	// tạo số tiền
 	_Money = Money::create();
 	_Money->setMoney(_totalMoney);
@@ -170,6 +169,9 @@ bool GamePlayLayer::init()
 	this->addChild(_labelQuit, 4);
 	//Level
 	_Bullet = NUMBER_BULLET_M4A1;
+	_gunM4A1 = M4A1::create();
+	_gunM4A1->_Stats.setStats(DAMAGE_M4A1, NUMBER_BULLET_M4A1, PRICE_M4A1);
+	this->addChild(_gunM4A1);
 	return true;
 }
 
@@ -262,10 +264,7 @@ void GamePlayLayer::moneyChange()
 	_totalMoney = _totalMoney + 1;
 	_Money->setMoney(_totalMoney);
 }
-void GamePlayLayer::update(float dt)
-{
 
-}
 void GamePlayLayer::CoinFly(Vec2 deadPos)
 {
 	CallFunc* loop = CallFunc::create([=]
@@ -277,7 +276,6 @@ void GamePlayLayer::CoinFly(Vec2 deadPos)
 		_checkMoney = _Coin->FlyAnimation(_iconPos, [=] {
 			this->moneyChange();
 		});
-
 	});
 	Sequence* coinloop = Sequence::create(loop, DelayTime::create(0.5), nullptr);
 	this->runAction(coinloop);
@@ -346,95 +344,57 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
-
 	Point location = touch->getLocationInView();
-	location = CCDirector::sharedDirector()->convertToGL(location);
-	if (_iconDynamite->boundingBox().containsPoint(location) && _iconDynamite->getTag() == 200)
-	{
-		getTag = 200;
-		if (this->isTouchingSprite(touch))
-		{
-			this->touchOffset = ccpSub(_iconDynamite->getPosition(),
-				this->touchToPoint(touch));
-		}
-		return true;
-	}
-	else
-	{
-		//Tú đã sửa
-		if (_Bullet >= 0)
-		{
-			_hero->shootAnimation();
-			Shooting(touch);
-			_Bullet--;
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-		
-	}
-	return false;
+	_location = CCDirector::sharedDirector()->convertToGL(location);
+	_isPressed = true;
+	//scheduleOnce(schedule_selector(GamePlayLayer::updatePressed), 0.15f);
+	return true;
 }
 
 void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
-	CCPoint location = touch->getLocationInView();
-	location = CCDirector::sharedDirector()->convertToGL(location);
-
-
-	if (touch && touchOffset.x && touchOffset.y)
-	{
-		if (getTag == 1)
-			this->_iconDynamite->setPosition(ccpAdd(this->touchToPoint(touch), this->touchOffset));
-	}
-	else
-	{
-		_hero->shootAnimation();
-		Shooting(touch);
-	}
+	Point location = touch->getLocationInView();
+	_location = CCDirector::sharedDirector()->convertToGL(location);
+	//scheduleOnce(schedule_selector(GamePlayLayer::updatePressed), 0.15f);
 }
 
 void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
 {
 	Size winSize = Director::getInstance()->getWinSize();
-	Vec2 droppedPos = _iconDynamite->getPosition();
-	/*_dynamite = Dynamite::create();
-	this->addChild(_dynamite);
-	_dynamite->throwDynamite(droppedPos.x, droppedPos.y);
-	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.12f));*/
+	_isPressed = false;
 }
 
 void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event)
 {
 
 }
-
-void GamePlayLayer::Shooting(Touch *touch)
+void GamePlayLayer::updatePressed(float dt)
 {
-	auto winSize = Director::getInstance()->getWinSize();
-	Point location = touch->getLocationInView();
-	location = Director::getInstance()->convertToGL(location);
-	//_poolBullet = PoolBullet::create(location.x, location.y);
-	//this->addChild(_poolBullet,10);
-	auto bullet = _poolBullet->createBullet(location.x, location.y);
-	this->addChild(bullet);
-	bullet->setDamageBullet(_gunM4A1->_Stats._Damage);
-	bullet->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
-}
-bool GamePlayLayer::isTouchingSprite(Touch* touch)
-{
-	if (getTag == 200)
+	if (_isPressed)
 	{
-		return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
+		if (_Bullet >= 0)
+		{
+		Shooting();
+		_Bullet--;	
+		}
 	}
-	return false;
 }
-Point GamePlayLayer::touchToPoint(Touch* touch)
+
+
+void GamePlayLayer::Shooting()
 {
-	// convert the touch object to a position in our cocos2d space
-	return Director::getInstance()->convertToGL(touch->getLocationInView());
+	Size winSize = Director::getInstance()->getWinSize();
+	_hero->shootAnimation();
+	CallFunc *createBullet = CallFunc::create([=] {
+		_bullet = _poolBullet->createBullet(_location.x, _location.y);
+		this->addChild(_bullet, 2);
+		_bullet->setDamageBullet(_gunM4A1->_Stats._Damage);
+		_bullet->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
+	});
+	runAction(Sequence::create(createBullet, DelayTime::create(1.5), nullptr));
+	//_bullet = _poolBullet->createBullet(_location.x, _location.y);
+	
+	
 }
 
 

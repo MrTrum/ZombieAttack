@@ -27,5 +27,9 @@ bool GameObject::init()
 
 
 
+int GameObject::getDamage()
+{
+	return _Dmg;
+}
 
 

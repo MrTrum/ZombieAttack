@@ -35,10 +35,8 @@ public:
 	void TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void resumeGame();
-	void update(float dt);
 	void moneyChange();
 	void CoinFly(Vec2 deadPos);
-
 	void setTotalMoney(int shopMoney);
 
 /*Thanh*/
@@ -48,31 +46,22 @@ public:
 	void testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 /*Khoa*/
 protected:
+	void updatePressed(float dt);
 	bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
 	void onTouchMoved(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touches, Event* event);
 	void onTouchCancelled(Touch* touches, Event* event);
-	void Shooting(Touch *touch);
-	bool isTouchingSprite(Touch* touch);
-	Point touchToPoint(Touch* touch);
-	enum State
-	{
-		STATE_STANDING,
-		STATE_SHOOTING,
-		STATE_RELOADING,
-	};
-
+	void Shooting();
 private:
-	Dynamite		*_dynamite;
-	Point			touchOffset;
-	int				getTag;
 	BackgroundLayer *_bg;
 	Hero			*_hero;
 	Base			*_base;
 	BulletObject	*_bullet;
 	PoolBullet		*_poolBullet;
+	bool			_isPressed = false;
 	float			_posX;
 	float			_posY;
+	Point			_location;
 	Sprite			*_Barrier;
 	Sprite			*_hpbar;
 	Sprite			*_iconDynamite;
@@ -94,7 +83,7 @@ private:
 	cocos2d::ui::Button* _quitBtn;
 	cocos2d::ui::Button* _shopBtn;
 	UserDefault* def;
-	int _Level,_Bullet;
+	int _Level, _Bullet;
 	int scenePlay;
 };
 

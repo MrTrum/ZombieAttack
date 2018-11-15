@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "GameObject.h"
-#include "Weapon/M4A1/M4A1.h"
+
 class BulletObject;
 typedef std::function<void(BulletObject* bullet)> OnBulletDestroyCallback;
 class BulletObject : public GameObject
@@ -18,7 +18,10 @@ public:
 	void removeBullet();
 	void reset(float x, float y);
 	void setOnDestroyCallback(OnBulletDestroyCallback callback);
+	void preventShooting();
 	void setDamageBullet(int Dmg);
+	int _Dmg;
+	int getDamage() override;
 private:
 	void update(float delta);
 	void bulletFire(float locationX, float locationY);
@@ -26,7 +29,7 @@ private:
 	cocos2d::Sprite *_sprBullet;
 	OnBulletDestroyCallback _onBulletDestroyCallback;
 	bool _willBeDestroy;
-	int _Dmg;
+	bool _isShooting;
 };
 
 #endif // !_BULLETOBJECT_H_

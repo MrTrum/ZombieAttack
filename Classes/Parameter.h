@@ -34,7 +34,7 @@
 #define ZOMBIE_BITMASK							2
 
 //bullet vec
-#define BULLET_VEC								800.0f
+#define BULLET_VEC								1000.0f
 
 //setTag
 #define TAG_ZOMBIE1								2

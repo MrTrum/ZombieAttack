@@ -87,8 +87,9 @@ void PZombie::updateHealthBar(float percent)
 
 void PZombie::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == TAG_LINE || obj->getTag() == TAG_HERO || obj->getTag() == TAG_BULLET)
+	if (obj->getTag() == TAG_BULLET)
 	{
+		this->damage = obj->getDamage();
 		this->dead();
 	}
 	else if (obj->getTag() == TAG_LINE2)
@@ -103,7 +104,6 @@ void PZombie::dead()
 	this->updateHealthBar(this->health);
 	if (this->health <= 0)
 	{
-		//Tú đã sửa
 		auto deadPos = this->getPosition();
 		this->getPhysicsBody()->setContactTestBitmask(false);
 		auto stringname = convertFromTagToStringDead(this->getTag());
