@@ -252,6 +252,15 @@ void PoolZombie::scenePlay(int sceneplay)
 		initZombie();
 		schedule(schedule_selector(PoolZombie::createZombie_1), 3.0f);
 	}
+	else if (sceneplay == 3)
+	{
+		_setZombie1 = 2;
+		_setZombie2 = 3;
+		_setZombie3 = 4;
+		_setZombie4 = 2;
+		initZombie();
+		schedule(schedule_selector(PoolZombie::createZombie_1), 3.0f);
+	}
 }
 
 void PoolZombie::createZombie_1(float delta)
@@ -262,7 +271,7 @@ void PoolZombie::createZombie_1(float delta)
 		// check if it has parent 
 		zombie->removeFromParent();
 
-		changeSchedule(_setZombie1);
+		changeSchedule();
 
 		zombie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 		zombie->setVisible(true);
@@ -288,7 +297,7 @@ void PoolZombie::createZombie_2(float delta)
 		//check if it has parent 
 		zombie->removeFromParent();
 
-		changeSchedule(_setZombie2);
+		changeSchedule();
 
 		zombie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 		zombie->setVisible(true);
@@ -314,7 +323,7 @@ void PoolZombie::createZombie_3(float delta)
 		//check if it has parent 
 		zombie->removeFromParent();
 
-		changeSchedule(_setZombie3);
+		changeSchedule();
 
 		zombie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 		zombie->setVisible(true);
@@ -340,7 +349,7 @@ void PoolZombie::createZombie_4(float delta)
 		//check if it has parent 
 		zombie->removeFromParent();
 
-		changeSchedule(_setZombie4);
+		changeSchedule();
 
 		zombie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 		zombie->setVisible(true);
@@ -421,9 +430,9 @@ bool PoolZombie::checkTheLastZombie()
 }
 
 
-void PoolZombie::changeSchedule(int NOZombie)
+void PoolZombie::changeSchedule()
 {
-	if (_numberZombie < 10)
+	if (_numberZombie < 8)
 	{
 		if (_check == 1)
 		{
@@ -433,7 +442,7 @@ void PoolZombie::changeSchedule(int NOZombie)
 		_numberZombie =_numberZombie + 2;
 		updateBloodBar(_numberZombie);
 	}
-	else if (_numberZombie >= 10 && _numberZombie < 40)
+	else if (_numberZombie >= 8 && _numberZombie < 40)
 	{
 		if (_check == 2)
 		{
@@ -474,14 +483,14 @@ void PoolZombie::changeSchedule(int NOZombie)
 
 void PoolZombie::updateSchedule(int numberZombie)
 {
-	if (numberZombie < 10)
+	if (numberZombie < 8)
 	{
 		unschedule(schedule_selector(PoolZombie::createZombie_1));
 		schedule(schedule_selector(PoolZombie::createZombie_1), 8.0f);
 	}
-	else if (numberZombie >= 10 && numberZombie < 40)
+	else if (numberZombie >= 8 && numberZombie < 40)
 	{
-		schedule(schedule_selector(PoolZombie::createZombie_2), 7.0f);
+		schedule(schedule_selector(PoolZombie::createZombie_2), 6.5f);
 	}
 	else if (numberZombie >= 40 && numberZombie < 80)
 	{

@@ -25,7 +25,7 @@ public:
 	void						createZombie_4(float delta);
 	void						initZombie();
 	bool						checkTheLastZombie();
-	void						changeSchedule(int NOZombie);
+	void						changeSchedule();
 	static int					scene;
 private:
 	cocos2d::Vector<PZombie*>   _listZombie1;

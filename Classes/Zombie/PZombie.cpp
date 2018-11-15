@@ -7,7 +7,7 @@
 
 USING_NS_CC;
 
-PZombie::PZombie() : 
+PZombie::PZombie() :
 	damage(DAMAGE_ZOMBIE2)
 {
 }
@@ -157,10 +157,7 @@ void PZombie::playDeadAnimation(Vec2 deadPos, std::string stringname)
 	{
 		this->getPhysicsBody()->setContactTestBitmask(true);
 		this->setVisible(false);
-		if (ptrPoolZombie->checkTheLastZombie())
-		{
-			ptrGamePlayLayer->createGoldBag(deadPos);
-		}
+		this->droppedItems(deadPos);
 		this->removeFromParent();
 		this->reset();
 	});
@@ -168,6 +165,66 @@ void PZombie::playDeadAnimation(Vec2 deadPos, std::string stringname)
 	_spr->runAction(squ);
 	ptrGamePlayLayer->CoinFly(deadPos);
 }
+
+void PZombie::droppedItems(Vec2 deadPos)
+{
+	if (this->getTag() == 4 || this->getTag() == 5)
+	{
+		int randomItem = random(1, 100);
+		if (this->getTag() == 4)
+		{
+			if (randomItem <= 20)									// Xác xuất 20% rơi ra đạn M4A1 x15
+			{
+				ptrGamePlayLayer->createItems(randomItem, deadPos);
+			}
+			else if (randomItem > 20 && randomItem <= 40)			// Xác xuất 20% rơi ra đạn lửa x15
+			{
+				ptrGamePlayLayer->createItems(randomItem, deadPos);
+			}
+			else if (randomItem > 40 && randomItem <= 50)			// Xác xuất 10% rơi ra đạn M4A1 x30
+			{
+				ptrGamePlayLayer->createItems(randomItem, deadPos);
+			}
+			else if (randomItem > 50 && randomItem <= 60)			// Xác xuất 10% rơi ra đạn lửa x30
+			{
+				ptrGamePlayLayer->createItems(randomItem, deadPos);
+			}
+			else if (randomItem > 60 && randomItem <= 65)			// Xác xuất 5% rơi ra đạn M4A1 x60
+			{
+				ptrGamePlayLayer->createItems(randomItem, deadPos);
+			}
+			else if (randomItem > 65 && randomItem <= 70)			// Xác xuất 5% rơi ra đạn lửa x60
+			{
+				ptrGamePlayLayer->createItems(randomItem, deadPos);
+			}
+			else if (randomItem > 70 && randomItem <= 75)			// Xác xuất 5% rơi ra skill bơm
+			{
+				ptrGamePlayLayer->createItems(randomItem, deadPos);
+			}
+			else if (randomItem > 75 && randomItem <= 80)			// Xác xuất 5% rơi ra skill băng
+			{
+				ptrGamePlayLayer->createItems(randomItem, deadPos);
+			}
+		}
+		else if (this->getTag() == 5)
+		{
+			if (randomItem > 80 && randomItem <= 85)				// Xác xuất 5% rơi ra đạn M4A1 x120 và 1 suất nâng cấp súng cùng loại
+			{
+				ptrGamePlayLayer->createItems(randomItem, deadPos);
+			}
+			else if (randomItem > 85 && randomItem <= 90)			// Xác xuất 5% rơi ra đạn lửa x120 và 1 suất nâng cấp súng cùng loại
+			{
+				ptrGamePlayLayer->createItems(randomItem, deadPos);
+			}
+		}
+	}
+
+	if (ptrPoolZombie->checkTheLastZombie())
+	{
+		ptrGamePlayLayer->createGoldBag(deadPos);
+	}
+}
+
 
 void PZombie::playAttackAnimation(std::string stringname)
 {
