@@ -14,10 +14,10 @@ public:
 	bool init(GamePlayLayer* ptr, int sceneplay);
 	static PoolZombie* create(GamePlayLayer* ptr, int sceneplay);
 
-	PZombie*					getZombie1();
-	PZombie*					getZombie2();
-	PZombie*					getZombie3();
-	PZombie*					getZombie4();
+	PZombie						*getZombie1();
+	PZombie						*getZombie2();
+	PZombie						*getZombie3();
+	PZombie						*getZombie4();
 
 	void						createZombie_1(float delta);
 	void						createZombie_2(float delta);
@@ -27,6 +27,7 @@ public:
 	bool						checkTheLastZombie();
 	void						changeSchedule();
 	static int					scene;
+	int							setHealth(PZombie *zombie);
 private:
 	cocos2d::Vector<PZombie*>   _listZombie1;
 	cocos2d::Vector<PZombie*>   _listZombie2;
@@ -41,10 +42,7 @@ private:
 	int							_setZombie2;
 	int							_setZombie3;
 	int							_setZombie4;
-	bool						_checkPositionY1;
-	bool						_checkPositionY2;
-	bool						_checkPositionY3;
-	bool						_checkPositionY4;
+	int							_random14;
 
 
 	float						randomPositionY();

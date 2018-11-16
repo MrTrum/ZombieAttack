@@ -13,10 +13,7 @@ int	PoolZombie::scene = 0;
 PoolZombie::PoolZombie() :
 	_numberZombie(0),
 	_check(1),
-	_checkPositionY1(true),
-	_checkPositionY2(true),
-	_checkPositionY3(true),
-	_checkPositionY4(true)
+	_random14(0)
 {
 }
 
@@ -82,9 +79,9 @@ PZombie* PoolZombie::getZombie1()
 		if (_listZombie1.at(index)->isVisible() == false)
 		{
 			zombie = _listZombie1.at(index);
-			zombie->health = HEALTH_ZOMBIE;
+			zombie->health = setHealth(zombie);
 			auto resetHealth = HEALTH_ZOMBIE;
-			zombie->updateHealthBar(resetHealth);
+			zombie->resetHealthBar(resetHealth);
 			foundZombie = true;
 		}
 		if (foundZombie)
@@ -113,9 +110,9 @@ PZombie* PoolZombie::getZombie2()
 		if (_listZombie2.at(index)->isVisible() == false)
 		{
 			zombie = _listZombie2.at(index);
-			zombie->health = HEALTH_ZOMBIE;
+			zombie->health = setHealth(zombie);
 			auto resetHealth = HEALTH_ZOMBIE;
-			zombie->updateHealthBar(resetHealth);
+			zombie->resetHealthBar(resetHealth);
 			foundZombie = true;
 		}
 		if (foundZombie)
@@ -145,9 +142,9 @@ PZombie* PoolZombie::getZombie3()
 		if (_listZombie3.at(index)->isVisible() == false)
 		{
 			zombie = _listZombie3.at(index);
-			zombie->health = HEALTH_ZOMBIE;
+			zombie->health = setHealth(zombie);
 			auto resetHealth = HEALTH_ZOMBIE;
-			zombie->updateHealthBar(resetHealth);
+			zombie->resetHealthBar(resetHealth);
 			foundZombie = true;
 		}
 		if (foundZombie)
@@ -176,9 +173,9 @@ PZombie* PoolZombie::getZombie4()
 		if (_listZombie4.at(index)->isVisible() == false)
 		{
 			zombie = _listZombie4.at(index);
-			zombie->health = HEALTH_ZOMBIE;
+			zombie->health = setHealth(zombie);
 			auto resetHealth = HEALTH_ZOMBIE;
-			zombie->updateHealthBar(resetHealth);
+			zombie->resetHealthBar(resetHealth);
 			foundZombie = true;
 		}
 		if (foundZombie)
@@ -196,6 +193,29 @@ PZombie* PoolZombie::getZombie4()
 		_listZombie4.pushBack(zombie);
 	}
 	return zombie;
+}
+
+int PoolZombie::setHealth(PZombie *zombie)
+{
+	int health = 0;
+	if (zombie->getTag() == 2)
+	{
+		health = HEALTH_ZOMBIE2;
+	}
+	else if (zombie->getTag() == 3)
+	{
+		health = HEALTH_ZOMBIE3;
+	}
+	else if (zombie->getTag() == 4)
+	{
+		health = HEALTH_ZOMBIE4;
+	}
+	else if (zombie->getTag() == 5)
+	{
+		health = HEALTH_ZOMBIE5;
+	}
+
+	return health;
 }
 
 PoolZombie* PoolZombie::create(GamePlayLayer* ptr, int sceneplay)
@@ -506,37 +526,29 @@ float PoolZombie::randomPositionY()
 {
 	float position_Y = 0.1f;
 	int random1_4 = random(1, 4);
-	if (random1_4 == 1 && _checkPositionY1)
+	while (_random14 == random1_4)
+	{
+		random1_4 = random(1, 4);
+	}
+	if (random1_4 == 1)
 	{
 		position_Y = PositionY1;
-		_checkPositionY1 = false;
-		_checkPositionY2 = true;
-		_checkPositionY3 = true;
-		_checkPositionY4 = true;
+		_random14 = random1_4;
 	}
-	else if (random1_4 == 2 && _checkPositionY2)
+	else if (random1_4 == 2)
 	{
 		position_Y = PositionY2;
-		_checkPositionY1 = true;
-		_checkPositionY2 = false;
-		_checkPositionY3 = true;
-		_checkPositionY4 = true;
+		_random14 = random1_4;
 	}
-	else if (random1_4 == 3 && _checkPositionY3)
+	else if (random1_4 == 3)
 	{
 		position_Y = PositionY3;
-		_checkPositionY1 = true;
-		_checkPositionY2 = true;
-		_checkPositionY3 = false;
-		_checkPositionY4 = true;
+		_random14 = random1_4;
 	}
-	else if(random1_4 == 4 && _checkPositionY4)
+	else if(random1_4 == 4)
 	{
 		position_Y = PositionY4;
-		_checkPositionY1 = true;
-		_checkPositionY2 = true;
-		_checkPositionY3 = true;
-		_checkPositionY4 = false;
+		_random14 = random1_4;
 	}
 	return position_Y;
 }

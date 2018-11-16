@@ -15,7 +15,7 @@
 
 USING_NS_CC;
 
-GamePlayLayer::GamePlayLayer() : scenePlay(3)
+GamePlayLayer::GamePlayLayer() : scenePlay(2)
 {
 }
 
@@ -261,7 +261,7 @@ void GamePlayLayer::resumeGame()
 }
 void GamePlayLayer::moneyChange()
 {
-	_totalMoney = _totalMoney + 1;
+	_totalMoney = _totalMoney + 100;
 	_Money->setMoney(_totalMoney);
 }
 

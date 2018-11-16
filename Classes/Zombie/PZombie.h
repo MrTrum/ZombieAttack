@@ -19,13 +19,18 @@ public:
 	GamePlayLayer				*ptrGamePlayLayer;
 	PoolZombie					*ptrPoolZombie;
 	Sprite* _spr;
-	float health;
-	float damage;
+	int health;
+	int damage;
 
 	static float damageOfZombie;
 private:
 	int							_tag;
 	std::string					_stringName;
+	const int					_percentHealth2;
+	const int					_percentHealth3;
+	const int					_percentHealth4;
+	const int					_percentHealth5;
+
 public:
 	PZombie();
 	~PZombie();
@@ -35,9 +40,10 @@ public:
 
 	void						setGamePlayLayerPtr(GamePlayLayer* ptr);
 	void						setHealthBar(float percent);
-	float						getHealthBar();
-	void						updateHealthBar(float percent);
+	void						resetHealthBar(float percent);
+	void						updateHealthBar(int health, PZombie *ptrZombie);
 	void   					    dead();
+	void   					    checkDamage();
 	void   					    attack();
 	void						reset();
 	void						playWalkAnimation(std::string zombieName);

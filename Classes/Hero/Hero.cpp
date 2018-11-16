@@ -46,6 +46,7 @@ bool Hero::init()
 
 	_sprheroarm = Sprite::createWithSpriteFrameName("M16idle00.png");
 	addChild(_sprheroarm);
+	_sprheroarm->setName("Hero");
 	_sprheroarm->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_sprheroarm->setPosition(winSize.width * 0.015f, winSize.height * 0.06f);
 

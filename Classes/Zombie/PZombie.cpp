@@ -7,8 +7,11 @@
 
 USING_NS_CC;
 
-PZombie::PZombie() :
-	damage(DAMAGE_ZOMBIE2)
+PZombie::PZombie():
+	_percentHealth2(HEALTH_ZOMBIE2),
+	_percentHealth3(HEALTH_ZOMBIE3),
+	_percentHealth4(HEALTH_ZOMBIE4),
+	_percentHealth5(HEALTH_ZOMBIE5)
 {
 }
 
@@ -74,15 +77,32 @@ void PZombie::setHealthBar(float percent)
 	healthbarZombie->setPosition(Vec2(0.0f, 200.0f));
 }
 
-float PZombie::getHealthBar()
-{
-	return this->health;
-}
-
-void PZombie::updateHealthBar(float percent)
+void PZombie::resetHealthBar(float percent)
 {
 	healthbarZombie->removeFromParent();
 	setHealthBar(percent);
+}
+
+void PZombie::updateHealthBar(int health, PZombie *ptrZombie)
+{
+	float percent = 0;
+	if (ptrZombie->getTag() == 2)
+	{
+		percent = (float)(health * 100) / (float)_percentHealth2;
+	}
+	else if (ptrZombie->getTag() == 3)
+	{
+		percent = (float)(health * 100) / (float)_percentHealth3;
+	}	
+	else if (ptrZombie->getTag() == 4)
+	{
+		percent = (float)(health * 100) / (float)_percentHealth4;
+	}
+	else if (ptrZombie->getTag() == 5)
+	{
+		percent = (float)(health * 100) / (float)_percentHealth5;
+	}
+	resetHealthBar(percent);
 }
 
 void PZombie::onCollission(GameObject *obj)
@@ -90,7 +110,7 @@ void PZombie::onCollission(GameObject *obj)
 	if (obj->getTag() == TAG_BULLET)
 	{
 		this->damage = obj->getDamage();
-		this->dead();
+		checkDamage();
 	}
 	else if (obj->getTag() == TAG_LINE2)
 	{
@@ -98,17 +118,22 @@ void PZombie::onCollission(GameObject *obj)
 	}
 }
 
-void PZombie::dead()
+void PZombie::checkDamage()
 {
 	this->health -= this->damage;
-	this->updateHealthBar(this->health);
+	this->updateHealthBar(this->health, this);
 	if (this->health <= 0)
 	{
-		auto deadPos = this->getPosition();
-		this->getPhysicsBody()->setContactTestBitmask(false);
-		auto stringname = convertFromTagToStringDead(this->getTag());
-		this->playDeadAnimation(deadPos, stringname);
+		dead();
 	}
+}
+
+void PZombie::dead()
+{
+	auto deadPos = this->getPosition();
+	this->getPhysicsBody()->setContactTestBitmask(false);
+	auto stringname = convertFromTagToStringDead(this->getTag());
+	this->playDeadAnimation(deadPos, stringname);
 }
 
 void PZombie::attack()

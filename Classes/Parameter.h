@@ -52,14 +52,18 @@
 
 //Health Zombie
 #define HEALTH_ZOMBIE							100.0f
+#define HEALTH_ZOMBIE2							150.0f
+#define HEALTH_ZOMBIE3							300.0f
+#define HEALTH_ZOMBIE4							200.0f
+#define HEALTH_ZOMBIE5							250.0f
 
 //DAMAGE Zombie
 #define DAMAGE_ZOMBIE2							50.0f
 #define DAMAGE_OF_ZOMBIE2						0.5f
 //DAMAGE M4A1
-#define DAMAGE_M4A1                             20
+#define DAMAGE_M4A1                             50
 //NUMBER BULLET M4A1
-#define NUMBER_BULLET_M4A1                      60
+#define NUMBER_BULLET_M4A1                      600
 //PRICE M4A1
 #define PRICE_M4A1                              200
 

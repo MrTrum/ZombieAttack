@@ -81,7 +81,7 @@ void BulletObject::bulletFire(float locationX, float locationY)
 	distance.y += recoil;
 	auto vector = distance.getNormalized() * BULLET_VEC;
 	auto aBulletFire = MoveBy::create(1.0f, vector);
-	float angleRadians = atan2f(locationY - winSize.height * 0.25f, locationX - winSize.width * 0.25f);
+	float angleRadians = (locationY - winSize.height * 0.25f, locationX - winSize.width * 0.25f);
 	angleRadians = CC_RADIANS_TO_DEGREES(angleRadians);
 	this->setRotation(-angleRadians);
 	DelayTime *delay = DelayTime::create(0.5);
