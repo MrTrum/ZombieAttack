@@ -12,6 +12,7 @@
 #include "Zombie/CreateTestLine.h"
 #include "PoolObject/PoolBullet.h"
 #include "Dynamite.h"
+#include "ShakeAction.h"
 
 USING_NS_CC;
 
@@ -394,14 +395,18 @@ void GamePlayLayer::Shooting()
 	runAction(Sequence::create(createBullet, DelayTime::create(1.5), nullptr));
 	//_bullet = _poolBullet->createBullet(_location.x, _location.y);
 	
-	
+	auto target = _location;
+	auto distance = target - Vec2(winSize.width * 0.25f, winSize.height * 0.25f);
+	auto vector = distance.getNormalized() * BULLET_VEC * 2;
+	auto aBulletFire = MoveBy::create(1.0f, vector);
+
+	MotionStreak* motion = MotionStreak::create(0.2, 5, 15, Color3B::WHITE, "trail_red.png");
+	this->addChild(motion, 2);
+	motion->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
+	motion->runAction(aBulletFire);
+
+	auto particle = ParticleSystemQuad::create("particle_texture.plist");
+	this->addChild(particle, 2);
+	particle->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
+	particle->runAction(aBulletFire->clone());
 }
-
-
-
-
-
-
-
-
-

@@ -109,6 +109,9 @@
     <ClCompile Include="..\Classes\Weapon\M4A1\M4A1.cpp">
       <Filter>src\Weapon\M4A1</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ShakeAction.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -175,6 +178,9 @@
     <ClInclude Include="..\Classes\NumberConst.h" />
     <ClInclude Include="..\Classes\Weapon\M4A1\M4A1.h">
       <Filter>src\Weapon\M4A1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ShakeAction.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

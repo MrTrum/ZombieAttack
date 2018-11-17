@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -159,6 +159,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Hero\Hero.cpp" />
     <ClCompile Include="..\Classes\PoolObject\PoolBullet.cpp" />
     <ClCompile Include="..\Classes\PoolObject\PoolZombie.cpp" />
+    <ClCompile Include="..\Classes\ShakeAction.cpp" />
     <ClCompile Include="..\Classes\UI\Coin\Coin.cpp" />
     <ClCompile Include="..\Classes\UI\GameStats\ItemStats.cpp" />
     <ClCompile Include="..\Classes\UI\GameStats\WeaponStats.cpp" />
@@ -184,6 +185,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Parameter.h" />
     <ClInclude Include="..\Classes\PoolObject\PoolBullet.h" />
     <ClInclude Include="..\Classes\PoolObject\PoolZombie.h" />
+    <ClInclude Include="..\Classes\ShakeAction.h" />
     <ClInclude Include="..\Classes\UI\Coin\Coin.h" />
     <ClInclude Include="..\Classes\UI\GameStats\ItemStats.h" />
     <ClInclude Include="..\Classes\UI\GameStats\WeaponStats.h" />
