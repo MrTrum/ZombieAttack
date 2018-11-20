@@ -5,9 +5,9 @@ class ItemStats
 public:
 	ItemStats();
 	~ItemStats();
-
+	void setStats(int basicStat, int numberItem, int priceItem);
 private:
-	int HP,NumberItem;
+	int _BasicStat,_NumberItem,_Price;
 };
 #endif // !_ITEM_STATS_H
 

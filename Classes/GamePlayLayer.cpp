@@ -174,7 +174,7 @@ bool GamePlayLayer::init()
 	//Level
 	_Bullet = NUMBER_BULLET_M4A1;
 	_gunM4A1 = M4A1::create();
-	_gunM4A1->_Stats.setStats(DAMAGE_M4A1, NUMBER_BULLET_M4A1, PRICE_M4A1);
+	_gunM4A1->_Stats.setStats(DAMAGE_M4A1*1.5*_gunM4A1->_Level, NUMBER_BULLET_M4A1*1.5*_gunM4A1->_Level, PRICE_M4A1*1.5*_gunM4A1->_Level);
 	this->addChild(_gunM4A1);
 	return true;
 }
@@ -328,7 +328,7 @@ void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 		{
 			this->_Level = Gun->_Level;
 			this->_Bullet += Gun->_Stats._BulletNumber;
-			this->_gunM4A1 = Gun;
+			_gunM4A1->_Stats = Gun->_Stats;
 		});
 		_Shop->setGamePlayLayerPtr(this);
 		_Shop->setTotalMoney(_totalMoney);
