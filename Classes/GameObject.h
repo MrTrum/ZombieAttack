@@ -13,10 +13,10 @@ public:
 	GameObject();
 	~GameObject();
 	bool init();
-	virtual int getDamage();
+	virtual float getDamage();
 	virtual void						onCollission(GameObject *obj) = 0;
 protected:
-	int _Dmg;
+	float _Dmg;
 };
 
 

@@ -18,9 +18,9 @@ bool BulletObject::init(float x, float y)
 	}
 	auto winSize = Director::getInstance()->getWinSize();
 	_sprBullet = Sprite::create("test_bullet.png");
-	addChild(_sprBullet);
-	setScale(0.15f);
-	PhysicsBody* _bulletPhysicBody = PhysicsBody::createBox(_sprBullet->getContentSize() / 2);
+	_sprBullet->setScale(0.15);
+	_sprBullet->setVisible(false);
+	PhysicsBody* _bulletPhysicBody = PhysicsBody::createCircle(4.0f);
 	_bulletPhysicBody->setContactTestBitmask(true);
 	_bulletPhysicBody->setDynamic(false);
 	_bulletPhysicBody->setGroup(-2);
@@ -56,6 +56,11 @@ void BulletObject::reset(float x, float y)
 	scheduleUpdate();
 }
 
+float BulletObject::getDamage()
+{
+	return _Dmg;
+}
+
 void BulletObject::onCollission(GameObject *obj)
 {
 	if (obj->getTag() == TAG_ZOMBIE1 || obj->getTag() == TAG_ZOMBIE2 || 
@@ -74,42 +79,28 @@ void BulletObject::setOnDestroyCallback(OnBulletDestroyCallback callback)
 void BulletObject::bulletFire(float locationX, float locationY)
 {
 	Size winSize = Director::getInstance()->getWinSize();
-	float recoil = random(-20, 10);
+	float recoil = random(0, 0);
 	auto startPos = this->getPosition();
 	auto target = Vec2(locationX, locationY);
 	auto distance = target - startPos;
 	distance.y += recoil;
 	auto vector = distance.getNormalized() * BULLET_VEC;
 	auto aBulletFire = MoveBy::create(1.0f, vector);
-	float angleRadians = (locationY - winSize.height * 0.25f, locationX - winSize.width * 0.25f);
-	angleRadians = CC_RADIANS_TO_DEGREES(angleRadians);
-	this->setRotation(-angleRadians);
-	DelayTime *delay = DelayTime::create(0.5);
+	auto aBulletFireClone = MoveBy::create(1.0f, vector);
 	CallFunc *callback = CallFunc::create([=]
 	{
 		_willBeDestroy = true;
 	}
 	);
-
-	this->runAction(Sequence::create(aBulletFire, delay, callback, NULL));
+	motion = MotionStreak::create(0.5, 20, 15, Color3B::WHITE, "trail_red.png");
+	this->addChild(motion);
+	motion->runAction(aBulletFireClone);
+	this->runAction(Sequence::create(aBulletFire, callback, NULL));
 }
 void BulletObject::setDamageBullet(int Dmg)
 {
 	_Dmg = Dmg;
 }
-int BulletObject::getDamage()
-{
-	return _Dmg;
-}
-void BulletObject::removeBullet()
-{
-	this->removeFromParent();
-}
-void BulletObject::preventShooting()
-{
-	_isShooting = false;
-}
-
 void BulletObject::update(float delta)
 {
 	if (_willBeDestroy)
@@ -120,10 +111,7 @@ void BulletObject::update(float delta)
 		}
 		stopAllActions();
 		this->removeFromParent();
+		motion->removeFromParent();
 		_willBeDestroy = false;
-	}
-	if (!_isShooting)
-	{
-		this->removeFromParent();
 	}
 }

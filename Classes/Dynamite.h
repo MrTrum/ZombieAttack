@@ -4,16 +4,29 @@
 #include "cocos2d.h"
 #include "GameObject.h"
 USING_NS_CC;
-
+class Dynamite;
+typedef std::function<void(Dynamite* explo)> OnExploDestroyCallback;
 class Dynamite : public GameObject
 {
 public:
 	Dynamite();
 	~Dynamite();
-	virtual bool init();
-	void throwDynamite(float posX, float posY);
+	bool init(Vec2 droppedPos);
+	static Dynamite *create(Vec2 droppedPos);
+	void reset(Vec2 droppedPos);
+	void setOnDestroyCallback(OnExploDestroyCallback callback);
+	void onCollission(GameObject *obj);
+	float getDamage() override;
+protected:
+private:
+	float _Dmg;
+	void update(float dt);
+	void kaBoooom(Vec2 droppedPos);
+
 private:
 	Sprite	*_sprDynamite;
+	OnExploDestroyCallback _onExploDestroyCallback;
+	bool _willBeDestroy;
 };
 
 

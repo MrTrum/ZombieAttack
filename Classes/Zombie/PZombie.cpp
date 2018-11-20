@@ -107,7 +107,7 @@ void PZombie::updateHealthBar(int health, PZombie *ptrZombie)
 
 void PZombie::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == TAG_BULLET)
+	if (obj->getTag() == TAG_BULLET || obj->getTag() == TAG_DYNAMITE)
 	{
 		this->damage = obj->getDamage();
 		checkDamage();

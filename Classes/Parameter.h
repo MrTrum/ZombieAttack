@@ -45,7 +45,7 @@
 #define TAG_LINE2								7
 #define TAG_HERO								8
 #define TAG_BULLET								9
-
+#define	TAG_DYNAMITE							10
 //Số lượng tạo Zombie
 #define ZOMBIE_SIZE								20
 
@@ -58,7 +58,7 @@
 #define HEALTH_ZOMBIE5							250.0f
 
 //DAMAGE Zombie
-#define DAMAGE_ZOMBIE2							50.0f
+//#define DAMAGE_ZOMBIE2							50.0f
 #define DAMAGE_OF_ZOMBIE2						0.5f
 //DAMAGE M4A1
 #define DAMAGE_M4A1                             50

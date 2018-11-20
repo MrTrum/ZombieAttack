@@ -12,6 +12,7 @@
 #include "Zombie/CreateTestLine.h"
 #include "PoolObject/PoolBullet.h"
 #include "Dynamite.h"
+#include "PoolObject/PoolExplo.h"
 #include "ShakeAction.h"
 
 USING_NS_CC;
@@ -62,19 +63,21 @@ bool GamePlayLayer::init()
 	//add BG
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg, 1);
-
 	//add hero
 	_hero = Hero::create();
 	this->addChild(_hero, 3);
 	_hero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
-	this->schedule(schedule_selector(GamePlayLayer::updatePressed), 0.4f);
+	this->schedule(schedule_selector(GamePlayLayer::updatePressed), 0.25f);
 	_poolBullet = new PoolBullet();
 	//dynamite
+	_poolDynamite = new PoolExplo();
+	_dynamite = _poolDynamite->createExplo(Vec2(0.0f, 0.0f));
+	this->addChild(_dynamite);
 	_iconDynamite = Sprite::create("btn_dynamite.png");
-	addChild(_iconDynamite, 2);
-	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.06f));
-	_iconDynamite->setTag(200);
+	addChild(_iconDynamite, 200);
+	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
+	_iconDynamite->setTag(555);
 	auto readyTxt = Label::createWithTTF("READY !!!", "fonts/Creepster-Regular.ttf", 80);
 	addChild(readyTxt, 2);
 	readyTxt->setColor(cocos2d::Color3B::GREEN);
@@ -342,33 +345,70 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 }
 
 /*Khoa*/
+bool GamePlayLayer::isTouchingSprite(Touch* touch)
+{
+	CCLOG("touched sprite");
+	if (_getDynTag == 555)
+		return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
+}
+Point GamePlayLayer::touchToPoint(Touch* touch)
+{
+	return Director::getInstance()->convertToGL(touch->getLocationInView());
+}
+
 
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
 	Point location = touch->getLocationInView();
 	_location = CCDirector::sharedDirector()->convertToGL(location);
+	if (_iconDynamite->boundingBox().containsPoint(_location) && _iconDynamite->getTag() == 555)
+	{
+		_getDynTag = 555;
+		if (this->isTouchingSprite(touch))
+		{
+			this->_touchOffset = ccpSub(_iconDynamite->getPosition(),
+				this->touchToPoint(touch));
+		}
+		_isPressed = false;
+		return true;
+	}
+	else
+	{
 	_isPressed = true;
-	//scheduleOnce(schedule_selector(GamePlayLayer::updatePressed), 0.15f);
 	return true;
+	}
+	return false;
+
 }
 
 void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
 	Point location = touch->getLocationInView();
 	_location = CCDirector::sharedDirector()->convertToGL(location);
-	//scheduleOnce(schedule_selector(GamePlayLayer::updatePressed), 0.15f);
+	if (touch && _touchOffset.x && _touchOffset.y)
+	{
+		if (_getDynTag == 555)
+			this->_iconDynamite->setPosition(ccpAdd(this->touchToPoint(touch), this->_touchOffset));
+	}
 }
 
 void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
 {
 	Size winSize = Director::getInstance()->getWinSize();
 	_isPressed = false;
+	Vec2 droppedPos = _iconDynamite->getPosition();
+	throwDynamite(droppedPos);
+	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
+	_getDynTag = 0;
+
 }
 
 void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event)
 {
 
 }
+
+
 void GamePlayLayer::updatePressed(float dt)
 {
 	if (_isPressed)
@@ -381,32 +421,39 @@ void GamePlayLayer::updatePressed(float dt)
 	}
 }
 
-
 void GamePlayLayer::Shooting()
 {
 	Size winSize = Director::getInstance()->getWinSize();
 	_hero->shootAnimation();
-	CallFunc *createBullet = CallFunc::create([=] {
-		_bullet = _poolBullet->createBullet(_location.x, _location.y);
-		this->addChild(_bullet, 2);
-		_bullet->setDamageBullet(_gunM4A1->_Stats._Damage);
-		_bullet->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
-	});
-	runAction(Sequence::create(createBullet, DelayTime::create(1.5), nullptr));
-	//_bullet = _poolBullet->createBullet(_location.x, _location.y);
-	
-	auto target = _location;
-	auto distance = target - Vec2(winSize.width * 0.25f, winSize.height * 0.25f);
-	auto vector = distance.getNormalized() * BULLET_VEC * 2;
-	auto aBulletFire = MoveBy::create(1.0f, vector);
-
-	MotionStreak* motion = MotionStreak::create(0.2, 5, 15, Color3B::WHITE, "trail_red.png");
-	this->addChild(motion, 2);
-	motion->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
-	motion->runAction(aBulletFire);
-
-	auto particle = ParticleSystemQuad::create("particle_texture.plist");
-	this->addChild(particle, 2);
-	particle->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
-	particle->runAction(aBulletFire->clone());
+	_bullet = _poolBullet->createBullet(_location.x, _location.y);
+	this->addChild(_bullet, 2);
+	_bullet->setDamageBullet(_gunM4A1->_Stats._Damage);
+	_bullet->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
 }
+
+void GamePlayLayer::throwDynamite(Vec2 droppedPos)
+{
+	Size winSize = Director::getInstance()->getWinSize();
+	if (droppedPos.y < winSize.height * 0.3f)
+	{
+		auto dynamite = Sprite::create("weapon_dynamite.png");
+		this->addChild(dynamite,2);
+		dynamite->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
+		auto throwto = JumpTo::create(0.5f, droppedPos, droppedPos.y + 10.0f, 1);
+		CallFunc *del = CallFunc::create([=] {
+			dynamite->removeFromParent();
+			
+		});
+
+		dynamite->runAction(Sequence::create(
+			throwto, del, nullptr
+		));
+		CallFunc *callExplo = CallFunc::create([=]{
+			_dynamite = _poolDynamite->createExplo(droppedPos);
+			this->addChild(_dynamite, 2);
+			_dynamite->setPosition(droppedPos);
+		});
+		runAction(Sequence::create(DelayTime::create(0.5), callExplo, nullptr));
+	}
+}
+

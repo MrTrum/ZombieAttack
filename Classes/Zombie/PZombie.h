@@ -20,7 +20,7 @@ public:
 	PoolZombie					*ptrPoolZombie;
 	Sprite* _spr;
 	int health;
-	int damage;
+	 float damage;
 
 	static float damageOfZombie;
 private:

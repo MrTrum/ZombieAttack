@@ -14,6 +14,7 @@ class Hero;
 class Base;
 class BulletObject;
 class PoolBullet;
+class PoolExplo;
 class Dynamite;
 class Coin;
 
@@ -46,21 +47,29 @@ public:
 	void testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 /*Khoa*/
 protected:
+	void oneTimeCall(float dt);
 	void updatePressed(float dt);
 	bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
 	void onTouchMoved(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touches, Event* event);
 	void onTouchCancelled(Touch* touches, Event* event);
 	void Shooting();
+	bool isTouchingSprite(Touch* touch);
+	Point touchToPoint(Touch* touch);
+	void throwDynamite(Vec2 droppedPos);
 private:
 	BackgroundLayer *_bg;
 	Hero			*_hero;
 	Base			*_base;
 	BulletObject	*_bullet;
+	Dynamite		*_dynamite;
 	PoolBullet		*_poolBullet;
+	PoolExplo		*_poolDynamite;
+	int				_getDynTag;
 	bool			_isPressed = false;
 	float			_posX;
 	float			_posY;
+	Point			_touchOffset;
 	Point			_location;
 	Sprite			*_Barrier;
 	Sprite			*_hpbar;

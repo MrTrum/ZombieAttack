@@ -112,6 +112,9 @@
     <ClCompile Include="..\Classes\ShakeAction.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\PoolObject\PoolExplo.cpp">
+      <Filter>src\PoolObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -181,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ShakeAction.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PoolObject\PoolExplo.h">
+      <Filter>src\PoolObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
