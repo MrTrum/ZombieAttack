@@ -83,18 +83,14 @@ bool Hero::init()
 void Hero::onCollission(GameObject *obj)
 {
 	PZombie *pzombie = static_cast<PZombie*>(obj);
-	if ((obj->getTag() == TAG_ZOMBIE1 || obj->getTag() == TAG_ZOMBIE2 
-		|| obj->getTag() == TAG_ZOMBIE3 || obj->getTag() == TAG_ZOMBIE4) 
-		&& PZombie::damageOfZombie <= 0)
+	if (PZombie::damageOfZombie <= 0)
 	{
 		PZombie::damageOfZombie = DAMAGE_OF_ZOMBIE2;
 		schedule(schedule_selector(Hero::heroWounded), 0.5f);
 		_listZombieCollision.pushBack(pzombie);
 		scheduleUpdate();
 	}
-	else if ((obj->getTag() == TAG_ZOMBIE1 || obj->getTag() == TAG_ZOMBIE2
-			 || obj->getTag() == TAG_ZOMBIE3 || obj->getTag() == TAG_ZOMBIE4)
-			 && PZombie::damageOfZombie > 0)
+	else if (PZombie::damageOfZombie > 0)
 	{
 		_listZombieCollision.pushBack(pzombie);
 		PZombie::damageOfZombie += DAMAGE_OF_ZOMBIE2;

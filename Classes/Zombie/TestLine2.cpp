@@ -21,7 +21,11 @@ bool TestLine2::init()
 	}
 	auto winSize = Director::getInstance()->getWinSize();
 
-	auto getline2 = CreateTestLine::create();
+	auto getline = CreateTestLine::create(TAG_LINE);
+	getline->setPosition(winSize.width, 0.0);
+	this->addChild(getline);
+
+	auto getline2 = CreateTestLine::create(TAG_LINE2);
 	getline2->setPosition(winSize.width * 0.4, 0.0);
 	this->addChild(getline2);
 

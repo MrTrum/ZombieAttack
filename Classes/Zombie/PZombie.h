@@ -15,21 +15,23 @@ class PZombie : public GameObject
 {
 public:
 	ui::LoadingBar				*healthbarZombie;
-	//Tú đã sửa
 	GamePlayLayer				*ptrGamePlayLayer;
 	PoolZombie					*ptrPoolZombie;
-	Sprite* _spr;
 	int health;
-	 float damage;
+	float damage;
 
 	static float damageOfZombie;
 private:
+	Sprite*						_spr;
+	Sprite*						_skill;
 	int							_tag;
 	std::string					_stringName;
 	const int					_percentHealth2;
 	const int					_percentHealth3;
 	const int					_percentHealth4;
 	const int					_percentHealth5;
+	const int					_percentHealth6;
+	const int					_percentHealth7;
 
 public:
 	PZombie();
@@ -45,14 +47,17 @@ public:
 	void   					    dead();
 	void   					    checkDamage();
 	void   					    attack();
+	void   					    skill();
 	void						reset();
 	void						playWalkAnimation(std::string zombieName);
 	void						playAttackAnimation(std::string stringname);
+	void						playSkillAnimation(std::string stringname);
 	void						playDeadAnimation(Vec2 deadPos, std::string stringname);
 	void						onCollission(GameObject *obj) override;
 	std::string					convertFromTagToStringWalk(int tag);
 	std::string					convertFromTagToStringAttack(int tag);
 	std::string					convertFromTagToStringDead(int tag);
+	std::string					convertFromTagToStringSkill(int tag);
 	void						droppedItems(Vec2 deadPos);
 };
 #endif // !_P_ZOMBIE_H_

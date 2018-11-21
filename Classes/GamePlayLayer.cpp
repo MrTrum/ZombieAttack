@@ -17,7 +17,7 @@
 
 USING_NS_CC;
 
-GamePlayLayer::GamePlayLayer() : scenePlay(2)
+GamePlayLayer::GamePlayLayer() : scenePlay(4)
 {
 }
 
@@ -30,7 +30,7 @@ Scene * GamePlayLayer::createGamePlayLayer()
 	Scene* scene = Scene::createWithPhysics();
 	PhysicsWorld* world = scene->getPhysicsWorld();
 	//remember to turn off debug when release
-	//world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	GamePlayLayer* node = GamePlayLayer::create();
 	scene->addChild(node);
 	return scene;
@@ -104,7 +104,7 @@ bool GamePlayLayer::init()
 	/*Thanh*/
 	//Set tấm ảnh sau khi texturePacker
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
-
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsSkill.plist", "images/assetsSkill.png");
 
 	auto poolZombie = PoolZombie::create(this, scenePlay);
 	this->addChild(poolZombie, 3);

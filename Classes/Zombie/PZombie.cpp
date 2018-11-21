@@ -7,11 +7,13 @@
 
 USING_NS_CC;
 
-PZombie::PZombie():
+PZombie::PZombie() :
 	_percentHealth2(HEALTH_ZOMBIE2),
 	_percentHealth3(HEALTH_ZOMBIE3),
 	_percentHealth4(HEALTH_ZOMBIE4),
-	_percentHealth5(HEALTH_ZOMBIE5)
+	_percentHealth5(HEALTH_ZOMBIE5),
+	_percentHealth6(HEALTH_ZOMBIE6),
+	_percentHealth7(HEALTH_ZOMBIE7)
 {
 }
 
@@ -49,6 +51,12 @@ bool PZombie::init(PoolZombie *ptr, std::string zombieName, int tag)
 
 	_spr = Sprite::createWithSpriteFrameName(zombieName + "1.png");
 	this->addChild(_spr);
+	if (tag == 6 || tag == 7)
+	{
+		auto stringName = convertFromTagToStringSkill(tag);
+		_skill = Sprite::createWithSpriteFrameName(stringName + "1.png");
+		this->addChild(_skill);
+	}
 
 
 	//Set Physics
@@ -61,6 +69,7 @@ bool PZombie::init(PoolZombie *ptr, std::string zombieName, int tag)
 	this->setTag(tag);
 
 	playWalkAnimation(zombieName);
+
 	return true;
 }
 
@@ -70,8 +79,9 @@ void PZombie::setHealthBar(float percent)
 
 	healthbarZombie = ui::LoadingBar::create("HealthBar.png");
 	this->addChild(healthbarZombie);
+	healthbarZombie->setName("HealthBar");
 	healthbarZombie->setDirection(ui::LoadingBar::Direction::LEFT);
-	healthbarZombie->setScaleX(0.25f);
+	healthbarZombie->setScaleX(0.35f);
 	healthbarZombie->setScaleY(1.2f);
 	healthbarZombie->setPercent(percent);
 	healthbarZombie->setPosition(Vec2(0.0f, 200.0f));
@@ -93,7 +103,7 @@ void PZombie::updateHealthBar(int health, PZombie *ptrZombie)
 	else if (ptrZombie->getTag() == 3)
 	{
 		percent = (float)(health * 100) / (float)_percentHealth3;
-	}	
+	}
 	else if (ptrZombie->getTag() == 4)
 	{
 		percent = (float)(health * 100) / (float)_percentHealth4;
@@ -102,7 +112,15 @@ void PZombie::updateHealthBar(int health, PZombie *ptrZombie)
 	{
 		percent = (float)(health * 100) / (float)_percentHealth5;
 	}
-	resetHealthBar(percent);
+	else if (ptrZombie->getTag() == 6)
+	{
+		percent = (float)(health * 100) / (float)_percentHealth6;
+	}
+	else if (ptrZombie->getTag() == 7)
+	{
+		percent = (float)(health * 100) / (float)_percentHealth7;
+	}
+	healthbarZombie->setPercent(percent);
 }
 
 void PZombie::onCollission(GameObject *obj)
@@ -142,10 +160,22 @@ void PZombie::attack()
 	playAttackAnimation(stringName);
 }
 
+void PZombie::skill()
+{
+	auto stringName = convertFromTagToStringSkill(this->getTag());
+	playSkillAnimation(stringName);
+}
+
 void PZombie::reset()
 {
 	auto stringName = convertFromTagToStringWalk(this->getTag());
 	playWalkAnimation(stringName);
+}
+
+std::string	PZombie::convertFromTagToStringWalk(int tag)
+{
+	std::string stringName = StringUtils::format("Z%dWalk", tag);
+	return stringName;
 }
 
 void PZombie::playWalkAnimation(std::string zombieName)
@@ -162,10 +192,59 @@ void PZombie::playWalkAnimation(std::string zombieName)
 	_spr->runAction(RepeatForever::create(animate));
 }
 
-void PZombie::setGamePlayLayerPtr(GamePlayLayer* ptr)
+std::string	PZombie::convertFromTagToStringAttack(int tag)
 {
-	ptrGamePlayLayer = ptr;
+	std::string stringName = StringUtils::format("Z%dAttack", tag);
+	return stringName;
 }
+
+
+void PZombie::playAttackAnimation(std::string stringname)
+{
+	_spr->stopAllActions();
+	_spr->setSpriteFrame(stringname + "1.png");
+	auto *animation = Animation::create();
+	for (int i = 1; i < 7; i++)
+	{
+		std::string zombieName = StringUtils::format("%d.png", i);
+		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(stringname + zombieName));
+	}
+	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
+	auto *animate = Animate::create(animation);
+	_spr->runAction(RepeatForever::create(animate));
+}
+
+std::string PZombie::convertFromTagToStringSkill(int tag)
+{
+	std::string stringName = StringUtils::format("Z%dSkill", tag);
+	return stringName;
+}
+
+void PZombie::playSkillAnimation(std::string stringname)
+{
+	_skill->setSpriteFrame(stringname + "1.png");
+	auto *animation = Animation::create();
+	for (int i = 1; i < 5; i++)
+	{
+		std::string zombieName = StringUtils::format("%d.png", i);
+		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(stringname + zombieName));
+	}
+	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
+	auto *animate = Animate::create(animation);
+
+	auto winSize = Director::getInstance()->getWinSize();
+	auto moveSkill = MoveTo::create(2.0f, Point(winSize.width *0.1f, _skill->getPositionY()));
+	auto spawn = Spawn::create(RepeatForever::create(animate), moveSkill, nullptr);
+	_skill->runAction(spawn);
+
+}
+
+std::string	PZombie::convertFromTagToStringDead(int tag)
+{
+	std::string stringName = StringUtils::format("Z%dDead", tag);
+	return stringName;
+}
+
 void PZombie::playDeadAnimation(Vec2 deadPos, std::string stringname)
 {
 	_spr->stopAllActions();
@@ -190,6 +269,12 @@ void PZombie::playDeadAnimation(Vec2 deadPos, std::string stringname)
 	auto squ = Sequence::create(animate, zombieBackPool, nullptr);
 	_spr->runAction(squ);
 	ptrGamePlayLayer->CoinFly(deadPos);
+}
+
+
+void PZombie::setGamePlayLayerPtr(GamePlayLayer* ptr)
+{
+	ptrGamePlayLayer = ptr;
 }
 
 void PZombie::droppedItems(Vec2 deadPos)
@@ -252,35 +337,3 @@ void PZombie::droppedItems(Vec2 deadPos)
 }
 
 
-void PZombie::playAttackAnimation(std::string stringname)
-{
-	_spr->stopAllActions();
-	_spr->setSpriteFrame(stringname + "1.png");
-	auto *animation = Animation::create();
-	for (int i = 1; i < 7; i++)
-	{
-		std::string zombieName = StringUtils::format("%d.png", i);
-		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(stringname + zombieName));
-	}
-	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
-	auto *animate = Animate::create(animation);
-	_spr->runAction(RepeatForever::create(animate));
-}
-
-std::string	PZombie::convertFromTagToStringWalk(int tag)
-{
-	std::string stringName = StringUtils::format("Z%dWalk", tag);
-	return stringName;
-}
-
-std::string	PZombie::convertFromTagToStringAttack(int tag)
-{
-	std::string stringName = StringUtils::format("Z%dAttack", tag);
-	return stringName;
-}
-
-std::string	PZombie::convertFromTagToStringDead(int tag)
-{
-	std::string stringName = StringUtils::format("Z%dDead", tag);
-	return stringName;
-}

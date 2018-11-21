@@ -1,6 +1,7 @@
 ﻿#include "TestLine2.h"
 #include "Parameter.h"
 #include "CreateTestLine.h"
+#include "Zombie/PZombie.h"
 
 
 USING_NS_CC;
@@ -13,7 +14,23 @@ CreateTestLine::~CreateTestLine()
 {
 }
 
-bool CreateTestLine::init()
+CreateTestLine* CreateTestLine::create(int tag)
+{
+	CreateTestLine *pRet = new(std::nothrow) CreateTestLine();
+	if (pRet && pRet->init(tag))
+	{
+		pRet->autorelease();
+		return pRet;
+	}
+	else
+	{
+		delete pRet;
+		pRet = nullptr;
+		return nullptr;
+	}
+}
+
+bool CreateTestLine::init(int tag)
 {
 	if (!GameObject::init())
 	{
@@ -23,7 +40,7 @@ bool CreateTestLine::init()
 
 	auto linePhysics = Node::create();
 	this->addChild(linePhysics);
-	this->setTag(TAG_LINE2);
+	this->setTag(tag);
 
 
 	auto physicsForLine = PhysicsBody::createBox(Size(1, winSize.height));
@@ -35,7 +52,20 @@ bool CreateTestLine::init()
 }
 void CreateTestLine::onCollission(GameObject *obj)
 {
-
+	if (obj->getTag() == 6 || obj->getTag() == 7)
+	{
+		auto pzombie = static_cast<PZombie*>(obj);
+		auto actionWalk = CallFunc::create([=]
+		{
+			pzombie->attack();
+		});
+		auto actionSkill = CallFunc::create([=]
+		{
+			pzombie->skill();
+		});
+		auto spawn = Spawn::create(actionWalk, actionSkill, nullptr);
+		pzombie->runAction(spawn);
+	}
 }
 
 

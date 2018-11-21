@@ -6,6 +6,7 @@
 
 class BulletObject;
 typedef std::function<void(BulletObject* bullet)> OnBulletDestroyCallback;
+
 class BulletObject : public GameObject
 {
 public:

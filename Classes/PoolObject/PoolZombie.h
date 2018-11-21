@@ -38,13 +38,10 @@ private:
 	ui::LoadingBar				*bloodbar;
 	int							_numberZombie;
 	int							_check;
-	int							_setZombie1;
-	int							_setZombie2;
-	int							_setZombie3;
-	int							_setZombie4;
+	int							_setTagZombie[4];
 	int							_random14;
 
-
+	void						getTagZombie(int tagZombie1, int tagZombie2, int tagZombie3, int tagZombie4);
 	float						randomPositionY();
 	float						randomPositionX(float position_y);
 	int							ZOrder(float position_y);

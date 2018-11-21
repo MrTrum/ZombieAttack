@@ -9,11 +9,9 @@ class CreateTestLine : public GameObject
 public:
 	CreateTestLine();
 	~CreateTestLine();
-	bool init();
+	bool init(int tag);
 
-	CREATE_FUNC(CreateTestLine);
-	//void dead();
-	//void attack();
+	static CreateTestLine*		create(int tag);
 	void						onCollission(GameObject *obj);
 };
 #endif // !_CREATE_TESTLINE_H_

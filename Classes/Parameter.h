@@ -41,6 +41,7 @@
 #define TAG_ZOMBIE2								3
 #define TAG_ZOMBIE3								4
 #define TAG_ZOMBIE4								5
+
 #define TAG_LINE								6
 #define TAG_LINE2								7
 #define TAG_HERO								8
@@ -56,6 +57,8 @@
 #define HEALTH_ZOMBIE3							300.0f
 #define HEALTH_ZOMBIE4							200.0f
 #define HEALTH_ZOMBIE5							250.0f
+#define HEALTH_ZOMBIE6							200.0f
+#define HEALTH_ZOMBIE7							200.0f
 
 //DAMAGE Zombie
 //#define DAMAGE_ZOMBIE2							50.0f
