@@ -55,7 +55,6 @@ bool Hero::init()
 	physicForHero->setContactTestBitmask(true);
 	physicForHero->setGroup(-2);
 	this->setPhysicsBody(physicForHero);
-	//playAnimation(AnimationType::IDLE);
 
 	Animation* fatguyanim = Animation::create();
 	for (int i = 0; i < 16; i++)

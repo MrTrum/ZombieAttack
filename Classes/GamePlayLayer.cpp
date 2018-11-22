@@ -19,6 +19,8 @@ USING_NS_CC;
 
 GamePlayLayer::GamePlayLayer() : scenePlay(4)
 {
+	_totalBullet = 90;
+	_dynStock = 5;
 }
 
 GamePlayLayer::~GamePlayLayer()
@@ -59,16 +61,17 @@ bool GamePlayLayer::init()
 		"weapon/M16idle.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/M16firing.plist",
 		"weapon/M16firing.png");
-
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("icon.plist",
+		"icon.png");
 	//add BG
 	_bg = BackgroundLayer::create();
-	this->addChild(_bg, 1);
+	this->addChild(_bg);
 	//add hero
 	_hero = Hero::create();
 	this->addChild(_hero, 3);
 	_hero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
-	this->schedule(schedule_selector(GamePlayLayer::updatePressed), 0.25f);
+	this->schedule(schedule_selector(GamePlayLayer::updatePressed), 0.18f);
 	_poolBullet = new PoolBullet();
 	//dynamite
 	_poolDynamite = new PoolExplo();
@@ -78,21 +81,25 @@ bool GamePlayLayer::init()
 	addChild(_iconDynamite, 200);
 	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
 	_iconDynamite->setTag(555);
-	auto readyTxt = Label::createWithTTF("READY !!!", "fonts/Creepster-Regular.ttf", 80);
-	addChild(readyTxt, 2);
-	readyTxt->setColor(cocos2d::Color3B::GREEN);
-	readyTxt->enableOutline(cocos2d::Color4B::RED, 2);
-	readyTxt->enableShadow(Color4B::RED, Size(10, -10), -5);
-	readyTxt->setPosition(winSize.width * 0.5f, winSize.height * 0.75f);
+	_dynLeft = Label::createWithTTF(StringUtils::format("%02d", _dynStock), "fonts/Marker Felt.ttf", 20);
+	_iconDynamite->addChild(_dynLeft);
+	_dynLeft->setPosition(Vec2(50.0f,15.0f));
+	_dynLeft->enableOutline(cocos2d::Color4B::BLACK, 3);
+	_outputTxt = Label::createWithTTF("", "fonts/Creepster-Regular.ttf", 80);
+	_outputTxt->setVisible(false);
+	addChild(_outputTxt, 2);
+	_outputTxt->setColor(cocos2d::Color3B::GREEN);
+	_outputTxt->enableOutline(cocos2d::Color4B::RED, 2);
+	_outputTxt->enableShadow(Color4B::RED, Size(10, -10), -5);
+	_outputTxt->setPosition(winSize.width * 0.5f, winSize.height * 0.75f);
 	Blink *rdTxtBlink = Blink::create(5, 12);
-	readyTxt->runAction(rdTxtBlink);
-	DelayTime *readyTime = DelayTime::create(5);
-	CallFunc *removeRdTxt = CallFunc::create([=]
-	{
-		readyTxt->removeFromParent();
-	}
-	);
-	runAction(Sequence::create(readyTime, removeRdTxt, NULL));
+	_outputTxt->runAction(rdTxtBlink);
+	_bulletInMag = Label::createWithTTF(StringUtils::format("%02d", _Bullet) , "fonts/Marker Felt.ttf", 20);
+	addChild(_bulletInMag, 2);
+	_bulletInMag->enableOutline(cocos2d::Color4B::RED, 2);
+	_bulletInMag->setPosition(winSize.width * 0.1f, winSize.height * 0.95f);
+
+	throwOutputText("READY !!!!", 5);
 	//touch event
 	EventListenerTouchOneByOne *listenerTouch = EventListenerTouchOneByOne::create();
 	listenerTouch->onTouchBegan = CC_CALLBACK_2(GamePlayLayer::onTouchBegan, this);
@@ -347,9 +354,11 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 /*Khoa*/
 bool GamePlayLayer::isTouchingSprite(Touch* touch)
 {
-	CCLOG("touched sprite");
 	if (_getDynTag == 555)
+	{
 		return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
+	}
+	return false;
 }
 Point GamePlayLayer::touchToPoint(Touch* touch)
 {
@@ -374,8 +383,8 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 	}
 	else
 	{
-	_isPressed = true;
-	return true;
+		_isPressed = true;
+		return true;
 	}
 	return false;
 
@@ -408,17 +417,59 @@ void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event)
 
 }
 
+void GamePlayLayer::throwOutputText(std::string txt, int duration)
+{
+	_outputTxt->setString(txt);
+	_outputTxt->setVisible(true);
+	DelayTime *readyTime = DelayTime::create(duration);
+	CallFunc *removeRdTxt = CallFunc::create([=]
+	{
 
+		
+		_outputTxt->setVisible(false);
+	}
+	);
+	runAction(Sequence::create(readyTime, removeRdTxt, NULL));
+}
 void GamePlayLayer::updatePressed(float dt)
 {
-	if (_isPressed)
+	if (!_isReloading)
 	{
-		if (_Bullet >= 0)
+		if (_isPressed)
 		{
-		Shooting();
-		_Bullet--;	
+			if (_Bullet > 0)
+			{
+
+				Shooting();
+				_Bullet--;
+			}
+			else
+			{
+				_isReloading = true;
+				throwOutputText("Reloading", 3);
+				scheduleOnce(schedule_selector(GamePlayLayer::reloading), 3.0f);
+			}
 		}
 	}
+	
+	if (_dynStock <= 0)
+	{
+		_iconDynamite->setSpriteFrame("btn_dynamite_empty.png");
+		_iconDynamite->setTag(554);
+	}
+	if (_dynStock > 0)
+	{
+		_iconDynamite->setTag(555);
+	}
+	_dynLeft->setString(StringUtils::format("%02d", _dynStock));
+	_bulletInMag->setString(StringUtils::format("%02d", _Bullet));
+}
+
+void GamePlayLayer::reloading(float dt)
+{
+	_totalBullet -= 30;
+	_Bullet += 30;
+	_isReloading = false;
 }
 
 void GamePlayLayer::Shooting()
@@ -437,20 +488,20 @@ void GamePlayLayer::throwDynamite(Vec2 droppedPos)
 	if (droppedPos.y < winSize.height * 0.3f)
 	{
 		auto dynamite = Sprite::create("weapon_dynamite.png");
-		this->addChild(dynamite,2);
+		this->addChild(dynamite, 2);
 		dynamite->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
 		auto throwto = JumpTo::create(0.5f, droppedPos, droppedPos.y + 10.0f, 1);
 		CallFunc *del = CallFunc::create([=] {
 			dynamite->removeFromParent();
-			
+			_dynStock--;
 		});
 
 		dynamite->runAction(Sequence::create(
 			throwto, del, nullptr
 		));
-		CallFunc *callExplo = CallFunc::create([=]{
+		CallFunc *callExplo = CallFunc::create([=] {
 			_dynamite = _poolDynamite->createExplo(droppedPos);
-			this->addChild(_dynamite, 2);
+			this->addChild(_dynamite, 3);
 			_dynamite->setPosition(droppedPos);
 		});
 		runAction(Sequence::create(DelayTime::create(0.5), callExplo, nullptr));

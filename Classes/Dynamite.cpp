@@ -15,9 +15,9 @@ bool Dynamite::init(Vec2 droppedPos)
 	{
 		return false;
 	}
-	_sprDynamite = Sprite::createWithSpriteFrameName("explo00.png");
-	addChild(_sprDynamite);
-	setScale(5.0f);
+	//_sprDynamite = Sprite::createWithSpriteFrameName("explo00.png");
+	//addChild(_sprDynamite);
+	//setScale(5.0f);
 	auto _physics = PhysicsBody::createCircle(20.0f);
 	_physics->setContactTestBitmask(true);
 	_physics->setDynamic(false);
@@ -67,7 +67,7 @@ void Dynamite::kaBoooom(Vec2 droppedPos)
 {
 	CallFunc *callback = CallFunc::create([=]
 	{
-		_sprDynamite = Sprite::createWithSpriteFrameName("explo00.png");
+		/*_sprDynamite = Sprite::createWithSpriteFrameName("explo00.png");
 		addChild(_sprDynamite);
 		_sprDynamite->setPosition(droppedPos);
 		Animation* explosion = Animation::create();
@@ -79,13 +79,17 @@ void Dynamite::kaBoooom(Vec2 droppedPos)
 		}
 		explosion->setDelayPerUnit(1 / 16.0f);
 		Animate* animate = Animate::create(explosion);
-		_sprDynamite->runAction(animate);
+		_sprDynamite->runAction(animate);*/
+		_particle = ParticleSystemQuad::create("particle_texture.plist");
+		this->addChild(_particle);
+		_particle->setPosition(droppedPos);
 	}
 	);
 
 	CallFunc *delcallback = CallFunc::create([=]
 	{
 		_willBeDestroy = true;
+		_particle->removeFromParent();
 	}
 	);
 	runAction(Sequence::create(callback,DelayTime::create(1), delcallback, NULL));
@@ -106,6 +110,7 @@ void Dynamite::update(float dt)
 		}
 		stopAllActions();
 		this->removeFromParent();
+		
 		_willBeDestroy = false;
 	}
 }

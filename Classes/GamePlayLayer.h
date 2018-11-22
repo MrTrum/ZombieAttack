@@ -47,7 +47,6 @@ public:
 	void testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 /*Khoa*/
 protected:
-	void oneTimeCall(float dt);
 	void updatePressed(float dt);
 	bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
 	void onTouchMoved(Touch* touch, Event* event);
@@ -57,6 +56,8 @@ protected:
 	bool isTouchingSprite(Touch* touch);
 	Point touchToPoint(Touch* touch);
 	void throwDynamite(Vec2 droppedPos);
+	void throwOutputText(std::string txt, int duration);
+	void reloading(float dt);
 private:
 	BackgroundLayer *_bg;
 	Hero			*_hero;
@@ -66,9 +67,15 @@ private:
 	PoolBullet		*_poolBullet;
 	PoolExplo		*_poolDynamite;
 	int				_getDynTag;
+	int				_totalBullet;
+	int				_dynStock;
 	bool			_isPressed = false;
+	bool			_isReloading = false;
 	float			_posX;
 	float			_posY;
+	Label			*_dynLeft;
+	Label			*_outputTxt;
+	Label			*_bulletInMag;
 	Point			_touchOffset;
 	Point			_location;
 	Sprite			*_Barrier;

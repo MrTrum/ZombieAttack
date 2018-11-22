@@ -24,6 +24,7 @@ private:
 	void kaBoooom(Vec2 droppedPos);
 
 private:
+	ParticleSystemQuad	*_particle;
 	Sprite	*_sprDynamite;
 	OnExploDestroyCallback _onExploDestroyCallback;
 	bool _willBeDestroy;

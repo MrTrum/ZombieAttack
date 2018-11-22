@@ -79,14 +79,14 @@ void BulletObject::setOnDestroyCallback(OnBulletDestroyCallback callback)
 void BulletObject::bulletFire(float locationX, float locationY)
 {
 	Size winSize = Director::getInstance()->getWinSize();
-	float recoil = random(0, 0);
+	float recoil = random(-15, 40);
 	auto startPos = this->getPosition();
 	auto target = Vec2(locationX, locationY);
 	auto distance = target - startPos;
 	distance.y += recoil;
 	auto vector = distance.getNormalized() * BULLET_VEC;
 	auto aBulletFire = MoveBy::create(1.0f, vector);
-	auto aBulletFireClone = MoveBy::create(1.0f, vector);
+	//auto aBulletFireClone = MoveBy::create(1.0f, vector);
 	CallFunc *callback = CallFunc::create([=]
 	{
 		_willBeDestroy = true;
@@ -94,7 +94,7 @@ void BulletObject::bulletFire(float locationX, float locationY)
 	);
 	motion = MotionStreak::create(0.5, 20, 15, Color3B::WHITE, "trail_red.png");
 	this->addChild(motion);
-	motion->runAction(aBulletFireClone);
+	motion->runAction(aBulletFire->clone());
 	this->runAction(Sequence::create(aBulletFire, callback, NULL));
 }
 void BulletObject::setDamageBullet(int Dmg)

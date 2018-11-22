@@ -66,7 +66,7 @@
 //DAMAGE M4A1
 #define DAMAGE_M4A1                             30
 //NUMBER BULLET M4A1
-#define NUMBER_BULLET_M4A1                      120
+#define NUMBER_BULLET_M4A1                      30
 //PRICE M4A1
 #define PRICE_M4A1                              200
 
