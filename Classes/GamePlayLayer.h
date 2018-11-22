@@ -93,7 +93,7 @@ private:
 	Money* _Money;
 	M4A1* _gunM4A1;
 	PZombie* _coinFunc;
-	int _totalMoney = 1000;
+	int _totalMoney = 0;
 	bool _checkMoney = false;
 	cocos2d::Label* _labelResume;
 	cocos2d::Label*_labelShop;

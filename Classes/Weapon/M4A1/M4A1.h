@@ -11,6 +11,8 @@ public:
 	virtual bool init();
 	void setIcon();
 	void setLabelStats();
+	void hide();
+	void show();
 	int _Level;
 	WeaponStats _Stats;
 	enum gunType

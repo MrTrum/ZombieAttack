@@ -70,4 +70,10 @@
 //PRICE M4A1
 #define PRICE_M4A1                              200
 
+//STAT HP
+#define STAT_HP									50
+//NUMBER HP
+#define NUMBER_HP								3
+//PRICE HP
+#define PRICE_HP							    300
 #endif // __PARAMETER_H__

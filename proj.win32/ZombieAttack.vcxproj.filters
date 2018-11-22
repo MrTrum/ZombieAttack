@@ -120,7 +120,7 @@
     <ClCompile Include="..\Classes\PoolObject\PoolExplo.cpp">
       <Filter>src\PoolObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Item\HP.cpp">
+    <ClCompile Include="..\Classes\Item\HP\HP.cpp">
       <Filter>src\Item\HP</Filter>
     </ClCompile>
   </ItemGroup>
@@ -195,7 +195,7 @@
     <ClInclude Include="..\Classes\PoolObject\PoolExplo.h">
       <Filter>src\PoolObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Item\HP.h">
+    <ClInclude Include="..\Classes\Item\HP\HP.h">
       <Filter>src\Item\HP</Filter>
     </ClInclude>
   </ItemGroup>

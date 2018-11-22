@@ -59,6 +59,7 @@ bool StoreLayer::init()
 	//weapon button
 	_weaponBtn = cocos2d::ui::Button::create("images/ShopButton.png");
 	_weaponBtn->setPosition(Vec2(visibleSize.width*0.3f, visibleSize.height*0.12f));
+	_weaponBtn->addTouchEventListener(CC_CALLBACK_2(StoreLayer::TouchWeaponButton, this));
 	this->addChild(_weaponBtn);
 	auto _labelWeapon = Label::createWithTTF("Weapon", "fonts/kenvector_future.ttf", 25);
 	_labelWeapon->setPosition(_weaponBtn->getPosition());
@@ -67,6 +68,7 @@ bool StoreLayer::init()
 	//Item button
 	_itemBtn = cocos2d::ui::Button::create("images/ShopButton.png");
 	_itemBtn->setPosition(Vec2(visibleSize.width*0.7f, visibleSize.height*0.12f));
+	_itemBtn->addTouchEventListener(CC_CALLBACK_2(StoreLayer::TouchItemButton, this));
 	this->addChild(_itemBtn);
 	auto _labelItem = Label::createWithTTF("Item", "fonts/kenvector_future.ttf", 25);
 	_labelItem->setPosition(_itemBtn->getPosition());
@@ -83,9 +85,15 @@ bool StoreLayer::init()
 	_iconGun->_Stats.setStats(DAMAGE_M4A1*1.5*_iconGun->_Level, NUMBER_BULLET_M4A1*1.5*_iconGun->_Level, PRICE_M4A1*1.5*_iconGun->_Level);
 	_iconGun->setIcon();
 	this->addChild(_iconGun, 4);
-	
+	//Icon HP
+	_iconHP = new HP();
+	_iconHP->itemStat.setStats(STAT_HP, NUMBER_HP, PRICE_HP);
+	_iconHP->setIcon();
+	_iconHP->setLabelStats();
+	_iconHP->hide();
+	this->addChild(_iconHP, 4);
 	//Price
-	auto _Price = Sprite::createWithSpriteFrameName("coin1.png");
+	_Price = Sprite::createWithSpriteFrameName("coin1.png");
 	_Price->setPosition(Vec2(winSize.width*(PRICE_WIDTH_POSITION), winSize.height*PRICE_HEIGHT_POSITION));
 	_Price->setScale(0.15f);
 	this->addChild(_Price);
@@ -143,4 +151,26 @@ void StoreLayer::setTotalMoney(int _GameTotalMoney)
 	_shopTotalMoney = _GameTotalMoney;
 	_Money->setMoney(_shopTotalMoney);
 	
+}
+void StoreLayer::TouchWeaponButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
+{
+	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
+	{
+		_iconHP->hide();
+		_iconGun->show();
+		std::string _priceStr = StringUtils::format("  %i", _iconGun->_Stats._Price);
+		_labelUpgrade->setString(_priceStr);
+	}
+
+}
+void StoreLayer::TouchItemButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
+{
+	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
+	{
+		_iconGun->hide();
+		_iconHP->show();
+		_iconHP->setLabelStats();
+		std::string _priceStr = StringUtils::format("  %i", _iconHP->itemStat._Price);
+		_labelUpgrade->setString(_priceStr);
+	}
 }

@@ -6,6 +6,7 @@
 #include "ui/UIButton.h"
 #include "UI/NumberMoney/Money.h"
 #include "Weapon/M4A1/M4A1.h"
+#include "Item/HP/HP.h"
 USING_NS_CC;
 
 class GamePlayLayer;
@@ -19,6 +20,8 @@ public:
 	virtual bool init();
 	void TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
+	void TouchWeaponButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
+	void TouchItemButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void setGamePlayLayerPtr(GamePlayLayer* ptr);
 	void setTotalMoney(int _GameTotalMoney);
 	void setCallBack(std::function<void(M4A1* Gun)> callback);
@@ -28,9 +31,11 @@ private:
 	cocos2d::ui::Button* _upgradeBtn;
 	cocos2d::ui::Button* _weaponBtn;
 	cocos2d::ui::Button* _itemBtn;
+	cocos2d::Sprite* _Price;
 	cocos2d::Label* _labelUpgrade;
 	GamePlayLayer* _btnGamePlayLayer;
 	M4A1* _iconGun;
+	HP* _iconHP;
 	Money* _Money; 
 	UserDefault* def;
 	std::function<void(M4A1* Gun)> _callback;

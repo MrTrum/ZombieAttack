@@ -26,7 +26,7 @@ void M4A1::setIcon()
 	_iconGun->setPosition(winSize.height*0.28f, winSize.width*0.42f);
 	_iconGun->setScale(2.5f,2.0f);
 	this->addChild(_iconGun);
-	auto _Dmg = Sprite::create("images/damage.png");
+	_Dmg = Sprite::create("images/damage.png");
 	_Dmg->setPosition(winSize.height*0.18f, winSize.width*0.31f);
 	_Dmg->setScale(0.12f);
 	this->addChild(_Dmg);
@@ -34,7 +34,7 @@ void M4A1::setIcon()
 	_labelDmg = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", 30);
 	_labelDmg->setPosition(winSize.height*0.33f, winSize.width*0.31f);
 	this->addChild(_labelDmg);
-	auto _bulletNum = Sprite::create("images/bulletNum.png");
+	_bulletNum = Sprite::create("images/bulletNum.png");
 	_bulletNum->setPosition(winSize.height*0.18f, winSize.width*0.24f);
 	_bulletNum->setScale(0.18f);
 	this->addChild(_bulletNum);
@@ -45,6 +45,10 @@ void M4A1::setIcon()
 	
 
 }
+void M4A1::hide()
+{
+	this->setVisible(false);
+}
 void M4A1::setLabelStats()
 {
 	std::string _dmgStr = StringUtils::format("  %i", _Stats._Damage);
@@ -52,4 +56,7 @@ void M4A1::setLabelStats()
 	std::string _numStr = StringUtils::format("  %i", _Stats._BulletNumber);
 	_labelNum->setString(_numStr);
 }
-
+void M4A1::show()
+{
+	this->setVisible(true);
+}
