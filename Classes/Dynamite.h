@@ -24,10 +24,10 @@ private:
 	void kaBoooom(Vec2 droppedPos);
 
 private:
+	PhysicsBody	*_physics;
 	ParticleSystemQuad	*_particle;
-	Sprite	*_sprDynamite;
 	OnExploDestroyCallback _onExploDestroyCallback;
-	bool _willBeDestroy;
+	bool _willBeDestroy = false;
 };
 
 

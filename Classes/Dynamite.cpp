@@ -15,14 +15,15 @@ bool Dynamite::init(Vec2 droppedPos)
 	{
 		return false;
 	}
-	//_sprDynamite = Sprite::createWithSpriteFrameName("explo00.png");
-	//addChild(_sprDynamite);
-	//setScale(5.0f);
-	auto _physics = PhysicsBody::createCircle(20.0f);
+	setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_physics = PhysicsBody::createCircle(60.0f);
 	_physics->setContactTestBitmask(true);
 	_physics->setDynamic(false);
 	_physics->setGroup(-2);
 	this->setPhysicsBody(_physics);
+	_particle = ParticleSystemQuad::create("particle_texture.plist");
+	this->addChild(_particle);
+	_particle->setPosition(_physics->getPosition());
 	this->setTag(TAG_DYNAMITE);
 	kaBoooom(droppedPos);
 	scheduleUpdate();
@@ -67,29 +68,16 @@ void Dynamite::kaBoooom(Vec2 droppedPos)
 {
 	CallFunc *callback = CallFunc::create([=]
 	{
-		/*_sprDynamite = Sprite::createWithSpriteFrameName("explo00.png");
-		addChild(_sprDynamite);
-		_sprDynamite->setPosition(droppedPos);
-		Animation* explosion = Animation::create();
-
-		for (int i = 0; i < 7; i++)
-		{
-			std::string name = StringUtils::format("explo%02d.png", i);
-			explosion->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(name));
-		}
-		explosion->setDelayPerUnit(1 / 16.0f);
-		Animate* animate = Animate::create(explosion);
-		_sprDynamite->runAction(animate);*/
-		_particle = ParticleSystemQuad::create("particle_texture.plist");
-		this->addChild(_particle);
-		_particle->setPosition(droppedPos);
+		
+		auto scaleto = ScaleTo::create(0.5, 1.3f);
+		runAction(scaleto);
+		_particle->runAction(scaleto->clone());
 	}
 	);
 
 	CallFunc *delcallback = CallFunc::create([=]
 	{
 		_willBeDestroy = true;
-		_particle->removeFromParent();
 	}
 	);
 	runAction(Sequence::create(callback,DelayTime::create(1), delcallback, NULL));
@@ -110,7 +98,6 @@ void Dynamite::update(float dt)
 		}
 		stopAllActions();
 		this->removeFromParent();
-		
 		_willBeDestroy = false;
 	}
 }

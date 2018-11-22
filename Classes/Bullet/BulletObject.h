@@ -19,13 +19,15 @@ public:
 	void setOnDestroyCallback(OnBulletDestroyCallback callback);
 	void setDamageBullet(int Dmg);
 	float getDamage() override;
+	void scheduleMotion(float dt);
 protected:
 	int _Dmg;
 private:
 	void update(float delta);
 	void bulletFire(float locationX, float locationY);
 private:
-	MotionStreak *motion;
+	MotionStreak *_motion;
+	PhysicsBody *_bulletPhysicBody;
 	cocos2d::Sprite *_sprBullet;
 	OnBulletDestroyCallback _onBulletDestroyCallback;
 	bool _willBeDestroy;

@@ -18,9 +18,9 @@ bool BulletObject::init(float x, float y)
 	}
 	auto winSize = Director::getInstance()->getWinSize();
 	_sprBullet = Sprite::create("test_bullet.png");
-	_sprBullet->setScale(0.15);
+	_sprBullet->setScale(0.15f);
 	_sprBullet->setVisible(false);
-	PhysicsBody* _bulletPhysicBody = PhysicsBody::createCircle(4.0f);
+	_bulletPhysicBody = PhysicsBody::createCircle(4.0f);
 	_bulletPhysicBody->setContactTestBitmask(true);
 	_bulletPhysicBody->setDynamic(false);
 	_bulletPhysicBody->setGroup(-2);
@@ -86,17 +86,19 @@ void BulletObject::bulletFire(float locationX, float locationY)
 	distance.y += recoil;
 	auto vector = distance.getNormalized() * BULLET_VEC;
 	auto aBulletFire = MoveBy::create(1.0f, vector);
-	//auto aBulletFireClone = MoveBy::create(1.0f, vector);
+	auto aBulletFireClone = MoveBy::create(2.0f, vector);
 	CallFunc *callback = CallFunc::create([=]
 	{
 		_willBeDestroy = true;
+		_motion->removeFromParent();
 	}
 	);
-	motion = MotionStreak::create(0.5, 20, 15, Color3B::WHITE, "trail_red.png");
-	this->addChild(motion);
-	motion->runAction(aBulletFire->clone());
+	_motion = MotionStreak::create(0.5, 20, 15, Color3B::WHITE, "trail_red.png");
+	this->addChild(_motion);
 	this->runAction(Sequence::create(aBulletFire, callback, NULL));
+	_motion->runAction(aBulletFireClone);
 }
+
 void BulletObject::setDamageBullet(int Dmg)
 {
 	_Dmg = Dmg;
@@ -111,7 +113,6 @@ void BulletObject::update(float delta)
 		}
 		stopAllActions();
 		this->removeFromParent();
-		motion->removeFromParent();
 		_willBeDestroy = false;
 	}
 }

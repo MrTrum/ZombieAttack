@@ -40,6 +40,7 @@ bool Hero::init()
 	this->addChild(_sprhero);
 	this->setTag(TAG_HERO);
 	_sprhero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	this->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	this->setContentSize(_sprhero->getContentSize());
 	_sprhero->setScale(1.0f);
 	this->setHealthBar(100);

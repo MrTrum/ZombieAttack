@@ -12,7 +12,7 @@ PoolExplo::~PoolExplo()
 Dynamite *PoolExplo::createExplo(Vec2 droppedPos)
 {
 	Dynamite *instance = nullptr;
-	if (_listExplo.size() <= 0) // if pool not have bullet, create new
+	if (_listExplo.size() <= 0) 
 	{
 		instance = Dynamite::create(droppedPos);
 		instance->setOnDestroyCallback(CC_CALLBACK_1(PoolExplo::returnExploToPool, this));
@@ -22,7 +22,7 @@ Dynamite *PoolExplo::createExplo(Vec2 droppedPos)
 		instance = _listExplo.back();
 		instance->reset(droppedPos);
 		instance->retain();
-		_listExplo.popBack(); // erase last element
+		_listExplo.popBack(); 
 	}
 	return instance;
 }

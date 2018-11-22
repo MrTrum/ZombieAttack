@@ -58,6 +58,7 @@ protected:
 	void throwDynamite(Vec2 droppedPos);
 	void throwOutputText(std::string txt, int duration);
 	void reloading(float dt);
+	void addUI();
 private:
 	BackgroundLayer *_bg;
 	Hero			*_hero;
@@ -78,6 +79,8 @@ private:
 	Label			*_bulletInMag;
 	Point			_touchOffset;
 	Point			_location;
+	Sprite			*_woodPane;
+	Sprite			*_blurBG;
 	Sprite			*_Barrier;
 	Sprite			*_hpbar;
 	Sprite			*_iconDynamite;

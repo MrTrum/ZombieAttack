@@ -21,6 +21,7 @@ GamePlayLayer::GamePlayLayer() : scenePlay(4)
 {
 	_totalBullet = 90;
 	_dynStock = 5;
+	
 }
 
 GamePlayLayer::~GamePlayLayer()
@@ -69,37 +70,12 @@ bool GamePlayLayer::init()
 	//add hero
 	_hero = Hero::create();
 	this->addChild(_hero, 3);
-	_hero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
-	this->schedule(schedule_selector(GamePlayLayer::updatePressed), 0.18f);
-	_poolBullet = new PoolBullet();
+	this->schedule(schedule_selector(GamePlayLayer::updatePressed), 0.30f);
 	//dynamite
+	_poolBullet = new PoolBullet();
 	_poolDynamite = new PoolExplo();
-	_dynamite = _poolDynamite->createExplo(Vec2(0.0f, 0.0f));
-	this->addChild(_dynamite);
-	_iconDynamite = Sprite::create("btn_dynamite.png");
-	addChild(_iconDynamite, 200);
-	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
-	_iconDynamite->setTag(555);
-	_dynLeft = Label::createWithTTF(StringUtils::format("%02d", _dynStock), "fonts/Marker Felt.ttf", 20);
-	_iconDynamite->addChild(_dynLeft);
-	_dynLeft->setPosition(Vec2(50.0f,15.0f));
-	_dynLeft->enableOutline(cocos2d::Color4B::BLACK, 3);
-	_outputTxt = Label::createWithTTF("", "fonts/Creepster-Regular.ttf", 80);
-	_outputTxt->setVisible(false);
-	addChild(_outputTxt, 2);
-	_outputTxt->setColor(cocos2d::Color3B::GREEN);
-	_outputTxt->enableOutline(cocos2d::Color4B::RED, 2);
-	_outputTxt->enableShadow(Color4B::RED, Size(10, -10), -5);
-	_outputTxt->setPosition(winSize.width * 0.5f, winSize.height * 0.75f);
-	Blink *rdTxtBlink = Blink::create(5, 12);
-	_outputTxt->runAction(rdTxtBlink);
-	_bulletInMag = Label::createWithTTF(StringUtils::format("%02d", _Bullet) , "fonts/Marker Felt.ttf", 20);
-	addChild(_bulletInMag, 2);
-	_bulletInMag->enableOutline(cocos2d::Color4B::RED, 2);
-	_bulletInMag->setPosition(winSize.width * 0.1f, winSize.height * 0.95f);
-
-	throwOutputText("READY !!!!", 5);
+	addUI();
 	//touch event
 	EventListenerTouchOneByOne *listenerTouch = EventListenerTouchOneByOne::create();
 	listenerTouch->onTouchBegan = CC_CALLBACK_2(GamePlayLayer::onTouchBegan, this);
@@ -140,9 +116,9 @@ bool GamePlayLayer::init()
 
 	this->addChild(_pauseBtn, 4);
 	// all button
-	_resumeBtn = cocos2d::ui::Button::create("images/PlayButton4.png");
+	_resumeBtn = cocos2d::ui::Button::create("btn_style1.png");
 	_resumeBtn->setPosition(Vec2(winSize.width*0.5f, winSize.height*0.7f));
-	_resumeBtn->setScale(1.0f);
+	_resumeBtn->setScale(0.7f);
 	_resumeBtn->setTag(1);
 	_resumeBtn->setVisible(false);
 
@@ -151,11 +127,12 @@ bool GamePlayLayer::init()
 	//Label Play
 	_labelResume = Label::createWithTTF("Resume", "fonts/kenvector_future.ttf", 25);
 	_labelResume->setPosition(_resumeBtn->getPosition());
+	_labelResume->setRotation(5);
 	_labelResume->setVisible(false);
 	this->addChild(_labelResume, 4);
-	_shopBtn = cocos2d::ui::Button::create("images/ShopButton.png");
+	_shopBtn = cocos2d::ui::Button::create("btn_style2.png");
 	_shopBtn->setPosition(Vec2(winSize.width*0.5f, winSize.height*0.5f));
-	_shopBtn->setScale(1.0f);
+	_shopBtn->setScale(0.7f);
 	_shopBtn->setTag(1);
 	_shopBtn->setVisible(false);
 	_shopBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchShopButton, this));
@@ -166,9 +143,9 @@ bool GamePlayLayer::init()
 	_labelShop->setVisible(false);
 	this->addChild(_labelShop, 4);
 	//Button Quit
-	_quitBtn = cocos2d::ui::Button::create("images/QuitButton3.png");
+	_quitBtn = cocos2d::ui::Button::create("btn_style3.png");
 	_quitBtn->setPosition(Vec2(winSize.width*0.5f, winSize.height*0.3f));
-	_quitBtn->setScale(1.0f);
+	_quitBtn->setScale(0.7f);
 	_quitBtn->setTag(1);
 	_quitBtn->setVisible(false);
 	_quitBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchQuitButton, this));
@@ -177,6 +154,7 @@ bool GamePlayLayer::init()
 	_labelQuit = Label::createWithTTF("Quit", "fonts/kenvector_future.ttf", 25);
 	_labelQuit->setPosition(_quitBtn->getPosition());
 	_labelQuit->setVisible(false);
+	_labelQuit->setRotation(-5);
 	this->addChild(_labelQuit, 4);
 	//Level
 	_Bullet = NUMBER_BULLET_M4A1;
@@ -239,7 +217,7 @@ void GamePlayLayer::testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType
 	this->addChild(goldBag2, 3);
 	goldBag2->setScale(0.2f);
 	goldBag2->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
-
+	
 	auto scaleto = ScaleTo::create(2.0f, 0.4f);
 
 	auto removeSpritesBag = CallFunc::create([=]
@@ -262,6 +240,9 @@ void GamePlayLayer::setTotalMoney(int shopMoney)
 void GamePlayLayer::resumeGame()
 {
 	Director::getInstance()->resume();
+	_iconDynamite->setTag(555);
+	_woodPane->setVisible(false);
+	_blurBG->setVisible(false);
 	_resumeBtn->setVisible(false);
 	_labelResume->setVisible(false);
 	_quitBtn->setVisible(false);
@@ -309,6 +290,9 @@ void GamePlayLayer::TouchPauseButton(Ref* pSender, cocos2d::ui::Widget::TouchEve
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
 		Director::getInstance()->pause();
+		_iconDynamite->setTag(554);
+		_woodPane->setVisible(true);
+		_blurBG->setVisible(true);
 		_resumeBtn->setVisible(true);
 		_labelResume->setVisible(true);
 		_quitBtn->setVisible(true);
@@ -352,6 +336,48 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 }
 
 /*Khoa*/
+void GamePlayLayer::addUI()
+{
+	Size winSize = Director::getInstance()->getWinSize();
+	_iconDynamite = Sprite::create("btn_dynamite.png");
+	addChild(_iconDynamite, 3);
+	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
+	_iconDynamite->setTag(555);
+	_dynLeft = Label::createWithTTF(StringUtils::format("%02d", _dynStock), "fonts/Marker Felt.ttf", 20);
+	_iconDynamite->addChild(_dynLeft);
+	_dynLeft->setPosition(Vec2(50.0f, 15.0f));
+	_dynLeft->enableOutline(cocos2d::Color4B::BLACK, 3);
+	_outputTxt = Label::createWithTTF("", "fonts/Creepster-Regular.ttf", 80);
+	_outputTxt->setVisible(false);
+	addChild(_outputTxt, 2);
+	_outputTxt->setColor(cocos2d::Color3B::GREEN);
+	_outputTxt->enableOutline(cocos2d::Color4B::RED, 2);
+	_outputTxt->enableShadow(Color4B::RED, Size(10, -10), -5);
+	_outputTxt->setPosition(winSize.width * 0.5f, winSize.height * 0.75f);
+	Blink *rdTxtBlink = Blink::create(5, 12);
+	_outputTxt->runAction(rdTxtBlink);
+	_bulletInMag = Label::createWithTTF(StringUtils::format("%02d", _Bullet), "fonts/Marker Felt.ttf", 20);
+	addChild(_bulletInMag, 2);
+	_bulletInMag->enableOutline(cocos2d::Color4B::RED, 2);
+	_bulletInMag->setPosition(winSize.width * 0.1f, winSize.height * 0.95f);
+	throwOutputText("READY !!!!", 5);
+
+	_blurBG = Sprite::create("Untitled.png");
+	addChild(_blurBG,4);
+	_blurBG->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	float scaleX = winSize.width / _blurBG->getContentSize().width;
+	float scaleY = winSize.height / _blurBG->getContentSize().height;
+	_blurBG->setScaleX(scaleX);
+	_blurBG->setScaleY(scaleY);
+	_blurBG->setOpacity(700);
+	_blurBG->setVisible(false);
+	_woodPane = Sprite::create("woodpane.png");
+	addChild(_woodPane, 4);
+	_woodPane->setPosition(winSize * 0.5f);
+	_woodPane->setVisible(false);
+	_woodPane->setScale(0.7f);
+}
+
 bool GamePlayLayer::isTouchingSprite(Touch* touch)
 {
 	if (_getDynTag == 555)
