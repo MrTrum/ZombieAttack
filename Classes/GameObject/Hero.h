@@ -51,6 +51,7 @@ protected:
 	void						onCollission(GameObject *obj) override;
 	void						heroWounded(float delta);
 private:
+	Size						winSize;
 	static std::map<AnimationType, AnimationInfo>	_mapAnimation;
 	cocos2d::Sprite				*_sprhero;
 	cocos2d::Sprite				*_sprheroarm;

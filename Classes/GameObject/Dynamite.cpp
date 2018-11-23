@@ -21,8 +21,9 @@ bool Dynamite::init()
 	_physics->setDynamic(false);
 	_physics->setGroup(-2);
 	this->setPhysicsBody(_physics);
-	_particle = ParticleSystemQuad::create("particle_texture.plist");
+	_particle = ParticleSystemQuad::create("explo.plist");
 	this->addChild(_particle);
+	_particle->setScale(0.5f);
 	_particle->setPosition(_physics->getPosition());
 	this->setTag(TAG_DYNAMITE);
 	scheduleUpdate();
@@ -66,10 +67,6 @@ void Dynamite::kaBoooom(Vec2 droppedPos)
 {
 	CallFunc *callback = CallFunc::create([=]
 	{
-		
-		auto scaleto = ScaleTo::create(0.5, 1.3f);
-		runAction(scaleto);
-		_particle->runAction(scaleto->clone());
 		_particle->start();
 	}
 	);

@@ -47,9 +47,8 @@ BulletObject *BulletObject::create()
 
 void BulletObject::reset()
 {
-	this->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
+	this->setPosition(START_POS);
 	this->setVisible(true);
-	scheduleUpdate();
 }
 
 float BulletObject::getDamage()

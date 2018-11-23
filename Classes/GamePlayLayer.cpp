@@ -21,7 +21,7 @@ GamePlayLayer::GamePlayLayer() : scenePlay(4)
 {
 	_totalBullet = 90;
 	_dynStock = 5;
-	
+	_getDynTag = 0;
 }
 
 GamePlayLayer::~GamePlayLayer()
@@ -52,8 +52,6 @@ bool GamePlayLayer::init()
 		"redneck_idle.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/shotgun.plist",
 		"weapon/shotgun.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("explosion.plist",
-		"explosion.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SGidle.plist",
 		"SGidle.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/SGidle.plist",
@@ -345,6 +343,10 @@ void GamePlayLayer::addUI()
 	addChild(_iconDynamite, 3);
 	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
 	_iconDynamite->setTag(555);
+	_sprDynamite = Sprite::create("weapon_dynamite.png");
+	addChild(_sprDynamite, 2);
+	_sprDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
+	_sprDynamite->setVisible(false);
 	_dynLeft = Label::createWithTTF(StringUtils::format("%02d", _dynStock), "fonts/Marker Felt.ttf", 20);
 	_iconDynamite->addChild(_dynLeft);
 	_dynLeft->setPosition(Vec2(50.0f, 15.0f));
@@ -424,8 +426,11 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 	_location = CCDirector::sharedDirector()->convertToGL(location);
 	if (touch && _touchOffset.x && _touchOffset.y)
 	{
-		if (_getDynTag == 555)
-			this->_iconDynamite->setPosition(ccpAdd(this->touchToPoint(touch), this->_touchOffset));
+		if (_getDynTag == 555) 
+		{
+			_sprDynamite->setVisible(true);
+			_sprDynamite->setPosition(ccpAdd(this->touchToPoint(touch), this->_touchOffset));
+		}
 	}
 }
 
@@ -433,11 +438,14 @@ void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
 {
 	Size winSize = Director::getInstance()->getWinSize();
 	_isShootingBegan = false;
-	Vec2 droppedPos = _iconDynamite->getPosition();
-	throwDynamite(droppedPos);
-	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
-	_getDynTag = 0;
-
+	if (_getDynTag = 555)
+	{
+		Vec2 droppedPos = _sprDynamite->getPosition();
+		_sprDynamite->setVisible(false);
+		throwDynamite(droppedPos);
+		_sprDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
+		_getDynTag = 0;
+	}
 }
 
 void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event)
@@ -514,7 +522,7 @@ void GamePlayLayer::Shooting()
 	_hero->shootAnimation();
 	_bullet = _poolBullet->createBullet();
 	this->addChild(_bullet, 2);
-	_bullet->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
+	_bullet->setPosition(START_POS);
 	_bullet->bulletFire(_location);
 	_bullet->setDamageBullet(_gunM4A1->_Stats._Damage);
 }
@@ -527,12 +535,13 @@ void GamePlayLayer::throwDynamite(Vec2 droppedPos)
 		auto dynamite = Sprite::create("weapon_dynamite.png");
 		this->addChild(dynamite, 2);
 		dynamite->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
+		auto sprRotate = RotateBy::create(0.5f, 1800);
+		dynamite->runAction(sprRotate);
 		auto throwto = JumpTo::create(0.5f, droppedPos, droppedPos.y + 10.0f, 1);
 		CallFunc *del = CallFunc::create([=] {
 			dynamite->removeFromParent();
 			_dynStock--;
 		});
-
 		dynamite->runAction(Sequence::create(
 			throwto, del, nullptr
 		));

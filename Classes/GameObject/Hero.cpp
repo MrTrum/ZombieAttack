@@ -118,8 +118,6 @@ void Hero::heroWounded(float delta)
 
 void Hero::setHealthBar(float percent)
 {
-	auto winSize = Director::getInstance()->getWinSize();
-
 	_healthbarHero = ui::LoadingBar::create("HeroBar.png");
 	this->addChild(_healthbarHero, 2);
 	_healthbarHero->setDirection(ui::LoadingBar::Direction::LEFT);
@@ -157,67 +155,13 @@ void Hero::update(float delta)
 void Hero::shootAnimation()
 {
 	Animation *fatguyarm = Animation::create();
-	for (int j = 0; j < 10; j++)
+	for (int j = 0; j < 3; j++)
 	{
 		std::string armAnimName = StringUtils::format("M16firing%02d.png", j);
 		fatguyarm->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(armAnimName));
 	}
-	fatguyarm->setDelayPerUnit(1 / 45.0f);
+	fatguyarm->setDelayPerUnit(1 / 40.0f);
 	Animate *armAnimate = Animate::create(fatguyarm);
 	_sprheroarm->runAction(armAnimate);
 }
 
-void Hero::playAnimation(AnimationInfo info)
-{
-	cocos2d::Animation* charAnimation = cocos2d::AnimationCache::getInstance()->getAnimation(info._name);
-	if (charAnimation == NULL) {
-		cocos2d::Vector<cocos2d::SpriteFrame*> animFrames;
-		for (int i = 0; i < info._numframe; i++) {
-			cocos2d::SpriteFrame* frame = cocos2d::SpriteFrameCache::getInstance()->getSpriteFrameByName(String::createWithFormat(info._name.c_str(), i)->getCString());
-			if (frame == nullptr || frame == (void*)0x1)
-			{
-				continue;
-			}
-			else
-			{
-				animFrames.pushBack(frame);
-			}
-		}
-		charAnimation = cocos2d::Animation::createWithSpriteFrames(animFrames, 1.0f / info._fps);
-		cocos2d::AnimationCache::getInstance()->addAnimation(charAnimation, info._name);
-	}
-	auto sequenceAction = cocos2d::Sequence::create(Repeat::create(cocos2d::Animate::create(charAnimation), info._loop), nullptr);
-	_sprhero->runAction(sequenceAction);
-}
-
-void Hero::playAnimation(AnimationType type)
-{
-	std::map<Hero::AnimationType, AnimationInfo>::iterator it = _mapAnimation.find(type);
-	if (it != _mapAnimation.end())
-	{
-		playAnimation(it->second);
-	}
-}
-
-//void Hero::playAnimation(std::string name, int numframe, int fps, int loop)
-//{
-//	cocos2d::Animation* charAnimation = cocos2d::AnimationCache::getInstance()->getAnimation(_name);
-//	if (charAnimation == NULL) { 
-//		cocos2d::Vector<cocos2d::SpriteFrame*> animFrames;
-//		for (int i = 0; i < numframe; i++) {
-//			cocos2d::SpriteFrame* frame = cocos2d::SpriteFrameCache::getInstance()->getSpriteFrameByName(String::createWithFormat(_name.c_str(), i)->getCString());
-//			if (frame == nullptr || frame == (void*)0x1)
-//			{
-//				continue;
-//			}
-//			else
-//			{
-//				animFrames.pushBack(frame);
-//			}
-//		}
-//		charAnimation = cocos2d::Animation::createWithSpriteFrames(animFrames, 1.0f / fps);
-//		cocos2d::AnimationCache::getInstance()->addAnimation(charAnimation, name);
-//	}
-//	auto sequenceAction = cocos2d::Sequence::create(Repeat::create(cocos2d::Animate::create(charAnimation), loop), nullptr);
-//	_sprhero->runAction(sequenceAction);
-//}

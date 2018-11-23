@@ -85,7 +85,7 @@ private:
 	Sprite			*_Barrier;
 	Sprite			*_hpbar;
 	Sprite			*_iconDynamite;
-	ui::Widget		*_dynamiteBtn;
+	Sprite			*_sprDynamite;
 /*Tú*/
 private:
 	Vec2 _iconPos;

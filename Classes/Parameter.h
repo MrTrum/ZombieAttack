@@ -57,11 +57,13 @@
 #define HEALTH_ZOMBIE6							200.0f
 #define HEALTH_ZOMBIE7							200.0f
 
+#define START_POS								Vec2(winSize * 0.26f)
+
 #define DAMAGE_OF_ZOMBIE2						0.5f
 //DAMAGE M4A1
 #define DAMAGE_M4A1                             30
 //NUMBER BULLET M4A1
-#define NUMBER_BULLET_M4A1                      30
+#define NUMBER_BULLET_M4A1                      50000
 //PRICE M4A1
 #define PRICE_M4A1                              200
 
