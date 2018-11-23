@@ -9,7 +9,7 @@ class PoolBullet : public cocos2d::Node
 public:
 	PoolBullet();
 	~PoolBullet();
-	BulletObject* createBullet(float x, float y);
+	BulletObject* createBullet();
 private:
 	void returnBulletToPool(BulletObject* bullet);
 private:

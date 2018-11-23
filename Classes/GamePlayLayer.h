@@ -59,6 +59,7 @@ protected:
 	void throwOutputText(std::string txt, int duration);
 	void reloading(float dt);
 	void addUI();
+	void update(float dt);
 private:
 	BackgroundLayer *_bg;
 	Hero			*_hero;
@@ -70,7 +71,7 @@ private:
 	int				_getDynTag;
 	int				_totalBullet;
 	int				_dynStock;
-	bool			_isPressed = false;
+	bool			_isShootingBegan = false;
 	bool			_isReloading = false;
 	float			_posX;
 	float			_posY;

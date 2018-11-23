@@ -33,9 +33,6 @@
 #define LINE_BITMASK							1
 #define ZOMBIE_BITMASK							2
 
-//bullet vec
-#define BULLET_VEC								1000.0f
-
 //setTag
 #define TAG_ZOMBIE1								2
 #define TAG_ZOMBIE2								3
@@ -60,8 +57,6 @@
 #define HEALTH_ZOMBIE6							200.0f
 #define HEALTH_ZOMBIE7							200.0f
 
-//DAMAGE Zombie
-//#define DAMAGE_ZOMBIE2							50.0f
 #define DAMAGE_OF_ZOMBIE2						0.5f
 //DAMAGE M4A1
 #define DAMAGE_M4A1                             30

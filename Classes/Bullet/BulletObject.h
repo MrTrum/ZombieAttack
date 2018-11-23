@@ -12,19 +12,18 @@ class BulletObject : public GameObject
 public:
 	BulletObject();
 	~BulletObject();
-	bool init(float x, float y);
-	static BulletObject *create(float x, float y);
+	bool init();
+	static BulletObject *create();
 	void onCollission(GameObject *obj) override;
-	void reset(float x, float y);
+	void reset();
 	void setOnDestroyCallback(OnBulletDestroyCallback callback);
 	void setDamageBullet(int Dmg);
 	float getDamage() override;
-	void scheduleMotion(float dt);
+	void bulletFire(Vec2 location);
 protected:
 	int _Dmg;
 private:
 	void update(float delta);
-	void bulletFire(float locationX, float locationY);
 private:
 	MotionStreak *_motion;
 	PhysicsBody *_bulletPhysicBody;

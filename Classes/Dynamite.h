@@ -11,18 +11,17 @@ class Dynamite : public GameObject
 public:
 	Dynamite();
 	~Dynamite();
-	bool init(Vec2 droppedPos);
-	static Dynamite *create(Vec2 droppedPos);
-	void reset(Vec2 droppedPos);
+	bool init();
+	static Dynamite *create();
+	void reset();
 	void setOnDestroyCallback(OnExploDestroyCallback callback);
 	void onCollission(GameObject *obj);
 	float getDamage() override;
+	void kaBoooom(Vec2 droppedPos);
 protected:
 private:
 	float _Dmg;
 	void update(float dt);
-	void kaBoooom(Vec2 droppedPos);
-
 private:
 	PhysicsBody	*_physics;
 	ParticleSystemQuad	*_particle;

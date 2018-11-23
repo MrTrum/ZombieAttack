@@ -9,7 +9,7 @@ Dynamite::~Dynamite()
 {
 }
 
-bool Dynamite::init(Vec2 droppedPos)
+bool Dynamite::init()
 {
 	if (!GameObject::init())
 	{
@@ -25,15 +25,14 @@ bool Dynamite::init(Vec2 droppedPos)
 	this->addChild(_particle);
 	_particle->setPosition(_physics->getPosition());
 	this->setTag(TAG_DYNAMITE);
-	kaBoooom(droppedPos);
 	scheduleUpdate();
 	return true;
 }
 
-Dynamite *Dynamite::create(Vec2 droppedPos)
+Dynamite *Dynamite::create()
 {
 	Dynamite *pRet = new(std::nothrow) Dynamite();
-	if (pRet && pRet->init(droppedPos))
+	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
 		return pRet;
@@ -46,11 +45,10 @@ Dynamite *Dynamite::create(Vec2 droppedPos)
 	}
 }
 
-void Dynamite::reset(Vec2 droppedPos)
+void Dynamite::reset()
 {
 	Size winSize = Director::getInstance()->getWinSize();
 	this->setVisible(true);
-	kaBoooom(droppedPos);
 	scheduleUpdate();
 }
 
@@ -72,12 +70,14 @@ void Dynamite::kaBoooom(Vec2 droppedPos)
 		auto scaleto = ScaleTo::create(0.5, 1.3f);
 		runAction(scaleto);
 		_particle->runAction(scaleto->clone());
+		_particle->start();
 	}
 	);
 
 	CallFunc *delcallback = CallFunc::create([=]
 	{
 		_willBeDestroy = true;
+		_particle->stop();
 	}
 	);
 	runAction(Sequence::create(callback,DelayTime::create(1), delcallback, NULL));

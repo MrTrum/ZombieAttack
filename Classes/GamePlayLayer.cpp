@@ -71,7 +71,7 @@ bool GamePlayLayer::init()
 	_hero = Hero::create();
 	this->addChild(_hero, 3);
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
-	this->schedule(schedule_selector(GamePlayLayer::updatePressed), 0.30f);
+	this->schedule(schedule_selector(GamePlayLayer::updatePressed), 0.167f);
 	//dynamite
 	_poolBullet = new PoolBullet();
 	_poolDynamite = new PoolExplo();
@@ -161,6 +161,8 @@ bool GamePlayLayer::init()
 	_gunM4A1 = M4A1::create();
 	_gunM4A1->_Stats.setStats(DAMAGE_M4A1*1.5*_gunM4A1->_Level, NUMBER_BULLET_M4A1*1.5*_gunM4A1->_Level, PRICE_M4A1*1.5*_gunM4A1->_Level);
 	this->addChild(_gunM4A1);
+
+	scheduleUpdate();
 	return true;
 }
 
@@ -359,7 +361,7 @@ void GamePlayLayer::addUI()
 	_bulletInMag = Label::createWithTTF(StringUtils::format("%02d", _Bullet), "fonts/Marker Felt.ttf", 20);
 	addChild(_bulletInMag, 2);
 	_bulletInMag->enableOutline(cocos2d::Color4B::RED, 2);
-	_bulletInMag->setPosition(winSize.width * 0.1f, winSize.height * 0.95f);
+	_bulletInMag->setPosition(winSize.width * 0.1f, winSize.height * 0.92f);
 	throwOutputText("READY !!!!", 5);
 
 	_blurBG = Sprite::create("Untitled.png");
@@ -404,12 +406,12 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 			this->_touchOffset = ccpSub(_iconDynamite->getPosition(),
 				this->touchToPoint(touch));
 		}
-		_isPressed = false;
+		_isShootingBegan = false;
 		return true;
 	}
 	else
 	{
-		_isPressed = true;
+		_isShootingBegan = true;
 		return true;
 	}
 	return false;
@@ -430,7 +432,7 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
 {
 	Size winSize = Director::getInstance()->getWinSize();
-	_isPressed = false;
+	_isShootingBegan = false;
 	Vec2 droppedPos = _iconDynamite->getPosition();
 	throwDynamite(droppedPos);
 	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
@@ -450,18 +452,26 @@ void GamePlayLayer::throwOutputText(std::string txt, int duration)
 	DelayTime *readyTime = DelayTime::create(duration);
 	CallFunc *removeRdTxt = CallFunc::create([=]
 	{
-
-		
 		_outputTxt->setVisible(false);
 	}
 	);
 	runAction(Sequence::create(readyTime, removeRdTxt, NULL));
 }
+
+void GamePlayLayer::update(float dt)
+{
+	if (_Bullet == 0 && _totalBullet == 0)
+	{
+		_isReloading = false;
+		_isShootingBegan = false;
+		throwOutputText("OUT OF AMMO", INT_MAX);
+	}
+}
 void GamePlayLayer::updatePressed(float dt)
 {
 	if (!_isReloading)
 	{
-		if (_isPressed)
+		if (_isShootingBegan)
 		{
 			if (_Bullet > 0)
 			{
@@ -488,7 +498,7 @@ void GamePlayLayer::updatePressed(float dt)
 		_iconDynamite->setTag(555);
 	}
 	_dynLeft->setString(StringUtils::format("%02d", _dynStock));
-	_bulletInMag->setString(StringUtils::format("%02d", _Bullet));
+	_bulletInMag->setString(StringUtils::format("%02d / %03d", _Bullet, _totalBullet));
 }
 
 void GamePlayLayer::reloading(float dt)
@@ -502,10 +512,11 @@ void GamePlayLayer::Shooting()
 {
 	Size winSize = Director::getInstance()->getWinSize();
 	_hero->shootAnimation();
-	_bullet = _poolBullet->createBullet(_location.x, _location.y);
+	_bullet = _poolBullet->createBullet();
 	this->addChild(_bullet, 2);
-	_bullet->setDamageBullet(_gunM4A1->_Stats._Damage);
 	_bullet->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
+	_bullet->bulletFire(_location);
+	_bullet->setDamageBullet(_gunM4A1->_Stats._Damage);
 }
 
 void GamePlayLayer::throwDynamite(Vec2 droppedPos)
@@ -526,9 +537,10 @@ void GamePlayLayer::throwDynamite(Vec2 droppedPos)
 			throwto, del, nullptr
 		));
 		CallFunc *callExplo = CallFunc::create([=] {
-			_dynamite = _poolDynamite->createExplo(droppedPos);
+			_dynamite = _poolDynamite->createExplo();
 			this->addChild(_dynamite, 3);
 			_dynamite->setPosition(droppedPos);
+			_dynamite->kaBoooom(droppedPos);
 		});
 		runAction(Sequence::create(DelayTime::create(0.5), callExplo, nullptr));
 	}

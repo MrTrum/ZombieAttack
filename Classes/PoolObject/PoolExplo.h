@@ -11,7 +11,7 @@ class PoolExplo : public Node
 public:
 	PoolExplo();
 	~PoolExplo();
-	Dynamite *createExplo(Vec2 droppedPos);
+	Dynamite *createExplo();
 private:
 	cocos2d::Vector<Dynamite*> _listExplo;
 private:
