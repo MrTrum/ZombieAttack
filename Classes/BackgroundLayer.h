@@ -13,7 +13,6 @@ public:
 private:
 	cocos2d::Sprite *_sprBG;
 	cocos2d::Sprite *_sprBase;
-	cocos2d::Sprite *_sprGround;
 };
 
 #endif // !_BACKGROUND_LAYER_H_

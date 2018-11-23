@@ -18,7 +18,7 @@ bool BulletObject::init()
 	{
 		return false;
 	}
-	auto winSize = Director::getInstance()->getWinSize();
+	winSize = Director::getInstance()->getWinSize();
 	_bulletPhysicBody = PhysicsBody::createCircle(8.0f);
 	_bulletPhysicBody->setContactTestBitmask(true);
 	_bulletPhysicBody->setDynamic(false);
@@ -47,7 +47,6 @@ BulletObject *BulletObject::create()
 
 void BulletObject::reset()
 {
-	Size winSize = Director::getInstance()->getWinSize();
 	this->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
 	this->setVisible(true);
 	scheduleUpdate();
@@ -61,7 +60,7 @@ float BulletObject::getDamage()
 void BulletObject::onCollission(GameObject *obj)
 {
 	if (obj->getTag() == TAG_ZOMBIE1 || obj->getTag() == TAG_ZOMBIE2 || 
-		obj->getTag() == TAG_ZOMBIE3 || obj->getTag() == TAG_ZOMBIE4)
+		obj->getTag() == TAG_ZOMBIE3 || obj->getTag() == TAG_ZOMBIE4 )
 	{
 		_willBeDestroy = true;
 	}
@@ -75,7 +74,6 @@ void BulletObject::setOnDestroyCallback(OnBulletDestroyCallback callback)
 
 void BulletObject::bulletFire(Vec2 location)
 {
-	Size winSize = Director::getInstance()->getWinSize();
 	float recoil = random(-15, 40);
 	auto startPos = this->getPosition();
 	auto target = location;
@@ -112,5 +110,9 @@ void BulletObject::update(float delta)
 		this->removeFromParent();
 		_motion->removeFromParent();
 		_willBeDestroy = false;
+	}
+	if (this->getPosition().x > winSize.width)
+	{
+		_willBeDestroy = true;
 	}
 }

@@ -26,13 +26,6 @@ bool BackgroundLayer::init()
 	float scaleY = winSize.height / _sprBG->getContentSize().height;
 	_sprBG->setScaleX(scaleX);
 	_sprBG->setScaleY(scaleY);
-	////add ground
-	//_sprGround = Sprite::create("background2.png");
-	//addChild(_sprGround);
-	//_sprGround->setScaleX(scaleX);
-	//_sprGround->setScaleY(scaleY);
-	//_sprGround->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-
 	//add base
 	_sprBase = Sprite::create("house.png");
 	this->addChild(_sprBase);

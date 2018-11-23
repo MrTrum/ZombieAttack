@@ -69,7 +69,7 @@ bool PZombie::init(PoolZombie *ptr, std::string zombieName, int tag)
 	this->setTag(tag);
 
 	playWalkAnimation(zombieName);
-
+	scheduleUpdate();
 	return true;
 }
 
@@ -124,12 +124,16 @@ void PZombie::updateHealthBar(int health, PZombie *ptrZombie)
 }
 
 void PZombie::onCollission(GameObject *obj)
-{
+{	
 	if (obj->getTag() == TAG_BULLET || obj->getTag() == TAG_DYNAMITE)
 	{
-		this->damage = obj->getDamage();
-		checkDamage();
+		if (!_isInvincible)
+		{
+			this->damage = obj->getDamage();
+			checkDamage();
+		}
 	}
+	
 	else if (obj->getTag() == TAG_LINE2)
 	{
 		this->attack();
@@ -336,4 +340,11 @@ void PZombie::droppedItems(Vec2 deadPos)
 	}
 }
 
-
+void PZombie::update(float dt)
+{
+	auto distance = Director::getInstance()->getWinSize().width - (this->getContentSize().width*2.5);
+	if (this->getPosition().x < distance)
+	{
+		_isInvincible = false;
+	}
+}

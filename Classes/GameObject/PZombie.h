@@ -32,7 +32,7 @@ private:
 	const int					_percentHealth5;
 	const int					_percentHealth6;
 	const int					_percentHealth7;
-
+	bool						_isInvincible = true;
 public:
 	PZombie();
 	~PZombie();
@@ -59,5 +59,6 @@ public:
 	std::string					convertFromTagToStringDead(int tag);
 	std::string					convertFromTagToStringSkill(int tag);
 	void						droppedItems(Vec2 deadPos);
+	void						update(float dt);
 };
 #endif // !_P_ZOMBIE_H_

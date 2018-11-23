@@ -30,6 +30,7 @@ private:
 	cocos2d::Sprite *_sprBullet;
 	OnBulletDestroyCallback _onBulletDestroyCallback;
 	bool _willBeDestroy;
+	Size winSize;
 };
 
 #endif // !_BULLETOBJECT_H_
