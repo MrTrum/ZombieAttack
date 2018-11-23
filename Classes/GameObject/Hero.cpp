@@ -1,6 +1,6 @@
 #include "Hero.h"
 #include "Parameter.h"
-#include "Zombie/PZombie.h"
+#include "GameObject/PZombie.h"
 
 USING_NS_CC;
 

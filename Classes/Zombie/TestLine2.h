@@ -3,7 +3,7 @@
 
 class TestLine;
 #include "cocos2d.h"
-#include "GameObject.h"
+#include "GameObject/GameObject.h"
 
 class TestLine2 : public Node
 {

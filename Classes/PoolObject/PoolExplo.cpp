@@ -1,5 +1,5 @@
 #include "PoolExplo.h"
-#include "Dynamite.h"
+#include "GameObject/Dynamite.h"
 PoolExplo::PoolExplo()
 {
 	

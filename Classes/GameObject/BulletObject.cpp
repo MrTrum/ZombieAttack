@@ -1,6 +1,6 @@
-#include "Bullet/BulletObject.h"
+#include "GameObject/BulletObject.h"
 #include "Parameter.h"
-#include "Zombie/PZombie.h"
+#include "GameObject/PZombie.h"
 
 #define BULLET_VEC	1000.0f
 BulletObject::BulletObject()

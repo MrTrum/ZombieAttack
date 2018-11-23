@@ -1,5 +1,5 @@
 ﻿#include "PoolObject/PoolZombie.h"
-#include "Zombie/PZombie.h"
+#include "GameObject/PZombie.h"
 #include "Parameter.h"
 
 USING_NS_CC;

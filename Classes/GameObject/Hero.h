@@ -6,7 +6,7 @@
 #include <string>
 #include "GameObject.h"
 #include "ui/CocosGUI.h"
-#include "Zombie/PZombie.h"
+#include "GameObject/PZombie.h"
 
 //std::map<std::string, AnimationInfo> _mapAnimation =
 //{

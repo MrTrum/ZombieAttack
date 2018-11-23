@@ -2,7 +2,7 @@
 #define _CREATE_TESTLINE_H_
 
 #include "cocos2d.h"
-#include "GameObject.h"
+#include "GameObject/GameObject.h"
 
 class CreateTestLine : public GameObject
 {

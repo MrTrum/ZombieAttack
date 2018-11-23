@@ -1,7 +1,7 @@
 ﻿#include "TestLine2.h"
 #include "Parameter.h"
 #include "CreateTestLine.h"
-#include "Zombie/PZombie.h"
+#include "GameObject/PZombie.h"
 
 
 USING_NS_CC;

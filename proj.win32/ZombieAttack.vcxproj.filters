@@ -31,12 +31,6 @@
     <Filter Include="src\UI\StoreItem">
       <UniqueIdentifier>{35fb18ef-6f41-49bd-b84a-b6d0368117d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Hero">
-      <UniqueIdentifier>{a0b0ccd9-0838-4807-b55d-db41463f6b39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Bullet">
-      <UniqueIdentifier>{c4fcae37-893f-4d7d-b19d-a88eb761a8e0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\UI\GameStats">
       <UniqueIdentifier>{50ac22fd-934c-4fdf-86a1-6cedca7d9e18}</UniqueIdentifier>
     </Filter>
@@ -52,6 +46,9 @@
     <Filter Include="src\Item\HP">
       <UniqueIdentifier>{4fcfd35d-77f8-4989-90bc-71647d74cafc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameObject">
+      <UniqueIdentifier>{e2397790-7daf-4e32-9fe4-8e4409ddee2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,14 +57,8 @@
     <ClCompile Include="..\Classes\BackgroundLayer.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GameObject.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\GamePlayLayer.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Zombie\PZombie.cpp">
-      <Filter>src\Zombie</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Zombie\TestLine2.cpp">
       <Filter>src\Zombie</Filter>
@@ -93,12 +84,6 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Bullet\BulletObject.cpp">
-      <Filter>src\Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Hero\Hero.cpp">
-      <Filter>src\Hero</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\UI\GameStats\WeaponStats.cpp">
       <Filter>src\UI\GameStats</Filter>
     </ClCompile>
@@ -107,9 +92,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\PoolObject\PoolBullet.cpp">
       <Filter>src\PoolObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Dynamite.cpp">
-      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Weapon\M4A1\M4A1.cpp">
       <Filter>src\Weapon\M4A1</Filter>
@@ -123,6 +105,21 @@
     <ClCompile Include="..\Classes\Item\HP\HP.cpp">
       <Filter>src\Item\HP</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\BulletObject.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\Dynamite.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\GameObject.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\Hero.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\PZombie.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -134,17 +131,11 @@
     <ClInclude Include="..\Classes\BackgroundLayer.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameObject.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GamePlayLayer.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Parameter.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Zombie\PZombie.h">
-      <Filter>src\Zombie</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Zombie\TestLine2.h">
       <Filter>src\Zombie</Filter>
@@ -167,12 +158,6 @@
     <ClInclude Include="..\Classes\UI\StoreItem\StoreLayer.h">
       <Filter>src\UI\StoreItem</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Bullet\BulletObject.h">
-      <Filter>src\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Hero\Hero.h">
-      <Filter>src\Hero</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\UI\GameStats\ItemStats.h">
       <Filter>src\UI\GameStats</Filter>
     </ClInclude>
@@ -182,10 +167,6 @@
     <ClInclude Include="..\Classes\PoolObject\PoolBullet.h">
       <Filter>src\PoolObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Dynamite.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\NumberConst.h" />
     <ClInclude Include="..\Classes\Weapon\M4A1\M4A1.h">
       <Filter>src\Weapon\M4A1</Filter>
     </ClInclude>
@@ -197,6 +178,21 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Item\HP\HP.h">
       <Filter>src\Item\HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\BulletObject.h">
+      <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\Dynamite.h">
+      <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\GameObject.h">
+      <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\Hero.h">
+      <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\PZombie.h">
+      <Filter>src\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

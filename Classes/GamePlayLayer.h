@@ -6,7 +6,7 @@
 #include "ui/UIButton.h"
 #include "UI/NumberMoney/Money.h"
 #include "UI/StoreItem/StoreLayer.h"
-#include "Zombie/PZombie.h"
+#include "GameObject/PZombie.h"
 
 
 class BackgroundLayer;
