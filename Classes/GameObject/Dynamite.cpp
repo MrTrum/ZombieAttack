@@ -3,6 +3,7 @@
 Dynamite::Dynamite()
 {
 	_Dmg = 100.0f;
+	_willBeDestroy = false;
 }
 
 Dynamite::~Dynamite()

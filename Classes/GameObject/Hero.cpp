@@ -15,12 +15,6 @@ Hero::~Hero()
 {
 
 }
-
-std::map<Hero::AnimationType, AnimationInfo> Hero::_mapAnimation =
-{
-	{Hero::AnimationType::IDLE, AnimationInfo("idle%02.png",16,4,CC_REPEAT_FOREVER)}
-};
-
 bool Hero::init()
 {
 	if (!GameObject::init())

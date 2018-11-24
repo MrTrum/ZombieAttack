@@ -520,11 +520,15 @@ void GamePlayLayer::Shooting()
 {
 	Size winSize = Director::getInstance()->getWinSize();
 	_hero->shootAnimation();
-	_bullet = _poolBullet->createBullet();
+	_bullet = _poolBullet->createBullet(_location);
 	this->addChild(_bullet, 2);
 	_bullet->setPosition(START_POS);
-	_bullet->bulletFire(_location);
 	_bullet->setDamageBullet(_gunM4A1->_Stats._Damage);
+	auto _motion = MotionStreak::create(0.2, 5, 15, Color3B::WHITE, "trail_red.png");
+	addChild(_motion, 2);
+	_motion->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
+	_motion->runAction(MoveBy::create(1.0f, _bullet->vector));
+	_motion->setPosition(_bullet->getPosition());
 }
 
 void GamePlayLayer::throwDynamite(Vec2 droppedPos)

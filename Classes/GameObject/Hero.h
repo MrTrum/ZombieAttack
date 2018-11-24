@@ -8,12 +8,6 @@
 #include "ui/CocosGUI.h"
 #include "GameObject/PZombie.h"
 
-//std::map<std::string, AnimationInfo> _mapAnimation =
-//{
-//	{"shootSG",AnimationInfo("fireSG", 10, 30,1)},
-//
-//};
-
 struct AnimationInfo {
 	std::string _name;
 	int _numframe;
@@ -42,9 +36,6 @@ public:
 	CREATE_FUNC(Hero);
 	virtual bool init();
 	void						shootAnimation();
-	//void						playAnimation(std::string name, int numframe, int fps, int loop);
-	void						playAnimation(AnimationInfo info);
-	void						playAnimation(AnimationType type);
 	void						setHealthBar(float percent);
 	void						updateHealthBar(float percent);
 protected:

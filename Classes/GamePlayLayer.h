@@ -27,7 +27,6 @@ public:
 	CREATE_FUNC(GamePlayLayer);
 	virtual bool init();
 	static cocos2d::Scene* createGamePlayLayer();
-
 	/*Tú*/
 public:
 	void IconCoinCreate();

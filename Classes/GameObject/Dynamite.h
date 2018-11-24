@@ -26,7 +26,7 @@ private:
 	PhysicsBody	*_physics;
 	ParticleSystemQuad	*_particle;
 	OnExploDestroyCallback _onExploDestroyCallback;
-	bool _willBeDestroy = false;
+	bool _willBeDestroy;
 };
 
 

@@ -58,6 +58,7 @@
 #define HEALTH_ZOMBIE7							200.0f
 
 #define START_POS								Vec2(winSize * 0.26f)
+#define BULLET_VEC								1000.0f
 
 #define DAMAGE_OF_ZOMBIE2						0.5f
 //DAMAGE M4A1

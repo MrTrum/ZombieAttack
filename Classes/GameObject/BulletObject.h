@@ -3,8 +3,9 @@
 
 #include "cocos2d.h"
 #include "GameObject.h"
-
+USING_NS_CC;
 class BulletObject;
+class GamePlayLayer;
 typedef std::function<void(BulletObject* bullet)> OnBulletDestroyCallback;
 
 class BulletObject : public GameObject
@@ -12,25 +13,24 @@ class BulletObject : public GameObject
 public:
 	BulletObject();
 	~BulletObject();
-	bool init();
-	static BulletObject *create();
+	bool init(Vec2 location);
+	static BulletObject *create(Vec2 location);
 	void onCollission(GameObject *obj) override;
-	void reset();
+	void reset(Vec2 location);
 	void setOnDestroyCallback(OnBulletDestroyCallback callback);
 	void setDamageBullet(int Dmg);
 	float getDamage() override;
-	void bulletFire(Vec2 location);
+	Vec2 vector;
 protected:
 	int _Dmg;
 private:
 	void update(float delta);
+	void bulletFire(Vec2 location);
 private:
-	MotionStreak *_motion;
 	PhysicsBody *_bulletPhysicBody;
 	cocos2d::Sprite *_sprBullet;
 	OnBulletDestroyCallback _onBulletDestroyCallback;
 	bool _willBeDestroy;
-	Size winSize;
 };
 
 #endif // !_BULLETOBJECT_H_
