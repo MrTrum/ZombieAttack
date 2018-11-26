@@ -120,6 +120,9 @@
     <ClCompile Include="..\Classes\GameObject\PZombie.cpp">
       <Filter>src\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\Border.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -192,6 +195,9 @@
       <Filter>src\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameObject\PZombie.h">
+      <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\Border.h">
       <Filter>src\GameObject</Filter>
     </ClInclude>
   </ItemGroup>

@@ -18,7 +18,7 @@ bool BackgroundLayer::init()
 	}
 	Size winSize = Director::getInstance()->getWinSize();
 	//add background
-	_sprBG = Sprite::create("background2.png");
+	_sprBG = Sprite::create("background4.png");
 	this->addChild(_sprBG);
 	_sprBG->setPosition(winSize * 0.5f);
 

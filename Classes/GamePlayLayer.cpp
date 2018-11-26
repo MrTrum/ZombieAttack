@@ -1,19 +1,20 @@
 ﻿#include "GamePlayLayer.h"
-#include "BackgroundLayer.h"
-#include "GameObject/Hero.h"
-#include "SimpleAudioEngine.h"
 #include "Parameter.h"
+#include "SimpleAudioEngine.h"
 #include "GameObject/GameObject.h"
+#include "GameObject/Border.h"
+#include "GameObject/Hero.h"
+#include "GameObject/Dynamite.h"
 #include "GameObject/BulletObject.h"
 #include "PoolObject/PoolZombie.h"
-#include "UI/Coin/Coin.h"
-#include "Zombie/TestLine2.h"
-#include <ui/UIWidget.h>
-#include "Zombie/CreateTestLine.h"
 #include "PoolObject/PoolBullet.h"
-#include "GameObject/Dynamite.h"
 #include "PoolObject/PoolExplo.h"
+#include "BackgroundLayer.h"
+#include "UI/Coin/Coin.h"
+#include <ui/UIWidget.h>
 #include "ShakeAction.h"
+#include "Zombie/CreateTestLine.h"
+#include "Zombie/TestLine2.h"
 
 USING_NS_CC;
 
@@ -65,6 +66,8 @@ bool GamePlayLayer::init()
 	//add BG
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg);
+	auto _gBorder = Border::create();
+	addChild(_gBorder);
 	//add hero
 	_hero = Hero::create();
 	this->addChild(_hero, 3);

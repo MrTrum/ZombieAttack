@@ -44,6 +44,7 @@
 #define TAG_HERO								8
 #define TAG_BULLET								9
 #define	TAG_DYNAMITE							10
+#define TAG_BORDER								11
 //Số lượng tạo Zombie
 #define ZOMBIE_SIZE								20
 

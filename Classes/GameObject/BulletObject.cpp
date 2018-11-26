@@ -63,7 +63,8 @@ float BulletObject::getDamage()
 void BulletObject::onCollission(GameObject *obj)
 {
 	if (obj->getTag() == TAG_ZOMBIE1 || obj->getTag() == TAG_ZOMBIE2 ||
-		obj->getTag() == TAG_ZOMBIE3 || obj->getTag() == TAG_ZOMBIE4)
+		obj->getTag() == TAG_ZOMBIE3 || obj->getTag() == TAG_ZOMBIE4 ||
+		obj->getTag() == TAG_BORDER)
 	{
 		_willBeDestroy = true;
 	}
