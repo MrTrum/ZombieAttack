@@ -74,5 +74,5 @@
 //NUMBER HP
 #define NUMBER_HP								3
 //PRICE HP
-#define PRICE_HP							    300
+#define PRICE_HP							    500
 #endif // __PARAMETER_H__

@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "ui/UIButton.h"
+#include "Item/HP/HP.h"
 #include "UI/NumberMoney/Money.h"
 #include "UI/StoreItem/StoreLayer.h"
 #include "GameObject/PZombie.h"
@@ -90,6 +91,7 @@ private:
 private:
 	Vec2 _iconPos;
 	StoreLayer* _Shop;
+	HP* _HP;
 	Coin* _Coin;
 	Money* _Money;
 	M4A1* _gunM4A1;

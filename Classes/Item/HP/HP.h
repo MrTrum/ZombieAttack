@@ -9,6 +9,13 @@ public:
 	~HP();
 	void setIcon();
 	void setLabelStats();
+	void setItemIcon();
+	void iconUpgradeHide(int number,int price);
+	void iconUpgradeShow();
+	void iconItemShow();
+	void iconItemHide();
+	void setLevel();
+	void getLevel();
 	int Level;
 	ItemStats itemStat;
 	void hide();
@@ -20,6 +27,8 @@ private:
 	cocos2d::Sprite* _itemNum;
 	cocos2d::Label* _labelStat;
 	cocos2d::Label* _labelNum;
+	cocos2d::Sprite* _Price;
+	cocos2d::Label* _labelUpgrade;
 };
 #endif // !_HP_H
 

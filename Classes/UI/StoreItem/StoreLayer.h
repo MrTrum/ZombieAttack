@@ -21,18 +21,22 @@ public:
 	void TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void TouchWeaponButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
+	void TouchUpgradeWeaponButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void TouchItemButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void setGamePlayLayerPtr(GamePlayLayer* ptr);
 	void setTotalMoney(int _GameTotalMoney);
+	void setUpgradeItemIcon(Vector<Sprite>* listSprite);
 	void setCallBack(std::function<void(M4A1* Gun)> callback);
 private:
 	int _shopTotalMoney;
 	cocos2d::ui::Button* _quitShop;
 	cocos2d::ui::Button* _upgradeBtn;
 	cocos2d::ui::Button* _weaponBtn;
+	cocos2d::ui::Button*_upgradeItemBtn;
 	cocos2d::ui::Button* _itemBtn;
 	cocos2d::Sprite* _Price;
 	cocos2d::Label* _labelUpgrade;
+	cocos2d::Label* _labelUpgradeItem;
 	GamePlayLayer* _btnGamePlayLayer;
 	M4A1* _iconGun;
 	HP* _iconHP;

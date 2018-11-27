@@ -54,9 +54,6 @@
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\BackgroundLayer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\GamePlayLayer.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -69,35 +66,11 @@
     <ClCompile Include="..\Classes\PoolObject\PoolZombie.cpp">
       <Filter>src\PoolObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\UI\Coin\Coin.cpp">
-      <Filter>src\UI\Coin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UI\Menu\MenuLayer.cpp">
-      <Filter>src\UI\Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UI\NumberMoney\Money.cpp">
-      <Filter>src\UI\NumberMoney</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UI\StoreItem\StoreLayer.cpp">
-      <Filter>src\UI\StoreItem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\UI\GameStats\WeaponStats.cpp">
-      <Filter>src\UI\GameStats</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UI\GameStats\ItemStats.cpp">
-      <Filter>src\UI\GameStats</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\PoolObject\PoolBullet.cpp">
       <Filter>src\PoolObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Weapon\M4A1\M4A1.cpp">
-      <Filter>src\Weapon\M4A1</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ShakeAction.cpp">
-      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\PoolObject\PoolExplo.cpp">
       <Filter>src\PoolObject</Filter>
@@ -120,8 +93,35 @@
     <ClCompile Include="..\Classes\GameObject\PZombie.cpp">
       <Filter>src\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\UI\Coin\Coin.cpp">
+      <Filter>src\UI\Coin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\GameStats\ItemStats.cpp">
+      <Filter>src\UI\GameStats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\GameStats\WeaponStats.cpp">
+      <Filter>src\UI\GameStats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\Menu\MenuLayer.cpp">
+      <Filter>src\UI\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\NumberMoney\Money.cpp">
+      <Filter>src\UI\NumberMoney</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\StoreItem\StoreLayer.cpp">
+      <Filter>src\UI\StoreItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Weapon\M4A1\M4A1.cpp">
+      <Filter>src\Weapon\M4A1</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\GameObject\Border.cpp">
       <Filter>src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BackgroundLayer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ShakeAction.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,13 +131,7 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\BackgroundLayer.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GamePlayLayer.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Parameter.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Zombie\TestLine2.h">
@@ -149,32 +143,8 @@
     <ClInclude Include="..\Classes\PoolObject\PoolZombie.h">
       <Filter>src\PoolObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\UI\Coin\Coin.h">
-      <Filter>src\UI\Coin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UI\Menu\MenuLayer.h">
-      <Filter>src\UI\Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UI\NumberMoney\Money.h">
-      <Filter>src\UI\NumberMoney</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UI\StoreItem\StoreLayer.h">
-      <Filter>src\UI\StoreItem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UI\GameStats\ItemStats.h">
-      <Filter>src\UI\GameStats</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UI\GameStats\WeaponStats.h">
-      <Filter>src\UI\GameStats</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\PoolObject\PoolBullet.h">
       <Filter>src\PoolObject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Weapon\M4A1\M4A1.h">
-      <Filter>src\Weapon\M4A1</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ShakeAction.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\PoolObject\PoolExplo.h">
       <Filter>src\PoolObject</Filter>
@@ -197,8 +167,38 @@
     <ClInclude Include="..\Classes\GameObject\PZombie.h">
       <Filter>src\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\UI\Coin\Coin.h">
+      <Filter>src\UI\Coin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\GameStats\ItemStats.h">
+      <Filter>src\UI\GameStats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\GameStats\WeaponStats.h">
+      <Filter>src\UI\GameStats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\Menu\MenuLayer.h">
+      <Filter>src\UI\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\NumberMoney\Money.h">
+      <Filter>src\UI\NumberMoney</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\StoreItem\StoreLayer.h">
+      <Filter>src\UI\StoreItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Weapon\M4A1\M4A1.h">
+      <Filter>src\Weapon\M4A1</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\GameObject\Border.h">
       <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BackgroundLayer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Parameter.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ShakeAction.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

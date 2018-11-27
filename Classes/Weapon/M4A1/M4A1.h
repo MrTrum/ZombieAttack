@@ -28,6 +28,8 @@ private:
 	cocos2d::Sprite* _bulletNum;
 	cocos2d::Label* _labelDmg;
 	cocos2d::Label* _labelNum;
+	cocos2d::Sprite* _Price;
+	cocos2d::Label* _labelUpgrade;
 };
 
 #endif // !_M4A1_H

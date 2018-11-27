@@ -171,12 +171,18 @@ bool GamePlayLayer::init()
 	_baseBullet = NUMBER_BULLET_M4A1 + (0.5*_gunM4A1->_Level);
 	_gunM4A1->_Stats.setStats(DAMAGE_M4A1 + (pow(10, 1 / _gunM4A1->_Level)*_gunM4A1->_Level), NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1*0.25*_gunM4A1->_Level), PRICE_M4A1*1.5*_gunM4A1->_Level);
 	this->addChild(_gunM4A1);
+	//HP
+	def->getInstance()->setIntegerForKey("LevelHP", 1);
+	_HP = new HP();
+	_HP->getLevel();
+	this->addChild(_HP);
 	scheduleUpdate();
 	return true;
 }
 
 bool GamePlayLayer::onContactBegin(PhysicsContact &contact)
 {
+
 	PhysicsBody *a = contact.getShapeA()->getBody();
 	PhysicsBody *b = contact.getShapeB()->getBody();
 
@@ -250,16 +256,14 @@ void GamePlayLayer::setTotalMoney(int shopMoney)
 }
 void GamePlayLayer::resumeGame()
 {
-	Director::getInstance()->resume();
-	_iconDynamite->setTag(555);
-	_woodPane->setVisible(false);
-	_blurBG->setVisible(false);
-	_resumeBtn->setVisible(false);
-	_labelResume->setVisible(false);
-	_quitBtn->setVisible(false);
-	_labelQuit->setVisible(false);
-	_shopBtn->setVisible(false);
-	_labelShop->setVisible(false);
+	_woodPane->setVisible(true);
+	_blurBG->setVisible(true);
+	_resumeBtn->setVisible(true);
+	_labelResume->setVisible(true);
+	_quitBtn->setVisible(true);
+	_labelQuit->setVisible(true);
+	_shopBtn->setVisible(true);
+	_labelShop->setVisible(true);
 	_Money->setVisible(true);
 }
 void GamePlayLayer::moneyChange()
@@ -317,7 +321,16 @@ void GamePlayLayer::TouchResumeButton(Ref* pSender, cocos2d::ui::Widget::TouchEv
 {
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
-		this->resumeGame();
+		Director::getInstance()->resume();
+		_iconDynamite->setTag(555);
+		_woodPane->setVisible(false);
+		_blurBG->setVisible(false);
+		_resumeBtn->setVisible(false);
+		_labelResume->setVisible(false);
+		_quitBtn->setVisible(false);
+		_labelQuit->setVisible(false);
+		_shopBtn->setVisible(false);
+		_labelShop->setVisible(false);
 	}
 }
 
@@ -335,6 +348,12 @@ void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 		_Shop->setGamePlayLayerPtr(this);
 		_Shop->setTotalMoney(_totalMoney);
 		_Money->setVisible(false);
+		_resumeBtn->setVisible(false);
+		_labelResume->setVisible(false);
+		_quitBtn->setVisible(false);
+		_labelQuit->setVisible(false);
+		_shopBtn->setVisible(false);
+		_labelShop->setVisible(false);
 		this->addChild(_Shop, 10);
 	}
 }
