@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -196,6 +196,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\UI\Menu\MenuLayer.h" />
     <ClInclude Include="..\Classes\UI\NumberMoney\Money.h" />
     <ClInclude Include="..\Classes\UI\StoreItem\StoreLayer.h" />
+    <ClInclude Include="..\Classes\WeaponStat.h" />
     <ClInclude Include="..\Classes\Weapon\M4A1\M4A1.h" />
     <ClInclude Include="..\Classes\Zombie\CreateTestLine.h" />
     <ClInclude Include="..\Classes\Zombie\TestLine2.h" />

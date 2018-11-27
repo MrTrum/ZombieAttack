@@ -116,6 +116,10 @@ void StoreLayer::setUpgradeItemIcon(Vector<Sprite>* listSprite)
 {
 
 }
+void StoreLayer::TouchWeaponButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
+{
+
+}
 void StoreLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
 {
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)

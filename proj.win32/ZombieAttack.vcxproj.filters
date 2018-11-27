@@ -200,6 +200,7 @@
     <ClInclude Include="..\Classes\ShakeAction.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\WeaponStat.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
