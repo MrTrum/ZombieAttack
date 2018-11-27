@@ -20,7 +20,7 @@ USING_NS_CC;
 
 GamePlayLayer::GamePlayLayer() : scenePlay(4)
 {
-	_totalBullet = 90;
+	_totalBullet = 300;
 	_dynStock = 5;
 	_getDynTag = 0;
 }
@@ -341,6 +341,7 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 /*Khoa*/
 void GamePlayLayer::addUI()
 {
+	//dynamite
 	Size winSize = Director::getInstance()->getWinSize();
 	_iconDynamite = Sprite::create("btn_dynamite.png");
 	addChild(_iconDynamite, 3);
@@ -354,6 +355,7 @@ void GamePlayLayer::addUI()
 	_iconDynamite->addChild(_dynLeft);
 	_dynLeft->setPosition(Vec2(50.0f, 15.0f));
 	_dynLeft->enableOutline(cocos2d::Color4B::BLACK, 3);
+	//warrning txt
 	_outputTxt = Label::createWithTTF("", "fonts/Creepster-Regular.ttf", 80);
 	_outputTxt->setVisible(false);
 	addChild(_outputTxt, 2);
@@ -363,12 +365,9 @@ void GamePlayLayer::addUI()
 	_outputTxt->setPosition(winSize.width * 0.5f, winSize.height * 0.75f);
 	Blink *rdTxtBlink = Blink::create(5, 12);
 	_outputTxt->runAction(rdTxtBlink);
-	_bulletInMag = Label::createWithTTF(StringUtils::format("%02d", _Bullet), "fonts/Marker Felt.ttf", 20);
-	addChild(_bulletInMag, 2);
-	_bulletInMag->enableOutline(cocos2d::Color4B::RED, 2);
-	_bulletInMag->setPosition(winSize.width * 0.1f, winSize.height * 0.92f);
+	
 	throwOutputText("READY !!!!", 5);
-
+	//paused effect
 	_blurBG = Sprite::create("Untitled.png");
 	addChild(_blurBG,4);
 	_blurBG->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -383,8 +382,33 @@ void GamePlayLayer::addUI()
 	_woodPane->setPosition(winSize * 0.5f);
 	_woodPane->setVisible(false);
 	_woodPane->setScale(0.7f);
-}
 
+	//magazine ui
+	auto _sprMag = Sprite::create("oval.png");
+	_sprMag->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_sprMag->setPosition(Vec2(winSize.width * 0.09f, winSize.height * 0.03f));
+	addChild(_sprMag,2);
+	_sprMag->setScale(0.15f);
+	auto _reloadBtn = cocos2d::ui::Button::create("MagUI.png");
+	_reloadBtn->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_reloadBtn->setPosition(winSize * 0.03f);
+	_reloadBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::onTouchReloadBtn, this));
+	_reloadBtn->setScale(0.15f);
+	this->addChild(_reloadBtn, 2);
+	_bulletInMag = Label::createWithTTF("aaa", "fonts/Marker Felt.ttf", 20);
+	addChild(_bulletInMag, 2);
+	_bulletInMag->enableOutline(cocos2d::Color4B::BLACK, 3);
+	_bulletInMag->setPosition(Vec2(winSize.width * 0.17f, winSize.height * 0.06f));
+}
+void GamePlayLayer::onTouchReloadBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
+{
+	if (_Bullet != 30)
+	{
+		_isReloading = true;
+		throwOutputText("Reloading", 3);
+		scheduleOnce(schedule_selector(GamePlayLayer::reloading), 3.0f);
+	}
+}
 bool GamePlayLayer::isTouchingSprite(Touch* touch)
 {
 	if (_getDynTag == 555)
@@ -453,7 +477,7 @@ void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
 
 void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event)
 {
-
+	
 }
 
 void GamePlayLayer::throwOutputText(std::string txt, int duration)
@@ -514,8 +538,9 @@ void GamePlayLayer::updatePressed(float dt)
 
 void GamePlayLayer::reloading(float dt)
 {
+	_totalBullet += _Bullet;
 	_totalBullet -= 30;
-	_Bullet += 30;
+	_Bullet = 30;
 	_isReloading = false;
 }
 
@@ -526,7 +551,8 @@ void GamePlayLayer::Shooting()
 	_bullet = _poolBullet->createBullet(_location);
 	this->addChild(_bullet, 2);
 	_bullet->setPosition(START_POS);
-	_bullet->setDamageBullet(_gunM4A1->_Stats._Damage);
+	_bullet->setDamageBullet(30.0f);
+							//_gunM4A1->_Stats._Damage);
 	auto _motion = MotionStreak::create(0.2, 5, 15, Color3B::WHITE, "trail_red.png");
 	addChild(_motion, 2);
 	_motion->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));

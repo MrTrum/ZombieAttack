@@ -59,6 +59,7 @@ protected:
 	void reloading(float dt);
 	void addUI();
 	void update(float dt);
+	void onTouchReloadBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 private:
 	BackgroundLayer *_bg;
 	Hero			*_hero;
