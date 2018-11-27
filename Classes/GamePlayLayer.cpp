@@ -20,7 +20,9 @@ USING_NS_CC;
 
 GamePlayLayer::GamePlayLayer() : scenePlay(4)
 {
-	_totalBullet = 300;
+	_totalBullet = 0;
+	_Bullet = 0;
+	_baseBullet = 0;
 	_dynStock = 5;
 	_getDynTag = 0;
 }
@@ -158,11 +160,17 @@ bool GamePlayLayer::init()
 	_labelQuit->setRotation(-5);
 	this->addChild(_labelQuit, 4);
 	//Level
-	_Bullet = NUMBER_BULLET_M4A1;
+	def = UserDefault::getInstance();
 	_gunM4A1 = M4A1::create();
-	_gunM4A1->_Stats.setStats(DAMAGE_M4A1*1.5*_gunM4A1->_Level, NUMBER_BULLET_M4A1*1.5*_gunM4A1->_Level, PRICE_M4A1*1.5*_gunM4A1->_Level);
+	def->setIntegerForKey("CurrentBullet", 30);
+	_Bullet = def->getIntegerForKey("CurrentBullet");
+	def->setIntegerForKey("CurrentBaseBullet", NUMBER_BULLET_M4A1 + (0.5*_gunM4A1->_Level));
+	_baseBullet = def->getIntegerForKey("CurrentBaseBullet");
+	def->setIntegerForKey("CurrentTotalBullet", NUMBER_BULLET_M4A1);
+	_totalBullet = def->getIntegerForKey("CurrentTotalBullet");
+	_baseBullet = NUMBER_BULLET_M4A1 + (0.5*_gunM4A1->_Level);
+	_gunM4A1->_Stats.setStats(DAMAGE_M4A1 + (pow(10, 1 / _gunM4A1->_Level)*_gunM4A1->_Level), NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1*0.25*_gunM4A1->_Level), PRICE_M4A1*1.5*_gunM4A1->_Level);
 	this->addChild(_gunM4A1);
-
 	scheduleUpdate();
 	return true;
 }
@@ -321,7 +329,7 @@ void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 		_Shop->setCallBack([=](M4A1* Gun)
 		{
 			this->_Level = Gun->_Level;
-			this->_Bullet += Gun->_Stats._BulletNumber;
+			this->_baseBullet += Gun->_Stats._BulletNumber;
 			_gunM4A1->_Stats = Gun->_Stats;
 		});
 		_Shop->setGamePlayLayerPtr(this);
@@ -335,6 +343,9 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
 		Director::getInstance()->end();
+		def->setIntegerForKey("CurrentBullet", _Bullet);
+		def->setIntegerForKey("CurrentTotalBullet", _totalBullet);
+		def->flush();
 	}
 }
 
@@ -538,9 +549,16 @@ void GamePlayLayer::updatePressed(float dt)
 
 void GamePlayLayer::reloading(float dt)
 {
-	_totalBullet += _Bullet;
 	_totalBullet -= 30;
-	_Bullet = 30;
+	if (_totalBullet < 0)
+	{
+		_totalBullet = 0;
+		_Bullet = 0;
+	}
+	else
+	{
+		_Bullet += 30;
+	}
 	_isReloading = false;
 }
 

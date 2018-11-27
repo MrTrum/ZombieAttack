@@ -103,7 +103,7 @@ private:
 	cocos2d::ui::Button* _quitBtn;
 	cocos2d::ui::Button* _shopBtn;
 	UserDefault* def;
-	int _Level, _Bullet;
+	int _Level, _Bullet, _baseBullet;
 	int scenePlay;
 };
 

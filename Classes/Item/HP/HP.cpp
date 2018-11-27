@@ -14,7 +14,7 @@ void HP::setIcon()
 	_iconHP->setPosition(winSize.height*0.28f, winSize.width*0.42f);
 	_iconHP->setScale(0.5f);
 	this->addChild(_iconHP);
-	_basicStat = Sprite::create("images/damage.png");
+	_basicStat = Sprite::create("images/Heart.png");
 	_basicStat->setPosition(winSize.height*0.18f, winSize.width*0.31f);
 	_basicStat->setScale(0.12f);
 	this->addChild(_basicStat);

@@ -16,7 +16,7 @@ bool M4A1::init()
 	}
 	Size winSize = Director::getInstance()->getWinSize();
 	//Tạo súng
-	this->_Level = UserDefault::getInstance()->getIntegerForKey("LevelM4A1");
+	this->_Level = UserDefault::getInstance()->getIntegerForKey("LevelM4A1",1);
 	return true;
 }
 void M4A1::setIcon()
