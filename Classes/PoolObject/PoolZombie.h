@@ -10,7 +10,6 @@ class PoolZombie : public cocos2d::Node
 public:
 	PoolZombie();
 	~PoolZombie();	
-	//Tú đã sửa
 	bool init(GamePlayLayer* ptr, int sceneplay);
 	static PoolZombie* create(GamePlayLayer* ptr, int sceneplay);
 
@@ -26,8 +25,12 @@ public:
 	void						initZombie();
 	bool						checkTheLastZombie();
 	void						changeSchedule();
-	static int					scene;
 	int							setHealth(PZombie *zombie);
+	typedef std::function<void()> Action;
+	void						assignAction(Action action);
+	void						updateAction();
+	GamePlayLayer*				getGamePlayLayer();
+
 private:
 	cocos2d::Vector<PZombie*>   _listZombie1;
 	cocos2d::Vector<PZombie*>   _listZombie2;
@@ -40,6 +43,7 @@ private:
 	int							_check;
 	int							_setTagZombie[4];
 	int							_random14;
+	Action						_action;
 
 	void						getTagZombie(int tagZombie1, int tagZombie2, int tagZombie3, int tagZombie4);
 	float						randomPositionY();
@@ -51,5 +55,6 @@ private:
 	void						updateSchedule(int numberZombie);
 	void						scenePlay(int sceneplay);
 	std::string					getNameZombie(int setzombie);
+	
 };
 #endif // !_POOL_ZOMBIE_H

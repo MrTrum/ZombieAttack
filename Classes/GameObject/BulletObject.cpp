@@ -1,4 +1,4 @@
-#include "GameObject/BulletObject.h"
+﻿#include "GameObject/BulletObject.h"
 #include "Parameter.h"
 #include "GameObject/PZombie.h"
 #include "GamePlayLayer.h"
@@ -49,7 +49,7 @@ BulletObject *BulletObject::create(Vec2 location)
 void BulletObject::reset(Vec2 location)
 {
 	Size winSize = Director::getInstance()->getWinSize();
-	this->setPosition(winSize.width * 0.25f, winSize.height * 0.25f);
+	this->setPosition(winSize.width * 0.25f, winSize.height * 0.25f); //Chổ này set width = 0, height = 0 cũng k thay đổi kết quả
 	this->setVisible(true);
 	bulletFire(location);
 	scheduleUpdate();
@@ -62,19 +62,15 @@ float BulletObject::getDamage()
 
 void BulletObject::onCollission(GameObject *obj)
 {
-	if (obj->getTag() == TAG_ZOMBIE1 || obj->getTag() == TAG_ZOMBIE2 ||
-		obj->getTag() == TAG_ZOMBIE3 || obj->getTag() == TAG_ZOMBIE4 ||
-		obj->getTag() == TAG_BORDER)
-	{
-		_willBeDestroy = true;
-	}
-
+	_willBeDestroy = true;
 }
 
 void BulletObject::setOnDestroyCallback(OnBulletDestroyCallback callback)
 {
 	_onBulletDestroyCallback = callback;
 }
+
+
 
 void BulletObject::bulletFire(Vec2 location)
 {

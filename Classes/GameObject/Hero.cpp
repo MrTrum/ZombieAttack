@@ -1,6 +1,7 @@
 #include "Hero.h"
 #include "Parameter.h"
 #include "GameObject/PZombie.h"
+#include "GameObject/SkillZombie.h"
 
 USING_NS_CC;
 
@@ -76,18 +77,26 @@ bool Hero::init()
 
 void Hero::onCollission(GameObject *obj)
 {
-	PZombie *pzombie = static_cast<PZombie*>(obj);
-	if (PZombie::damageOfZombie <= 0)
+	if (obj->getTag() >= TAG_SKILL2 && obj->getTag() <= TAG_SKILL11)
 	{
-		PZombie::damageOfZombie = DAMAGE_OF_ZOMBIE2;
-		schedule(schedule_selector(Hero::heroWounded), 0.5f);
-		_listZombieCollision.pushBack(pzombie);
-		scheduleUpdate();
+		this->_health -= 1.0f;
+		this->updateHealthBar(_health);
 	}
-	else if (PZombie::damageOfZombie > 0)
+	else
 	{
-		_listZombieCollision.pushBack(pzombie);
-		PZombie::damageOfZombie += DAMAGE_OF_ZOMBIE2;
+		PZombie *pzombie = static_cast<PZombie*>(obj);
+		if (PZombie::damageOfZombie <= 0)
+		{
+			PZombie::damageOfZombie = DAMAGE_OF_ZOMBIE2;
+			schedule(schedule_selector(Hero::heroWounded), 0.5f);
+			_listZombieCollision.pushBack(pzombie);
+			scheduleUpdate();
+		}
+		else if (PZombie::damageOfZombie > 0)
+		{
+			_listZombieCollision.pushBack(pzombie);
+			PZombie::damageOfZombie += DAMAGE_OF_ZOMBIE2;
+		}
 	}
 }
 
@@ -97,12 +106,13 @@ void Hero::heroWounded(float delta)
 	{
 		_healthbarHero->stopAllActions();
 	}
-	this->_health -= PZombie::damageOfZombie;
+	else
+	{
+		this->_health -= PZombie::damageOfZombie;
+	}
 	this->updateHealthBar(_health);
-
 	auto tintTo = TintTo::create(0.5f, 255, 50, 50);
 	_healthbarHero->runAction(tintTo);
-
 	if (this->_health <= 0)
 	{
 		CCLOG("Dead");
@@ -132,17 +142,16 @@ void Hero::update(float delta)
 {
 	for (int index = 0; index < _listZombieCollision.size(); index++)
 	{
-		if (_listZombieCollision.at(index)->health == 0)
+		if (_listZombieCollision.at(index)->health <= 0)
 		{
 			PZombie::damageOfZombie -= 0.5f;
 			_listZombieCollision.erase(index);
+			if (_listZombieCollision.empty())
+			{
+				this->unschedule(schedule_selector(Hero::heroWounded));
+				updateHealthBar(_health);
+			}
 		}
-	}
-	if (_listZombieCollision.size() == 0)
-	{
-		this->unschedule(schedule_selector(Hero::heroWounded));
-		_healthbarHero->stopAllActions();
-		updateHealthBar(_health);
 	}
 }
 

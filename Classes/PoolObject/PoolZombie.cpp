@@ -7,8 +7,8 @@ USING_NS_CC;
 #define PositionY2 0.13f
 #define PositionY3 0.16f
 #define PositionY4 0.19f
+#define POSITIONX  0.2f
 
-int	PoolZombie::scene = 0;
 
 PoolZombie::PoolZombie() :
 	_numberZombie(0),
@@ -61,7 +61,7 @@ void PoolZombie::initZombie()
 		_listZombie2Total.pushBack(_listZombie3.at(index));
 		_listZombie2Total.pushBack(_listZombie4.at(index));
 	}
-	 
+
 }
 
 std::string	PoolZombie::getNameZombie(int setzombie)
@@ -254,7 +254,6 @@ bool PoolZombie::init(GamePlayLayer* ptr, int sceneplay)
 	setBloodBar(0);
 
 	scenePlay(sceneplay);
-	
 
 	return true;
 }
@@ -275,7 +274,7 @@ void PoolZombie::scenePlay(int sceneplay)
 	}
 	else if (sceneplay == 4)
 	{
-		getTagZombie(7, 7, 2, 3);
+		getTagZombie(6, 5, 3, 4);
 	}
 	initZombie();
 	schedule(schedule_selector(PoolZombie::createZombie_1), 3.0f);
@@ -288,6 +287,7 @@ void PoolZombie::getTagZombie(int tagZombie1, int tagZombie2, int tagZombie3, in
 	_setTagZombie[2] = tagZombie3;
 	_setTagZombie[3] = tagZombie4;
 }
+
 
 void PoolZombie::createZombie_1(float delta)
 {
@@ -304,7 +304,7 @@ void PoolZombie::createZombie_1(float delta)
 		float positionY = randomPositionY();
 		auto winSize = Director::getInstance()->getWinSize();
 		zombie->setPosition(winSize.width * 1.2f, winSize.height * positionY);
-		if (zombie->getTag() == 7)
+		if (zombie->getTag() == 6 || zombie->getTag() == 7)
 		{
 			zombie->getChildByName("HealthBar")->setScaleY(0.35f);
 			zombie->getChildByName("HealthBar")->setScaleX(0.1f);
@@ -318,8 +318,14 @@ void PoolZombie::createZombie_1(float delta)
 		this->addChild(zombie, Z_Order);
 
 		float positionX = randomPositionX(positionY);
-		auto moveto = MoveTo::create(TIME_MOVETO_ZOMBIE, Vec2(winSize.width * positionX, winSize.height * positionY));
-		zombie->runAction(moveto);
+		int timeMoveTo = TIME_MOVETO_ZOMBIE;
+		if (zombie->getTag() == 6 || zombie->getTag() == 7)
+		{
+			timeMoveTo = TIME_MOVETO_ZOMBIE_SKILL;
+			positionX += POSITIONX;
+		}
+		auto target = Vec2(winSize.width * positionX, winSize.height * positionY);
+		zombie->move(timeMoveTo, target);
 	}
 }
 
@@ -338,7 +344,7 @@ void PoolZombie::createZombie_2(float delta)
 		float positionY = randomPositionY();
 		auto winSize = Director::getInstance()->getWinSize();
 		zombie->setPosition(winSize.width * 1.2f, winSize.height * positionY);
-		if (zombie->getTag() == 7)
+		if (zombie->getTag() == 6 || zombie->getTag() == 7)
 		{
 			zombie->getChildByName("HealthBar")->setScaleY(0.35f);
 			zombie->getChildByName("HealthBar")->setScaleX(0.1f);
@@ -353,8 +359,14 @@ void PoolZombie::createZombie_2(float delta)
 		this->addChild(zombie, Z_Order);
 
 		float positionX = randomPositionX(positionY);
-		auto moveto = MoveTo::create(TIME_MOVETO_ZOMBIE, Vec2(winSize.width * positionX, winSize.height * positionY));
-		zombie->runAction(moveto);
+		int timeMoveTo = TIME_MOVETO_ZOMBIE;
+		if (zombie->getTag() == 6 || zombie->getTag() == 7)
+		{
+			timeMoveTo = TIME_MOVETO_ZOMBIE_SKILL;
+			positionX += POSITIONX;
+		}
+		auto target = Vec2(winSize.width * positionX, winSize.height * positionY);
+		zombie->move(timeMoveTo, target);
 	}
 }
 
@@ -373,7 +385,7 @@ void PoolZombie::createZombie_3(float delta)
 		float positionY = randomPositionY();
 		auto winSize = Director::getInstance()->getWinSize();
 		zombie->setPosition(winSize.width * 1.2f, winSize.height * positionY);
-		if (zombie->getTag() == 7)
+		if (zombie->getTag() == 6 || zombie->getTag() == 7)
 		{
 			zombie->getChildByName("HealthBar")->setScaleY(0.35f);
 			zombie->getChildByName("HealthBar")->setScaleX(0.1f);
@@ -388,8 +400,14 @@ void PoolZombie::createZombie_3(float delta)
 		this->addChild(zombie, Z_Order);
 
 		float positionX = randomPositionX(positionY);
-		auto moveto = MoveTo::create(TIME_MOVETO_ZOMBIE, Vec2(winSize.width * positionX, winSize.height * positionY));
-		zombie->runAction(moveto);
+		int timeMoveTo = TIME_MOVETO_ZOMBIE;
+		if (zombie->getTag() == 6 || zombie->getTag() == 7)
+		{
+			timeMoveTo = TIME_MOVETO_ZOMBIE_SKILL;
+			positionX += POSITIONX;
+		}
+		auto target = Vec2(winSize.width * positionX, winSize.height * positionY);
+		zombie->move(timeMoveTo, target);
 	}
 }
 
@@ -408,7 +426,7 @@ void PoolZombie::createZombie_4(float delta)
 		float positionY = randomPositionY();
 		auto winSize = Director::getInstance()->getWinSize();
 		zombie->setPosition(winSize.width * 1.2f, winSize.height * positionY);
-		if (zombie->getTag() == 7)
+		if (zombie->getTag() == 6 || zombie->getTag() == 7)
 		{
 			zombie->getChildByName("HealthBar")->setScaleY(0.35f);
 			zombie->getChildByName("HealthBar")->setScaleX(0.1f);
@@ -423,9 +441,31 @@ void PoolZombie::createZombie_4(float delta)
 		this->addChild(zombie, Z_Order);
 
 		float positionX = randomPositionX(positionY);
-		auto moveto = MoveTo::create(TIME_MOVETO_ZOMBIE, Vec2(winSize.width * positionX, winSize.height * positionY));
-		zombie->runAction(moveto);
+		int timeMoveTo = TIME_MOVETO_ZOMBIE;
+		if (zombie->getTag() == 6 || zombie->getTag() == 7)
+		{
+			timeMoveTo = TIME_MOVETO_ZOMBIE_SKILL;
+			positionX += POSITIONX;
+		}
+		auto target = Vec2(winSize.width * positionX, winSize.height * positionY);
+		zombie->move(timeMoveTo, target);
 	}
+}
+
+void PoolZombie::assignAction(Action action)
+{
+	_action = action;
+	updateAction();
+}
+
+void PoolZombie::updateAction()
+{
+	_action();
+}
+
+GamePlayLayer* PoolZombie::getGamePlayLayer()
+{
+	return _gamePlayLayerPtr;
 }
 
 void PoolZombie::setFrameBloodBar()
@@ -499,7 +539,7 @@ void PoolZombie::changeSchedule()
 			updateSchedule(_numberZombie);
 			_check++;
 		}
-		_numberZombie =_numberZombie + 2;
+		_numberZombie = _numberZombie + 2;
 		updateBloodBar(_numberZombie);
 	}
 	else if (_numberZombie >= 8 && _numberZombie < 40)
@@ -585,7 +625,7 @@ float PoolZombie::randomPositionY()
 		position_Y = PositionY3;
 		_random14 = random1_4;
 	}
-	else if(random1_4 == 4)
+	else if (random1_4 == 4)
 	{
 		position_Y = PositionY4;
 		_random14 = random1_4;

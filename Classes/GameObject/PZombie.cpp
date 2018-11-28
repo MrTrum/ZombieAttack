@@ -15,10 +15,12 @@ PZombie::PZombie() :
 	_percentHealth6(HEALTH_ZOMBIE6),
 	_percentHealth7(HEALTH_ZOMBIE7)
 {
+	_poolSkill = new PoolSkill();
 }
 
 PZombie::~PZombie()
 {
+	CC_SAFE_DELETE(_poolSkill);
 }
 
 float PZombie::damageOfZombie = 0;
@@ -51,25 +53,18 @@ bool PZombie::init(PoolZombie *ptr, std::string zombieName, int tag)
 
 	_spr = Sprite::createWithSpriteFrameName(zombieName + "1.png");
 	this->addChild(_spr);
-	if (tag == 6 || tag == 7)
-	{
-		auto stringName = convertFromTagToStringSkill(tag);
-		_skill = Sprite::createWithSpriteFrameName(stringName + "1.png");
-		this->addChild(_skill);
-	}
-
 
 	//Set Physics
 	auto physics = PhysicsBody::createBox(_spr->getContentSize());
 	physics->setContactTestBitmask(true);
 	physics->setDynamic(false);
-	physics->setGroup(1);
+	physics->setGroup(-1);
 	this->setPhysicsBody(physics);
 
 	this->setTag(tag);
 
 	playWalkAnimation(zombieName);
-	scheduleUpdate();
+
 	return true;
 }
 
@@ -133,7 +128,18 @@ void PZombie::onCollission(GameObject *obj)
 
 	else if (obj->getTag() == TAG_LINE2)
 	{
-		this->attack();
+		if (this->getTag() == 6)
+		{
+			attackSkill();
+		}
+		else
+		{
+			this->attack();
+		}
+	}
+	else if (obj->getTag() == TAG_LINE && this->getTag() == 6)
+	{
+		attackSkill();
 	}
 }
 
@@ -143,6 +149,7 @@ void PZombie::checkDamage()
 	this->updateHealthBar(this->health, this);
 	if (this->health <= 0)
 	{
+		this->stopActionByTag(TAG_ACTION_MOVETO_ZOMBIE);
 		dead();
 	}
 }
@@ -161,11 +168,6 @@ void PZombie::attack()
 	playAttackAnimation(stringName);
 }
 
-void PZombie::skill()
-{
-	auto stringName = convertFromTagToStringSkill(this->getTag());
-	playSkillAnimation(stringName);
-}
 
 void PZombie::reset()
 {
@@ -212,7 +214,9 @@ void PZombie::playAttackAnimation(std::string stringname)
 	}
 	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
 	auto *animate = Animate::create(animation);
-	_spr->runAction(RepeatForever::create(animate));
+	auto repeatAnimate = RepeatForever::create(animate);
+	repeatAnimate->setTag(TAG_ACTION_ATTACK_ZOMBIE);
+	_spr->runAction(repeatAnimate);
 }
 
 std::string PZombie::convertFromTagToStringSkill(int tag)
@@ -221,24 +225,6 @@ std::string PZombie::convertFromTagToStringSkill(int tag)
 	return stringName;
 }
 
-void PZombie::playSkillAnimation(std::string stringname)
-{
-	_skill->setSpriteFrame(stringname + "1.png");
-	auto *animation = Animation::create();
-	for (int i = 1; i < 5; i++)
-	{
-		std::string zombieName = StringUtils::format("%d.png", i);
-		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(stringname + zombieName));
-	}
-	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
-	auto *animate = Animate::create(animation);
-
-	auto winSize = Director::getInstance()->getWinSize();
-	auto moveSkill = MoveTo::create(2.0f, Point(winSize.width *0.1f, _skill->getPositionY()));
-	auto spawn = Spawn::create(RepeatForever::create(animate), moveSkill, nullptr);
-	_skill->runAction(spawn);
-
-}
 
 std::string	PZombie::convertFromTagToStringDead(int tag)
 {
@@ -272,6 +258,54 @@ void PZombie::playDeadAnimation(Vec2 deadPos, std::string stringname)
 	ptrGamePlayLayer->CoinFly(deadPos);
 }
 
+void PZombie::attackSkill()
+{
+	auto stringName = convertFromTagToStringAttack(this->getTag());
+	playAttackAnimation(stringName);
+
+	auto skill = _poolSkill->createSkill(this->getTag());
+	ptrGamePlayLayer->addChild(skill);
+
+	// calculate start fire pos
+	auto winSize = Director::getInstance()->getWinSize();
+	auto worldPosZombie = this->getParent()->convertToWorldSpace(this->getPosition());
+	auto startFirePos = ptrGamePlayLayer->convertToNodeSpace(worldPosZombie);
+
+	// calculate target pos
+	auto worldPosHero = this->getParent()->convertToWorldSpace(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
+	auto targetFirePos = ptrGamePlayLayer->convertToNodeSpace(worldPosHero);
+	skill->setPosition(800.0f, 400.0f);
+
+	auto callfun1 = CallFunc::create([=]
+	{
+		skill->fireSkill(startFirePos, targetFirePos);
+	});
+
+	auto callfun = CallFunc::create([=]
+	{
+		resumeAction();
+	});
+	auto sqe = Sequence::create(DelayTime::create(1.0f), callfun1,callfun, nullptr);
+	this->runAction(sqe);
+}
+
+void PZombie::resumeAction()
+{
+	this->stopActionByTag(TAG_ACTION_ATTACK_ZOMBIE); // stop action Attack
+	auto stringName = convertFromTagToStringWalk(this->getTag());
+	this->playWalkAnimation(stringName);
+	float pixelOnSeconds = _target.x / TIME_MOVETO_ZOMBIE_SKILL;
+	auto time = this->getPositionX() / pixelOnSeconds;
+	this->move(time, _target);
+}
+
+void PZombie::move(int time, Vec2& target)
+{
+	_target = target;
+	auto moveto = MoveTo::create(time, target);
+	moveto->setTag(TAG_ACTION_MOVETO_ZOMBIE);
+	this->runAction(moveto);
+}
 
 void PZombie::setGamePlayLayerPtr(GamePlayLayer* ptr)
 {

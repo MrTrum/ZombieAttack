@@ -14,7 +14,7 @@
     <ProjectGuid>{76A39BB2-9B84-4C65-98A5-654D86B86F2A}</ProjectGuid>
     <RootNamespace>test_win32</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -157,10 +157,12 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GameObject\GameObject.cpp" />
     <ClCompile Include="..\Classes\GameObject\Hero.cpp" />
     <ClCompile Include="..\Classes\GameObject\PZombie.cpp" />
+    <ClCompile Include="..\Classes\GameObject\SkillZombie.cpp" />
     <ClCompile Include="..\Classes\GamePlayLayer.cpp" />
     <ClCompile Include="..\Classes\Item\HP\HP.cpp" />
     <ClCompile Include="..\Classes\PoolObject\PoolBullet.cpp" />
     <ClCompile Include="..\Classes\PoolObject\PoolExplo.cpp" />
+    <ClCompile Include="..\Classes\PoolObject\PoolSkill.cpp" />
     <ClCompile Include="..\Classes\PoolObject\PoolZombie.cpp" />
     <ClCompile Include="..\Classes\ShakeAction.cpp" />
     <ClCompile Include="..\Classes\UI\Coin\Coin.cpp" />
@@ -171,7 +173,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\UI\StoreItem\StoreLayer.cpp" />
     <ClCompile Include="..\Classes\Weapon\M4A1\M4A1.cpp" />
     <ClCompile Include="..\Classes\Zombie\CreateTestLine.cpp" />
-    <ClCompile Include="..\Classes\Zombie\TestLine2.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -183,11 +184,13 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\GameObject\GameObject.h" />
     <ClInclude Include="..\Classes\GameObject\Hero.h" />
     <ClInclude Include="..\Classes\GameObject\PZombie.h" />
+    <ClInclude Include="..\Classes\GameObject\SkillZombie.h" />
     <ClInclude Include="..\Classes\GamePlayLayer.h" />
     <ClInclude Include="..\Classes\Item\HP\HP.h" />
     <ClInclude Include="..\Classes\Parameter.h" />
     <ClInclude Include="..\Classes\PoolObject\PoolBullet.h" />
     <ClInclude Include="..\Classes\PoolObject\PoolExplo.h" />
+    <ClInclude Include="..\Classes\PoolObject\PoolSkill.h" />
     <ClInclude Include="..\Classes\PoolObject\PoolZombie.h" />
     <ClInclude Include="..\Classes\ShakeAction.h" />
     <ClInclude Include="..\Classes\UI\Coin\Coin.h" />
@@ -199,7 +202,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\WeaponStat.h" />
     <ClInclude Include="..\Classes\Weapon\M4A1\M4A1.h" />
     <ClInclude Include="..\Classes\Zombie\CreateTestLine.h" />
-    <ClInclude Include="..\Classes\Zombie\TestLine2.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

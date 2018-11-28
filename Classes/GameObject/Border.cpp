@@ -22,7 +22,7 @@ bool Border::init()
 	physics->setContactTestBitmask(true);
 	physics->setGroup(1);
 	physics->setPositionOffset(Vec2(winSize.width * 0.4f, winSize.height * 0.5f));
-	this->setTag(TAG_BORDER);
+	/*this->setTag(TAG_BORDER);*/
 
 	return true;
 }

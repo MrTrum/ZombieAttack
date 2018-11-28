@@ -15,6 +15,22 @@
 #include "ShakeAction.h"
 #include "Zombie/CreateTestLine.h"
 #include "Zombie/TestLine2.h"
+#include "GameObject/SkillZombie.h"
+#include "PoolObject/PoolSkill.h"
+#include "GameObject/SkillZombie.h"
+#include "PoolObject/PoolSkill.h"
+#include "GameObject/SkillZombie.h"
+#include "PoolObject/PoolSkill.h"
+#include "GameObject/SkillZombie.h"
+#include "PoolObject/PoolSkill.h"
+#include "GameObject/SkillZombie.h"
+#include "PoolObject/PoolSkill.h"
+#include "GameObject/SkillZombie.h"
+#include "PoolObject/PoolSkill.h"
+#include "GameObject/SkillZombie.h"
+#include "PoolObject/PoolSkill.h"
+#include "GameObject/SkillZombie.h"
+#include "PoolObject/PoolSkill.h"
 
 USING_NS_CC;
 
@@ -92,11 +108,18 @@ bool GamePlayLayer::init()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsSkill.plist", "images/assetsSkill.png");
 
+	auto locationHero = _hero->getPosition();
+
+	auto getline = CreateTestLine::create(TAG_LINE, locationHero);
+	getline->setPosition(winSize.width * 0.9f, 0.0f);
+	this->addChild(getline, 3);
+
+	auto getline2 = CreateTestLine::create(TAG_LINE2, locationHero);
+	getline2->setPosition(winSize.width * 0.4f, 0.0f);
+	this->addChild(getline2, 3);
+
 	auto poolZombie = PoolZombie::create(this, scenePlay);
 	this->addChild(poolZombie, 3);
-
-	auto testline2 = TestLine2::create();
-	this->addChild(testline2, 3);
 
 	auto listenEventPhysic = EventListenerPhysicsContact::create();
 	listenEventPhysic->onContactBegin = CC_CALLBACK_1(GamePlayLayer::onContactBegin, this);
@@ -540,7 +563,6 @@ void GamePlayLayer::updatePressed(float dt)
 		{
 			if (_Bullet > 0)
 			{
-
 				Shooting();
 				_Bullet--;
 			}

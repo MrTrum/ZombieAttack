@@ -8,6 +8,7 @@
 #include "UI/NumberMoney/Money.h"
 #include "UI/StoreItem/StoreLayer.h"
 #include "GameObject/PZombie.h"
+#include "PoolObject/PoolSkill.h"
 
 
 class BackgroundLayer;
@@ -87,6 +88,8 @@ private:
 	Sprite			*_hpbar;
 	Sprite			*_iconDynamite;
 	Sprite			*_sprDynamite;
+	PoolSkill		*_poolSkill;
+	SkillZombie     *_skillZombie;
 /*Tú*/
 private:
 	Vec2 _iconPos;

@@ -14,10 +14,10 @@ CreateTestLine::~CreateTestLine()
 {
 }
 
-CreateTestLine* CreateTestLine::create(int tag)
+CreateTestLine* CreateTestLine::create(int tag, Vec2 location)
 {
 	CreateTestLine *pRet = new(std::nothrow) CreateTestLine();
-	if (pRet && pRet->init(tag))
+	if (pRet && pRet->init(tag, location))
 	{
 		pRet->autorelease();
 		return pRet;
@@ -30,7 +30,7 @@ CreateTestLine* CreateTestLine::create(int tag)
 	}
 }
 
-bool CreateTestLine::init(int tag)
+bool CreateTestLine::init(int tag, Vec2 location)
 {
 	if (!GameObject::init())
 	{
@@ -46,26 +46,29 @@ bool CreateTestLine::init(int tag)
 	auto physicsForLine = PhysicsBody::createBox(Size(1, winSize.height));
 	physicsForLine->setContactTestBitmask(true);
 	physicsForLine->setDynamic(false);
+	physicsForLine->setGroup(-2);
 	this->setPhysicsBody(physicsForLine);
 
+	_location = location;
 	return true;
 }
 void CreateTestLine::onCollission(GameObject *obj)
 {
+	/*auto pzombie = static_cast<PZombie*>(obj);
+	pzombie->attack();
 	if (obj->getTag() == 6 || obj->getTag() == 7)
 	{
-		auto pzombie = static_cast<PZombie*>(obj);
 		auto actionWalk = CallFunc::create([=]
 		{
 			pzombie->attack();
 		});
 		auto actionSkill = CallFunc::create([=]
 		{
-			pzombie->skill();
+			pzombie->playAnimationSkill(pzombie->getTag());
 		});
 		auto spawn = Spawn::create(actionWalk, actionSkill, nullptr);
 		pzombie->runAction(spawn);
-	}
+	}*/
 }
 
 

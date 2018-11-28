@@ -11,7 +11,7 @@
 
 #define TIME_ACTION_ANIMATION					6.0f
 #define TIME_MOVETO_ZOMBIE						15.0f
-//#define TIME_REPEAT_ANIMATE						15.0f
+#define TIME_MOVETO_ZOMBIE_SKILL				20.0f
 
 //scale
 #define ZOMBIE_SIZE_WIDTH						0.0004f
@@ -23,28 +23,45 @@
 #define BASE_SIZE_WIDTH							0.0007f
 #define BASE_SIZE_HEIGHT						0.0007f
 
-//vị trí moveto zombie
-#define LOCAL_MOVETO							0.25f
 
 //setPosition cho zombie 3
 #define HEIGHT_POSITION_Z3						0.15f
 #define HEIGHT_POSITION_Z4						0.3f
 #define HEIGHT_POSITION_Z5						0.4f
-#define LINE_BITMASK							1
-#define ZOMBIE_BITMASK							2
 
 //setTag
-#define TAG_ZOMBIE1								2
-#define TAG_ZOMBIE2								3
-#define TAG_ZOMBIE3								4
-#define TAG_ZOMBIE4								5
+#define TAG_ZOMBIE2								2
+#define TAG_ZOMBIE3								3
+#define TAG_ZOMBIE4								4
+#define TAG_ZOMBIE5								5
+#define TAG_ZOMBIE6								6
+#define TAG_ZOMBIE7								7
+#define TAG_ZOMBIE8								8
+#define TAG_ZOMBIE9								9
+#define TAG_ZOMBIE10							10
+#define TAG_ZOMBIE11							11
 
-#define TAG_LINE								6
-#define TAG_LINE2								7
-#define TAG_HERO								8
-#define TAG_BULLET								9
-#define	TAG_DYNAMITE							10
-#define TAG_BORDER								11
+#define TAG_SKILL2								12
+#define TAG_SKILL3								13
+#define TAG_SKILL4								14
+#define TAG_SKILL5								15
+#define TAG_SKILL6								16
+#define TAG_SKILL7								17
+#define TAG_SKILL8								18
+#define TAG_SKILL9								19
+#define TAG_SKILL10								20
+#define TAG_SKILL11								21
+
+
+#define TAG_LINE								23
+#define TAG_LINE2								24
+#define TAG_HERO								25
+#define TAG_BULLET								27
+#define	TAG_DYNAMITE							27
+#define	TAG_ACTION_MOVETO_ZOMBIE				28
+#define	TAG_ACTION_ATTACK_ZOMBIE				29
+#define	TAG_BORDER								30
+
 //Số lượng tạo Zombie
 #define ZOMBIE_SIZE								20
 
