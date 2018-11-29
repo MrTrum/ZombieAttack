@@ -13,6 +13,7 @@
 #include "UI/Coin/Coin.h"
 #include <ui/UIWidget.h>
 #include "ShakeAction.h"
+#include "Store.h"
 #include "Zombie/CreateTestLine.h"
 #include "Zombie/TestLine2.h"
 #include "GameObject/SkillZombie.h"
@@ -82,6 +83,8 @@ bool GamePlayLayer::init()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("icon.plist",
 		"icon.png");
 	//add BG
+	_myStore = MyStore::create();
+	addChild(_myStore, 5);
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg);
 	auto _gBorder = Border::create();

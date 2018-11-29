@@ -165,6 +165,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\PoolObject\PoolSkill.cpp" />
     <ClCompile Include="..\Classes\PoolObject\PoolZombie.cpp" />
     <ClCompile Include="..\Classes\ShakeAction.cpp" />
+    <ClCompile Include="..\Classes\Store.cpp" />
     <ClCompile Include="..\Classes\UI\Coin\Coin.cpp" />
     <ClCompile Include="..\Classes\UI\GameStats\ItemStats.cpp" />
     <ClCompile Include="..\Classes\UI\GameStats\WeaponStats.cpp" />
@@ -193,6 +194,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\PoolObject\PoolSkill.h" />
     <ClInclude Include="..\Classes\PoolObject\PoolZombie.h" />
     <ClInclude Include="..\Classes\ShakeAction.h" />
+    <ClInclude Include="..\Classes\Store.h" />
     <ClInclude Include="..\Classes\UI\Coin\Coin.h" />
     <ClInclude Include="..\Classes\UI\GameStats\ItemStats.h" />
     <ClInclude Include="..\Classes\UI\GameStats\WeaponStats.h" />
