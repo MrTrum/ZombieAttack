@@ -30,5 +30,6 @@ private:
 	Sprite						*_skill;
 	int							_setNumberSkill[6];
 	skillZombie					_skillzombie;
+	ParticleSystemQuad			*_particle;
 };
 #endif // !_SKILL_ZOMBIE_H_

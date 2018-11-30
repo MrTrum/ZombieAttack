@@ -24,7 +24,6 @@ bool BulletObject::init()
 	_bulletPhysicBody->setDynamic(false);
 	_bulletPhysicBody->setGroup(-2);
 	this->setPhysicsBody(_bulletPhysicBody);
-	//bulletFire(location);
 	this->setTag(TAG_BULLET);
 	scheduleUpdate();
 	return true;
@@ -49,9 +48,7 @@ BulletObject *BulletObject::create()
 void BulletObject::reset()
 {
 	Size winSize = Director::getInstance()->getWinSize();
-	this->setPosition(winSize.width * 0.25f, winSize.height * 0.25f); //Chổ này set width = 0, height = 0 cũng k thay đổi kết quả
 	this->setVisible(true);
-	//bulletFire(location);
 	scheduleUpdate();
 }
 
@@ -90,7 +87,6 @@ void BulletObject::bulletFire(Vec2 location)
 	_motion = MotionStreak::create(0.2, 5, 15, Color3B::WHITE, "trail_red.png");
 	this->getParent()->addChild(_motion);
 	_motion->retain();
-	//_motion->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
 	_motion->runAction(aBulletFire->clone());
 	_motion->setPosition(this->getPosition());
 }

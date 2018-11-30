@@ -13,6 +13,7 @@ SkillZombie::SkillZombie()
 
 SkillZombie::~SkillZombie()
 {
+	CC_SAFE_RELEASE(_particle);
 }
 
 
@@ -48,6 +49,11 @@ bool SkillZombie::init(int tagZombie)
 	physicSkill->setGroup(-1);
 	this->setPhysicsBody(physicSkill);
 
+	_particle = ParticleSystemQuad::create("skilldestroyed.plist");
+	this->addChild(_particle);
+	_particle->setScale(0.5f);
+	_particle->setPosition(physicSkill->getPosition());
+	_particle->retain();
 	this->setTag(tagZombie + 10);
 	playSkillAnimation(skillName);
 	return true;
@@ -98,6 +104,19 @@ void SkillZombie::onCollission(GameObject *obj)
 	if (obj != nullptr)
 	{
 		cocos2d::log("WTF");
+	}
+	if (obj->getTag() == TAG_BULLET)
+	{
+
+		auto start = CallFunc::create([=] {
+			_particle->start();
+		});
+		auto stop = CallFunc::create([=] {
+			_particle->stop();
+			this->removeFromParent();
+			_particle->removeFromParent();
+		});
+		runAction(Sequence::create(start, DelayTime::create(0.2), stop, nullptr));
 	}
 }
 
