@@ -13,24 +13,25 @@ class BulletObject : public GameObject
 public:
 	BulletObject();
 	~BulletObject();
-	bool init(Vec2 location);
-	static BulletObject *create(Vec2 location);
+	bool init();
+	static BulletObject *create();
 	void onCollission(GameObject *obj) override;
-	void reset(Vec2 location);
+	void reset();
 	void setOnDestroyCallback(OnBulletDestroyCallback callback);
 	void setDamageBullet(int Dmg);
 	float getDamage() override;
 	Vec2 vector;
+	void bulletFire(Vec2 location);
 protected:
 	int _Dmg;
 private:
 	void update(float delta);
-	void bulletFire(Vec2 location);
 private:
 	PhysicsBody *_bulletPhysicBody;
 	cocos2d::Sprite *_sprBullet;
 	OnBulletDestroyCallback _onBulletDestroyCallback;
 	bool _willBeDestroy;
+	MotionStreak *_motion;
 };
 
 #endif // !_BULLETOBJECT_H_

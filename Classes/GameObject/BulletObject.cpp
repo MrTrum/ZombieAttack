@@ -12,7 +12,7 @@ BulletObject::~BulletObject()
 {
 }
 
-bool BulletObject::init(Vec2 location)
+bool BulletObject::init()
 {
 	if (!GameObject::init())
 	{
@@ -24,16 +24,16 @@ bool BulletObject::init(Vec2 location)
 	_bulletPhysicBody->setDynamic(false);
 	_bulletPhysicBody->setGroup(-2);
 	this->setPhysicsBody(_bulletPhysicBody);
-	bulletFire(location);
+	//bulletFire(location);
 	this->setTag(TAG_BULLET);
 	scheduleUpdate();
 	return true;
 }
 
-BulletObject *BulletObject::create(Vec2 location)
+BulletObject *BulletObject::create()
 {
 	BulletObject *pRet = new(std::nothrow) BulletObject();
-	if (pRet && pRet->init(location))
+	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
 		return pRet;
@@ -46,12 +46,12 @@ BulletObject *BulletObject::create(Vec2 location)
 	}
 }
 
-void BulletObject::reset(Vec2 location)
+void BulletObject::reset()
 {
 	Size winSize = Director::getInstance()->getWinSize();
 	this->setPosition(winSize.width * 0.25f, winSize.height * 0.25f); //Chổ này set width = 0, height = 0 cũng k thay đổi kết quả
 	this->setVisible(true);
-	bulletFire(location);
+	//bulletFire(location);
 	scheduleUpdate();
 }
 
@@ -70,14 +70,6 @@ void BulletObject::setOnDestroyCallback(OnBulletDestroyCallback callback)
 	_onBulletDestroyCallback = callback;
 }
 
-//bool BulletObject::isDestroyed()
-//{
-//	if (_willBeDestroy)
-//	{
-//		return true;
-//	}
-//	return false;
-//}
 
 void BulletObject::bulletFire(Vec2 location)
 {
@@ -95,6 +87,12 @@ void BulletObject::bulletFire(Vec2 location)
 	}
 	);
 	this->runAction(Sequence::create(aBulletFire, callback, NULL));
+	_motion = MotionStreak::create(0.2, 5, 15, Color3B::WHITE, "trail_red.png");
+	this->getParent()->addChild(_motion);
+	_motion->retain();
+	//_motion->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
+	_motion->runAction(aBulletFire->clone());
+	_motion->setPosition(this->getPosition());
 }
 
 void BulletObject::setDamageBullet(int Dmg)
@@ -111,6 +109,7 @@ void BulletObject::update(float delta)
 		}
 		stopAllActions();
 		this->removeFromParent();
+		_motion->removeFromParent();
 		_willBeDestroy = false;
 	}
 }
