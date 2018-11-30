@@ -1,5 +1,4 @@
-﻿#include "TestLine2.h"
-#include "Parameter.h"
+﻿#include "Parameter.h"
 #include "CreateTestLine.h"
 #include "GameObject/PZombie.h"
 

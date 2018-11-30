@@ -15,7 +15,6 @@
 #include "ShakeAction.h"
 #include "Store.h"
 #include "Zombie/CreateTestLine.h"
-#include "Zombie/TestLine2.h"
 #include "GameObject/SkillZombie.h"
 #include "PoolObject/PoolSkill.h"
 #include "GameObject/SkillZombie.h"
