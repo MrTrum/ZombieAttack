@@ -554,6 +554,18 @@ void GamePlayLayer::update(float dt)
 		_isShootingBegan = false;
 		throwOutputText("OUT OF AMMO", INT_MAX);
 	}
+
+	if (_dynStock <= 0)
+	{
+		_iconDynamite->setSpriteFrame("btn_dynamite_empty.png");
+		_iconDynamite->setTag(554);
+	}
+	if (_dynStock > 0)
+	{
+		_iconDynamite->setTag(555);
+	}
+	_dynLeft->setString(StringUtils::format("%02d", _dynStock));
+	_bulletInMag->setString(StringUtils::format("%02d / %03d", _Bullet, _totalBullet));
 }
 void GamePlayLayer::updatePressed(float dt)
 {
@@ -574,18 +586,6 @@ void GamePlayLayer::updatePressed(float dt)
 			}
 		}
 	}
-	
-	if (_dynStock <= 0)
-	{
-		_iconDynamite->setSpriteFrame("btn_dynamite_empty.png");
-		_iconDynamite->setTag(554);
-	}
-	if (_dynStock > 0)
-	{
-		_iconDynamite->setTag(555);
-	}
-	_dynLeft->setString(StringUtils::format("%02d", _dynStock));
-	_bulletInMag->setString(StringUtils::format("%02d / %03d", _Bullet, _totalBullet));
 }
 
 void GamePlayLayer::reloading(float dt)
@@ -612,7 +612,7 @@ void GamePlayLayer::Shooting()
 	_bullet->setPosition(START_POS);
 	_bullet->setDamageBullet(30.0f);
 							//_gunM4A1->_Stats._Damage);
-	auto _motion = MotionStreak::create(0.2, 5, 15, Color3B::WHITE, "trail_red.png");
+	_motion = MotionStreak::create(0.2, 5, 15, Color3B::WHITE, "trail_red.png");
 	addChild(_motion, 2);
 	_motion->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
 	_motion->runAction(MoveBy::create(1.0f, _bullet->vector));

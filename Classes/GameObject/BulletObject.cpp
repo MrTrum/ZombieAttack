@@ -70,7 +70,14 @@ void BulletObject::setOnDestroyCallback(OnBulletDestroyCallback callback)
 	_onBulletDestroyCallback = callback;
 }
 
-
+//bool BulletObject::isDestroyed()
+//{
+//	if (_willBeDestroy)
+//	{
+//		return true;
+//	}
+//	return false;
+//}
 
 void BulletObject::bulletFire(Vec2 location)
 {

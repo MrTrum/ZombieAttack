@@ -1,62 +1,227 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\Classes\BackgroundLayer.cpp" />
-    <ClCompile Include="..\Classes\GameObject\Border.cpp" />
-    <ClCompile Include="..\Classes\GameObject\BulletObject.cpp" />
-    <ClCompile Include="..\Classes\GameObject\Dynamite.cpp" />
-    <ClCompile Include="..\Classes\GameObject\GameObject.cpp" />
-    <ClCompile Include="..\Classes\GameObject\Hero.cpp" />
-    <ClCompile Include="..\Classes\GameObject\PZombie.cpp" />
-    <ClCompile Include="..\Classes\GameObject\SkillZombie.cpp" />
-    <ClCompile Include="..\Classes\GamePlayLayer.cpp" />
-    <ClCompile Include="..\Classes\Item\HP\HP.cpp" />
-    <ClCompile Include="..\Classes\PoolObject\PoolBullet.cpp" />
-    <ClCompile Include="..\Classes\PoolObject\PoolExplo.cpp" />
-    <ClCompile Include="..\Classes\PoolObject\PoolSkill.cpp" />
-    <ClCompile Include="..\Classes\PoolObject\PoolZombie.cpp" />
-    <ClCompile Include="..\Classes\ShakeAction.cpp" />
-    <ClCompile Include="..\Classes\UI\Coin\Coin.cpp" />
-    <ClCompile Include="..\Classes\UI\GameStats\ItemStats.cpp" />
-    <ClCompile Include="..\Classes\UI\GameStats\WeaponStats.cpp" />
-    <ClCompile Include="..\Classes\UI\Menu\MenuLayer.cpp" />
-    <ClCompile Include="..\Classes\UI\NumberMoney\Money.cpp" />
-    <ClCompile Include="..\Classes\UI\StoreItem\StoreLayer.cpp" />
-    <ClCompile Include="..\Classes\Weapon\M4A1\M4A1.cpp" />
-    <ClCompile Include="..\Classes\Zombie\CreateTestLine.cpp" />
-    <ClCompile Include="main.cpp" />
+    <Filter Include="win32">
+      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameObject">
+      <UniqueIdentifier>{902e0fdf-5d48-471c-a40d-8e8b1684f9ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PoolObject">
+      <UniqueIdentifier>{176318aa-ecff-43b5-870e-1f96c7458418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Item">
+      <UniqueIdentifier>{ee22b775-e7ee-4695-9e61-0acad8972ffa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI">
+      <UniqueIdentifier>{bd3a2a4c-a3d0-4fa2-b794-9ffec12fef20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Weapon">
+      <UniqueIdentifier>{1065ef38-6fa5-4857-b571-0275980ea567}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Zombie">
+      <UniqueIdentifier>{61252c3b-590d-4d63-95e2-4fbbba371285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Item\HP">
+      <UniqueIdentifier>{226a0453-295f-4385-9c82-85024304e4e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Weapon\M4A1">
+      <UniqueIdentifier>{edac31fa-e1ea-46d8-8b6e-476fd25b8bc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI\Coin">
+      <UniqueIdentifier>{a497eac7-9c8e-4376-bb69-f4606512c3a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI\GameStats">
+      <UniqueIdentifier>{98327ede-fe32-435b-bac5-e92590089ba1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI\Menu">
+      <UniqueIdentifier>{b7ca2330-2775-457e-93f8-bd9c248e0ab5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI\NumberMoney">
+      <UniqueIdentifier>{ad487b67-cd87-4e7d-ab8b-6ed75ec15a1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI\StoreItem">
+      <UniqueIdentifier>{81d0949d-0dc9-4d99-99ab-aa623c842aa2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\BackgroundLayer.h" />
-    <ClInclude Include="..\Classes\GameObject\Border.h" />
-    <ClInclude Include="..\Classes\GameObject\BulletObject.h" />
-    <ClInclude Include="..\Classes\GameObject\Dynamite.h" />
-    <ClInclude Include="..\Classes\GameObject\GameObject.h" />
-    <ClInclude Include="..\Classes\GameObject\Hero.h" />
-    <ClInclude Include="..\Classes\GameObject\PZombie.h" />
-    <ClInclude Include="..\Classes\GameObject\SkillZombie.h" />
-    <ClInclude Include="..\Classes\GamePlayLayer.h" />
-    <ClInclude Include="..\Classes\Item\HP\HP.h" />
-    <ClInclude Include="..\Classes\Parameter.h" />
-    <ClInclude Include="..\Classes\PoolObject\PoolBullet.h" />
-    <ClInclude Include="..\Classes\PoolObject\PoolExplo.h" />
-    <ClInclude Include="..\Classes\PoolObject\PoolSkill.h" />
-    <ClInclude Include="..\Classes\PoolObject\PoolZombie.h" />
-    <ClInclude Include="..\Classes\ShakeAction.h" />
-    <ClInclude Include="..\Classes\UI\Coin\Coin.h" />
-    <ClInclude Include="..\Classes\UI\GameStats\ItemStats.h" />
-    <ClInclude Include="..\Classes\UI\GameStats\WeaponStats.h" />
-    <ClInclude Include="..\Classes\UI\Menu\MenuLayer.h" />
-    <ClInclude Include="..\Classes\UI\NumberMoney\Money.h" />
-    <ClInclude Include="..\Classes\UI\StoreItem\StoreLayer.h" />
-    <ClInclude Include="..\Classes\WeaponStat.h" />
-    <ClInclude Include="..\Classes\Weapon\M4A1\M4A1.h" />
-    <ClInclude Include="..\Classes\Zombie\CreateTestLine.h" />
-    <ClInclude Include="main.h" />
+    <ClCompile Include="main.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BackgroundLayer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GamePlayLayer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ShakeAction.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Store.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\Border.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\BulletObject.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\Dynamite.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\GameObject.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\Hero.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\PZombie.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PoolObject\PoolBullet.cpp">
+      <Filter>src\PoolObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PoolObject\PoolExplo.cpp">
+      <Filter>src\PoolObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PoolObject\PoolZombie.cpp">
+      <Filter>src\PoolObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Zombie\CreateTestLine.cpp">
+      <Filter>src\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Zombie\TestLine2.cpp">
+      <Filter>src\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Item\HP\HP.cpp">
+      <Filter>src\Item\HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Weapon\M4A1\M4A1.cpp">
+      <Filter>src\Weapon\M4A1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\Coin\Coin.cpp">
+      <Filter>src\UI\Coin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\GameStats\ItemStats.cpp">
+      <Filter>src\UI\GameStats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\GameStats\WeaponStats.cpp">
+      <Filter>src\UI\GameStats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\Menu\MenuLayer.cpp">
+      <Filter>src\UI\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\NumberMoney\Money.cpp">
+      <Filter>src\UI\NumberMoney</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\UI\StoreItem\StoreLayer.cpp">
+      <Filter>src\UI\StoreItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\SkillZombie.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PoolObject\PoolSkill.cpp">
+      <Filter>src\PoolObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="game.rc" />
+    <ClInclude Include="main.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BackgroundLayer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GamePlayLayer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Parameter.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ShakeAction.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Store.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\Border.h">
+      <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\BulletObject.h">
+      <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\Dynamite.h">
+      <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\GameObject.h">
+      <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\Hero.h">
+      <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\PZombie.h">
+      <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PoolObject\PoolBullet.h">
+      <Filter>src\PoolObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PoolObject\PoolExplo.h">
+      <Filter>src\PoolObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PoolObject\PoolZombie.h">
+      <Filter>src\PoolObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Zombie\CreateTestLine.h">
+      <Filter>src\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Zombie\TestLine2.h">
+      <Filter>src\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Item\HP\HP.h">
+      <Filter>src\Item\HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Weapon\M4A1\M4A1.h">
+      <Filter>src\Weapon\M4A1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\Coin\Coin.h">
+      <Filter>src\UI\Coin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\GameStats\ItemStats.h">
+      <Filter>src\UI\GameStats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\GameStats\WeaponStats.h">
+      <Filter>src\UI\GameStats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\Menu\MenuLayer.h">
+      <Filter>src\UI\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\NumberMoney\Money.h">
+      <Filter>src\UI\NumberMoney</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UI\StoreItem\StoreLayer.h">
+      <Filter>src\UI\StoreItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\SkillZombie.h">
+      <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PoolObject\PoolSkill.h">
+      <Filter>src\PoolObject</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="game.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
