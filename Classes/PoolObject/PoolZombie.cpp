@@ -29,28 +29,28 @@ void PoolZombie::initZombie()
 		stringName = getNameZombie(_setTagZombie[0]);
 		auto zombie = PZombie::create(this, stringName, _setTagZombie[0]);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
-		zombie->setHealthBar(HEALTH_ZOMBIE);
+		zombie->setHealthBar(HEALTH_BAR_ZOMBIE);
 		zombie->setVisible(false);
 		_listZombie1.pushBack(zombie);
 
 		stringName = getNameZombie(_setTagZombie[1]);
 		auto zombie2 = PZombie::create(this, stringName, _setTagZombie[01]);
 		zombie2->setGamePlayLayerPtr(_gamePlayLayerPtr);
-		zombie2->setHealthBar(HEALTH_ZOMBIE);
+		zombie2->setHealthBar(HEALTH_BAR_ZOMBIE);
 		zombie2->setVisible(false);
 		_listZombie2.pushBack(zombie2);
 
 		stringName = getNameZombie(_setTagZombie[2]);
 		auto zombie3 = PZombie::create(this, stringName, _setTagZombie[2]);
 		zombie3->setGamePlayLayerPtr(_gamePlayLayerPtr);
-		zombie3->setHealthBar(HEALTH_ZOMBIE);
+		zombie3->setHealthBar(HEALTH_BAR_ZOMBIE);
 		zombie3->setVisible(false);
 		_listZombie3.pushBack(zombie3);
 
 		stringName = getNameZombie(_setTagZombie[3]);
 		auto zombie4 = PZombie::create(this, stringName, _setTagZombie[3]);
 		zombie4->setGamePlayLayerPtr(_gamePlayLayerPtr);
-		zombie4->setHealthBar(HEALTH_ZOMBIE);
+		zombie4->setHealthBar(HEALTH_BAR_ZOMBIE);
 		zombie4->setVisible(false);
 		_listZombie4.pushBack(zombie4);
 	}
@@ -80,7 +80,7 @@ PZombie* PoolZombie::getZombie1()
 		{
 			zombie = _listZombie1.at(index);
 			zombie->health = setHealth(zombie);
-			auto resetHealth = HEALTH_ZOMBIE;
+			auto resetHealth = HEALTH_BAR_ZOMBIE;
 			zombie->resetHealthBar(resetHealth);
 			foundZombie = true;
 		}
@@ -93,7 +93,7 @@ PZombie* PoolZombie::getZombie1()
 	{
 		std::string stringName = getNameZombie(_setTagZombie[0]);
 		zombie = PZombie::create(this, stringName, _setTagZombie[0]);
-		zombie->setHealthBar(HEALTH_ZOMBIE);
+		zombie->setHealthBar(HEALTH_BAR_ZOMBIE);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie->setVisible(false);
 		_listZombie1.pushBack(zombie);
@@ -111,7 +111,7 @@ PZombie* PoolZombie::getZombie2()
 		{
 			zombie = _listZombie2.at(index);
 			zombie->health = setHealth(zombie);
-			auto resetHealth = HEALTH_ZOMBIE;
+			auto resetHealth = HEALTH_BAR_ZOMBIE;
 			zombie->resetHealthBar(resetHealth);
 			foundZombie = true;
 		}
@@ -124,7 +124,7 @@ PZombie* PoolZombie::getZombie2()
 	{
 		std::string stringName = getNameZombie(_setTagZombie[1]);
 		zombie = PZombie::create(this, stringName, _setTagZombie[1]);
-		zombie->setHealthBar(HEALTH_ZOMBIE);
+		zombie->setHealthBar(HEALTH_BAR_ZOMBIE);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie->setVisible(false);
 		_listZombie2.pushBack(zombie);
@@ -143,7 +143,7 @@ PZombie* PoolZombie::getZombie3()
 		{
 			zombie = _listZombie3.at(index);
 			zombie->health = setHealth(zombie);
-			auto resetHealth = HEALTH_ZOMBIE;
+			auto resetHealth = HEALTH_BAR_ZOMBIE;
 			zombie->resetHealthBar(resetHealth);
 			foundZombie = true;
 		}
@@ -156,7 +156,7 @@ PZombie* PoolZombie::getZombie3()
 	{
 		std::string stringName = getNameZombie(_setTagZombie[2]);
 		zombie = PZombie::create(this, stringName, _setTagZombie[2]);
-		zombie->setHealthBar(HEALTH_ZOMBIE);
+		zombie->setHealthBar(HEALTH_BAR_ZOMBIE);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie->setVisible(false);
 		_listZombie3.pushBack(zombie);
@@ -174,7 +174,7 @@ PZombie* PoolZombie::getZombie4()
 		{
 			zombie = _listZombie4.at(index);
 			zombie->health = setHealth(zombie);
-			auto resetHealth = HEALTH_ZOMBIE;
+			auto resetHealth = HEALTH_BAR_ZOMBIE;
 			zombie->resetHealthBar(resetHealth);
 			foundZombie = true;
 		}
@@ -187,7 +187,7 @@ PZombie* PoolZombie::getZombie4()
 	{
 		std::string stringName = getNameZombie(_setTagZombie[3]);
 		zombie = PZombie::create(this, stringName, _setTagZombie[3]);
-		zombie->setHealthBar(HEALTH_ZOMBIE);
+		zombie->setHealthBar(HEALTH_BAR_ZOMBIE);
 		zombie->setGamePlayLayerPtr(_gamePlayLayerPtr);
 		zombie->setVisible(false);
 		_listZombie4.pushBack(zombie);
@@ -274,7 +274,7 @@ void PoolZombie::scenePlay(int sceneplay)
 	}
 	else if (sceneplay == 4)
 	{
-		getTagZombie(6, 5, 3, 4);
+		getTagZombie(5, 6, 3, 2);
 	}
 	initZombie();
 	schedule(schedule_selector(PoolZombie::createZombie_1), 3.0f);
@@ -324,8 +324,8 @@ void PoolZombie::createZombie_1(float delta)
 			timeMoveTo = TIME_MOVETO_ZOMBIE_SKILL;
 			positionX += POSITIONX;
 		}
-		auto target = Vec2(winSize.width * positionX, winSize.height * positionY);
-		zombie->move(timeMoveTo, target);
+		auto target = this->getParent()->convertToWorldSpace(Vec2(winSize.width * positionX, winSize.height * positionY));
+		zombie->Move(timeMoveTo, target);
 	}
 }
 
@@ -365,8 +365,8 @@ void PoolZombie::createZombie_2(float delta)
 			timeMoveTo = TIME_MOVETO_ZOMBIE_SKILL;
 			positionX += POSITIONX;
 		}
-		auto target = Vec2(winSize.width * positionX, winSize.height * positionY);
-		zombie->move(timeMoveTo, target);
+		auto target = this->getParent()->convertToWorldSpace(Vec2(winSize.width * positionX, winSize.height * positionY));
+		zombie->Move(timeMoveTo, target);
 	}
 }
 
@@ -406,8 +406,8 @@ void PoolZombie::createZombie_3(float delta)
 			timeMoveTo = TIME_MOVETO_ZOMBIE_SKILL;
 			positionX += POSITIONX;
 		}
-		auto target = Vec2(winSize.width * positionX, winSize.height * positionY);
-		zombie->move(timeMoveTo, target);
+		auto target = this->getParent()->convertToWorldSpace(Vec2(winSize.width * positionX, winSize.height * positionY));
+		zombie->Move(timeMoveTo, target);
 	}
 }
 
@@ -447,8 +447,8 @@ void PoolZombie::createZombie_4(float delta)
 			timeMoveTo = TIME_MOVETO_ZOMBIE_SKILL;
 			positionX += POSITIONX;
 		}
-		auto target = Vec2(winSize.width * positionX, winSize.height * positionY);
-		zombie->move(timeMoveTo, target);
+		auto target = this->getParent()->convertToWorldSpace(Vec2(winSize.width * positionX, winSize.height * positionY));
+		zombie->Move(timeMoveTo, target);
 	}
 }
 

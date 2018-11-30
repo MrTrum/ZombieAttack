@@ -14,6 +14,7 @@
     <ProjectGuid>{76A39BB2-9B84-4C65-98A5-654D86B86F2A}</ProjectGuid>
     <RootNamespace>test_win32</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -152,6 +153,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\BackgroundLayer.cpp" />
     <ClCompile Include="..\Classes\GameObject\Border.cpp" />
     <ClCompile Include="..\Classes\GameObject\BulletObject.cpp" />
+    <ClCompile Include="..\Classes\GameObject\CreateTestLine.cpp" />
     <ClCompile Include="..\Classes\GameObject\Dynamite.cpp" />
     <ClCompile Include="..\Classes\GameObject\GameObject.cpp" />
     <ClCompile Include="..\Classes\GameObject\Hero.cpp" />
@@ -172,7 +174,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\UI\NumberMoney\Money.cpp" />
     <ClCompile Include="..\Classes\UI\StoreItem\StoreLayer.cpp" />
     <ClCompile Include="..\Classes\Weapon\M4A1\M4A1.cpp" />
-    <ClCompile Include="..\Classes\Zombie\CreateTestLine.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +181,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\BackgroundLayer.h" />
     <ClInclude Include="..\Classes\GameObject\Border.h" />
     <ClInclude Include="..\Classes\GameObject\BulletObject.h" />
+    <ClInclude Include="..\Classes\GameObject\CreateTestLine.h" />
     <ClInclude Include="..\Classes\GameObject\Dynamite.h" />
     <ClInclude Include="..\Classes\GameObject\GameObject.h" />
     <ClInclude Include="..\Classes\GameObject\Hero.h" />
@@ -201,7 +203,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\UI\NumberMoney\Money.h" />
     <ClInclude Include="..\Classes\UI\StoreItem\StoreLayer.h" />
     <ClInclude Include="..\Classes\Weapon\M4A1\M4A1.h" />
-    <ClInclude Include="..\Classes\Zombie\CreateTestLine.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

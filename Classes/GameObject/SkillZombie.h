@@ -21,11 +21,11 @@ public:
 
 	void						playSkillAnimation(std::string skillname);
 	void						onCollission(GameObject *obj) override;
-	void						fireSkill(Vec2 localZombie, Vec2 localHero);
+	void						fireSkill(float speedFire, Vec2 localZombie, Vec2 localHero);
 	void						assignSkillToPoll(skillZombie skillzombie);
-	virtual void				setPosition(float x, float y) override;
 
 	//virtual void setPosition(float x, float y);
+	//virtual void				setPosition(float x, float y) override;
 private:
 	Sprite						*_skill;
 	int							_setNumberSkill[6];

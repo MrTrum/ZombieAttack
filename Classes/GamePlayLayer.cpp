@@ -14,23 +14,10 @@
 #include <ui/UIWidget.h>
 #include "ShakeAction.h"
 #include "Store.h"
-#include "Zombie/CreateTestLine.h"
+#include "GameObject/CreateTestLine.h"
 #include "GameObject/SkillZombie.h"
 #include "PoolObject/PoolSkill.h"
-#include "GameObject/SkillZombie.h"
-#include "PoolObject/PoolSkill.h"
-#include "GameObject/SkillZombie.h"
-#include "PoolObject/PoolSkill.h"
-#include "GameObject/SkillZombie.h"
-#include "PoolObject/PoolSkill.h"
-#include "GameObject/SkillZombie.h"
-#include "PoolObject/PoolSkill.h"
-#include "GameObject/SkillZombie.h"
-#include "PoolObject/PoolSkill.h"
-#include "GameObject/SkillZombie.h"
-#include "PoolObject/PoolSkill.h"
-#include "GameObject/SkillZombie.h"
-#include "PoolObject/PoolSkill.h"
+
 
 USING_NS_CC;
 
@@ -52,7 +39,7 @@ Scene * GamePlayLayer::createGamePlayLayer()
 	Scene* scene = Scene::createWithPhysics();
 	PhysicsWorld* world = scene->getPhysicsWorld();
 	//remember to turn off debug when release
-	world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	/*world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);*/
 	GamePlayLayer* node = GamePlayLayer::create();
 	scene->addChild(node);
 	return scene;
@@ -430,7 +417,7 @@ void GamePlayLayer::addUI()
 	float scaleY = winSize.height / _blurBG->getContentSize().height;
 	_blurBG->setScaleX(scaleX);
 	_blurBG->setScaleY(scaleY);
-	_blurBG->setOpacity(700);
+	_blurBG->setOpacity(700.0f);
 	_blurBG->setVisible(false);
 	_woodPane = Sprite::create("woodpane.png");
 	addChild(_woodPane, 4);

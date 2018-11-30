@@ -11,7 +11,7 @@
 
 #define TIME_ACTION_ANIMATION					6.0f
 #define TIME_MOVETO_ZOMBIE						15.0f
-#define TIME_MOVETO_ZOMBIE_SKILL				20.0f
+#define TIME_MOVETO_ZOMBIE_SKILL				18.0f
 
 //scale
 #define ZOMBIE_SIZE_WIDTH						0.0004f
@@ -52,26 +52,26 @@
 #define TAG_SKILL10								20
 #define TAG_SKILL11								21
 
-
 #define TAG_LINE								23
 #define TAG_LINE2								24
-#define TAG_HERO								25
+
+#define TAG_HERO								26
 #define TAG_BULLET								27
-#define	TAG_DYNAMITE							27
-#define	TAG_ACTION_MOVETO_ZOMBIE				28
-#define	TAG_ACTION_ATTACK_ZOMBIE				29
-#define	TAG_BORDER								30
+#define	TAG_DYNAMITE							28
+#define	TAG_ACTION_MOVETO_ZOMBIE				29
+#define	TAG_ACTION_ATTACK_ZOMBIE				30
+#define	TAG_BORDER								31
 
 //Số lượng tạo Zombie
 #define ZOMBIE_SIZE								20
 
 
 //Health Zombie
-#define HEALTH_ZOMBIE							100.0f
+#define HEALTH_BAR_ZOMBIE						100.0f
 #define HEALTH_ZOMBIE2							150.0f
 #define HEALTH_ZOMBIE3							300.0f
 #define HEALTH_ZOMBIE4							200.0f
-#define HEALTH_ZOMBIE5							250.0f
+#define HEALTH_ZOMBIE5							200.0f
 #define HEALTH_ZOMBIE6							200.0f
 #define HEALTH_ZOMBIE7							200.0f
 

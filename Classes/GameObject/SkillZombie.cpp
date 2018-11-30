@@ -41,6 +41,7 @@ bool SkillZombie::init(int tagZombie)
 	}
 	std::string skillName = StringUtils::format("Z%dSkill", tagZombie);
 	_skill = Sprite::createWithSpriteFrameName(skillName + "1.png");
+	_skill->setScale(2.0f);
 	this->addChild(_skill);
 
 	auto physicSkill = PhysicsBody::createBox(_skill->getContentSize());
@@ -49,11 +50,6 @@ bool SkillZombie::init(int tagZombie)
 	physicSkill->setGroup(-1);
 	this->setPhysicsBody(physicSkill);
 
-	_particle = ParticleSystemQuad::create("skilldestroyed.plist");
-	this->addChild(_particle);
-	_particle->setScale(0.5f);
-	_particle->setPosition(physicSkill->getPosition());
-	_particle->retain();
 	this->setTag(tagZombie + 10);
 	playSkillAnimation(skillName);
 	return true;
@@ -72,7 +68,7 @@ void SkillZombie::playSkillAnimation(std::string skillname)
 	_skill->runAction(RepeatForever::create(animate));
 }
 
-void SkillZombie::fireSkill(Vec2 startPos, Vec2 targetPos)
+void SkillZombie::fireSkill(float speedFire, Vec2 startPos, Vec2 targetPos)
 {
 	auto setPos =  CallFunc::create([=] 
 	{
@@ -80,7 +76,7 @@ void SkillZombie::fireSkill(Vec2 startPos, Vec2 targetPos)
 		this->setVisible(true);
 	});
 
-	auto moveTo = MoveTo::create(1.0f, targetPos);
+	auto moveTo = MoveTo::create(speedFire, targetPos);
 
 	auto callfunc = CallFunc::create([=]
 	{
@@ -101,26 +97,23 @@ void SkillZombie::assignSkillToPoll(skillZombie skillzombie)
 
 void SkillZombie::onCollission(GameObject *obj)
 {
-	if (obj != nullptr)
-	{
-		cocos2d::log("WTF");
-	}
 	if (obj->getTag() == TAG_BULLET)
 	{
-
-		auto start = CallFunc::create([=] {
+		auto start = CallFunc::create([=] 
+		{
+			_particle = ParticleSystemQuad::create("skilldestroyed.plist");
+			this->addChild(_particle);
+			_particle->setScale(0.5f);
+			_particle->setPosition(_skill->getPosition());
+			_particle->retain();
 			_particle->start();
 		});
-		auto stop = CallFunc::create([=] {
+		auto stop = CallFunc::create([=] 
+		{
 			_particle->stop();
 			this->removeFromParent();
 			_particle->removeFromParent();
 		});
-		runAction(Sequence::create(start, DelayTime::create(0.2), stop, nullptr));
+		runAction(Sequence::create(start, DelayTime::create(1.0f), stop, nullptr));
 	}
-}
-
-void SkillZombie::setPosition(float x, float y)
-{
-	Node::setPosition(x, y);
 }

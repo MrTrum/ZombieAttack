@@ -125,21 +125,13 @@ void PZombie::onCollission(GameObject *obj)
 		this->damage = obj->getDamage();
 		checkDamage();
 	}
-
-	else if (obj->getTag() == TAG_LINE2)
-	{
-		if (this->getTag() == 6)
-		{
-			attackSkill();
-		}
-		else
-		{
-			this->attack();
-		}
-	}
 	else if (obj->getTag() == TAG_LINE && this->getTag() == 6)
 	{
-		attackSkill();
+		scheduleOnce(schedule_selector(PZombie::attackSkill), 0.1f);
+	}
+	else if (obj->getTag() == TAG_LINE2)
+	{
+		Attack();
 	}
 }
 
@@ -150,11 +142,11 @@ void PZombie::checkDamage()
 	if (this->health <= 0)
 	{
 		this->stopActionByTag(TAG_ACTION_MOVETO_ZOMBIE);
-		dead();
+		Dead();
 	}
 }
 
-void PZombie::dead()
+void PZombie::Dead()
 {
 	auto deadPos = this->getPosition();
 	this->getPhysicsBody()->setContactTestBitmask(false);
@@ -162,7 +154,7 @@ void PZombie::dead()
 	this->playDeadAnimation(deadPos, stringname);
 }
 
-void PZombie::attack()
+void PZombie::Attack()
 {
 	auto stringName = convertFromTagToStringAttack(this->getTag());
 	playAttackAnimation(stringName);
@@ -258,50 +250,76 @@ void PZombie::playDeadAnimation(Vec2 deadPos, std::string stringname)
 	ptrGamePlayLayer->CoinFly(deadPos);
 }
 
-void PZombie::attackSkill()
+void PZombie::attackSkill(float delta)
 {
 	auto stringName = convertFromTagToStringAttack(this->getTag());
 	playAttackAnimation(stringName);
 
-	auto skill = _poolSkill->createSkill(this->getTag());
+	auto fire = CallFunc::create([=]
+	{
+		scheduleOnce(schedule_selector(PZombie::attackAndFire), 0.0f);
+	});
+
+	auto walk = CallFunc::create([=]
+	{
+		walkAndMove();
+	});
+	auto sqe = Sequence::create(DelayTime::create(1.0f), fire, DelayTime::create(0.0f), walk, nullptr);
+	this->runAction(sqe);
+}
+
+void PZombie::attackAndFire(float delta)
+{
+	skill = _poolSkill->createSkill(this->getTag());
 	ptrGamePlayLayer->addChild(skill);
 
 	// calculate start fire pos
-	auto winSize = Director::getInstance()->getWinSize();
 	auto worldPosZombie = this->getParent()->convertToWorldSpace(this->getPosition());
 	auto startFirePos = ptrGamePlayLayer->convertToNodeSpace(worldPosZombie);
 
 	// calculate target pos
+	auto winSize = Director::getInstance()->getWinSize();
 	auto worldPosHero = this->getParent()->convertToWorldSpace(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
 	auto targetFirePos = ptrGamePlayLayer->convertToNodeSpace(worldPosHero);
-	skill->setPosition(800.0f, 400.0f);
 
-	auto callfun1 = CallFunc::create([=]
+	float speedFire;
+	if (startFirePos.x >= winSize.width * 0.8f)
 	{
-		skill->fireSkill(startFirePos, targetFirePos);
-	});
-
-	auto callfun = CallFunc::create([=]
+		speedFire = 1.0f;
+	}
+	else
 	{
-		resumeAction();
-	});
-	auto sqe = Sequence::create(DelayTime::create(1.0f), callfun1,callfun, nullptr);
-	this->runAction(sqe);
+		speedFire = 0.5f;
+	}
+	skill->fireSkill(speedFire, startFirePos, targetFirePos);
 }
 
-void PZombie::resumeAction()
+void PZombie::walkAndMove()
 {
 	this->stopActionByTag(TAG_ACTION_ATTACK_ZOMBIE); // stop action Attack
 	auto stringName = convertFromTagToStringWalk(this->getTag());
 	this->playWalkAnimation(stringName);
-	float pixelOnSeconds = _target.x / TIME_MOVETO_ZOMBIE_SKILL;
-	auto time = this->getPositionX() / pixelOnSeconds;
-	this->move(time, _target);
+	int speed = _target.x / TIME_MOVETO_ZOMBIE_SKILL;
+	int distance = this->getPositionX() - _target.x;
+	float time = distance / speed - 2.0f;
+
+	auto move = CallFunc::create([=]
+	{
+		this->Move(time, _target);
+	});
+	auto fire = CallFunc::create([=]
+	{
+		auto stringName = convertFromTagToStringAttack(this->getTag());
+		playAttackAnimation(stringName);
+		schedule(schedule_selector(PZombie::attackAndFire), 1.0f);
+	});
+	this->runAction(Sequence::create(move, DelayTime::create(time), fire, nullptr));
 }
 
-void PZombie::move(int time, Vec2& target)
+void PZombie::Move(float time, Vec2& target)
 {
 	_target = target;
+	this->stopActionByTag(TAG_ACTION_MOVETO_ZOMBIE);
 	auto moveto = MoveTo::create(time, target);
 	moveto->setTag(TAG_ACTION_MOVETO_ZOMBIE);
 	this->runAction(moveto);

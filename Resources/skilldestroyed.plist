@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>angle</key>
-	<real>86</real>
+	<real>49</real>
 	<key>angleVariance</key>
 	<real>180</real>
 	<key>blendFuncDestination</key>
@@ -11,7 +11,7 @@
 	<key>blendFuncSource</key>
 	<integer>770</integer>
 	<key>duration</key>
-	<real>0.2</real>
+	<real>0.05</real>
 	<key>emitterType</key>
 	<real>0</real>
 	<key>finishColorAlpha</key>
@@ -35,9 +35,9 @@
 	<key>finishParticleSizeVariance</key>
 	<real>0</real>
 	<key>gravityx</key>
-	<real>0</real>
+	<real>60</real>
 	<key>gravityy</key>
-	<real>127</real>
+	<real>327</real>
 	<key>maxParticles</key>
 	<real>400</real>
 	<key>maxRadius</key>
@@ -75,17 +75,17 @@
 	<key>sourcePositiony</key>
 	<real>774</real>
 	<key>speed</key>
-	<real>254</real>
+	<real>456</real>
 	<key>speedVariance</key>
 	<real>20</real>
 	<key>startColorAlpha</key>
-	<real>1</real>
+	<real>0.89</real>
 	<key>startColorBlue</key>
-	<real>1</real>
+	<real>0.2</real>
 	<key>startColorGreen</key>
-	<real>0.6</real>
-	<key>startColorRed</key>
 	<real>0.4</real>
+	<key>startColorRed</key>
+	<real>1</real>
 	<key>startColorVarianceAlpha</key>
 	<real>0</real>
 	<key>startColorVarianceBlue</key>

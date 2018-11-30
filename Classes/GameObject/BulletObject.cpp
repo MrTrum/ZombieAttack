@@ -84,7 +84,7 @@ void BulletObject::bulletFire(Vec2 location)
 	}
 	);
 	this->runAction(Sequence::create(aBulletFire, callback, NULL));
-	_motion = MotionStreak::create(0.2, 5, 15, Color3B::WHITE, "trail_red.png");
+	_motion = MotionStreak::create(0.2f, 5.0f, 15.0f, Color3B::WHITE, "trail_red.png");
 	this->getParent()->addChild(_motion);
 	_motion->retain();
 	_motion->runAction(aBulletFire->clone());

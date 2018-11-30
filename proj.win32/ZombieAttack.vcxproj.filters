@@ -25,9 +25,6 @@
     <Filter Include="src\Weapon">
       <UniqueIdentifier>{1065ef38-6fa5-4857-b571-0275980ea567}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Zombie">
-      <UniqueIdentifier>{61252c3b-590d-4d63-95e2-4fbbba371285}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Item\HP">
       <UniqueIdentifier>{226a0453-295f-4385-9c82-85024304e4e5}</UniqueIdentifier>
     </Filter>
@@ -96,9 +93,6 @@
     <ClCompile Include="..\Classes\PoolObject\PoolZombie.cpp">
       <Filter>src\PoolObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Zombie\CreateTestLine.cpp">
-      <Filter>src\Zombie</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Item\HP\HP.cpp">
       <Filter>src\Item\HP</Filter>
     </ClCompile>
@@ -128,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\PoolObject\PoolSkill.cpp">
       <Filter>src\PoolObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\CreateTestLine.cpp">
+      <Filter>src\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -179,9 +176,6 @@
     <ClInclude Include="..\Classes\PoolObject\PoolZombie.h">
       <Filter>src\PoolObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Zombie\CreateTestLine.h">
-      <Filter>src\Zombie</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Item\HP\HP.h">
       <Filter>src\Item\HP</Filter>
     </ClInclude>
@@ -211,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\PoolObject\PoolSkill.h">
       <Filter>src\PoolObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\CreateTestLine.h">
+      <Filter>src\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -37,6 +37,7 @@ private:
 	int							_setNumberSkill[6];
 	PoolSkill*					_poolSkill;
 	Vec2						_target;
+	SkillZombie *skill;
 public:
 	PZombie();
 	~PZombie();
@@ -48,9 +49,9 @@ public:
 	void						setHealthBar(float percent);
 	void						resetHealthBar(float percent);
 	void						updateHealthBar(int health, PZombie *ptrZombie);
-	void   					    dead();
+	void   					    Dead();
 	void   					    checkDamage();
-	void   					    attack();
+	void   					    Attack();
 	void						reset();
 	void						playWalkAnimation(std::string zombieName);
 	void						playAttackAnimation(std::string stringname);
@@ -61,9 +62,10 @@ public:
 	std::string					convertFromTagToStringDead(int tag);
 	std::string					convertFromTagToStringSkill(int tag);
 	void						droppedItems(Vec2 deadPos);
-	void						attackSkill();
-	void						resumeAction();
-	void						move(int time, Vec2& target);
+	void						attackSkill(float delta);
+	void						attackAndFire(float delta);
+	void						walkAndMove();
+	void						Move(float time, Vec2& target);
 	/*virtual void move();*/
 };
 #endif // !_P_ZOMBIE_H_
