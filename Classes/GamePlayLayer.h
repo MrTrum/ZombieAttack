@@ -10,7 +10,7 @@
 #include "GameObject/PZombie.h"
 #include "PoolObject/PoolSkill.h"
 
-
+class MyStore;
 class BackgroundLayer;
 class Hero;
 class Base;
@@ -63,6 +63,7 @@ protected:
 	void update(float dt);
 	void onTouchReloadBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 private:
+	MyStore			*_myStore;
 	BackgroundLayer *_bg;
 	Hero			*_hero;
 	Base			*_base;
