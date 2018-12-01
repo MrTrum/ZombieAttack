@@ -8,7 +8,6 @@
 #include "UI/NumberMoney/Money.h"
 #include "UI/StoreItem/StoreLayer.h"
 #include "GameObject/PZombie.h"
-#include "PoolObject/PoolSkill.h"
 
 class MyStore;
 class BackgroundLayer;

@@ -2,7 +2,7 @@
 #include "Parameter.h"
 #include "GamePlayLayer.h"
 #include "PoolObject/PoolZombie.h"
-
+#include "PoolObject/PoolSkill.h"
 
 
 USING_NS_CC;

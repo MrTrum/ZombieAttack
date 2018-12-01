@@ -68,6 +68,10 @@ bool GamePlayLayer::init()
 		"weapon/M16firing.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("icon.plist",
 		"icon.png");
+	/*Thanh*/
+	//Set tấm ảnh sau khi texturePacker
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsSkill.plist", "images/assetsSkill.png");
 	//add BG
 	//_myStore = MyStore::create();
 	//addChild(_myStore, 5);
@@ -92,10 +96,6 @@ bool GamePlayLayer::init()
 	listenerTouch->onTouchCancelled = CC_CALLBACK_2(GamePlayLayer::onTouchCancelled, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerTouch, this);
 
-	/*Thanh*/
-	//Set tấm ảnh sau khi texturePacker
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsSkill.plist", "images/assetsSkill.png");
 
 	auto locationHero = _hero->getPosition();
 
@@ -417,7 +417,7 @@ void GamePlayLayer::addUI()
 	float scaleY = winSize.height / _blurBG->getContentSize().height;
 	_blurBG->setScaleX(scaleX);
 	_blurBG->setScaleY(scaleY);
-	_blurBG->setOpacity(700.0f);
+	_blurBG->setOpacity(30);
 	_blurBG->setVisible(false);
 	_woodPane = Sprite::create("woodpane.png");
 	addChild(_woodPane, 4);
@@ -455,7 +455,9 @@ bool GamePlayLayer::isTouchingSprite(Touch* touch)
 {
 	if (_getDynTag == 555)
 	{
-		return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
+		//return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
+		auto diff = _iconDynamite->getPosition() - this->touchToPoint(touch);
+		return diff.length() < 100.0f;
 	}
 	return false;
 }
@@ -468,14 +470,14 @@ Point GamePlayLayer::touchToPoint(Touch* touch)
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
 	Point location = touch->getLocationInView();
-	_location = CCDirector::sharedDirector()->convertToGL(location);
-	if (_iconDynamite->boundingBox().containsPoint(_location) && _iconDynamite->getTag() == 555)
+	_location = CCDirector::getInstance()->convertToGL(location);
+	if (_iconDynamite->getBoundingBox().containsPoint(_location) && _iconDynamite->getTag() == 555)
 	{
 		_getDynTag = 555;
 		if (this->isTouchingSprite(touch))
 		{
-			this->_touchOffset = ccpSub(_iconDynamite->getPosition(),
-				this->touchToPoint(touch));
+			this->_touchOffset = _iconDynamite->getPosition() -
+				this->touchToPoint(touch);
 		}
 		_isShootingBegan = false;
 		return true;
@@ -492,13 +494,13 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
 	Point location = touch->getLocationInView();
-	_location = CCDirector::sharedDirector()->convertToGL(location);
+	_location = CCDirector::getInstance()->convertToGL(location);
 	if (touch && _touchOffset.x && _touchOffset.y)
 	{
 		if (_getDynTag == 555) 
 		{
 			_sprDynamite->setVisible(true);
-			_sprDynamite->setPosition(ccpAdd(this->touchToPoint(touch), this->_touchOffset));
+			_sprDynamite->setPosition(this->touchToPoint(touch) + this->_touchOffset);
 		}
 	}
 }

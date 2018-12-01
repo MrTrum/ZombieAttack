@@ -49,7 +49,7 @@ bool Coin::FlyAnimation(cocos2d::Vec2 iconPos, std::function<void()> callback)
 		}
 		this->removeFromParent();
 	});
-	Sequence* seq = Sequence::create(DelayTime::create(0.3f),coinFly, callfunc, nullptr);
+	Sequence* seq = Sequence::create(DelayTime::create(0.3f), coinFly, callfunc, nullptr);
 	this->runAction(seq);
 	return true;
 }
