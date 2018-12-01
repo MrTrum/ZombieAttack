@@ -39,7 +39,7 @@ Scene * GamePlayLayer::createGamePlayLayer()
 	Scene* scene = Scene::createWithPhysics();
 	PhysicsWorld* world = scene->getPhysicsWorld();
 	//remember to turn off debug when release
-	/*world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);*/
+	world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	GamePlayLayer* node = GamePlayLayer::create();
 	scene->addChild(node);
 	return scene;
@@ -246,7 +246,7 @@ void GamePlayLayer::testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType
 	this->addChild(goldBag2, 3);
 	goldBag2->setScale(0.2f);
 	goldBag2->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
-	
+
 	auto scaleto = ScaleTo::create(2.0f, 0.4f);
 
 	auto removeSpritesBag = CallFunc::create([=]
@@ -407,11 +407,11 @@ void GamePlayLayer::addUI()
 	_outputTxt->setPosition(winSize.width * 0.5f, winSize.height * 0.75f);
 	Blink *rdTxtBlink = Blink::create(5, 12);
 	_outputTxt->runAction(rdTxtBlink);
-	
+
 	throwOutputText("READY !!!!", 5);
 	//paused effect
 	_blurBG = Sprite::create("Untitled.png");
-	addChild(_blurBG,4);
+	addChild(_blurBG, 4);
 	_blurBG->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	float scaleX = winSize.width / _blurBG->getContentSize().width;
 	float scaleY = winSize.height / _blurBG->getContentSize().height;
@@ -429,7 +429,7 @@ void GamePlayLayer::addUI()
 	auto _sprMag = Sprite::create("oval.png");
 	_sprMag->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_sprMag->setPosition(Vec2(winSize.width * 0.09f, winSize.height * 0.03f));
-	addChild(_sprMag,2);
+	addChild(_sprMag, 2);
 	_sprMag->setScale(0.15f);
 	auto _reloadBtn = cocos2d::ui::Button::create("MagUI.png");
 	_reloadBtn->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -444,7 +444,7 @@ void GamePlayLayer::addUI()
 }
 void GamePlayLayer::onTouchReloadBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
 {
-	if (_Bullet != 30)
+	if (_Bullet < 30)
 	{
 		_isReloading = true;
 		throwOutputText("Reloading", 3);
@@ -495,7 +495,7 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 	_location = CCDirector::sharedDirector()->convertToGL(location);
 	if (touch && _touchOffset.x && _touchOffset.y)
 	{
-		if (_getDynTag == 555) 
+		if (_getDynTag == 555)
 		{
 			_sprDynamite->setVisible(true);
 			_sprDynamite->setPosition(ccpAdd(this->touchToPoint(touch), this->_touchOffset));
@@ -519,7 +519,7 @@ void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
 
 void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event)
 {
-	
+
 }
 
 void GamePlayLayer::throwOutputText(std::string txt, int duration)
@@ -570,8 +570,8 @@ void GamePlayLayer::updatePressed(float dt)
 			else
 			{
 				_isReloading = true;
-				throwOutputText("Reloading", 3);
-				scheduleOnce(schedule_selector(GamePlayLayer::reloading), 3.0f);
+				throwOutputText("Reloading", 2);
+				scheduleOnce(schedule_selector(GamePlayLayer::reloading), 2.0f);
 			}
 		}
 	}
@@ -579,15 +579,16 @@ void GamePlayLayer::updatePressed(float dt)
 
 void GamePlayLayer::reloading(float dt)
 {
-	_totalBullet -= 30;
-	if (_totalBullet < 0)
+	_totalBullet += _Bullet;
+	if (_totalBullet > 30)
 	{
-		_totalBullet = 0;
-		_Bullet = 0;
+		_Bullet = 30;
+		_totalBullet -= 30;
 	}
-	else
+	else if (_totalBullet < 30)
 	{
-		_Bullet += 30;
+		_Bullet = _totalBullet;
+		_totalBullet = 0;
 	}
 	_isReloading = false;
 }
@@ -600,13 +601,8 @@ void GamePlayLayer::Shooting()
 	this->addChild(_bullet, 2);
 	_bullet->setPosition(START_POS);
 	_bullet->setDamageBullet(30.0f);
-							//_gunM4A1->_Stats._Damage);
+	//_gunM4A1->_Stats._Damage);
 	_bullet->bulletFire(_location);
-	/*_motion = MotionStreak::create(0.2, 5, 15, Color3B::WHITE, "trail_red.png");
-	addChild(_motion, 2);
-	_motion->setPosition(Vec2(winSize.width * 0.25f, winSize.height * 0.25f));
-	_motion->runAction(MoveBy::create(1.0f, _bullet->vector));
-	_motion->setPosition(_bullet->getPosition());*/
 }
 
 void GamePlayLayer::throwDynamite(Vec2 droppedPos)

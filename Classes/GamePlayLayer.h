@@ -89,7 +89,6 @@ private:
 	Sprite			*_hpbar;
 	Sprite			*_iconDynamite;
 	Sprite			*_sprDynamite;
-	MotionStreak	*_motion;
 	PoolSkill		*_poolSkill;
 	SkillZombie     *_skillZombie;
 /*Tú*/
