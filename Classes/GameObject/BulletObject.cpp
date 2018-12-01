@@ -88,7 +88,7 @@ void BulletObject::bulletFire(Vec2 location)
 	this->getParent()->addChild(_motion);
 	_motion->retain();
 	_motion->runAction(aBulletFire->clone());
-	_motion->setPosition(this->getPosition() * 0.8f);
+	_motion->setPosition(this->getPosition());
 }
 
 void BulletObject::setDamageBullet(int Dmg)
