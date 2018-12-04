@@ -49,7 +49,6 @@ void BulletObject::reset()
 {
 	Size winSize = Director::getInstance()->getWinSize();
 	this->setVisible(true);
-	scheduleUpdate();
 }
 
 float BulletObject::getDamage()
@@ -59,7 +58,7 @@ float BulletObject::getDamage()
 
 void BulletObject::onCollission(GameObject *obj)
 {
-	_willBeDestroy = true;
+	poolAndRemoveBullet();
 }
 
 void BulletObject::setOnDestroyCallback(OnBulletDestroyCallback callback)
@@ -80,7 +79,7 @@ void BulletObject::bulletFire(Vec2 location)
 	auto aBulletFire = MoveBy::create(1.0f, vector);
 	CallFunc *callback = CallFunc::create([=]
 	{
-		_willBeDestroy = true;
+		poolAndRemoveBullet();
 	}
 	);
 	this->runAction(Sequence::create(aBulletFire, callback, NULL));
@@ -95,17 +94,18 @@ void BulletObject::setDamageBullet(int Dmg)
 {
 	_Dmg = Dmg;
 }
-void BulletObject::update(float delta)
+void BulletObject::poolAndRemoveBullet()
 {
-	if (_willBeDestroy)
+	auto removeBullet = CallFunc::create([=]
 	{
+		this->removeFromParent();
+		stopAllActions();
+		_motion->removeFromParent();
 		if (_onBulletDestroyCallback)
 		{
 			_onBulletDestroyCallback(this);
 		}
-		stopAllActions();
-		this->removeFromParent();
-		_motion->removeFromParent();
-		_willBeDestroy = false;
-	}
+	});
+	this->runAction(Sequence::create(DelayTime::create(0.025f), removeBullet, nullptr));
+	/*_willBeDestroy = false;*/
 }

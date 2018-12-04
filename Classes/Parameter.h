@@ -52,6 +52,8 @@
 #define TAG_SKILL10								20
 #define TAG_SKILL11								21
 
+#define TAG_BOSS1							    100
+
 #define TAG_LINE								23
 #define TAG_LINE2								24
 
@@ -74,6 +76,11 @@
 #define HEALTH_ZOMBIE5							200.0f
 #define HEALTH_ZOMBIE6							200.0f
 #define HEALTH_ZOMBIE7							200.0f
+#define HEALTH_ZOMBIE8							200.0f
+#define HEALTH_ZOMBIE9							200.0f
+#define HEALTH_ZOMBIE10							200.0f
+#define HEALTH_ZOMBIE11							200.0f
+#define HEALTH_ZOMBIE100						200.0f
 
 #define START_POS								Vec2(winSize * 0.26f)
 #define BULLET_VEC								1000.0f
@@ -82,7 +89,7 @@
 //DAMAGE M4A1
 #define DAMAGE_M4A1                             30
 //NUMBER BULLET M4A1
-#define NUMBER_BULLET_M4A1                      120
+#define NUMBER_BULLET_M4A1                      1200
 //PRICE M4A1
 #define PRICE_M4A1                              200
 

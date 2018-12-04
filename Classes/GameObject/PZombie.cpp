@@ -7,15 +7,65 @@
 
 USING_NS_CC;
 
-PZombie::PZombie() :
-	_percentHealth2(HEALTH_ZOMBIE2),
-	_percentHealth3(HEALTH_ZOMBIE3),
-	_percentHealth4(HEALTH_ZOMBIE4),
-	_percentHealth5(HEALTH_ZOMBIE5),
-	_percentHealth6(HEALTH_ZOMBIE6),
-	_percentHealth7(HEALTH_ZOMBIE7)
+
+PZombie::PZombie() : _isDead(false)
 {
 	_poolSkill = new PoolSkill();
+	for (int i = 0; i < 11; i++)
+	{
+		float constHealth = returnHealth(i);
+		_listHealthZombie.push_back(constHealth);
+	}
+}
+
+float PZombie::returnHealth(int i)
+{
+	float health = 0.0f;
+	if (i == 0)
+	{
+		health = HEALTH_ZOMBIE2;
+	}
+	else if (i == 1)
+	{
+		health = HEALTH_ZOMBIE3;
+	}
+	else if (i == 2)
+	{
+		health = HEALTH_ZOMBIE4;
+	}
+	else if (i == 3)
+	{
+		health = HEALTH_ZOMBIE5;
+	}
+	else if (i == 4)
+	{
+		health = HEALTH_ZOMBIE6;
+	}
+	else if (i == 5)
+	{
+		health = HEALTH_ZOMBIE7;
+	}
+	else if (i == 6)
+	{
+		health = HEALTH_ZOMBIE8;
+	}
+	else if (i == 7)
+	{
+		health = HEALTH_ZOMBIE9;
+	}
+	else if (i == 8)
+	{
+		health = HEALTH_ZOMBIE10;
+	}
+	else if (i == 9)
+	{
+		health = HEALTH_ZOMBIE11;
+	}
+	else if (i == 10)
+	{
+		health = HEALTH_ZOMBIE100;
+	}
+	return health;
 }
 
 PZombie::~PZombie()
@@ -55,7 +105,7 @@ bool PZombie::init(PoolZombie *ptr, std::string zombieName, int tag)
 	this->addChild(_spr);
 
 	//Set Physics
-	auto physics = PhysicsBody::createBox(_spr->getContentSize());
+	auto physics = PhysicsBody::createBox(Size(_spr->getContentSize().width - 60.0f, _spr->getContentSize().height));
 	physics->setContactTestBitmask(true);
 	physics->setDynamic(false);
 	physics->setGroup(-1);
@@ -88,46 +138,68 @@ void PZombie::resetHealthBar(float percent)
 	setHealthBar(percent);
 }
 
-void PZombie::updateHealthBar(int health, PZombie *ptrZombie)
+void PZombie::updateHealthBar(float health, PZombie *ptrZombie)
 {
-	float percent = 0;
+	float percent = 0.0f;
 	if (ptrZombie->getTag() == 2)
 	{
-		percent = (float)(health * 100) / (float)_percentHealth2;
+		percent = (health * 100.0f) / _listHealthZombie.at(0);
 	}
 	else if (ptrZombie->getTag() == 3)
 	{
-		percent = (float)(health * 100) / (float)_percentHealth3;
+		percent = (health * 100.0f) / _listHealthZombie.at(1);
 	}
 	else if (ptrZombie->getTag() == 4)
 	{
-		percent = (float)(health * 100) / (float)_percentHealth4;
+		percent = (health * 100.0f) / _listHealthZombie.at(2);
 	}
 	else if (ptrZombie->getTag() == 5)
 	{
-		percent = (float)(health * 100) / (float)_percentHealth5;
+		percent = (health * 100.0f) / _listHealthZombie.at(3);
 	}
 	else if (ptrZombie->getTag() == 6)
 	{
-		percent = (float)(health * 100) / (float)_percentHealth6;
+		percent = (health * 100.0f) / _listHealthZombie.at(4);
 	}
 	else if (ptrZombie->getTag() == 7)
 	{
-		percent = (float)(health * 100) / (float)_percentHealth7;
+		percent = (health * 100.0f) / _listHealthZombie.at(5);
+	}
+	else if (ptrZombie->getTag() == 8)
+	{
+		percent = (health * 100.0f) / _listHealthZombie.at(6);
+	}
+	else if (ptrZombie->getTag() == 9)
+	{
+		percent = (health * 100.0f) / _listHealthZombie.at(7);
+	}
+	else if (ptrZombie->getTag() == 10)
+	{
+		percent = (health * 100.0f) / _listHealthZombie.at(8);
+	}
+	else if (ptrZombie->getTag() == 11)
+	{
+		percent = (health * 100.0f) / _listHealthZombie.at(9);
+	}
+	else if (ptrZombie->getTag() == 100)
+	{
+		percent = (health * 100.0f) / _listHealthZombie.at(10);
 	}
 	healthbarZombie->setPercent(percent);
 }
 
 void PZombie::onCollission(GameObject *obj)
 {
+	auto objtag = obj->getTag();
+	auto zombirtag = this->getTag();
 	if (obj->getTag() == TAG_BULLET || obj->getTag() == TAG_DYNAMITE)
 	{
 		this->damage = obj->getDamage();
 		checkDamage();
 	}
-	else if (obj->getTag() == TAG_LINE && this->getTag() == 6)
+	else if (obj->getTag() == TAG_LINE && (this->getTag() >= TAG_ZOMBIE6 && this->getTag() <= TAG_ZOMBIE11))
 	{
-		scheduleOnce(schedule_selector(PZombie::attackSkill), 0.1f);
+		scheduleOnce(schedule_selector(PZombie::attackSkill), 0.0f);
 	}
 	else if (obj->getTag() == TAG_LINE2)
 	{
@@ -138,30 +210,34 @@ void PZombie::onCollission(GameObject *obj)
 void PZombie::checkDamage()
 {
 	this->health -= this->damage;
-	this->updateHealthBar(this->health, this);
 	if (this->health <= 0)
 	{
 		this->stopActionByTag(TAG_ACTION_MOVETO_ZOMBIE);
-		Dead();
+		this->Dead();
 	}
+	this->updateHealthBar(this->health, this);
 }
 
 void PZombie::Dead()
 {
-	auto deadPos = this->getPosition();
 	this->getPhysicsBody()->setContactTestBitmask(false);
-	auto stringname = convertFromTagToStringDead(this->getTag());
-	this->playDeadAnimation(deadPos, stringname);
+	this->unschedule(schedule_selector(PZombie::attackAndFire));
+	auto deadPos = this->getPosition();
+	auto stringName = convertFromTagToStringDead(this->getTag());
+	this->playDeadAnimation(deadPos, stringName);
 }
 
 void PZombie::Attack()
 {
-	auto stringName = convertFromTagToStringAttack(this->getTag());
-	playAttackAnimation(stringName);
+	if (_isDead == false)
+	{
+		auto stringName = convertFromTagToStringAttack(this->getTag());
+		playAttackAnimation(stringName);
+	}
 }
 
 
-void PZombie::reset()
+void PZombie::Walk()
 {
 	auto stringName = convertFromTagToStringWalk(this->getTag());
 	playWalkAnimation(stringName);
@@ -226,26 +302,31 @@ std::string	PZombie::convertFromTagToStringDead(int tag)
 
 void PZombie::playDeadAnimation(Vec2 deadPos, std::string stringname)
 {
+	_isDead = true;
 	_spr->stopAllActions();
 	_spr->setSpriteFrame(stringname + "1.png");
 	auto *animation = Animation::create();
 	for (int i = 1; i < 9; i++)
 	{
-		std::string Z2Walk = StringUtils::format("%i.png", i);
-		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(stringname + Z2Walk));
+		std::string png = StringUtils::format("%i.png", i);
+		animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(stringname + png));
 	}
 	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
-
 	auto *animate = Animate::create(animation);
+
 	auto *zombieBackPool = CallFunc::create([=]
 	{
 		this->getPhysicsBody()->setContactTestBitmask(true);
 		this->setVisible(false);
 		this->droppedItems(deadPos);
 		this->removeFromParent();
-		this->reset();
+		this->Walk();
 	});
-	auto squ = Sequence::create(animate, zombieBackPool, nullptr);
+	auto callback = CallFunc::create([=]
+	{
+		_isDead = false;
+	});
+	auto squ = Sequence::create(animate, zombieBackPool, callback, nullptr);
 	_spr->runAction(squ);
 	ptrGamePlayLayer->CoinFly(deadPos);
 }
@@ -255,23 +336,27 @@ void PZombie::attackSkill(float delta)
 	auto stringName = convertFromTagToStringAttack(this->getTag());
 	playAttackAnimation(stringName);
 
+	auto playAttackAnimate = DelayTime::create(1.0f);
+
 	auto fire = CallFunc::create([=]
 	{
 		scheduleOnce(schedule_selector(PZombie::attackAndFire), 0.0f);
 	});
 
+	auto waitScheduleOnce = DelayTime::create(0.0f);
+
 	auto walk = CallFunc::create([=]
 	{
 		walkAndMove();
 	});
-	auto sqe = Sequence::create(DelayTime::create(1.0f), fire, DelayTime::create(0.0f), walk, nullptr);
+	auto sqe = Sequence::create(playAttackAnimate, fire, waitScheduleOnce, walk, nullptr);
 	this->runAction(sqe);
 }
 
 void PZombie::attackAndFire(float delta)
 {
-	skill = _poolSkill->createSkill(this->getTag());
-	ptrGamePlayLayer->addChild(skill);
+	_skill = _poolSkill->createSkill(this->getTag());
+	ptrGamePlayLayer->addChild(_skill);
 
 	// calculate start fire pos
 	auto worldPosZombie = this->getParent()->convertToWorldSpace(this->getPosition());
@@ -291,7 +376,7 @@ void PZombie::attackAndFire(float delta)
 	{
 		speedFire = 0.5f;
 	}
-	skill->fireSkill(speedFire, startFirePos, targetFirePos);
+	_skill->fireSkill(speedFire, startFirePos, targetFirePos);
 }
 
 void PZombie::walkAndMove()
@@ -309,8 +394,7 @@ void PZombie::walkAndMove()
 	});
 	auto fire = CallFunc::create([=]
 	{
-		auto stringName = convertFromTagToStringAttack(this->getTag());
-		playAttackAnimation(stringName);
+		Attack();
 		schedule(schedule_selector(PZombie::attackAndFire), 1.0f);
 	});
 	this->runAction(Sequence::create(move, DelayTime::create(time), fire, nullptr));

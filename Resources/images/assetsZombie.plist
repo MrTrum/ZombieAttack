@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>B1Attack1.png</key>
+            <key>Z100Attack1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -19,7 +19,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Attack2.png</key>
+            <key>Z100Attack2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -34,7 +34,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>B1Attack3.png</key>
+            <key>Z100Attack3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -49,7 +49,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>B1Attack4.png</key>
+            <key>Z100Attack4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -64,7 +64,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>B1Attack5.png</key>
+            <key>Z100Attack5.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -79,7 +79,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Attack6.png</key>
+            <key>Z100Attack6.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -94,7 +94,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Attack7.png</key>
+            <key>Z100Attack7.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -109,7 +109,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Dead1.png</key>
+            <key>Z100Dead1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -124,7 +124,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Dead2.png</key>
+            <key>Z100Dead2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -139,7 +139,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Dead3.png</key>
+            <key>Z100Dead3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -154,7 +154,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Dead4.png</key>
+            <key>Z100Dead4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -169,7 +169,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Dead5.png</key>
+            <key>Z100Dead5.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -184,7 +184,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Dead6.png</key>
+            <key>Z100Dead6.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -199,7 +199,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Dead7.png</key>
+            <key>Z100Dead7.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -214,7 +214,22 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Hurt1.png</key>
+			<key>Z100Dead8.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{-95,-49}</string>
+                <key>spriteSize</key>
+                <string>{775,347}</string>
+                <key>spriteSourceSize</key>
+                <string>{1101,591}</string>
+                <key>textureRect</key>
+                <string>{{1,3398},{775,347}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>Z100Hurt1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -229,7 +244,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Hurt2.png</key>
+            <key>Z100Hurt2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -244,7 +259,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Hurt3.png</key>
+            <key>Z100Hurt3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -259,7 +274,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Hurt4.png</key>
+            <key>Z100Hurt4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -274,7 +289,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Hurt5.png</key>
+            <key>Z100Hurt5.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -289,7 +304,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Hurt6.png</key>
+            <key>Z100Hurt6.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -304,7 +319,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Hurt7.png</key>
+            <key>Z100Hurt7.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -319,7 +334,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Idle1.png</key>
+            <key>Z100Idle1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -334,7 +349,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Idle2.png</key>
+            <key>Z100Idle2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -349,7 +364,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Idle3.png</key>
+            <key>Z100Idle3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -364,7 +379,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Idle4.png</key>
+            <key>Z100Idle4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -379,7 +394,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Idle5.png</key>
+            <key>Z100Idle5.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -394,7 +409,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Idle6.png</key>
+            <key>Z100Idle6.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -409,7 +424,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Idle7.png</key>
+            <key>Z100Idle7.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -424,7 +439,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Jump1.png</key>
+            <key>Z100Jump1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -439,7 +454,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Jump2.png</key>
+            <key>Z100Jump2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -454,7 +469,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Jump3.png</key>
+            <key>Z100Jump3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -469,7 +484,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Jump4.png</key>
+            <key>Z100Jump4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -484,7 +499,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Jump5.png</key>
+            <key>Z100Jump5.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -499,7 +514,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Jump6.png</key>
+            <key>Z100Jump6.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -514,7 +529,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Jump7.png</key>
+            <key>Z100Jump7.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -529,7 +544,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Run1.png</key>
+            <key>Z100Run1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -544,7 +559,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Run2.png</key>
+            <key>Z100Run2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -559,7 +574,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Run3.png</key>
+            <key>Z100Run3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -574,7 +589,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Run4.png</key>
+            <key>Z100Run4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -589,7 +604,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Run5.png</key>
+            <key>Z100Run5.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -604,7 +619,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Run6.png</key>
+            <key>Z100Run6.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -619,7 +634,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Run7.png</key>
+            <key>Z100Run7.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -634,7 +649,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Walk1.png</key>
+            <key>Z100Walk1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -649,7 +664,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Walk2.png</key>
+            <key>Z100Walk2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -664,7 +679,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Walk3.png</key>
+            <key>Z100Walk3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -679,7 +694,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Walk4.png</key>
+            <key>Z100Walk4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -694,7 +709,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Walk5.png</key>
+            <key>Z100Walk5.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -709,7 +724,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Walk6.png</key>
+            <key>Z100Walk6.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -724,7 +739,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>B1Walk7.png</key>
+            <key>Z100Walk7.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -739,6 +754,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
+
             <key>Z10Attack1.png</key>
             <dict>
                 <key>aliases</key>

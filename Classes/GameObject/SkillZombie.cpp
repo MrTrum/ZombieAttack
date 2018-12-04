@@ -5,7 +5,8 @@
 
 
 USING_NS_CC;
-#define TAG_SKILL 10;
+#define TAG_SKILL				10
+#define TAG_ACTION_MOVE_SKILL   50
 
 SkillZombie::SkillZombie()
 {
@@ -50,7 +51,7 @@ bool SkillZombie::init(int tagZombie)
 	physicSkill->setGroup(-1);
 	this->setPhysicsBody(physicSkill);
 
-	this->setTag(tagZombie + 10);
+	this->setTag(tagZombie += TAG_SKILL);
 	playSkillAnimation(skillName);
 	return true;
 }
@@ -70,16 +71,17 @@ void SkillZombie::playSkillAnimation(std::string skillname)
 
 void SkillZombie::fireSkill(float speedFire, Vec2 startPos, Vec2 targetPos)
 {
-	auto setPos =  CallFunc::create([=] 
+	auto setPos = CallFunc::create([=]
 	{
 		this->setPosition(startPos.x - 10.0f, startPos.y - 15.0f);
 		this->setVisible(true);
 	});
 
 	auto moveTo = MoveTo::create(speedFire, targetPos);
-
 	auto callfunc = CallFunc::create([=]
 	{
+		this->getPhysicsBody()->setContactTestBitmask(true);
+		_skill->setVisible(true);
 		this->removeFromParent();
 		if (_skillzombie)
 		{
@@ -95,25 +97,31 @@ void SkillZombie::assignSkillToPoll(skillZombie skillzombie)
 	_skillzombie = skillzombie;
 }
 
+void SkillZombie::createParticle()
+{
+	_particle = ParticleSystemQuad::create("skilldestroyed.plist");
+	this->addChild(_particle);
+	_particle->setScale(0.5f);
+	_particle->setPosition(_skill->getPosition());
+}
+
 void SkillZombie::onCollission(GameObject *obj)
 {
 	if (obj->getTag() == TAG_BULLET)
 	{
-		auto start = CallFunc::create([=] 
+		auto start = CallFunc::create([=]
 		{
-			_particle = ParticleSystemQuad::create("skilldestroyed.plist");
-			this->addChild(_particle);
-			_particle->setScale(0.5f);
-			_particle->setPosition(_skill->getPosition());
-			_particle->retain();
+			createParticle();
 			_particle->start();
+			_skill->setVisible(false);
+			this->getPhysicsBody()->setContactTestBitmask(false);
 		});
-		auto stop = CallFunc::create([=] 
+		auto stop = CallFunc::create([=]
 		{
-			_particle->stop();
+			this->getPhysicsBody()->setContactTestBitmask(true);
+			_skill->setVisible(true);
 			this->removeFromParent();
-			_particle->removeFromParent();
 		});
-		runAction(Sequence::create(start, DelayTime::create(1.0f), stop, nullptr));
+		runAction(Sequence::create(start, DelayTime::create(0.2f), stop, nullptr));
 	}
 }

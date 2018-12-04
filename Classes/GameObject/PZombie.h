@@ -19,25 +19,22 @@ public:
 	ui::LoadingBar*				healthbarZombie;
 	GamePlayLayer*				ptrGamePlayLayer;
 	PoolZombie*					ptrPoolZombie;
-	int health;
+	float health;
 	float damage;
 
 	static float damageOfZombie;
 private:
 	Sprite*						_spr;
-	Sprite*						_skill;
 	int							_tag;
 	std::string					_stringName;
-	const int					_percentHealth2;
-	const int					_percentHealth3;
-	const int					_percentHealth4;
-	const int					_percentHealth5;
-	const int					_percentHealth6;
-	const int					_percentHealth7;
 	int							_setNumberSkill[6];
 	PoolSkill*					_poolSkill;
 	Vec2						_target;
-	SkillZombie *skill;
+	SkillZombie*				_skill;
+	std::vector<float>			_listHealthZombie;
+	//bool						_isWalk;
+	//bool						_isAttack;
+	bool						_isDead;
 public:
 	PZombie();
 	~PZombie();
@@ -48,11 +45,11 @@ public:
 	void						setGamePlayLayerPtr(GamePlayLayer* ptr);
 	void						setHealthBar(float percent);
 	void						resetHealthBar(float percent);
-	void						updateHealthBar(int health, PZombie *ptrZombie);
+	void						updateHealthBar(float health, PZombie *ptrZombie);
 	void   					    Dead();
 	void   					    checkDamage();
 	void   					    Attack();
-	void						reset();
+	void						Walk();
 	void						playWalkAnimation(std::string zombieName);
 	void						playAttackAnimation(std::string stringname);
 	void						playDeadAnimation(Vec2 deadPos, std::string stringname);
@@ -66,6 +63,7 @@ public:
 	void						attackAndFire(float delta);
 	void						walkAndMove();
 	void						Move(float time, Vec2& target);
+	float						returnHealth(int i);
 	/*virtual void move();*/
 };
 #endif // !_P_ZOMBIE_H_

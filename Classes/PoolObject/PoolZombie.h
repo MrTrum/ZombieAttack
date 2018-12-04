@@ -25,7 +25,7 @@ public:
 	void						initZombie();
 	bool						checkTheLastZombie();
 	void						changeSchedule();
-	int							setHealth(PZombie *zombie);
+	float						setHealth(PZombie *zombie);
 	typedef std::function<void()> Action;
 	void						assignAction(Action action);
 	void						updateAction();
@@ -54,7 +54,10 @@ private:
 	void						setFrameBloodBar();
 	void						updateSchedule(int numberZombie);
 	void						scenePlay(int sceneplay);
-	std::string					getNameZombie(int setzombie);
+	std::string					getNameZombie(int tagZombie);
+	void						setScaleHealthBar(PZombie* zombie);
+	float						getPosX(int tagZombie, float positionY);
+	int							getTimeMove(int tagZombie);
 	
 };
 #endif // !_POOL_ZOMBIE_H

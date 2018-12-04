@@ -28,7 +28,6 @@ SkillZombie* PoolSkill::createSkill(int tagZombie)
 		skill->retain();
 		_listSkill.popBack(); // erase last element
 	}
-	skill->setVisible(false);
 	return skill;
 }
 

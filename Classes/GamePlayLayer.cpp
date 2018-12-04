@@ -21,7 +21,7 @@
 
 USING_NS_CC;
 
-GamePlayLayer::GamePlayLayer() : scenePlay(4)
+GamePlayLayer::GamePlayLayer() : scenePlay(5)
 {
 	_totalBullet = 0;
 	_Bullet = 0;
@@ -68,7 +68,6 @@ bool GamePlayLayer::init()
 		"weapon/M16firing.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("icon.plist",
 		"icon.png");
-	/*Thanh*/
 	//Set tấm ảnh sau khi texturePacker
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsSkill.plist", "images/assetsSkill.png");

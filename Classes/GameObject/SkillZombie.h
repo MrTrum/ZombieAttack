@@ -23,8 +23,8 @@ public:
 	void						onCollission(GameObject *obj) override;
 	void						fireSkill(float speedFire, Vec2 localZombie, Vec2 localHero);
 	void						assignSkillToPoll(skillZombie skillzombie);
+	void						createParticle();
 
-	//virtual void setPosition(float x, float y);
 	//virtual void				setPosition(float x, float y) override;
 private:
 	Sprite						*_skill;

@@ -25,7 +25,7 @@ public:
 protected:
 	int _Dmg;
 private:
-	void update(float delta);
+	void poolAndRemoveBullet();
 private:
 	PhysicsBody *_bulletPhysicBody;
 	cocos2d::Sprite *_sprBullet;
