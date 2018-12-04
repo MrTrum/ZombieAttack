@@ -87,11 +87,13 @@
 
 #define DAMAGE_OF_ZOMBIE2						0.5f
 //DAMAGE M4A1
-#define DAMAGE_M4A1                             30
+#define DAMAGE_M4A1                             20
 //NUMBER BULLET M4A1
-#define NUMBER_BULLET_M4A1                      1200
+#define NUMBER_BULLET_M4A1                      120
 //PRICE M4A1
 #define PRICE_M4A1                              200
+//PRICE BULLET M4A1
+#define PRICE_BULLET_M4A1						2.5
 
 //STAT HP
 #define STAT_HP									50
@@ -99,4 +101,6 @@
 #define NUMBER_HP								3
 //PRICE HP
 #define PRICE_HP							    500
+//PRICE NUMBER HP
+#define PRICE_NUMBER_HP							100
 #endif // __PARAMETER_H__

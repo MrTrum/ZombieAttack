@@ -28,6 +28,9 @@ GamePlayLayer::GamePlayLayer() : scenePlay(5)
 	_baseBullet = 0;
 	_dynStock = 5;
 	_getDynTag = 0;
+	_Level = 1;
+	_LevelHP = 1;
+	_totalHP = 0;
 }
 
 GamePlayLayer::~GamePlayLayer()
@@ -173,21 +176,41 @@ bool GamePlayLayer::init()
 	//Level
 	def = UserDefault::getInstance();
 	_gunM4A1 = M4A1::create();
-	def->setIntegerForKey("CurrentBullet", 30);
-	_Bullet = def->getIntegerForKey("CurrentBullet");
-	def->setIntegerForKey("CurrentBaseBullet", NUMBER_BULLET_M4A1 + (0.5*_gunM4A1->_Level));
-	_baseBullet = def->getIntegerForKey("CurrentBaseBullet");
-	def->setIntegerForKey("CurrentTotalBullet", NUMBER_BULLET_M4A1);
-	_totalBullet = def->getIntegerForKey("CurrentTotalBullet");
-	_baseBullet = NUMBER_BULLET_M4A1 + (0.5*_gunM4A1->_Level);
-	_gunM4A1->_Stats.setStats(DAMAGE_M4A1 + (pow(10, 1 / _gunM4A1->_Level)*_gunM4A1->_Level), NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1*0.25*_gunM4A1->_Level), PRICE_M4A1*1.5*_gunM4A1->_Level);
+	auto test = def->getStringForKey("CheckPlayer", "New");
+	if (test == "New")
+	{
+		def->setIntegerForKey("CurrentBullet", 30);
+		_Bullet = def->getIntegerForKey("CurrentBullet");
+		def->setIntegerForKey("CurrentBaseBullet", NUMBER_BULLET_M4A1 + (30 * _gunM4A1->_Level));
+		_baseBullet = def->getIntegerForKey("CurrentBaseBullet");
+		def->setIntegerForKey("CurrentTotalBullet", _baseBullet - 30);
+		_totalBullet = def->getIntegerForKey("CurrentTotalBullet");
+
+	}
+	else
+	{
+		_Bullet = def->getIntegerForKey("CurrentBullet");
+		_baseBullet = def->getIntegerForKey("CurrentBaseBullet");
+		_totalBullet = def->getIntegerForKey("CurrentTotalBullet");
+	}
+	_baseBullet = NUMBER_BULLET_M4A1 + (60*1.5*_gunM4A1->_Level);
+	_gunM4A1->_Stats.setStats(DAMAGE_M4A1 + (10*_gunM4A1->_Level), NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1*0.25*_gunM4A1->_Level), PRICE_M4A1*1.5*_gunM4A1->_Level);
 	this->addChild(_gunM4A1);
 	//HP
-	def->getInstance()->setIntegerForKey("LevelHP", 1);
+	def->getInstance()->getIntegerForKey("LevelHP", 1);
 	_HP = new HP();
 	_HP->getLevel();
 	this->addChild(_HP);
 	scheduleUpdate();
+	//Icon HP
+	_iconHP = Sprite::create("icon_potion.png");
+	_iconHP->setPosition(Vec2(winSize.width * 0.85f, winSize.height * 0.87f));
+	_iconHP->setTag(131);
+	this->addChild(_iconHP);
+	_numberHP = Label::createWithTTF(StringUtils::format("%02d", _totalHP), "fonts/Marker Felt.ttf", 20);
+	_iconHP->addChild(_numberHP);
+	_numberHP->setPosition(Vec2(50.0f, 15.0f));
+	_numberHP->enableOutline(cocos2d::Color4B::BLACK, 3);
 	return true;
 }
 
@@ -220,6 +243,7 @@ void GamePlayLayer::createGoldBag(Vec2 deadPos)
 	goldBag->setName("goldBag");
 	goldBag->setScale(0.2f);
 	goldBag->setPosition(deadPos);
+
 
 	auto scaleto = ScaleTo::create(2.0f, 0.3f);
 
@@ -260,6 +284,11 @@ void GamePlayLayer::testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType
 }
 
 /*Tú*/
+void GamePlayLayer::rechargeBullet()
+{
+	_Bullet = 30;
+	_totalBullet = _gunM4A1->_Stats._BulletNumber-30;
+}
 void GamePlayLayer::setTotalMoney(int shopMoney)
 {
 	_totalMoney = shopMoney;
@@ -344,7 +373,10 @@ void GamePlayLayer::TouchResumeButton(Ref* pSender, cocos2d::ui::Widget::TouchEv
 		_labelShop->setVisible(false);
 	}
 }
-
+void GamePlayLayer::rechargeHP()
+{
+	_totalHP = _HP->itemStat._NumberItem;
+}
 void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
 {
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
@@ -353,8 +385,21 @@ void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 		_Shop->setCallBack([=](M4A1* Gun)
 		{
 			this->_Level = Gun->_Level;
-			this->_baseBullet += Gun->_Stats._BulletNumber;
+			this->_baseBullet = Gun->_Stats._BulletNumber;
 			_gunM4A1->_Stats = Gun->_Stats;
+			if (Gun->recharge == true)
+			{
+				this->rechargeBullet();
+			}
+		});
+		_Shop->setCallBackHP([=](HP* Hp)
+		{
+			this->_LevelHP = Hp->Level;
+			_HP->itemStat = Hp->itemStat;
+			if (Hp->recharge == true)
+			{
+				this->rechargeHP();
+			}
 		});
 		_Shop->setGamePlayLayerPtr(this);
 		_Shop->setTotalMoney(_totalMoney);
@@ -375,6 +420,8 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 		Director::getInstance()->end();
 		def->setIntegerForKey("CurrentBullet", _Bullet);
 		def->setIntegerForKey("CurrentTotalBullet", _totalBullet);
+		def->setIntegerForKey("CurrentBaseBullet", _baseBullet);
+		def->setStringForKey("CheckPlayer", "Old");
 		def->flush();
 	}
 }
@@ -481,6 +528,13 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 		_isShootingBegan = false;
 		return true;
 	}
+	else if(_iconHP->getTag()==131)
+	{
+		_hero->healHero();
+		_totalHP--;
+		_isShootingBegan = true;
+		return true;
+	}
 	else
 	{
 		_isShootingBegan = true;
@@ -554,8 +608,22 @@ void GamePlayLayer::update(float dt)
 	{
 		_iconDynamite->setTag(555);
 	}
+	if (_totalHP <= 0)
+	{
+		_iconHP->setTag(121);
+		_totalHP = 0;
+	}
+	else if (_totalHP > 0)
+	{
+		_iconHP->setTag(131);
+	}
+
+	_numberHP->setString(StringUtils::format("%02d", _totalHP));
 	_dynLeft->setString(StringUtils::format("%02d", _dynStock));
 	_bulletInMag->setString(StringUtils::format("%02d / %03d", _Bullet, _totalBullet));
+	def->setIntegerForKey("CurrentBullet", _Bullet);
+	def->setIntegerForKey("CurrentTotalBullet", _totalBullet);
+	def->flush();
 }
 void GamePlayLayer::updatePressed(float dt)
 {
@@ -581,7 +649,7 @@ void GamePlayLayer::updatePressed(float dt)
 void GamePlayLayer::reloading(float dt)
 {
 	_totalBullet += _Bullet;
-	if (_totalBullet > 30)
+	if (_totalBullet >= 30)
 	{
 		_Bullet = 30;
 		_totalBullet -= 30;
@@ -601,8 +669,7 @@ void GamePlayLayer::Shooting()
 	_bullet = _poolBullet->createBullet();
 	this->addChild(_bullet, 2);
 	_bullet->setPosition(START_POS);
-	_bullet->setDamageBullet(30.0f);
-							//_gunM4A1->_Stats._Damage);
+	_bullet->setDamageBullet(_gunM4A1->_Stats._Damage);
 	_bullet->bulletFire(_location);
 }
 

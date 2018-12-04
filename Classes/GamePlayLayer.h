@@ -39,7 +39,8 @@ public:
 	void moneyChange();
 	void CoinFly(Vec2 deadPos);
 	void setTotalMoney(int shopMoney);
-
+	void rechargeBullet();
+	void rechargeHP();
 /*Thanh*/
 	bool onContactBegin(PhysicsContact &contact);
 	void createGoldBag(Vec2 deadPos);
@@ -108,8 +109,10 @@ private:
 	cocos2d::ui::Button* _resumeBtn;
 	cocos2d::ui::Button* _quitBtn;
 	cocos2d::ui::Button* _shopBtn;
+	cocos2d::Sprite* _iconHP;
+	cocos2d::Label* _numberHP;
 	UserDefault* def;
-	int _Level, _Bullet, _baseBullet;
+	int _Level, _Bullet, _baseBullet,_LevelHP,_totalHP;
 	int scenePlay;
 };
 

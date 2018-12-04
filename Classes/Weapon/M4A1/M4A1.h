@@ -21,6 +21,7 @@ public:
 		ShotGun = 2,
 		FireGun = 3
 	};
+	bool recharge = false;
 private:
 	cocos2d::Sprite* _Gun;
 	cocos2d::Sprite* _iconGun;
@@ -30,6 +31,8 @@ private:
 	cocos2d::Label* _labelNum;
 	cocos2d::Sprite* _Price;
 	cocos2d::Label* _labelUpgrade;
+	cocos2d::Sprite* _buyBullet;
+	cocos2d::Label* _labelBuyBullet;
 };
 
 #endif // !_M4A1_H

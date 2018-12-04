@@ -74,6 +74,10 @@ bool Hero::init()
 
 	return true;
 }
+void Hero::healHero()
+{
+	_health += 50;
+}
 
 void Hero::onCollission(GameObject *obj)
 {

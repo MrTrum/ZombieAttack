@@ -20,6 +20,7 @@ public:
 	ItemStats itemStat;
 	void hide();
 	void show();
+	bool recharge = false;
 private:
 	cocos2d::Sprite* _HP;
 	cocos2d::Sprite* _iconHP;
@@ -29,6 +30,8 @@ private:
 	cocos2d::Label* _labelNum;
 	cocos2d::Sprite* _Price;
 	cocos2d::Label* _labelUpgrade;
+	cocos2d::Sprite* _iconBuyHP;
+	cocos2d::Label* _labelBuyHP;
 };
 #endif // !_HP_H
 

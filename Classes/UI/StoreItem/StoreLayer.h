@@ -27,6 +27,8 @@ public:
 	void setTotalMoney(int _GameTotalMoney);
 	void setUpgradeItemIcon(Vector<Sprite>* listSprite);
 	void setCallBack(std::function<void(M4A1* Gun)> callback);
+	void setCallBackHP(std::function<void(HP* HP)> callbackHP);
+	int _chon;
 private:
 	int _shopTotalMoney;
 	cocos2d::ui::Button* _quitShop;
@@ -37,12 +39,16 @@ private:
 	cocos2d::Sprite* _Price;
 	cocos2d::Label* _labelUpgrade;
 	cocos2d::Label* _labelUpgradeItem;
+	Vector<cocos2d::Sprite*> listSpriteItem;
+	Vector<cocos2d::ui::Button*>listButtonItem;
 	GamePlayLayer* _btnGamePlayLayer;
 	M4A1* _iconGun;
 	HP* _iconHP;
 	Money* _Money; 
 	UserDefault* def;
+	
 	std::function<void(M4A1* Gun)> _callback;
+	std::function<void(HP* HP)> _callbackHP;
 };
 
 

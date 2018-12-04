@@ -333,8 +333,7 @@ void PZombie::playDeadAnimation(Vec2 deadPos, std::string stringname)
 
 void PZombie::attackSkill(float delta)
 {
-	auto stringName = convertFromTagToStringAttack(this->getTag());
-	playAttackAnimation(stringName);
+	this->Attack();
 
 	auto playAttackAnimate = DelayTime::create(1.0f);
 

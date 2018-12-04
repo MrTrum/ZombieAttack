@@ -72,8 +72,26 @@ void M4A1::setLabelStats()
 	_labelDmg->setString(_dmgStr);
 	std::string _numStr = StringUtils::format("  %i", _Stats._BulletNumber);
 	_labelNum->setString(_numStr);
+	std::string _priceStr = StringUtils::format("  %i", _Stats._Price);
+	_labelUpgrade->setString(_priceStr);
 }
 void M4A1::show()
 {
-	this->setVisible(true);
+	_Dmg->setVisible(false);
+	_labelDmg->setVisible(false);
+	_bulletNum->setVisible(false);
+	_labelNum->setVisible(false);
+	Size winSize = Director::getInstance()->getWinSize();
+	_buyBullet = Sprite::create("images/bulletNum.png");
+	_buyBullet->setPosition(winSize.height*0.18f, winSize.width*0.28f);
+	_buyBullet->setScale(0.4f);
+	this->addChild(_buyBullet);
+	std::string _dmgStr = StringUtils::format("  +  %i",_Stats._BulletNumber);
+	_labelBuyBullet = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", 30);
+	_labelBuyBullet->setPosition(winSize.height*0.33f, winSize.width*0.27f);
+	this->addChild(_labelBuyBullet);
+	int test = (PRICE_BULLET_M4A1*_Stats._BulletNumber);
+	std::string _priceStr = StringUtils::format("  %i", test);
+	_labelUpgrade->setString(_priceStr);
+
 }

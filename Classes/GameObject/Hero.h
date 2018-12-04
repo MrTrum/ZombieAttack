@@ -38,6 +38,7 @@ public:
 	void						shootAnimation();
 	void						setHealthBar(float percent);
 	void						updateHealthBar(float percent);
+	void						healHero();
 protected:
 	void						onCollission(GameObject *obj) override;
 	void						heroWounded(float delta);

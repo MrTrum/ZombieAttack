@@ -1,4 +1,5 @@
 #include "Item/HP/HP.h"
+#include "Parameter.h"
 USING_NS_CC;
 #define UPGRADEBTN_WIDTH_POSITION 0.185f
 #define UPGRADEBTN_HEIGHT_POSITION 0.25f
@@ -18,21 +19,26 @@ HP::~HP()
 }
 void HP::iconItemShow()
 {
-
+	_basicStat->setVisible(false);
+	_labelStat->setVisible(false);
+	_itemNum->setVisible(false);
+	_labelNum->setVisible(false);
+	Size winSize = Director::getInstance()->getWinSize();
+	_iconBuyHP = Sprite::create("images/Heart.png");
+	_iconBuyHP->setPosition(winSize.height*(0.18f + 0.49f), winSize.width*0.28f);
+	_iconBuyHP->setScale(0.5f);
+	this->addChild(_iconBuyHP);
+	std::string _dmgStr = StringUtils::format("  +  %i", itemStat._NumberItem);
+	_labelBuyHP = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", 30);
+	_labelBuyHP->setPosition(winSize.height*(0.33f + 0.49f), winSize.width*0.28f);
+	this->addChild(_labelBuyHP);
+	std::string _priceStr = StringUtils::format("  %i", (PRICE_NUMBER_HP*itemStat._NumberItem));
+	_labelUpgrade->setString(_priceStr);
 }
 void HP::iconItemHide()
 {
+	
 
-}
-void HP::iconUpgradeShow()
-{
-	_basicStat->setVisible(true);
-	_labelStat->setVisible(true);
-}
-void HP::iconUpgradeHide(int number, int price)
-{
-	_basicStat->setVisible(false);
-	_labelStat->setVisible(false);
 }
 void HP::setIcon()
 {
