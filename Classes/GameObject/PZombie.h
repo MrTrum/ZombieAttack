@@ -23,6 +23,11 @@ public:
 	float damage;
 
 	static float damageOfZombie;
+	enum Stage
+	{
+		DEAD,
+		ALIVE
+	};
 private:
 	Sprite*						_spr;
 	int							_tag;

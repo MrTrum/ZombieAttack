@@ -21,6 +21,8 @@
 
 USING_NS_CC;
 
+#define TAG_DYNAMITE_BTN	111
+#define TAG_HEALTH_BTN		222
 GamePlayLayer::GamePlayLayer() : scenePlay(5)
 {
 	_totalBullet = 0;
@@ -205,7 +207,7 @@ bool GamePlayLayer::init()
 	//Icon HP
 	_iconHP = Sprite::create("icon_potion.png");
 	_iconHP->setPosition(Vec2(winSize.width * 0.85f, winSize.height * 0.87f));
-	_iconHP->setTag(131);
+	_iconHP->setTag(TAG_HEALTH_BTN);
 	this->addChild(_iconHP);
 	_numberHP = Label::createWithTTF(StringUtils::format("%02d", _totalHP), "fonts/Marker Felt.ttf", 20);
 	_iconHP->addChild(_numberHP);
@@ -362,7 +364,7 @@ void GamePlayLayer::TouchResumeButton(Ref* pSender, cocos2d::ui::Widget::TouchEv
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
 		Director::getInstance()->resume();
-		_iconDynamite->setTag(555);
+		_iconDynamite->setTag(TAG_DYNAMITE_BTN);
 		_woodPane->setVisible(false);
 		_blurBG->setVisible(false);
 		_resumeBtn->setVisible(false);
@@ -434,7 +436,7 @@ void GamePlayLayer::addUI()
 	_iconDynamite = Sprite::create("btn_dynamite.png");
 	addChild(_iconDynamite, 3);
 	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
-	_iconDynamite->setTag(555);
+	_iconDynamite->setTag(TAG_DYNAMITE_BTN);
 	_sprDynamite = Sprite::create("weapon_dynamite.png");
 	addChild(_sprDynamite, 2);
 	_sprDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
@@ -499,9 +501,8 @@ void GamePlayLayer::onTouchReloadBtn(Ref* pSender, cocos2d::ui::Widget::TouchEve
 }
 bool GamePlayLayer::isTouchingSprite(Touch* touch)
 {
-	if (_getDynTag == 555)
+	if (_getDynTag == TAG_DYNAMITE_BTN)
 	{
-		//return (ccpDistance(_iconDynamite->getPosition(), this->touchToPoint(touch)) < 100.0f);
 		auto diff = _iconDynamite->getPosition() - this->touchToPoint(touch);
 		return diff.length() < 100.0f;
 	}
@@ -517,9 +518,9 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
 	Point location = touch->getLocationInView();
 	_location = CCDirector::getInstance()->convertToGL(location);
-	if (_iconDynamite->getBoundingBox().containsPoint(_location) && _iconDynamite->getTag() == 555)
+	if (_iconDynamite->getBoundingBox().containsPoint(_location) && _iconDynamite->getTag() == TAG_DYNAMITE_BTN)
 	{
-		_getDynTag = 555;
+		_getDynTag = TAG_DYNAMITE_BTN;
 		if (this->isTouchingSprite(touch))
 		{
 			this->_touchOffset = _iconDynamite->getPosition() -
@@ -528,7 +529,7 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 		_isShootingBegan = false;
 		return true;
 	}
-	else if(_iconHP->getTag()==131)
+	else if(_iconHP->getTag()==TAG_HEALTH_BTN)
 	{
 		_hero->healHero();
 		_totalHP--;
@@ -550,7 +551,7 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 	_location = CCDirector::getInstance()->convertToGL(location);
 	if (touch && _touchOffset.x && _touchOffset.y)
 	{
-		if (_getDynTag == 555) 
+		if (_getDynTag == TAG_DYNAMITE_BTN) 
 		{
 			_sprDynamite->setVisible(true);
 			_sprDynamite->setPosition(this->touchToPoint(touch) + this->_touchOffset);
@@ -562,7 +563,7 @@ void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
 {
 	Size winSize = Director::getInstance()->getWinSize();
 	_isShootingBegan = false;
-	if (_getDynTag = 555)
+	if (_getDynTag = TAG_DYNAMITE_BTN)
 	{
 		Vec2 droppedPos = _sprDynamite->getPosition();
 		_sprDynamite->setVisible(false);
@@ -606,7 +607,7 @@ void GamePlayLayer::update(float dt)
 	}
 	if (_dynStock > 0)
 	{
-		_iconDynamite->setTag(555);
+		_iconDynamite->setTag(TAG_DYNAMITE_BTN);
 	}
 	if (_totalHP <= 0)
 	{
@@ -615,7 +616,7 @@ void GamePlayLayer::update(float dt)
 	}
 	else if (_totalHP > 0)
 	{
-		_iconHP->setTag(131);
+		_iconHP->setTag(TAG_HEALTH_BTN);
 	}
 
 	_numberHP->setString(StringUtils::format("%02d", _totalHP));

@@ -126,6 +126,12 @@
     <ClCompile Include="..\Classes\GameObject\CreateTestLine.cpp">
       <Filter>src\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\MapScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageBtn.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -208,6 +214,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GameObject\CreateTestLine.h">
       <Filter>src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MapScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageBtn.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
