@@ -61,7 +61,7 @@ Scene * GamePlayLayer::createGamePlayLayer()
 	PhysicsWorld* world = scene->getPhysicsWorld();
 	//remember to turn off debug when release
 	world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	GamePlayLayer* node = GamePlayLayer::create(1);
+	GamePlayLayer* node = GamePlayLayer::create(6);
 	scene->addChild(node);
 	return scene;
 }

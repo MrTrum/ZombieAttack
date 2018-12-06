@@ -39,7 +39,7 @@ private:
 	std::vector<float>			_listHealthZombie;
 	//bool						_isWalk;
 	//bool						_isAttack;
-	bool						_isDead;
+	/*bool						_isDead;*/
 public:
 	PZombie();
 	~PZombie();
@@ -64,7 +64,7 @@ public:
 	std::string					convertFromTagToStringDead(int tag);
 	std::string					convertFromTagToStringSkill(int tag);
 	void						droppedItems(Vec2 deadPos);
-	void						attackSkill(float delta);
+	void						attackSkill();
 	void						attackAndFire(float delta);
 	void						walkAndMove();
 	void						Move(float time, Vec2& target);

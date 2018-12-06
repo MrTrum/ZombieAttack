@@ -8,7 +8,7 @@
 USING_NS_CC;
 
 
-PZombie::PZombie() : _isDead(false)
+PZombie::PZombie()
 {
 	_poolSkill = new PoolSkill();
 	for (int i = 0; i < 11; i++)
@@ -199,7 +199,8 @@ void PZombie::onCollission(GameObject *obj)
 	}
 	else if (obj->getTag() == TAG_LINE && (this->getTag() >= TAG_ZOMBIE6 && this->getTag() <= TAG_ZOMBIE11))
 	{
-		scheduleOnce(schedule_selector(PZombie::attackSkill), 0.0f);
+		this->stopActionByTag(TAG_ACTION_MOVETO_ZOMBIE);
+		attackSkill();
 	}
 	else if (obj->getTag() == TAG_LINE2)
 	{
@@ -212,6 +213,7 @@ void PZombie::checkDamage()
 	this->health -= this->damage;
 	if (this->health <= 0)
 	{
+		this->getPhysicsBody()->setContactTestBitmask(false);
 		this->stopActionByTag(TAG_ACTION_MOVETO_ZOMBIE);
 		this->Dead();
 	}
@@ -220,7 +222,6 @@ void PZombie::checkDamage()
 
 void PZombie::Dead()
 {
-	this->getPhysicsBody()->setContactTestBitmask(false);
 	this->unschedule(schedule_selector(PZombie::attackAndFire));
 	auto deadPos = this->getPosition();
 	auto stringName = convertFromTagToStringDead(this->getTag());
@@ -229,7 +230,7 @@ void PZombie::Dead()
 
 void PZombie::Attack()
 {
-	if (_isDead == false)
+	if (this->health > 0)
 	{
 		auto stringName = convertFromTagToStringAttack(this->getTag());
 		playAttackAnimation(stringName);
@@ -260,6 +261,7 @@ void PZombie::playWalkAnimation(std::string zombieName)
 	}
 	animation->setDelayPerUnit(1 / TIME_ACTION_ANIMATION);
 	auto *animate = Animate::create(animation);
+	animate->setTag(TAG_ACTION_WALK_ZOMBIE);
 	_spr->runAction(RepeatForever::create(animate));
 }
 
@@ -302,8 +304,8 @@ std::string	PZombie::convertFromTagToStringDead(int tag)
 
 void PZombie::playDeadAnimation(Vec2 deadPos, std::string stringname)
 {
-	_isDead = true;
 	_spr->stopAllActions();
+	this->stopAllActions();
 	_spr->setSpriteFrame(stringname + "1.png");
 	auto *animation = Animation::create();
 	for (int i = 1; i < 9; i++)
@@ -322,19 +324,14 @@ void PZombie::playDeadAnimation(Vec2 deadPos, std::string stringname)
 		this->removeFromParent();
 		this->Walk();
 	});
-	auto callback = CallFunc::create([=]
-	{
-		_isDead = false;
-	});
-	auto squ = Sequence::create(animate, zombieBackPool, callback, nullptr);
+	auto squ = Sequence::create(animate, zombieBackPool, nullptr);
 	_spr->runAction(squ);
 	ptrGamePlayLayer->CoinFly(deadPos);
 }
 
-void PZombie::attackSkill(float delta)
+void PZombie::attackSkill()
 {
 	this->Attack();
-
 	auto playAttackAnimate = DelayTime::create(1.0f);
 
 	auto fire = CallFunc::create([=]
@@ -385,7 +382,7 @@ void PZombie::walkAndMove()
 	this->playWalkAnimation(stringName);
 	int speed = _target.x / TIME_MOVETO_ZOMBIE_SKILL;
 	int distance = this->getPositionX() - _target.x;
-	float time = distance / speed - 2.0f;
+	float time = distance / speed - 4.0f;
 
 	auto move = CallFunc::create([=]
 	{

@@ -100,7 +100,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	// tắt start scene để test cho lẹ.
 	//auto scene = GamePlayLayer::createGamePlayLayer();
 	//auto scene = MenuLayer::createScene();
-	auto scene = MapScene::createMap();
+	auto scene = GamePlayLayer::createGamePlayLayer();
     // run
     director->runWithScene(scene);
 

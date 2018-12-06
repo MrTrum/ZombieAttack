@@ -62,7 +62,8 @@
 #define	TAG_DYNAMITE							28
 #define	TAG_ACTION_MOVETO_ZOMBIE				29
 #define	TAG_ACTION_ATTACK_ZOMBIE				30
-#define	TAG_BORDER								31
+#define	TAG_ACTION_WALK_ZOMBIE					31
+#define	TAG_BORDER								32
 
 //Số lượng tạo Zombie
 #define ZOMBIE_SIZE								20
