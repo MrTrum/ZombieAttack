@@ -13,7 +13,7 @@ public:
 	void setLabelStats();
 	void hide();
 	void show();
-	int _Level;
+	int _Level,baseBullet;
 	WeaponStats _Stats;
 	enum gunType
 	{

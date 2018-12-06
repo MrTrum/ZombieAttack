@@ -44,6 +44,7 @@ public:
 	void setTotalMoney(int shopMoney);
 	void rechargeBullet();
 	void rechargeHP();
+	void potionButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 /*Thanh*/
 	bool onContactBegin(PhysicsContact &contact);
 	void createGoldBag(Vec2 deadPos);

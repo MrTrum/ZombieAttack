@@ -89,6 +89,8 @@
 #define DAMAGE_OF_ZOMBIE2						0.5f
 //DAMAGE M4A1
 #define DAMAGE_M4A1                             20
+//NUMBER BULLET SHOOT
+#define NUMBER_BULLET_SHOOT						30
 //NUMBER BULLET M4A1
 #define NUMBER_BULLET_M4A1                      120
 //PRICE M4A1

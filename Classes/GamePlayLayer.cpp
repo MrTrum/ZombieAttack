@@ -186,7 +186,13 @@ bool GamePlayLayer::init(int playStage)
 	def = UserDefault::getInstance();
 	_gunM4A1 = M4A1::create();
 	auto test = def->getStringForKey("CheckPlayer", "New");
-	if (test == "New")
+	def->setIntegerForKey("CurrentBullet", 30);
+	_Bullet = def->getIntegerForKey("CurrentBullet");
+	def->setIntegerForKey("CurrentBaseBullet", NUMBER_BULLET_SHOOT + (10 * _gunM4A1->_Level));
+	_baseBullet = def->getIntegerForKey("CurrentBaseBullet");
+	def->setIntegerForKey("CurrentTotalBullet", NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1 * 0.25*_gunM4A1->_Level)-30);
+	_totalBullet = def->getIntegerForKey("CurrentTotalBullet");
+	/*if (test == "New")
 	{
 		def->setIntegerForKey("CurrentBullet", 30);
 		_Bullet = def->getIntegerForKey("CurrentBullet");
@@ -201,9 +207,10 @@ bool GamePlayLayer::init(int playStage)
 		_Bullet = def->getIntegerForKey("CurrentBullet");
 		_baseBullet = def->getIntegerForKey("CurrentBaseBullet");
 		_totalBullet = def->getIntegerForKey("CurrentTotalBullet");
-	}
-	_baseBullet = NUMBER_BULLET_M4A1 + (60 * 1.5*_gunM4A1->_Level);
-	_gunM4A1->_Stats.setStats(DAMAGE_M4A1 + (10 * _gunM4A1->_Level), NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1*0.25*_gunM4A1->_Level), PRICE_M4A1*1.5*_gunM4A1->_Level);
+	}*/
+	_baseBullet = NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1 * 0.25*_gunM4A1->_Level);
+	_gunM4A1->baseBullet = _baseBullet;
+	_gunM4A1->_Stats.setStats(DAMAGE_M4A1 + (10 * _gunM4A1->_Level), NUMBER_BULLET_SHOOT + (10 * _gunM4A1->_Level), PRICE_M4A1*1.5*_gunM4A1->_Level);
 	this->addChild(_gunM4A1);
 	//HP
 	def->getInstance()->getIntegerForKey("LevelHP", 1);
@@ -212,12 +219,17 @@ bool GamePlayLayer::init(int playStage)
 	this->addChild(_HP);
 	scheduleUpdate();
 	//Icon HP
-	_iconHP = Sprite::create("icon_potion.png");
+	/*_iconHP = Sprite::create("icon_potion.png");
 	_iconHP->setPosition(Vec2(winSize.width * 0.85f, winSize.height * 0.87f));
 	_iconHP->setTag(TAG_HEALTH_BTN);
-	this->addChild(_iconHP);
+	this->addChild(_iconHP);*/
+	
+	auto buttonHide = cocos2d::ui::Button::create("icon_potion.png");
+	this->addChild(buttonHide, 2);
+	buttonHide->setPosition(Vec2(winSize.width * 0.85f, winSize.height * 0.87f));
+	buttonHide->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::potionButton, this));
 	_numberHP = Label::createWithTTF(StringUtils::format("%02d", _totalHP), "fonts/Marker Felt.ttf", 20);
-	_iconHP->addChild(_numberHP);
+	buttonHide->addChild(_numberHP);
 	_numberHP->setPosition(Vec2(50.0f, 15.0f));
 	_numberHP->enableOutline(cocos2d::Color4B::BLACK, 3);
 #pragma endregion
@@ -290,7 +302,8 @@ void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 		_Shop->setCallBack([=](M4A1* Gun)
 		{
 			this->_Level = Gun->_Level;
-			this->_baseBullet = Gun->_Stats._BulletNumber;
+			this->_totalBullet = Gun->baseBullet;
+			_Bullet = Gun->_Stats._BulletNumber;
 			_gunM4A1->_Stats = Gun->_Stats;
 			if (Gun->recharge == true)
 			{
@@ -360,13 +373,6 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 		_isShootingBegan = false;
 		return true;
 	}
-	else if (_iconHP->getTag() == TAG_HEALTH_BTN)
-	{
-		_hero->healHero();
-		_totalHP--;
-		_isShootingBegan = true;
-		return true;
-	}
 	else
 	{
 		_isShootingBegan = true;
@@ -375,7 +381,21 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 	return false;
 
 }
-
+void GamePlayLayer::potionButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
+{
+	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
+	{
+		if (_totalHP <= 0)
+		{
+			_totalHP = 0;
+		}
+		else
+		{
+			_hero->healHero();
+			_totalHP--;
+		}
+	}
+}
 void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
 	Point location = touch->getLocationInView();
@@ -461,7 +481,7 @@ void GamePlayLayer::createGoldBag(Vec2 deadPos)
 void GamePlayLayer::rechargeBullet()
 {
 	_Bullet = 30;
-	_totalBullet = _gunM4A1->_Stats._BulletNumber - 30;
+	_totalBullet = _gunM4A1->baseBullet - 30;
 }
 
 void GamePlayLayer::setTotalMoney(int shopMoney)
@@ -631,7 +651,7 @@ void GamePlayLayer::update(float dt)
 	{
 		_iconDynamite->setTag(TAG_DYNAMITE_BTN);
 	}
-	if (_totalHP <= 0)
+	/*if (_totalHP <= 0)
 	{
 		_iconHP->setTag(121);
 		_totalHP = 0;
@@ -639,7 +659,7 @@ void GamePlayLayer::update(float dt)
 	else if (_totalHP > 0)
 	{
 		_iconHP->setTag(TAG_HEALTH_BTN);
-	}
+	}*/
 
 	_numberHP->setString(StringUtils::format("%02d", _totalHP));
 	_dynLeft->setString(StringUtils::format("%02d", _dynStock));

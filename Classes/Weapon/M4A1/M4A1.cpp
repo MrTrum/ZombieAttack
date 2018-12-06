@@ -11,6 +11,8 @@
 USING_NS_CC;
 M4A1::M4A1()
 {
+	_Level = 0;
+	baseBullet = 0;
 }
 
 M4A1::~M4A1()
@@ -64,7 +66,12 @@ void M4A1::setIcon()
 }
 void M4A1::hide()
 {
-	this->setVisible(false);
+	_Dmg->setVisible(true);
+	_labelDmg->setVisible(true);
+	_bulletNum->setVisible(true);
+	_labelNum->setVisible(true);
+	_buyBullet->setVisible(false);
+	_labelBuyBullet->setVisible(false);
 }
 void M4A1::setLabelStats()
 {
@@ -86,7 +93,7 @@ void M4A1::show()
 	_buyBullet->setPosition(winSize.height*0.18f, winSize.width*0.28f);
 	_buyBullet->setScale(0.4f);
 	this->addChild(_buyBullet);
-	std::string _dmgStr = StringUtils::format("  +  %i",_Stats._BulletNumber);
+	std::string _dmgStr = StringUtils::format("  +  %i", _Stats._BulletNumber * 2);
 	_labelBuyBullet = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", 30);
 	_labelBuyBullet->setPosition(winSize.height*0.33f, winSize.width*0.27f);
 	this->addChild(_labelBuyBullet);
