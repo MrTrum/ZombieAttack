@@ -19,14 +19,17 @@ class PoolExplo;
 class Dynamite;
 class Coin;
 
-using namespace cocos2d;
+USING_NS_CC;
+
+class GamePlayLayer;
 class GamePlayLayer : public cocos2d::Node
 {
 public:
 	GamePlayLayer();
 	~GamePlayLayer();
-	CREATE_FUNC(GamePlayLayer);
-	virtual bool init();
+	//CREATE_FUNC(GamePlayLayer);
+	bool init(int playStage);
+	static GamePlayLayer* create(int playStage);
 	static cocos2d::Scene* createGamePlayLayer();
 	/*Tú*/
 public:

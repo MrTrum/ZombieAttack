@@ -23,7 +23,7 @@ USING_NS_CC;
 
 #define TAG_DYNAMITE_BTN	111
 #define TAG_HEALTH_BTN		222
-GamePlayLayer::GamePlayLayer() : scenePlay(5)
+GamePlayLayer::GamePlayLayer()
 {
 	_totalBullet = 0;
 	_Bullet = 0;
@@ -33,6 +33,22 @@ GamePlayLayer::GamePlayLayer() : scenePlay(5)
 	_Level = 1;
 	_LevelHP = 1;
 	_totalHP = 0;
+}
+
+GamePlayLayer *GamePlayLayer::create(int playStage)
+{
+	GamePlayLayer *pRet = new(std::nothrow) GamePlayLayer();
+	if (pRet && pRet->init(playStage))
+	{
+		pRet->autorelease();
+		return pRet;
+	}
+	else
+	{
+		delete pRet;
+		pRet = nullptr;
+		return nullptr;
+	}
 }
 
 GamePlayLayer::~GamePlayLayer()
@@ -45,12 +61,12 @@ Scene * GamePlayLayer::createGamePlayLayer()
 	PhysicsWorld* world = scene->getPhysicsWorld();
 	//remember to turn off debug when release
 	world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	GamePlayLayer* node = GamePlayLayer::create();
+	GamePlayLayer* node = GamePlayLayer::create(1);
 	scene->addChild(node);
 	return scene;
 }
 
-bool GamePlayLayer::init()
+bool GamePlayLayer::init(int playStage)
 {
 	if (!Node::init())
 	{
@@ -58,27 +74,21 @@ bool GamePlayLayer::init()
 	}
 	Size winSize = Director::getInstance()->getWinSize();
 	this->removeAllChildren();
-	/*Khoa*/
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("redneck_idle.plist",
-		"redneck_idle.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/shotgun.plist",
-		"weapon/shotgun.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("SGidle.plist",
-		"SGidle.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/SGidle.plist",
-		"weapon/SGidle.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/M16idle.plist",
-		"weapon/M16idle.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/M16firing.plist",
-		"weapon/M16firing.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("icon.plist",
-		"icon.png");
-	//Set tấm ảnh sau khi texturePacker
+	scenePlay = playStage;
+
+#pragma region Plists
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("redneck_idle.plist", "redneck_idle.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/M16idle.plist", "weapon/M16idle.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/M16firing.plist", "weapon/M16firing.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("icon.plist", "icon.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsSkill.plist", "images/assetsSkill.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist", "images/coin.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/numbers.plist", "images/numbers.png");
+#pragma endregion
+
+#pragma region Components
 	//add BG
-	//_myStore = MyStore::create();
-	//addChild(_myStore, 5);
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg);
 	auto _gBorder = Border::create();
@@ -100,7 +110,6 @@ bool GamePlayLayer::init()
 	listenerTouch->onTouchCancelled = CC_CALLBACK_2(GamePlayLayer::onTouchCancelled, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerTouch, this);
 
-
 	auto locationHero = _hero->getPosition();
 
 	auto getline = CreateTestLine::create(TAG_LINE, locationHero);
@@ -117,11 +126,9 @@ bool GamePlayLayer::init()
 	auto listenEventPhysic = EventListenerPhysicsContact::create();
 	listenEventPhysic->onContactBegin = CC_CALLBACK_1(GamePlayLayer::onContactBegin, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenEventPhysic, this);
+#pragma endregion
 
-	/*Tú*/
-
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist", "images/coin.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/numbers.plist", "images/numbers.png");
+#pragma region UI
 	//tao icon tien
 	this->IconCoinCreate();
 	// tạo số tiền
@@ -195,8 +202,8 @@ bool GamePlayLayer::init()
 		_baseBullet = def->getIntegerForKey("CurrentBaseBullet");
 		_totalBullet = def->getIntegerForKey("CurrentTotalBullet");
 	}
-	_baseBullet = NUMBER_BULLET_M4A1 + (60*1.5*_gunM4A1->_Level);
-	_gunM4A1->_Stats.setStats(DAMAGE_M4A1 + (10*_gunM4A1->_Level), NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1*0.25*_gunM4A1->_Level), PRICE_M4A1*1.5*_gunM4A1->_Level);
+	_baseBullet = NUMBER_BULLET_M4A1 + (60 * 1.5*_gunM4A1->_Level);
+	_gunM4A1->_Stats.setStats(DAMAGE_M4A1 + (10 * _gunM4A1->_Level), NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1*0.25*_gunM4A1->_Level), PRICE_M4A1*1.5*_gunM4A1->_Level);
 	this->addChild(_gunM4A1);
 	//HP
 	def->getInstance()->getIntegerForKey("LevelHP", 1);
@@ -213,8 +220,195 @@ bool GamePlayLayer::init()
 	_iconHP->addChild(_numberHP);
 	_numberHP->setPosition(Vec2(50.0f, 15.0f));
 	_numberHP->enableOutline(cocos2d::Color4B::BLACK, 3);
+#pragma endregion
+
 	return true;
 }
+
+#pragma region Buttons Event
+void GamePlayLayer::testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
+{
+	Size winSize = Director::getInstance()->getWinSize();
+	auto goldBag2 = Sprite::create("goldBag.png");
+	goldBag2->setName("goldBag2");
+	this->addChild(goldBag2, 3);
+	goldBag2->setScale(0.2f);
+	goldBag2->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+
+	auto scaleto = ScaleTo::create(2.0f, 0.4f);
+
+	auto removeSpritesBag = CallFunc::create([=]
+	{
+		this->removeChildByName("goldBag");
+		this->removeChildByName("goldBag2");
+		this->removeChildByName("buttonHide");
+	});
+
+	auto sqe = Sequence::create(scaleto, removeSpritesBag, nullptr);
+	goldBag2->runAction(sqe);
+}
+
+void GamePlayLayer::TouchPauseButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
+{
+	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
+	{
+		Director::getInstance()->pause();
+		_iconDynamite->setTag(554);
+		_woodPane->setVisible(true);
+		_blurBG->setVisible(true);
+		_resumeBtn->setVisible(true);
+		_labelResume->setVisible(true);
+		_quitBtn->setVisible(true);
+		_labelQuit->setVisible(true);
+		_shopBtn->setVisible(true);
+		_labelShop->setVisible(true);
+	}
+}
+
+void GamePlayLayer::TouchResumeButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
+{
+	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
+	{
+		Director::getInstance()->resume();
+		_iconDynamite->setTag(TAG_DYNAMITE_BTN);
+		_woodPane->setVisible(false);
+		_blurBG->setVisible(false);
+		_resumeBtn->setVisible(false);
+		_labelResume->setVisible(false);
+		_quitBtn->setVisible(false);
+		_labelQuit->setVisible(false);
+		_shopBtn->setVisible(false);
+		_labelShop->setVisible(false);
+	}
+}
+
+void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
+{
+	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
+	{
+		_Shop = StoreLayer::create();
+		_Shop->setCallBack([=](M4A1* Gun)
+		{
+			this->_Level = Gun->_Level;
+			this->_baseBullet = Gun->_Stats._BulletNumber;
+			_gunM4A1->_Stats = Gun->_Stats;
+			if (Gun->recharge == true)
+			{
+				this->rechargeBullet();
+			}
+		});
+		_Shop->setCallBackHP([=](HP* Hp)
+		{
+			this->_LevelHP = Hp->Level;
+			_HP->itemStat = Hp->itemStat;
+			if (Hp->recharge == true)
+			{
+				this->rechargeHP();
+			}
+		});
+		_Shop->setGamePlayLayerPtr(this);
+		_Shop->setTotalMoney(_totalMoney);
+		_Money->setVisible(false);
+		_resumeBtn->setVisible(false);
+		_labelResume->setVisible(false);
+		_quitBtn->setVisible(false);
+		_labelQuit->setVisible(false);
+		_shopBtn->setVisible(false);
+		_labelShop->setVisible(false);
+		this->addChild(_Shop, 10);
+	}
+}
+
+void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
+{
+	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
+	{
+		Director::getInstance()->end();
+		def->setIntegerForKey("CurrentBullet", _Bullet);
+		def->setIntegerForKey("CurrentTotalBullet", _totalBullet);
+		def->setIntegerForKey("CurrentBaseBullet", _baseBullet);
+		def->setStringForKey("CheckPlayer", "Old");
+		def->flush();
+	}
+}
+
+void GamePlayLayer::onTouchReloadBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
+{
+	if (_Bullet != 30)
+	{
+		_isReloading = true;
+		throwOutputText("Reloading", 2);
+		scheduleOnce(schedule_selector(GamePlayLayer::reloading), 2.0f);
+	}
+}
+
+#pragma endregion
+
+#pragma region Touch Events
+bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
+{
+	Point location = touch->getLocationInView();
+	_location = CCDirector::getInstance()->convertToGL(location);
+	if (_iconDynamite->getBoundingBox().containsPoint(_location) && _iconDynamite->getTag() == TAG_DYNAMITE_BTN)
+	{
+		_getDynTag = TAG_DYNAMITE_BTN;
+		if (this->isTouchingSprite(touch))
+		{
+			this->_touchOffset = _iconDynamite->getPosition() -
+				this->touchToPoint(touch);
+		}
+		_isShootingBegan = false;
+		return true;
+	}
+	else if (_iconHP->getTag() == TAG_HEALTH_BTN)
+	{
+		_hero->healHero();
+		_totalHP--;
+		_isShootingBegan = true;
+		return true;
+	}
+	else
+	{
+		_isShootingBegan = true;
+		return true;
+	}
+	return false;
+
+}
+
+void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
+{
+	Point location = touch->getLocationInView();
+	_location = CCDirector::getInstance()->convertToGL(location);
+	if (touch && _touchOffset.x && _touchOffset.y)
+	{
+		if (_getDynTag == TAG_DYNAMITE_BTN)
+		{
+			_sprDynamite->setVisible(true);
+			_sprDynamite->setPosition(this->touchToPoint(touch) + this->_touchOffset);
+		}
+	}
+}
+
+void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
+{
+	Size winSize = Director::getInstance()->getWinSize();
+	_isShootingBegan = false;
+	if (_getDynTag = TAG_DYNAMITE_BTN)
+	{
+		Vec2 droppedPos = _sprDynamite->getPosition();
+		_sprDynamite->setVisible(false);
+		throwDynamite(droppedPos);
+		_sprDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
+		_getDynTag = 0;
+	}
+}
+
+void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event)
+{
+
+}
+#pragma endregion
 
 bool GamePlayLayer::onContactBegin(PhysicsContact &contact)
 {
@@ -263,39 +457,19 @@ void GamePlayLayer::createGoldBag(Vec2 deadPos)
 	goldBag->runAction(sqe);
 }
 
-void GamePlayLayer::testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
-{
-	Size winSize = Director::getInstance()->getWinSize();
-	auto goldBag2 = Sprite::create("goldBag.png");
-	goldBag2->setName("goldBag2");
-	this->addChild(goldBag2, 3);
-	goldBag2->setScale(0.2f);
-	goldBag2->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
-	
-	auto scaleto = ScaleTo::create(2.0f, 0.4f);
-
-	auto removeSpritesBag = CallFunc::create([=]
-	{
-		this->removeChildByName("goldBag");
-		this->removeChildByName("goldBag2");
-		this->removeChildByName("buttonHide");
-	});
-
-	auto sqe = Sequence::create(scaleto, removeSpritesBag, nullptr);
-	goldBag2->runAction(sqe);
-}
-
 /*Tú*/
 void GamePlayLayer::rechargeBullet()
 {
 	_Bullet = 30;
-	_totalBullet = _gunM4A1->_Stats._BulletNumber-30;
+	_totalBullet = _gunM4A1->_Stats._BulletNumber - 30;
 }
+
 void GamePlayLayer::setTotalMoney(int shopMoney)
 {
 	_totalMoney = shopMoney;
 	_Money->setMoney(_totalMoney);
 }
+
 void GamePlayLayer::resumeGame()
 {
 	_woodPane->setVisible(true);
@@ -308,6 +482,7 @@ void GamePlayLayer::resumeGame()
 	_labelShop->setVisible(true);
 	_Money->setVisible(true);
 }
+
 void GamePlayLayer::moneyChange()
 {
 	_totalMoney = _totalMoney + 100;
@@ -329,6 +504,7 @@ void GamePlayLayer::CoinFly(Vec2 deadPos)
 	Sequence* coinloop = Sequence::create(loop, DelayTime::create(0.5), nullptr);
 	this->runAction(coinloop);
 }
+
 void GamePlayLayer::IconCoinCreate()
 {
 	Size winSize = Director::getInstance()->getWinSize();
@@ -342,92 +518,10 @@ void GamePlayLayer::IconCoinCreate()
 	this->addChild(_IconCoin, 4);
 }
 
-void GamePlayLayer::TouchPauseButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
-{
-	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
-	{
-		Director::getInstance()->pause();
-		_iconDynamite->setTag(554);
-		_woodPane->setVisible(true);
-		_blurBG->setVisible(true);
-		_resumeBtn->setVisible(true);
-		_labelResume->setVisible(true);
-		_quitBtn->setVisible(true);
-		_labelQuit->setVisible(true);
-		_shopBtn->setVisible(true);
-		_labelShop->setVisible(true);
-	}
-}
-
-void GamePlayLayer::TouchResumeButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
-{
-	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
-	{
-		Director::getInstance()->resume();
-		_iconDynamite->setTag(TAG_DYNAMITE_BTN);
-		_woodPane->setVisible(false);
-		_blurBG->setVisible(false);
-		_resumeBtn->setVisible(false);
-		_labelResume->setVisible(false);
-		_quitBtn->setVisible(false);
-		_labelQuit->setVisible(false);
-		_shopBtn->setVisible(false);
-		_labelShop->setVisible(false);
-	}
-}
 void GamePlayLayer::rechargeHP()
 {
 	_totalHP = _HP->itemStat._NumberItem;
 }
-void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
-{
-	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
-	{
-		_Shop = StoreLayer::create();
-		_Shop->setCallBack([=](M4A1* Gun)
-		{
-			this->_Level = Gun->_Level;
-			this->_baseBullet = Gun->_Stats._BulletNumber;
-			_gunM4A1->_Stats = Gun->_Stats;
-			if (Gun->recharge == true)
-			{
-				this->rechargeBullet();
-			}
-		});
-		_Shop->setCallBackHP([=](HP* Hp)
-		{
-			this->_LevelHP = Hp->Level;
-			_HP->itemStat = Hp->itemStat;
-			if (Hp->recharge == true)
-			{
-				this->rechargeHP();
-			}
-		});
-		_Shop->setGamePlayLayerPtr(this);
-		_Shop->setTotalMoney(_totalMoney);
-		_Money->setVisible(false);
-		_resumeBtn->setVisible(false);
-		_labelResume->setVisible(false);
-		_quitBtn->setVisible(false);
-		_labelQuit->setVisible(false);
-		_shopBtn->setVisible(false);
-		_labelShop->setVisible(false);
-		this->addChild(_Shop, 10);
-	}
-}
-void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
-{
-	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
-	{
-		Director::getInstance()->end();
-		def->setIntegerForKey("CurrentBullet", _Bullet);
-		def->setIntegerForKey("CurrentTotalBullet", _totalBullet);
-		def->setIntegerForKey("CurrentBaseBullet", _baseBullet);
-		def->setStringForKey("CheckPlayer", "Old");
-		def->flush();
-	}
-}
-
 /*Khoa*/
 void GamePlayLayer::addUI()
 {
@@ -455,11 +549,11 @@ void GamePlayLayer::addUI()
 	_outputTxt->setPosition(winSize.width * 0.5f, winSize.height * 0.75f);
 	Blink *rdTxtBlink = Blink::create(5, 12);
 	_outputTxt->runAction(rdTxtBlink);
-	
+
 	throwOutputText("READY !!!!", 5);
 	//paused effect
 	_blurBG = Sprite::create("Untitled.png");
-	addChild(_blurBG,4);
+	addChild(_blurBG, 4);
 	_blurBG->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	float scaleX = winSize.width / _blurBG->getContentSize().width;
 	float scaleY = winSize.height / _blurBG->getContentSize().height;
@@ -477,7 +571,7 @@ void GamePlayLayer::addUI()
 	auto _sprMag = Sprite::create("oval.png");
 	_sprMag->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_sprMag->setPosition(Vec2(winSize.width * 0.09f, winSize.height * 0.03f));
-	addChild(_sprMag,2);
+	addChild(_sprMag, 2);
 	_sprMag->setScale(0.15f);
 	auto _reloadBtn = cocos2d::ui::Button::create("MagUI.png");
 	_reloadBtn->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -490,15 +584,7 @@ void GamePlayLayer::addUI()
 	_bulletInMag->enableOutline(cocos2d::Color4B::BLACK, 3);
 	_bulletInMag->setPosition(Vec2(winSize.width * 0.17f, winSize.height * 0.06f));
 }
-void GamePlayLayer::onTouchReloadBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
-{
-	if (_Bullet != 30)
-	{
-		_isReloading = true;
-		throwOutputText("Reloading", 2);
-		scheduleOnce(schedule_selector(GamePlayLayer::reloading), 2.0f);
-	}
-}
+
 bool GamePlayLayer::isTouchingSprite(Touch* touch)
 {
 	if (_getDynTag == TAG_DYNAMITE_BTN)
@@ -508,74 +594,10 @@ bool GamePlayLayer::isTouchingSprite(Touch* touch)
 	}
 	return false;
 }
+
 Point GamePlayLayer::touchToPoint(Touch* touch)
 {
 	return Director::getInstance()->convertToGL(touch->getLocationInView());
-}
-
-
-bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
-{
-	Point location = touch->getLocationInView();
-	_location = CCDirector::getInstance()->convertToGL(location);
-	if (_iconDynamite->getBoundingBox().containsPoint(_location) && _iconDynamite->getTag() == TAG_DYNAMITE_BTN)
-	{
-		_getDynTag = TAG_DYNAMITE_BTN;
-		if (this->isTouchingSprite(touch))
-		{
-			this->_touchOffset = _iconDynamite->getPosition() -
-				this->touchToPoint(touch);
-		}
-		_isShootingBegan = false;
-		return true;
-	}
-	else if(_iconHP->getTag()==TAG_HEALTH_BTN)
-	{
-		_hero->healHero();
-		_totalHP--;
-		_isShootingBegan = true;
-		return true;
-	}
-	else
-	{
-		_isShootingBegan = true;
-		return true;
-	}
-	return false;
-
-}
-
-void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
-{
-	Point location = touch->getLocationInView();
-	_location = CCDirector::getInstance()->convertToGL(location);
-	if (touch && _touchOffset.x && _touchOffset.y)
-	{
-		if (_getDynTag == TAG_DYNAMITE_BTN) 
-		{
-			_sprDynamite->setVisible(true);
-			_sprDynamite->setPosition(this->touchToPoint(touch) + this->_touchOffset);
-		}
-	}
-}
-
-void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
-{
-	Size winSize = Director::getInstance()->getWinSize();
-	_isShootingBegan = false;
-	if (_getDynTag = TAG_DYNAMITE_BTN)
-	{
-		Vec2 droppedPos = _sprDynamite->getPosition();
-		_sprDynamite->setVisible(false);
-		throwDynamite(droppedPos);
-		_sprDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
-		_getDynTag = 0;
-	}
-}
-
-void GamePlayLayer::onTouchCancelled(Touch* touch, Event* event)
-{
-	
 }
 
 void GamePlayLayer::throwOutputText(std::string txt, int duration)
@@ -626,6 +648,7 @@ void GamePlayLayer::update(float dt)
 	def->setIntegerForKey("CurrentTotalBullet", _totalBullet);
 	def->flush();
 }
+
 void GamePlayLayer::updatePressed(float dt)
 {
 	if (!_isReloading)

@@ -3,7 +3,7 @@
 
 StageBtn::StageBtn()
 {
-	_currentStage = 2;
+	_currentStage = UserDefault::getInstance()->getIntegerForKey("UnlockedStage",1);
 }
 
 StageBtn::~StageBtn()
@@ -55,7 +55,7 @@ void StageBtn::onTouchStageBtn(Ref* pSender, ui::Widget::TouchEventType eEventTy
 {
 	Scene* scene = Scene::createWithPhysics();
 	PhysicsWorld* world = scene->getPhysicsWorld();
-	GamePlayLayer* node = GamePlayLayer::create();
+	GamePlayLayer* node = GamePlayLayer::create(_stageBtn->getTag());
 	scene->addChild(node);
-	//Director::getInstance()->replaceScene(TransitionFlipX::create(0, scene));
+	Director::getInstance()->replaceScene(TransitionFlipX::create(0, scene));
 }
