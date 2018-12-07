@@ -52,6 +52,7 @@ void M4A1::setIcon()
 	_labelNum = Label::createWithTTF(_numStr, "fonts/kenvector_future.ttf", 30);
 	_labelNum->setPosition(winSize.height*0.33f, winSize.width*0.24f);
 	this->addChild(_labelNum);
+	
 	_Price = Sprite::createWithSpriteFrameName("coin1.png");
 	_Price->setPosition(Vec2(winSize.width*(PRICE_WIDTH_POSITION), winSize.height*PRICE_HEIGHT_POSITION));
 	_Price->setScale(0.15f);
@@ -62,7 +63,7 @@ void M4A1::setIcon()
 	_labelUpgrade->setColor(cocos2d::Color3B(0, 0, 0));
 	this->addChild(_labelUpgrade);
 	
-
+	this->setLabelStats(_Level);
 }
 void M4A1::hide()
 {
@@ -73,14 +74,16 @@ void M4A1::hide()
 	_buyBullet->setVisible(false);
 	_labelBuyBullet->setVisible(false);
 }
-void M4A1::setLabelStats()
+void M4A1::setLabelStats(int Level)
 {
-	std::string _dmgStr = StringUtils::format("  %i", _Stats._Damage);
-	_labelDmg->setString(_dmgStr);
-	std::string _numStr = StringUtils::format("  %i", _Stats._BulletNumber);
-	_labelNum->setString(_numStr);
-	std::string _priceStr = StringUtils::format("  %i", _Stats._Price);
-	_labelUpgrade->setString(_priceStr);
+		Level++;
+		std::string _dmgStr = StringUtils::format("  %i", DAMAGE_M4A1 + (10 * Level));
+		_labelDmg->setString(_dmgStr);
+		std::string _numStr = StringUtils::format("  %i", NUMBER_BULLET_SHOOT + (10 * Level));
+		_labelNum->setString(_numStr);
+		int price = PRICE_M4A1 * 1.5*Level;
+		std::string _priceStr = StringUtils::format("  %i", price);
+		_labelUpgrade->setString(_priceStr);
 }
 void M4A1::show()
 {

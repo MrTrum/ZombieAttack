@@ -10,7 +10,7 @@ public:
 	CREATE_FUNC(M4A1);
 	virtual bool init();
 	void setIcon();
-	void setLabelStats();
+	void setLabelStats(int Level);
 	void hide();
 	void show();
 	int _Level,baseBullet;

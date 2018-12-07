@@ -44,6 +44,7 @@ public:
 	void setTotalMoney(int shopMoney);
 	void rechargeBullet();
 	void rechargeHP();
+	void goldBagFly(float dt);
 	void potionButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 /*Thanh*/
 	bool onContactBegin(PhysicsContact &contact);
@@ -118,6 +119,7 @@ private:
 	UserDefault* def;
 	int _Level, _Bullet, _baseBullet,_LevelHP,_totalHP;
 	int scenePlay;
+	int dem;
 };
 
 #endif // !_GAME_PLAY_LAYER
