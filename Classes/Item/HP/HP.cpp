@@ -37,7 +37,12 @@ void HP::iconItemShow()
 }
 void HP::iconItemHide()
 {
-	
+	_basicStat->setVisible(true);
+	_labelStat->setVisible(true);
+	_itemNum->setVisible(true);
+	_labelNum->setVisible(true);
+	_iconBuyHP->setVisible(false);
+	_labelBuyHP->setVisible(false);
 
 }
 void HP::setIcon()

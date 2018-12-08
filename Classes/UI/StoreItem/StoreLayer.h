@@ -25,7 +25,6 @@ public:
 	void TouchItemButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void setGamePlayLayerPtr(GamePlayLayer* ptr);
 	void setTotalMoney(int _GameTotalMoney);
-	void setUpgradeItemIcon(Vector<Sprite>* listSprite);
 	void setCallBack(std::function<void(M4A1* Gun)> callback);
 	void setCallBackHP(std::function<void(HP* HP)> callbackHP);
 	int _chon;

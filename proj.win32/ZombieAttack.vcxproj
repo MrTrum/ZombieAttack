@@ -160,6 +160,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GameObject\PZombie.cpp" />
     <ClCompile Include="..\Classes\GameObject\SkillZombie.cpp" />
     <ClCompile Include="..\Classes\GamePlayLayer.cpp" />
+    <ClCompile Include="..\Classes\InfiniteParallaxNode.cpp" />
     <ClCompile Include="..\Classes\Item\HP\HP.cpp" />
     <ClCompile Include="..\Classes\MapScene.cpp" />
     <ClCompile Include="..\Classes\PoolObject\PoolBullet.cpp" />
@@ -168,6 +169,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\PoolObject\PoolZombie.cpp" />
     <ClCompile Include="..\Classes\ShakeAction.cpp" />
     <ClCompile Include="..\Classes\StageBtn.cpp" />
+    <ClCompile Include="..\Classes\StartScene.cpp" />
     <ClCompile Include="..\Classes\Store.cpp" />
     <ClCompile Include="..\Classes\UI\Coin\Coin.cpp" />
     <ClCompile Include="..\Classes\UI\GameStats\ItemStats.cpp" />
@@ -190,6 +192,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\GameObject\PZombie.h" />
     <ClInclude Include="..\Classes\GameObject\SkillZombie.h" />
     <ClInclude Include="..\Classes\GamePlayLayer.h" />
+    <ClInclude Include="..\Classes\InfiniteParallaxNode.h" />
     <ClInclude Include="..\Classes\Item\HP\HP.h" />
     <ClInclude Include="..\Classes\MapScene.h" />
     <ClInclude Include="..\Classes\Parameter.h" />
@@ -199,6 +202,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\PoolObject\PoolZombie.h" />
     <ClInclude Include="..\Classes\ShakeAction.h" />
     <ClInclude Include="..\Classes\StageBtn.h" />
+    <ClInclude Include="..\Classes\StartScene.h" />
     <ClInclude Include="..\Classes\Store.h" />
     <ClInclude Include="..\Classes\UI\Coin\Coin.h" />
     <ClInclude Include="..\Classes\UI\GameStats\ItemStats.h" />

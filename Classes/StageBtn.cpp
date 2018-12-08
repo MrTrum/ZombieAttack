@@ -53,9 +53,10 @@ StageBtn *StageBtn::create(int tag, Vec2 position)
 
 void StageBtn::onTouchStageBtn(Ref* pSender, ui::Widget::TouchEventType eEventType)
 {
-	Scene* scene = Scene::createWithPhysics();
-	PhysicsWorld* world = scene->getPhysicsWorld();
-	GamePlayLayer* node = GamePlayLayer::create(_stageBtn->getTag());
-	scene->addChild(node);
-	Director::getInstance()->replaceScene(TransitionFlipX::create(0, scene));
+	
+	if (eEventType == ui::Widget::TouchEventType::ENDED)
+	{
+		auto scene = GamePlayLayer::createGamePlayLayer(_stageBtn->getTag());
+		Director::getInstance()->replaceScene(TransitionFlipX::create(0, scene));
+	}
 }

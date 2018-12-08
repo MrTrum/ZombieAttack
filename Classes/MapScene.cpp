@@ -18,10 +18,7 @@ MapScene::~MapScene()
 
 Scene * MapScene::createMap()
 {
-	Scene* scene = Scene::createWithPhysics();
-	PhysicsWorld* world = scene->getPhysicsWorld();
-	//remember to turn off debug when release
-	world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	Scene* scene = Scene::create();
 	MapScene* node = MapScene::create();
 	scene->addChild(node);
 	return scene;
@@ -61,7 +58,7 @@ bool MapScene::init()
 	for (int i = 1; i < 7; i++)
 	{
 		auto posX = winSize.width * (0.35f + i * 0.15f);
-		auto posY = winSize.height * randomValueBetween(0.25f, 0.45f);
+		auto posY = winSize.height * random(0.25f, 0.45f);
 		_stageBtn = StageBtn::create(i, Vec2(posX, posY));
 		addChild(_stageBtn);
 	}
@@ -80,12 +77,6 @@ void MapScene::update(float delta)
 		this->setPosition(-winSize.width, 0.0f);
 	}
 }
-
-float MapScene::randomValueBetween(float low, float high)
-{
-	return (((float)rand() / RAND_MAX) * (high - low)) + low;
-}
-
 
 bool MapScene::onTouchBegan(Touch *touch, Event *event)
 {

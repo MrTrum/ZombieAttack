@@ -18,20 +18,13 @@ public:
 	bool init();
 	CREATE_FUNC(MapScene);
 	static Scene* createMap();
-	float randomValueBetween(float low, float high);
-	void onTouchStageBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void update(float delta);
 	bool onTouchBegan(Touch*, Event*);
 	void onTouchMoved(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touches, Event* event);
 	void onTouchCancelled(Touch* touches, Event* event);
-	
-protected:
-	bool	isTouchingSprite(Touch* touch);
-	Point	touchToPoint(Touch* touch);
 private:
 	StageBtn				*_stageBtn;
-	cocos2d::Label			*test;
 	Vec2					_startPos;
 	Vec2					_endPos;
 	Vec2					_location;

@@ -47,15 +47,15 @@ bool StoreLayer::init()
 		_ItemWeapon->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 		_ItemWeapon->setScale(1.0f, 1.5f);
 		_ItemWeapon->setPosition(Vec2(winSize.width*(ITEM_WIDTH_POSITION + (ITEM_DISTANCT_POSITION*i)), winSize.height*ITEM_HEIGHT_POSITION));
-		this->addChild(_ItemWeapon);	
+		this->addChild(_ItemWeapon);
 		listSpriteItem.pushBack(_ItemWeapon);
 		_upgradeBtn = cocos2d::ui::Button::create("images/UpgradeWeapon.png");
-		_upgradeBtn->setPosition(Vec2(winSize.width*(UPGRADEBTN_WIDTH_POSITION+(ITEM_DISTANCT_POSITION*i)), winSize.height*UPGRADEBTN_HEIGHT_POSITION));
+		_upgradeBtn->setPosition(Vec2(winSize.width*(UPGRADEBTN_WIDTH_POSITION + (ITEM_DISTANCT_POSITION*i)), winSize.height*UPGRADEBTN_HEIGHT_POSITION));
 		_upgradeBtn->addTouchEventListener(CC_CALLBACK_2(StoreLayer::TouchUpgradeButton, this));
 		this->addChild(_upgradeBtn);
 		listButtonItem.pushBack(_upgradeBtn);
 	}
-	
+
 	//quit button
 	_quitShop = cocos2d::ui::Button::create("images/quit_shop.png");
 	_quitShop->setPosition(Vec2(visibleSize.width*0.95f, visibleSize.height*0.9f));
@@ -64,7 +64,7 @@ bool StoreLayer::init()
 	//Upgrade Item button
 	_upgradeItemBtn = cocos2d::ui::Button::create("images/ShopButton.png");
 	_upgradeItemBtn->setPosition(Vec2(visibleSize.width*0.2f, visibleSize.height*0.12f));
-	_upgradeItemBtn->addTouchEventListener(CC_CALLBACK_2(StoreLayer::TouchWeaponButton, this));
+	_upgradeItemBtn->addTouchEventListener(CC_CALLBACK_2(StoreLayer::TouchUpgradeWeaponButton, this));
 	this->addChild(_upgradeItemBtn);
 	auto _labelUpgradeItem = Label::createWithTTF("Upgrade", "fonts/kenvector_future.ttf", 25);
 	_labelUpgradeItem->setPosition(_upgradeItemBtn->getPosition());
@@ -95,8 +95,10 @@ bool StoreLayer::init()
 	//Icon gun
 	_iconGun = M4A1::create();
 	def = UserDefault::getInstance();
-	_iconGun->_Level = def->getIntegerForKey("LevelM4A1",1);
-	_iconGun->_Stats.setStats(DAMAGE_M4A1 + (10*_iconGun->_Level), NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1*0.25*_iconGun->_Level), PRICE_M4A1*1.5*_iconGun->_Level);
+	_iconGun->_Level = def->getIntegerForKey("LevelM4A1", 1);
+	_iconGun->baseBullet = UserDefault::getInstance()->getIntegerForKey("CurrentTotalBullet");
+	int tempLevel = (_iconGun->_Level);
+	_iconGun->_Stats.setStats(DAMAGE_M4A1 + (10 * tempLevel), NUMBER_BULLET_SHOOT + (10* tempLevel), PRICE_M4A1*1.5*tempLevel);
 	_iconGun->setIcon();
 	this->addChild(_iconGun, 4);
 	//Icon HP
@@ -105,12 +107,8 @@ bool StoreLayer::init()
 	_iconHP->setIcon();
 	_iconHP->setLabelStats();
 	this->addChild(_iconHP, 4);
-	
-	return true;
-}
-void StoreLayer::setUpgradeItemIcon(Vector<Sprite>* listSprite)
-{
 
+	return true;
 }
 void StoreLayer::TouchWeaponButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
 {
@@ -125,7 +123,7 @@ void StoreLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventTy
 	}
 }
 void StoreLayer::TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
-{ 
+{
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
 		if (_chon == UPGRADE_INDEX)
@@ -136,10 +134,12 @@ void StoreLayer::TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 				_btnGamePlayLayer->setTotalMoney(_shopTotalMoney);
 				_Money->setMoney(_shopTotalMoney);
 				_iconGun->_Level++;
-				def->setIntegerForKey("LevelM4A1", _iconGun->_Level);
-				int bulletNum = NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1*0.25*_iconGun->_Level);
+				int bulletNum = NUMBER_BULLET_SHOOT + (10 * _iconGun->_Level);
 				_iconGun->_Stats.setStats(DAMAGE_M4A1 + (10 * _iconGun->_Level), bulletNum, PRICE_M4A1*1.5*_iconGun->_Level);
-				_iconGun->setLabelStats();
+			
+				def->setIntegerForKey("LevelM4A1", _iconGun->_Level);
+				
+				_iconGun->setLabelStats(_iconGun->_Level);
 				if (_callback)
 				{
 					_callback(_iconGun);
@@ -159,20 +159,18 @@ void StoreLayer::TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 		{
 			if (_shopTotalMoney >= (PRICE_BULLET_M4A1*_iconGun->_Stats._BulletNumber) && pSender == listButtonItem.at(0))
 			{
-				_shopTotalMoney = _shopTotalMoney - (PRICE_BULLET_M4A1*_iconGun->_Stats._BulletNumber);
+				auto test = (PRICE_BULLET_M4A1*_iconGun->_Stats._BulletNumber);
+				_shopTotalMoney = _shopTotalMoney - test;
 				_btnGamePlayLayer->setTotalMoney(_shopTotalMoney);
 				_Money->setMoney(_shopTotalMoney);
 				auto currentBullet = UserDefault::getInstance()->getIntegerForKey("CurrentTotalBullet");
-				if (currentBullet < NUMBER_BULLET_M4A1 + (30 * _iconGun->_Level))
+				_iconGun->baseBullet =currentBullet+ (_iconGun->_Stats._BulletNumber * 2);
+				_iconGun->recharge = true;
+				if (_callback)
 				{
-					_iconGun->recharge = true;
-					if (_callback)
-					{
-						_callback(_iconGun);
-					}
-
+					_callback(_iconGun);
 				}
-				
+
 			}
 			else if (_shopTotalMoney >= (PRICE_NUMBER_HP*_iconHP->itemStat._NumberItem) && pSender == listButtonItem.at(1))
 			{
@@ -190,7 +188,7 @@ void StoreLayer::TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 
 			}
 		}
-		
+
 	}
 }
 void StoreLayer::setCallBackHP(std::function<void(HP* HP)> callbackHP)
@@ -200,7 +198,7 @@ void StoreLayer::setCallBackHP(std::function<void(HP* HP)> callbackHP)
 void StoreLayer::setCallBack(std::function<void(M4A1* Gun)> callback)
 {
 	_callback = callback;
-	
+
 }
 
 void StoreLayer::setGamePlayLayerPtr(GamePlayLayer* ptr)
@@ -211,13 +209,15 @@ void StoreLayer::setTotalMoney(int _GameTotalMoney)
 {
 	_shopTotalMoney = _GameTotalMoney;
 	_Money->setMoney(_shopTotalMoney);
-	
+
 }
 void StoreLayer::TouchUpgradeWeaponButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
 {
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
 		_chon = UPGRADE_INDEX;
+		_iconGun->hide();
+		_iconHP->iconItemHide();
 	}
 
 }

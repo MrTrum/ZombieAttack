@@ -30,7 +30,7 @@ public:
 	//CREATE_FUNC(GamePlayLayer);
 	bool init(int playStage);
 	static GamePlayLayer* create(int playStage);
-	static cocos2d::Scene* createGamePlayLayer();
+	static cocos2d::Scene* createGamePlayLayer(int stage);
 	/*Tú*/
 public:
 	void IconCoinCreate();
@@ -44,6 +44,8 @@ public:
 	void setTotalMoney(int shopMoney);
 	void rechargeBullet();
 	void rechargeHP();
+	void goldBagFly(float dt);
+	void potionButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 /*Thanh*/
 	bool onContactBegin(PhysicsContact &contact);
 	void createGoldBag(Vec2 deadPos);
@@ -117,6 +119,7 @@ private:
 	UserDefault* def;
 	int _Level, _Bullet, _baseBullet,_LevelHP,_totalHP;
 	int scenePlay;
+	int dem;
 };
 
 #endif // !_GAME_PLAY_LAYER
