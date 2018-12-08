@@ -83,7 +83,7 @@ void Hero::onCollission(GameObject *obj)
 {
 	if (obj->getTag() >= TAG_SKILL2 && obj->getTag() <= TAG_SKILL11)
 	{
-		this->_health -= 1.0f;
+		this->_health -= 2.0f;
 		this->updateHealthBar(_health);
 	}
 	else
@@ -91,7 +91,14 @@ void Hero::onCollission(GameObject *obj)
 		PZombie *pzombie = static_cast<PZombie*>(obj);
 		if (PZombie::damageOfZombie <= 0)
 		{
-			PZombie::damageOfZombie = DAMAGE_OF_ZOMBIE2;
+			if (pzombie->getTag() == 100)
+			{
+				PZombie::damageOfZombie = DAMAGE_OF_BOSS;
+			}
+			else
+			{
+				PZombie::damageOfZombie = DAMAGE_OF_ZOMBIE2;
+			}
 			schedule(schedule_selector(Hero::heroWounded), 0.5f);
 			_listZombieCollision.pushBack(pzombie);
 			scheduleUpdate();
@@ -99,7 +106,14 @@ void Hero::onCollission(GameObject *obj)
 		else if (PZombie::damageOfZombie > 0)
 		{
 			_listZombieCollision.pushBack(pzombie);
-			PZombie::damageOfZombie += DAMAGE_OF_ZOMBIE2;
+			if (pzombie->getTag() == 100)
+			{
+				PZombie::damageOfZombie += DAMAGE_OF_BOSS;
+			}
+			else
+			{
+				PZombie::damageOfZombie += DAMAGE_OF_ZOMBIE2;
+			}
 		}
 	}
 }

@@ -75,22 +75,23 @@
 #define HEALTH_ZOMBIE3							300.0f
 #define HEALTH_ZOMBIE4							200.0f
 #define HEALTH_ZOMBIE5							200.0f
-#define HEALTH_ZOMBIE6							200.0f
-#define HEALTH_ZOMBIE7							200.0f
-#define HEALTH_ZOMBIE8							200.0f
-#define HEALTH_ZOMBIE9							200.0f
-#define HEALTH_ZOMBIE10							200.0f
-#define HEALTH_ZOMBIE11							200.0f
-#define HEALTH_ZOMBIE100						200.0f
+#define HEALTH_ZOMBIE6							230.0f
+#define HEALTH_ZOMBIE7							230.0f
+#define HEALTH_ZOMBIE8							230.0f
+#define HEALTH_ZOMBIE9							300.0f
+#define HEALTH_ZOMBIE10							300.0f
+#define HEALTH_ZOMBIE11							300.0f
+#define HEALTH_ZOMBIE100						1500.0f
 
 #define START_POS								Vec2(winSize * 0.26f)
 #define BULLET_VEC								1000.0f
 
 #define DAMAGE_OF_ZOMBIE2						0.5f
+#define DAMAGE_OF_BOSS							25.0f
 //DAMAGE M4A1
 #define DAMAGE_M4A1                             20
 //NUMBER BULLET M4A1
-#define NUMBER_BULLET_M4A1                      120
+#define NUMBER_BULLET_M4A1                      1200
 //PRICE M4A1
 #define PRICE_M4A1                              200
 //PRICE BULLET M4A1

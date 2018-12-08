@@ -44,6 +44,8 @@ private:
 	int							_setTagZombie[4];
 	int							_random14;
 	Action						_action;
+	int							_scenePlay;
+	bool						_hasBoss;
 
 	void						getTagZombie(int tagZombie1, int tagZombie2, int tagZombie3, int tagZombie4);
 	float						randomPositionY();

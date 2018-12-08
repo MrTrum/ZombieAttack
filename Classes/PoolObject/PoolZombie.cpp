@@ -13,7 +13,8 @@ USING_NS_CC;
 PoolZombie::PoolZombie() :
 	_numberZombie(0),
 	_check(1),
-	_random14(0)
+	_random14(0),
+	_hasBoss(false)
 {
 }
 
@@ -274,6 +275,7 @@ bool PoolZombie::init(GamePlayLayer* ptr, int sceneplay)
 	setBloodBar(0);
 
 	scenePlay(sceneplay);
+	_scenePlay = sceneplay;
 
 	return true;
 }
@@ -302,10 +304,10 @@ void PoolZombie::scenePlay(int sceneplay)
 	}
 	else if (sceneplay == 6)
 	{
-		getTagZombie(100, 10, 11, 8);
+		getTagZombie(9, 3, 11, 100);
 	}
 	initZombie();
-	schedule(schedule_selector(PoolZombie::createZombie_1), 3.0f);
+	schedule(schedule_selector(PoolZombie::createZombie_1), 1.0f);
 }
 
 void PoolZombie::getTagZombie(int tagZombie1, int tagZombie2, int tagZombie3, int tagZombie4)
@@ -413,17 +415,27 @@ void PoolZombie::createZombie_4(float delta)
 		zombie->removeFromParent();
 
 		changeSchedule();
-
+		
 		zombie->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 		zombie->setVisible(true);
 
 		float positionY = randomPositionY();
+		while (positionY == PositionY1 || positionY == PositionY2)
+		{
+			positionY = randomPositionY();
+		}
 		auto winSize = Director::getInstance()->getWinSize();
 		zombie->setPosition(winSize.width * 1.2f, winSize.height * positionY);
 		this->setScaleHealthBar(zombie);
 
 		auto Z_Order = ZOrder(positionY);
 		this->addChild(zombie, Z_Order);
+
+		if (_scenePlay == 6)
+		{
+			_numberZombie = 100;
+			zombie->setScale(0.5f);
+		}
 
 		float positionX = getPosX(zombie->getTag(), positionY);
 		int timeMoveTo = getTimeMove(zombie->getTag());
@@ -562,16 +574,35 @@ void PoolZombie::changeSchedule()
 	}
 }
 
+
 void PoolZombie::updateSchedule(int numberZombie)
 {
 	if (numberZombie < 8)
 	{
 		unschedule(schedule_selector(PoolZombie::createZombie_1));
-		schedule(schedule_selector(PoolZombie::createZombie_1), 8.0f);
+		float timeCreate = 0.0f;
+		if (_scenePlay == 6)
+		{
+			timeCreate = 4.5f;
+		}
+		else
+		{
+			timeCreate = 8.0f;
+		}
+		schedule(schedule_selector(PoolZombie::createZombie_1), timeCreate);
 	}
 	else if (numberZombie >= 8 && numberZombie < 40)
 	{
-		schedule(schedule_selector(PoolZombie::createZombie_2), 6.5f);
+		int timeCreate = 0;
+		if (_scenePlay == 6)
+		{
+			timeCreate = 4.0f;
+		}
+		else
+		{
+			timeCreate = 3.5f;
+		}
+		schedule(schedule_selector(PoolZombie::createZombie_2), timeCreate);
 	}
 	else if (numberZombie >= 40 && numberZombie < 80)
 	{
@@ -591,6 +622,7 @@ float PoolZombie::randomPositionY()
 	{
 		random1_4 = random(1, 4);
 	}
+
 	if (random1_4 == 1)
 	{
 		position_Y = PositionY1;

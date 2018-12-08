@@ -115,8 +115,21 @@ bool PZombie::init(PoolZombie *ptr, std::string zombieName, int tag)
 
 	playWalkAnimation(zombieName);
 
+	// test
+	scheduleUpdate();
+
 	return true;
 }
+
+void PZombie::update(float delta)
+{
+	if (this->getTag() == 100)
+	{
+		cocos2d::log("Pos = deltaX = %f deltaY = %f", this->getPositionX(), this->getPositionY());
+		cocos2d::log("Anchor = %f %f", this->getAnchorPoint().x, this->getAnchorPoint().y);
+		cocos2d::log("Spr Anchor = %f %f", _spr->getAnchorPoint().x, this->getAnchorPoint().y);
+	}
+} 
 
 void PZombie::setHealthBar(float percent)
 {
