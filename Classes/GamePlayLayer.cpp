@@ -1,22 +1,22 @@
 ﻿#include "GamePlayLayer.h"
 #include "Parameter.h"
-#include "SimpleAudioEngine.h"
+#include "AudioEngine.h"
 #include "GameObject/GameObject.h"
 #include "GameObject/Border.h"
 #include "GameObject/Hero.h"
 #include "GameObject/Dynamite.h"
 #include "GameObject/BulletObject.h"
+#include "GameObject/CreateTestLine.h"
+#include "GameObject/SkillZombie.h"
 #include "PoolObject/PoolZombie.h"
 #include "PoolObject/PoolBullet.h"
 #include "PoolObject/PoolExplo.h"
+#include "PoolObject/PoolSkill.h"
 #include "BackgroundLayer.h"
 #include "UI/Coin/Coin.h"
 #include <ui/UIWidget.h>
 #include "ShakeAction.h"
 #include "Store.h"
-#include "GameObject/CreateTestLine.h"
-#include "GameObject/SkillZombie.h"
-#include "PoolObject/PoolSkill.h"
 
 
 USING_NS_CC;
@@ -55,13 +55,13 @@ GamePlayLayer::~GamePlayLayer()
 {
 }
 
-Scene * GamePlayLayer::createGamePlayLayer()
+Scene * GamePlayLayer::createGamePlayLayer(int stage)
 {
 	Scene* scene = Scene::createWithPhysics();
 	PhysicsWorld* world = scene->getPhysicsWorld();
 	//remember to turn off debug when release
 	world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	GamePlayLayer* node = GamePlayLayer::create(6);
+	GamePlayLayer* node = GamePlayLayer::create(stage);
 	scene->addChild(node);
 	return scene;
 }
@@ -89,6 +89,7 @@ bool GamePlayLayer::init(int playStage)
 
 #pragma region Components
 	//add BG
+	Director::getInstance()->setClearColor(cocos2d::Color4F::WHITE);
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg);
 	auto _gBorder = Border::create();
@@ -570,7 +571,7 @@ void GamePlayLayer::addUI()
 	Blink *rdTxtBlink = Blink::create(5, 12);
 	_outputTxt->runAction(rdTxtBlink);
 
-	throwOutputText("READY !!!!", 5);
+	throwOutputText("READY !!!!", 3);
 	//paused effect
 	_blurBG = Sprite::create("Untitled.png");
 	addChild(_blurBG, 4);
@@ -635,12 +636,12 @@ void GamePlayLayer::throwOutputText(std::string txt, int duration)
 
 void GamePlayLayer::update(float dt)
 {
-	if (_Bullet == 0 && _totalBullet == 0)
+	/*if (_Bullet == 0 && _totalBullet == 0)
 	{
 		_isReloading = false;
 		_isShootingBegan = false;
 		throwOutputText("OUT OF AMMO", INT_MAX);
-	}
+	}*/
 
 	if (_dynStock <= 0)
 	{
@@ -677,6 +678,7 @@ void GamePlayLayer::updatePressed(float dt)
 		{
 			if (_Bullet > 0)
 			{
+				int _shootingsound = experimental::AudioEngine::play2d("audio/m16_fire.ogg");
 				Shooting();
 				_Bullet--;
 			}
@@ -695,11 +697,13 @@ void GamePlayLayer::reloading(float dt)
 	_totalBullet += _Bullet;
 	if (_totalBullet >= 30)
 	{
+		int _reloadingsound = experimental::AudioEngine::play2d("audio/m16_reload.ogg");
 		_Bullet = 30;
 		_totalBullet -= 30;
 	}
 	else if (_totalBullet < 30)
 	{
+		int _reloadingsound = experimental::AudioEngine::play2d("audio/m16_reload.ogg");
 		_Bullet = _totalBullet;
 		_totalBullet = 0;
 	}

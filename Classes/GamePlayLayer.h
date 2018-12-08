@@ -30,7 +30,7 @@ public:
 	//CREATE_FUNC(GamePlayLayer);
 	bool init(int playStage);
 	static GamePlayLayer* create(int playStage);
-	static cocos2d::Scene* createGamePlayLayer();
+	static cocos2d::Scene* createGamePlayLayer(int stage);
 	/*Tú*/
 public:
 	void IconCoinCreate();

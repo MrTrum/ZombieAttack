@@ -63,7 +63,7 @@ void MenuLayer::TouchPlayButton(Ref* pSender, cocos2d::ui::Widget::TouchEventTyp
 {
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::BEGAN)
 	{
-		Director::getInstance()->replaceScene(GamePlayLayer::createGamePlayLayer());
+		Director::getInstance()->replaceScene(GamePlayLayer::createGamePlayLayer(1));
 	}
 }
 void MenuLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
