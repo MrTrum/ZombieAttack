@@ -33,6 +33,8 @@ GamePlayLayer::GamePlayLayer()
 	_Level = 1;
 	_LevelHP = 1;
 	_totalHP = 0;
+	_totalMoney = 1000;
+	dem = 0;
 }
 
 GamePlayLayer *GamePlayLayer::create(int playStage)
@@ -187,8 +189,7 @@ bool GamePlayLayer::init(int playStage)
 	def = UserDefault::getInstance();
 	_gunM4A1 = M4A1::create();
 	auto test = def->getStringForKey("CheckPlayer", "New");
-	def->setIntegerForKey("CurrentBullet", 30);
-	_Bullet = def->getIntegerForKey("CurrentBullet");
+	_Bullet = def->getIntegerForKey("CurrentBullet", NUMBER_BULLET_SHOOT + (10 * _gunM4A1->_Level));
 	def->setIntegerForKey("CurrentBaseBullet", NUMBER_BULLET_SHOOT + (10 * _gunM4A1->_Level));
 	_baseBullet = def->getIntegerForKey("CurrentBaseBullet");
 	def->setIntegerForKey("CurrentTotalBullet", NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1 * 0.25*_gunM4A1->_Level)-30);
@@ -303,9 +304,13 @@ void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 		_Shop->setCallBack([=](M4A1* Gun)
 		{
 			this->_Level = Gun->_Level;
-			this->_totalBullet = Gun->baseBullet;
+			int temp = Gun->_Stats._BulletNumber - _Bullet;
+			this->_totalBullet = Gun->baseBullet - temp;
+			def->setIntegerForKey("CurrentTotalBullet", _totalBullet);
+			def->flush();
 			_Bullet = Gun->_Stats._BulletNumber;
 			_gunM4A1->_Stats = Gun->_Stats;
+			_gunM4A1->_Level = Gun->_Level;
 			if (Gun->recharge == true)
 			{
 				this->rechargeBullet();
@@ -452,7 +457,11 @@ void GamePlayLayer::createItems(int randomitem, Vec2 deadPos)
 {
 
 }
-
+void GamePlayLayer::goldBagFly(float dt)
+{
+	Size winSize = Director::getInstance()->getWinSize();
+	this->CoinFly(Vec2(winSize.width / 2, winSize.height / 2));
+}
 void GamePlayLayer::createGoldBag(Vec2 deadPos)
 {
 	auto goldBag = Sprite::create("goldBag.png");
@@ -460,9 +469,11 @@ void GamePlayLayer::createGoldBag(Vec2 deadPos)
 	goldBag->setName("goldBag");
 	goldBag->setScale(0.2f);
 	goldBag->setPosition(deadPos);
-
-
-	auto scaleto = ScaleTo::create(2.0f, 0.3f);
+	for (int i = 0; i < 10; i++)
+	{
+		this->schedule(schedule_selector(GamePlayLayer::goldBagFly), 0.2f);
+	}
+	/*auto scaleto = ScaleTo::create(2.0f, 0.3f);
 
 	auto button = CallFunc::create([=]
 	{
@@ -475,14 +486,19 @@ void GamePlayLayer::createGoldBag(Vec2 deadPos)
 	});
 
 	auto sqe = Sequence::create(scaleto, button, nullptr);
-	goldBag->runAction(sqe);
+	goldBag->runAction(sqe);*/
 }
 
 /*Tú*/
 void GamePlayLayer::rechargeBullet()
 {
-	_Bullet = 30;
-	_totalBullet = _gunM4A1->baseBullet - 30;
+	int temp = NUMBER_BULLET_SHOOT + (10 * _gunM4A1->_Level) - _Bullet;
+	if (temp > 0)
+	{
+		_Bullet = NUMBER_BULLET_SHOOT + (10 * _gunM4A1->_Level);
+		_totalBullet -= temp;
+	}
+	
 }
 
 void GamePlayLayer::setTotalMoney(int shopMoney)
@@ -661,7 +677,6 @@ void GamePlayLayer::update(float dt)
 	{
 		_iconHP->setTag(TAG_HEALTH_BTN);
 	}*/
-
 	_numberHP->setString(StringUtils::format("%02d", _totalHP));
 	_dynLeft->setString(StringUtils::format("%02d", _dynStock));
 	_bulletInMag->setString(StringUtils::format("%02d / %03d", _Bullet, _totalBullet));
@@ -698,10 +713,10 @@ void GamePlayLayer::reloading(float dt)
 	if (_totalBullet >= 30)
 	{
 		int _reloadingsound = experimental::AudioEngine::play2d("audio/m16_reload.ogg");
-		_Bullet = 30;
+		_Bullet = NUMBER_BULLET_SHOOT + (10 * _gunM4A1->_Level);
 		_totalBullet -= 30;
 	}
-	else if (_totalBullet < 30)
+	else if (_totalBullet < NUMBER_BULLET_SHOOT + (10 * _gunM4A1->_Level))
 	{
 		int _reloadingsound = experimental::AudioEngine::play2d("audio/m16_reload.ogg");
 		_Bullet = _totalBullet;
@@ -713,6 +728,7 @@ void GamePlayLayer::reloading(float dt)
 void GamePlayLayer::Shooting()
 {
 	Size winSize = Director::getInstance()->getWinSize();
+	/*this->createGoldBag(Vec2(winSize.width / 2, winSize.height / 2));*/
 	_hero->shootAnimation();
 	_bullet = _poolBullet->createBullet();
 	this->addChild(_bullet, 2);

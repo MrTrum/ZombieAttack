@@ -97,7 +97,8 @@ bool StoreLayer::init()
 	def = UserDefault::getInstance();
 	_iconGun->_Level = def->getIntegerForKey("LevelM4A1", 1);
 	_iconGun->baseBullet = UserDefault::getInstance()->getIntegerForKey("CurrentTotalBullet");
-	_iconGun->_Stats.setStats(DAMAGE_M4A1 + (10 * _iconGun->_Level), NUMBER_BULLET_SHOOT + (10*_iconGun->_Level), PRICE_M4A1*1.5*_iconGun->_Level);
+	int tempLevel = (_iconGun->_Level);
+	_iconGun->_Stats.setStats(DAMAGE_M4A1 + (10 * tempLevel), NUMBER_BULLET_SHOOT + (10* tempLevel), PRICE_M4A1*1.5*tempLevel);
 	_iconGun->setIcon();
 	this->addChild(_iconGun, 4);
 	//Icon HP
@@ -133,10 +134,12 @@ void StoreLayer::TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 				_btnGamePlayLayer->setTotalMoney(_shopTotalMoney);
 				_Money->setMoney(_shopTotalMoney);
 				_iconGun->_Level++;
-				def->setIntegerForKey("LevelM4A1", _iconGun->_Level);
-				int bulletNum = NUMBER_BULLET_M4A1 + (10*_iconGun->_Level);
+				int bulletNum = NUMBER_BULLET_SHOOT + (10 * _iconGun->_Level);
 				_iconGun->_Stats.setStats(DAMAGE_M4A1 + (10 * _iconGun->_Level), bulletNum, PRICE_M4A1*1.5*_iconGun->_Level);
-				_iconGun->setLabelStats();
+			
+				def->setIntegerForKey("LevelM4A1", _iconGun->_Level);
+				
+				_iconGun->setLabelStats(_iconGun->_Level);
 				if (_callback)
 				{
 					_callback(_iconGun);
@@ -161,7 +164,7 @@ void StoreLayer::TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 				_btnGamePlayLayer->setTotalMoney(_shopTotalMoney);
 				_Money->setMoney(_shopTotalMoney);
 				auto currentBullet = UserDefault::getInstance()->getIntegerForKey("CurrentTotalBullet");
-				_iconGun->baseBullet += _iconGun->_Stats._BulletNumber * 2;
+				_iconGun->baseBullet =currentBullet+ (_iconGun->_Stats._BulletNumber * 2);
 				_iconGun->recharge = true;
 				if (_callback)
 				{
