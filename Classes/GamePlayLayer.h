@@ -40,11 +40,10 @@ public:
 	void TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void resumeGame();
 	void moneyChange();
-	void CoinFly(Vec2 deadPos);
+	void CoinFly(Vec2 deadPos, float delay = 0.0f, std::function<void()> onEndCallback = nullptr);
 	void setTotalMoney(int shopMoney);
 	void rechargeBullet();
 	void rechargeHP();
-	void goldBagFly(float dt);
 	void potionButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 /*Thanh*/
 	bool onContactBegin(PhysicsContact &contact);

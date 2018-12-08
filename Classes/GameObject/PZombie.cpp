@@ -479,6 +479,7 @@ void PZombie::droppedItems(Vec2 deadPos)
 	if (ptrPoolZombie->checkTheLastZombie())
 	{
 		ptrGamePlayLayer->createGoldBag(deadPos);
+		
 	}
 }
 

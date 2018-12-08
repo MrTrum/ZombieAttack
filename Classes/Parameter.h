@@ -85,6 +85,8 @@
 
 #define START_POS								Vec2(winSize * 0.26f)
 #define BULLET_VEC								1000.0f
+//GOLD_BAG TAG
+#define GOLD_BAG_TAG							131
 
 #define DAMAGE_OF_ZOMBIE2						0.5f
 #define DAMAGE_OF_BOSS							25.0f

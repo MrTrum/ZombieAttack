@@ -17,7 +17,7 @@
 #include <ui/UIWidget.h>
 #include "ShakeAction.h"
 #include "Store.h"
-
+#include "UI/EndGame/EndGame.h"
 
 USING_NS_CC;
 
@@ -33,7 +33,7 @@ GamePlayLayer::GamePlayLayer()
 	_Level = 1;
 	_LevelHP = 1;
 	_totalHP = 0;
-	_totalMoney = 1000;
+	_totalMoney = 0;
 	dem = 0;
 }
 
@@ -100,6 +100,13 @@ bool GamePlayLayer::init(int playStage)
 	_hero = Hero::create();
 	this->addChild(_hero, 3);
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
+	_hero->setCallBack([=]()
+	{
+		auto endgame = EndGame::create("DEFEATED");
+		endgame->getMax(_totalMoney);
+		this->addChild(endgame, 5);
+		endgame->runNumber();
+	});
 	this->schedule(schedule_selector(GamePlayLayer::updatePressed), 0.167f);
 	//dynamite
 	_poolBullet = new PoolBullet();
@@ -194,13 +201,12 @@ bool GamePlayLayer::init(int playStage)
 	_baseBullet = def->getIntegerForKey("CurrentBaseBullet");
 	def->setIntegerForKey("CurrentTotalBullet", NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1 * 0.25*_gunM4A1->_Level)-30);
 	_totalBullet = def->getIntegerForKey("CurrentTotalBullet");
-	/*if (test == "New")
+	if (test == "New")
 	{
-		def->setIntegerForKey("CurrentBullet", 30);
-		_Bullet = def->getIntegerForKey("CurrentBullet");
-		def->setIntegerForKey("CurrentBaseBullet", NUMBER_BULLET_M4A1 + (30 * _gunM4A1->_Level));
+		_Bullet = def->getIntegerForKey("CurrentBullet", NUMBER_BULLET_SHOOT + (10 * _gunM4A1->_Level));
+		def->setIntegerForKey("CurrentBaseBullet", NUMBER_BULLET_SHOOT + (10 * _gunM4A1->_Level));
 		_baseBullet = def->getIntegerForKey("CurrentBaseBullet");
-		def->setIntegerForKey("CurrentTotalBullet", _baseBullet - 30);
+		def->setIntegerForKey("CurrentTotalBullet", NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1 * 0.25*_gunM4A1->_Level) - 30);
 		_totalBullet = def->getIntegerForKey("CurrentTotalBullet");
 
 	}
@@ -209,7 +215,7 @@ bool GamePlayLayer::init(int playStage)
 		_Bullet = def->getIntegerForKey("CurrentBullet");
 		_baseBullet = def->getIntegerForKey("CurrentBaseBullet");
 		_totalBullet = def->getIntegerForKey("CurrentTotalBullet");
-	}*/
+	}
 	_baseBullet = NUMBER_BULLET_M4A1 + (NUMBER_BULLET_M4A1 * 0.25*_gunM4A1->_Level);
 	_gunM4A1->baseBullet = _baseBullet;
 	_gunM4A1->_Stats.setStats(DAMAGE_M4A1 + (10 * _gunM4A1->_Level), NUMBER_BULLET_SHOOT + (10 * _gunM4A1->_Level), PRICE_M4A1*1.5*_gunM4A1->_Level);
@@ -221,11 +227,6 @@ bool GamePlayLayer::init(int playStage)
 	this->addChild(_HP);
 	scheduleUpdate();
 	//Icon HP
-	/*_iconHP = Sprite::create("icon_potion.png");
-	_iconHP->setPosition(Vec2(winSize.width * 0.85f, winSize.height * 0.87f));
-	_iconHP->setTag(TAG_HEALTH_BTN);
-	this->addChild(_iconHP);*/
-	
 	auto buttonHide = cocos2d::ui::Button::create("icon_potion.png");
 	this->addChild(buttonHide, 2);
 	buttonHide->setPosition(Vec2(winSize.width * 0.85f, winSize.height * 0.87f));
@@ -348,6 +349,7 @@ void GamePlayLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 		def->setIntegerForKey("CurrentBaseBullet", _baseBullet);
 		def->setStringForKey("CheckPlayer", "Old");
 		def->flush();
+
 	}
 }
 
@@ -457,36 +459,42 @@ void GamePlayLayer::createItems(int randomitem, Vec2 deadPos)
 {
 
 }
-void GamePlayLayer::goldBagFly(float dt)
-{
-	Size winSize = Director::getInstance()->getWinSize();
-	this->CoinFly(Vec2(winSize.width / 2, winSize.height / 2));
-}
+
 void GamePlayLayer::createGoldBag(Vec2 deadPos)
 {
 	auto goldBag = Sprite::create("goldBag.png");
 	this->addChild(goldBag, 3);
 	goldBag->setName("goldBag");
 	goldBag->setScale(0.2f);
+	goldBag->setTag(GOLD_BAG_TAG);
 	goldBag->setPosition(deadPos);
-	for (int i = 0; i < 10; i++)
+	Size winSize = Director::getInstance()->getWinSize();
+	int numCoin = 10;
+	for (int i = 0; i < numCoin; i++)
 	{
-		this->schedule(schedule_selector(GamePlayLayer::goldBagFly), 0.2f);
+		if (i == numCoin - 1) // final coin
+		{
+			this->CoinFly(deadPos, 0.1f * i, [=]()
+			{
+				this->removeChildByTag(GOLD_BAG_TAG);
+				auto endgame = EndGame::create("COMPLETED");
+				endgame->getMax(_totalMoney);
+				this->addChild(endgame, 5);
+				endgame->runNumber();
+				def->setIntegerForKey("CurrentBullet", _Bullet);
+				def->setIntegerForKey("CurrentTotalBullet", _totalBullet);
+				def->setIntegerForKey("CurrentMoney", _totalMoney);
+				def->flush();
+			});
+
+		}
+		else
+		{
+			this->CoinFly(deadPos, 0.1f * i);	
+		}
 	}
-	/*auto scaleto = ScaleTo::create(2.0f, 0.3f);
 
-	auto button = CallFunc::create([=]
-	{
-		auto buttonHide = cocos2d::ui::Button::create("goldBag.png");
-		this->addChild(buttonHide, 2);
-		buttonHide->setName("buttonHide");
-		buttonHide->setScale(0.2f);
-		buttonHide->setPosition(deadPos);
-		buttonHide->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::testButton, this));
-	});
-
-	auto sqe = Sequence::create(scaleto, button, nullptr);
-	goldBag->runAction(sqe);*/
+	
 }
 
 /*Tú*/
@@ -526,7 +534,7 @@ void GamePlayLayer::moneyChange()
 	_Money->setMoney(_totalMoney);
 }
 
-void GamePlayLayer::CoinFly(Vec2 deadPos)
+void GamePlayLayer::CoinFly(Vec2 deadPos, float delay, std::function<void()> onEndCallback /*= nullptr*/)
 {
 	CallFunc* loop = CallFunc::create([=]
 	{
@@ -536,9 +544,13 @@ void GamePlayLayer::CoinFly(Vec2 deadPos)
 		_Coin->PlayAnimation();
 		_checkMoney = _Coin->FlyAnimation(_iconPos, [=] {
 			this->moneyChange();
+			if (onEndCallback)
+			{
+				onEndCallback();
+			}
 		});
 	});
-	Sequence* coinloop = Sequence::create(loop, DelayTime::create(0.5), nullptr);
+	Sequence* coinloop = Sequence::create(DelayTime::create(delay), loop, nullptr);
 	this->runAction(coinloop);
 }
 
@@ -668,21 +680,9 @@ void GamePlayLayer::update(float dt)
 	{
 		_iconDynamite->setTag(TAG_DYNAMITE_BTN);
 	}
-	/*if (_totalHP <= 0)
-	{
-		_iconHP->setTag(121);
-		_totalHP = 0;
-	}
-	else if (_totalHP > 0)
-	{
-		_iconHP->setTag(TAG_HEALTH_BTN);
-	}*/
 	_numberHP->setString(StringUtils::format("%02d", _totalHP));
 	_dynLeft->setString(StringUtils::format("%02d", _dynStock));
 	_bulletInMag->setString(StringUtils::format("%02d / %03d", _Bullet, _totalBullet));
-	def->setIntegerForKey("CurrentBullet", _Bullet);
-	def->setIntegerForKey("CurrentTotalBullet", _totalBullet);
-	def->flush();
 }
 
 void GamePlayLayer::updatePressed(float dt)
@@ -728,7 +728,6 @@ void GamePlayLayer::reloading(float dt)
 void GamePlayLayer::Shooting()
 {
 	Size winSize = Director::getInstance()->getWinSize();
-	/*this->createGoldBag(Vec2(winSize.width / 2, winSize.height / 2));*/
 	_hero->shootAnimation();
 	_bullet = _poolBullet->createBullet();
 	this->addChild(_bullet, 2);

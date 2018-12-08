@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include "ui/CocosGUI.h"
 #include "GameObject/PZombie.h"
+#include "GamePlayLayer.h"
 
 struct AnimationInfo {
 	std::string _name;
@@ -39,6 +40,7 @@ public:
 	void						setHealthBar(float percent);
 	void						updateHealthBar(float percent);
 	void						healHero();
+	void setCallBack(std::function<void()> callback);
 protected:
 	void						onCollission(GameObject *obj) override;
 	void						heroWounded(float delta);
@@ -52,6 +54,7 @@ private:
 	void						update(float delta);
 	ui::LoadingBar				*_healthbarHero;
 	cocos2d::Vector<PZombie*>   _listZombieCollision;
+	std::function<void()> _callback;
 };
 
 

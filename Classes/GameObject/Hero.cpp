@@ -2,6 +2,7 @@
 #include "Parameter.h"
 #include "GameObject/PZombie.h"
 #include "GameObject/SkillZombie.h"
+#include "UI/EndGame/EndGame.h"
 
 USING_NS_CC;
 
@@ -141,10 +142,19 @@ void Hero::heroWounded(float delta)
 	_healthbarHero->runAction(tintTo);
 	if (this->_health <= 0)
 	{
-		CCLOG("Dead");
+		this->getPhysicsBody()->setContactTestBitmask(false);
+		this->unschedule(schedule_selector(Hero::heroWounded));
+		if (_callback)
+		{
+			_callback();
+		}
 	}
-}
 
+}
+void Hero::setCallBack(std::function<void()> callback)
+{
+	_callback = callback;
+}
 
 void Hero::setHealthBar(float percent)
 {
