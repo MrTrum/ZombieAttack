@@ -29,10 +29,18 @@ bool StartScene::init()
 		return false;
 	}
 	winSize = Director::getInstance()->getWinSize();
-	experimental::AudioEngine::preload("audio/constricted.ogg");
+	//Load music
+	experimental::AudioEngine::preload("audio/nhacMenuScene.mp3");
+	experimental::AudioEngine::preload("audio/nhacMap.mp3");
+	experimental::AudioEngine::preload("audio/nhacGame.mp3");
+	experimental::AudioEngine::preload("audio/nhacVaoShop.mp3");
+	experimental::AudioEngine::preload("audio/nhacBoss.mp3");
+	experimental::AudioEngine::preload("audio/nhacKhiBamVaoTuiVang.mp3");
 	experimental::AudioEngine::preload("audio/m16_fire.ogg");
 	experimental::AudioEngine::preload("audio/m16_reload.ogg");
-	int BG = experimental::AudioEngine::play2d("audio/constricted.ogg");
+
+	//Play music
+	experimental::AudioEngine::play2d("audio/nhacMenuScene.mp3");
 
 	auto _bg = Sprite::create("BG.png");
 	addChild(_bg);
@@ -62,8 +70,8 @@ bool StartScene::init()
 	}
 	_startBtnTxt = Label::createWithTTF("START GAME", "fonts/Creepster-Regular.ttf", 50);
 	_startBtnTxt->setColor(cocos2d::Color3B::WHITE);
-	_startBtnTxt->enableOutline(cocos2d::Color4B::MAGENTA, 5);
-	_startBtnTxt->enableShadow(Color4B::MAGENTA, Size(2, -2), -5);
+	_startBtnTxt->enableOutline(cocos2d::Color4B::RED, 5);
+	_startBtnTxt->enableShadow(Color4B::BLACK, Size(2, -2), -5);
 	_startBtnTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
 	_startBtn = ui::Button::create("blankBtn.png");
@@ -76,8 +84,8 @@ bool StartScene::init()
 
 	_mapsBtnTxt = Label::createWithTTF("STAGES", "fonts/Creepster-Regular.ttf", 50);
 	_mapsBtnTxt->setColor(cocos2d::Color3B::WHITE);
-	_mapsBtnTxt->enableOutline(cocos2d::Color4B::MAGENTA, 5);
-	_mapsBtnTxt->enableShadow(Color4B::MAGENTA, Size(2, -2), -5);
+	_mapsBtnTxt->enableOutline(cocos2d::Color4B::RED, 5);
+	_mapsBtnTxt->enableShadow(Color4B::BLACK, Size(2, -2), -5);
 	_mapsBtnTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
 	_mapsBtn = ui::Button::create("blankBtn.png");
@@ -90,8 +98,8 @@ bool StartScene::init()
 
 	_quitBtnTxt = Label::createWithTTF("QUIT", "fonts/Creepster-Regular.ttf", 50);
 	_quitBtnTxt->setColor(cocos2d::Color3B::WHITE);
-	_quitBtnTxt->enableOutline(cocos2d::Color4B::MAGENTA, 5);
-	_quitBtnTxt->enableShadow(Color4B::MAGENTA, Size(2, -2), -5);
+	_quitBtnTxt->enableOutline(cocos2d::Color4B::RED, 5);
+	_quitBtnTxt->enableShadow(Color4B::BLACK, Size(2, -2), -5);
 	_quitBtnTxt->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
 	_quitBtn = ui::Button::create("blankBtn.png");

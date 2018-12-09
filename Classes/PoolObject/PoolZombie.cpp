@@ -1,6 +1,7 @@
 ﻿#include "PoolObject/PoolZombie.h"
 #include "GameObject/PZombie.h"
 #include "Parameter.h"
+#include "AudioEngine.h"
 
 USING_NS_CC;
 #define PositionY1 0.1f
@@ -611,6 +612,8 @@ void PoolZombie::updateSchedule(int numberZombie)
 	else if (numberZombie >= 80 && numberZombie < 100)
 	{
 		schedule(schedule_selector(PoolZombie::createZombie_4), 1.0f);
+		experimental::AudioEngine::stopAll();
+		experimental::AudioEngine::play2d("audio/nhacBoss.mp3", true, 3.0f);
 	}
 }
 

@@ -2,6 +2,7 @@
 #include "GamePlayLayer.h"
 #include "Parameter.h"
 #include "math.h"
+#include "AudioEngine.h"
 
 #define ITEM_WIDTH_POSITION 0.05f
 #define ITEM_HEIGHT_POSITION 0.25f
@@ -31,6 +32,9 @@ bool StoreLayer::init()
 	{
 		return false;
 	}
+	//Play music
+	shopMusic = experimental::AudioEngine::play2d("audio/nhacVaoShop.mp3");
+
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist", "images/coin.png");
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Size winSize = Director::getInstance()->getWinSize();
@@ -120,6 +124,7 @@ void StoreLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventTy
 	{
 		this->removeAllChildren();
 		_btnGamePlayLayer->resumeGame();
+		experimental::AudioEngine::stop(shopMusic);
 	}
 }
 void StoreLayer::TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)

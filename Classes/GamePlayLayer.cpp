@@ -62,7 +62,7 @@ Scene * GamePlayLayer::createGamePlayLayer(int stage)
 	Scene* scene = Scene::createWithPhysics();
 	PhysicsWorld* world = scene->getPhysicsWorld();
 	//remember to turn off debug when release
-	world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	/*world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);*/
 	GamePlayLayer* node = GamePlayLayer::create(stage);
 	scene->addChild(node);
 	return scene;
@@ -74,6 +74,10 @@ bool GamePlayLayer::init(int playStage)
 	{
 		return false;
 	}
+	//Play music game
+	experimental::AudioEngine::stopAll();
+	_musicGame = experimental::AudioEngine::play2d("audio/nhacGame.mp3", true, 3.0f);
+
 	Size winSize = Director::getInstance()->getWinSize();
 	this->removeAllChildren();
 	scenePlay = playStage;
@@ -267,6 +271,7 @@ void GamePlayLayer::TouchPauseButton(Ref* pSender, cocos2d::ui::Widget::TouchEve
 {
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
+		experimental::AudioEngine::pause(_musicGame);
 		Director::getInstance()->pause();
 		_iconDynamite->setTag(554);
 		_woodPane->setVisible(true);
@@ -294,6 +299,7 @@ void GamePlayLayer::TouchResumeButton(Ref* pSender, cocos2d::ui::Widget::TouchEv
 		_labelQuit->setVisible(false);
 		_shopBtn->setVisible(false);
 		_labelShop->setVisible(false);
+		experimental::AudioEngine::resume(_musicGame);
 	}
 }
 
@@ -469,6 +475,9 @@ void GamePlayLayer::createGoldBag(Vec2 deadPos)
 	goldBag->setTag(GOLD_BAG_TAG);
 	goldBag->setPosition(deadPos);
 	Size winSize = Director::getInstance()->getWinSize();
+	//Play music
+	experimental::AudioEngine::stopAll();
+	experimental::AudioEngine::play2d("audio/nhacKhiBamVaoTuiVang.mp3");
 	int numCoin = 10;
 	for (int i = 0; i < numCoin; i++)
 	{
@@ -693,7 +702,7 @@ void GamePlayLayer::updatePressed(float dt)
 		{
 			if (_Bullet > 0)
 			{
-				int _shootingsound = experimental::AudioEngine::play2d("audio/m16_fire.ogg");
+				int _shootingsound = experimental::AudioEngine::play2d("audio/m16_fire.ogg", false, 0.5f);
 				Shooting();
 				_Bullet--;
 			}

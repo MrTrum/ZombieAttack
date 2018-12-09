@@ -28,6 +28,7 @@ public:
 	void setCallBack(std::function<void(M4A1* Gun)> callback);
 	void setCallBackHP(std::function<void(HP* HP)> callbackHP);
 	int _chon;
+	int shopMusic;
 private:
 	int _shopTotalMoney;
 	cocos2d::ui::Button* _quitShop;

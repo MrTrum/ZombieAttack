@@ -96,6 +96,7 @@ private:
 	MotionStreak	*_motion;
 	PoolSkill		*_poolSkill;
 	SkillZombie     *_skillZombie;
+	int				_musicGame;
 /*Tú*/
 private:
 	Vec2 _iconPos;

@@ -6,6 +6,7 @@
 #include <iostream>
 #include "GamePlayLayer.h"
 #include "StageBtn.h"
+#include "AudioEngine.h"
 
 MapScene::MapScene()
 {
@@ -30,6 +31,9 @@ bool MapScene::init()
 	{
 		return false;
 	}
+	experimental::AudioEngine::stopAll();
+	experimental::AudioEngine::play2d("audio/nhacMap.mp3");
+
 	winSize = Director::getInstance()->getWinSize();
 
 	EventListenerTouchOneByOne *touchListener = EventListenerTouchOneByOne::create();
