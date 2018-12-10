@@ -30,7 +30,41 @@ bool Dynamite::init()
 	scheduleUpdate();
 	return true;
 }
+void Dynamite::show()
+{
+	Size winSize = Director::getInstance()->getWinSize();
+	_iconBomb = Sprite::create("btn_dynamite.png");
+	_iconBomb->setPosition(winSize.width*0.83f, winSize.height*0.63f);
+	_iconBomb->setScale(1.8f);
+	this->addChild(_iconBomb);
+	_bombNum = Sprite::create("weapon_dynamite.png");
+	_bombNum->setPosition(winSize.width*0.78f, winSize.height*0.42f);
+	_bombNum->setScale(2.3f);
+	this->addChild(_bombNum);
+	std::string _dmgStr = StringUtils::format("  +  %i", 5);
+	_labelNum = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", 30);
+	_labelNum->setPosition(winSize.width*0.87f, winSize.height*0.42f);
+	this->addChild(_labelNum);
+	int test = (PRICE_BOMB*BOMB_NUMBER);
+	_Price = Sprite::createWithSpriteFrameName("coin1.png");
+	_Price->setPosition(Vec2(winSize.width*0.75f, winSize.height*0.25f));
+	_Price->setScale(0.15f);
+	this->addChild(_Price);
+	std::string _priceStr = StringUtils::format("  %i", test);
+	_labelUpgrade = Label::createWithTTF(_priceStr, "fonts/kenvector_future.ttf", 25);
+	_labelUpgrade->setPosition(Vec2(winSize.width*0.82f, winSize.height*0.25f));
+	_labelUpgrade->setColor(cocos2d::Color3B(0, 0, 0));
+	_labelUpgrade->setString(_priceStr);
+	this->addChild(_labelUpgrade);
+}
+void Dynamite::hide()
+{
 
+}
+void Dynamite::setLabelStats()
+{
+
+}
 Dynamite *Dynamite::create()
 {
 	Dynamite *pRet = new(std::nothrow) Dynamite();

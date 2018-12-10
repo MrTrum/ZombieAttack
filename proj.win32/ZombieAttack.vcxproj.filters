@@ -54,9 +54,6 @@
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\BackgroundLayer.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -143,6 +140,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\StartScene.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>src\Weapon\M4A1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,12 +235,14 @@
     </ClInclude>
     <ClInclude Include="..\Classes\UI\EndGame\EndGame.h">
       <Filter>src\UI\EndGame</Filter>
-    </ClInclude>    <ClInclude Include="..\Classes\InfiniteParallaxNode.h">
+    </ClInclude>
+    <ClInclude Include="..\Classes\InfiniteParallaxNode.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\StartScene.h">
       <Filter>src</Filter>
-    </ClInclude>  </ItemGroup>
+    </ClInclude>
+  </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
       <Filter>resource</Filter>

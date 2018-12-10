@@ -44,6 +44,8 @@ public:
 	void setTotalMoney(int shopMoney);
 	void rechargeBullet();
 	void rechargeHP();
+	void ScaleCoinAnimation();
+	void rechargeBomb();
 	void potionButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 /*Thanh*/
 	bool onContactBegin(PhysicsContact &contact);
@@ -114,12 +116,15 @@ private:
 	cocos2d::ui::Button* _resumeBtn;
 	cocos2d::ui::Button* _quitBtn;
 	cocos2d::ui::Button* _shopBtn;
+	cocos2d::Sprite* _IconCoin;
 	cocos2d::Sprite* _iconHP;
+	cocos2d::Sprite* _iconHPHide;
 	cocos2d::Label* _numberHP;
 	UserDefault* def;
 	int _Level, _Bullet, _baseBullet,_LevelHP,_totalHP;
 	int scenePlay;
 	int dem;
+	
 };
 
 #endif // !_GAME_PLAY_LAYER

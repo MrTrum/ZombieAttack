@@ -28,7 +28,7 @@ GamePlayLayer::GamePlayLayer()
 	_totalBullet = 0;
 	_Bullet = 0;
 	_baseBullet = 0;
-	_dynStock = 5;
+	_dynStock = 0;
 	_getDynTag = 0;
 	_Level = 1;
 	_LevelHP = 1;
@@ -91,6 +91,7 @@ bool GamePlayLayer::init(int playStage)
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsSkill.plist", "images/assetsSkill.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist", "images/coin.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/numbers.plist", "images/numbers.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/item.plist", "images/item.png");
 #pragma endregion
 
 #pragma region Components
@@ -235,10 +236,14 @@ bool GamePlayLayer::init(int playStage)
 	this->addChild(buttonHide, 2);
 	buttonHide->setPosition(Vec2(winSize.width * 0.85f, winSize.height * 0.87f));
 	buttonHide->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::potionButton, this));
+	_iconHPHide = Sprite::createWithSpriteFrameName("icon_potion.png");
+	_iconHPHide->setPosition(buttonHide->getPosition());
+	this->addChild(_iconHPHide, 2);
 	_numberHP = Label::createWithTTF(StringUtils::format("%02d", _totalHP), "fonts/Marker Felt.ttf", 20);
-	buttonHide->addChild(_numberHP);
+	_iconHPHide->addChild(_numberHP);
 	_numberHP->setPosition(Vec2(50.0f, 15.0f));
 	_numberHP->enableOutline(cocos2d::Color4B::BLACK, 3);
+	
 #pragma endregion
 
 	return true;
@@ -248,6 +253,7 @@ bool GamePlayLayer::init(int playStage)
 void GamePlayLayer::testButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
 {
 	Size winSize = Director::getInstance()->getWinSize();
+	
 	auto goldBag2 = Sprite::create("goldBag.png");
 	goldBag2->setName("goldBag2");
 	this->addChild(goldBag2, 3);
@@ -302,7 +308,10 @@ void GamePlayLayer::TouchResumeButton(Ref* pSender, cocos2d::ui::Widget::TouchEv
 		experimental::AudioEngine::resume(_musicGame);
 	}
 }
-
+void GamePlayLayer::rechargeBomb()
+{
+	this->_dynStock += BOMB_NUMBER;
+}
 void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
 {
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
@@ -330,6 +339,13 @@ void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 			if (Hp->recharge == true)
 			{
 				this->rechargeHP();
+			}
+		});
+		_Shop->setCallBackBomb([=](Dynamite* Bomb)
+		{
+			if (Bomb->recharge == true)
+			{
+				this->rechargeBomb();
 			}
 		});
 		_Shop->setGamePlayLayerPtr(this);
@@ -483,7 +499,7 @@ void GamePlayLayer::createGoldBag(Vec2 deadPos)
 	{
 		if (i == numCoin - 1) // final coin
 		{
-			this->CoinFly(deadPos, 0.1f * i, [=]()
+			this->CoinFly(deadPos, 0.15f * i, [=]()
 			{
 				this->removeChildByTag(GOLD_BAG_TAG);
 				auto endgame = EndGame::create("COMPLETED");
@@ -499,7 +515,7 @@ void GamePlayLayer::createGoldBag(Vec2 deadPos)
 		}
 		else
 		{
-			this->CoinFly(deadPos, 0.1f * i);	
+			this->CoinFly(deadPos, 0.15f * i);	
 		}
 	}
 
@@ -542,6 +558,13 @@ void GamePlayLayer::moneyChange()
 	_totalMoney = _totalMoney + 100;
 	_Money->setMoney(_totalMoney);
 }
+void GamePlayLayer::ScaleCoinAnimation()
+{
+	auto scale = ScaleTo::create(0.5f, 0.25f);
+	auto scale2 = ScaleTo::create(0.5f, 0.15f);
+	auto spa = Sequence::create(DelayTime::create(0.7f),scale, scale2, nullptr);
+	_IconCoin->runAction(spa);
+}
 
 void GamePlayLayer::CoinFly(Vec2 deadPos, float delay, std::function<void()> onEndCallback /*= nullptr*/)
 {
@@ -551,6 +574,7 @@ void GamePlayLayer::CoinFly(Vec2 deadPos, float delay, std::function<void()> onE
 		this->addChild(_Coin, 10);
 		_Coin->setPosition(deadPos);
 		_Coin->PlayAnimation();
+		this->ScaleCoinAnimation();
 		_checkMoney = _Coin->FlyAnimation(_iconPos, [=] {
 			this->moneyChange();
 			if (onEndCallback)
@@ -568,7 +592,7 @@ void GamePlayLayer::IconCoinCreate()
 	Size winSize = Director::getInstance()->getWinSize();
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist",
 		"images/coin.png");
-	auto _IconCoin = Sprite::createWithSpriteFrameName("coin1.png");
+	_IconCoin = Sprite::createWithSpriteFrameName("coin1.png");
 	_IconCoin->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_IconCoin->setScale(0.15f);
 	_IconCoin->setPosition(Vec2(winSize.width*0.57f, winSize.height*0.968f));
@@ -673,13 +697,6 @@ void GamePlayLayer::throwOutputText(std::string txt, int duration)
 
 void GamePlayLayer::update(float dt)
 {
-	/*if (_Bullet == 0 && _totalBullet == 0)
-	{
-		_isReloading = false;
-		_isShootingBegan = false;
-		throwOutputText("OUT OF AMMO", INT_MAX);
-	}*/
-
 	if (_dynStock <= 0)
 	{
 		_iconDynamite->setSpriteFrame("btn_dynamite_empty.png");
@@ -688,6 +705,14 @@ void GamePlayLayer::update(float dt)
 	if (_dynStock > 0)
 	{
 		_iconDynamite->setTag(TAG_DYNAMITE_BTN);
+	}
+	if (_totalHP <= 0)
+	{
+		_iconHPHide->setSpriteFrame("icon_potion_dead.png");
+	}
+	if (_totalHP > 0)
+	{
+		_iconHPHide->setSpriteFrame("icon_potion.png");
 	}
 	_numberHP->setString(StringUtils::format("%02d", _totalHP));
 	_dynLeft->setString(StringUtils::format("%02d", _dynStock));

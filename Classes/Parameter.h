@@ -109,4 +109,8 @@
 #define PRICE_HP							    500
 //PRICE NUMBER HP
 #define PRICE_NUMBER_HP							100
+//PRICE BOMB
+#define PRICE_BOMB								300
+//BOMB NUMBER
+#define BOMB_NUMBER								5
 #endif // __PARAMETER_H__

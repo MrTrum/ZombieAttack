@@ -7,6 +7,7 @@
 #include "UI/NumberMoney/Money.h"
 #include "Weapon/M4A1/M4A1.h"
 #include "Item/HP/HP.h"
+#include "GameObject/Dynamite.h"
 USING_NS_CC;
 
 class GamePlayLayer;
@@ -27,6 +28,7 @@ public:
 	void setTotalMoney(int _GameTotalMoney);
 	void setCallBack(std::function<void(M4A1* Gun)> callback);
 	void setCallBackHP(std::function<void(HP* HP)> callbackHP);
+	void setCallBackBomb(std::function<void(Dynamite* HP)> callbackBomb);
 	int _chon;
 	int shopMusic;
 private:
@@ -46,9 +48,10 @@ private:
 	HP* _iconHP;
 	Money* _Money; 
 	UserDefault* def;
-	
+	Dynamite* _bomb;
 	std::function<void(M4A1* Gun)> _callback;
 	std::function<void(HP* HP)> _callbackHP;
+	std::function<void(Dynamite* HP)> _callbackBomb;
 };
 
 

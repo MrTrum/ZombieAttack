@@ -11,6 +11,7 @@ public:
 	virtual bool init();
 	CREATE_FUNC(Coin);
 	void PlayAnimation();
+	void ScaleCoinAnimation();
 	bool FlyAnimation(cocos2d::Vec2 iconPos, std::function<void()> callback);
 	void update(float dt);
 private:

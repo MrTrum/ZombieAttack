@@ -18,6 +18,10 @@ public:
 	void onCollission(GameObject *obj);
 	float getDamage() override;
 	void kaBoooom(Vec2 droppedPos);
+	void show();
+	void hide();
+	void setLabelStats();
+	bool recharge = false;
 protected:
 private:
 	float _Dmg;
@@ -26,6 +30,11 @@ private:
 	PhysicsBody	*_physics;
 	ParticleSystemQuad	*_particle;
 	OnExploDestroyCallback _onExploDestroyCallback;
+	cocos2d::Sprite* _iconBomb;
+	cocos2d::Sprite* _Price;
+	cocos2d::Sprite* _bombNum;
+	cocos2d::Label* _labelNum;
+	cocos2d::Label* _labelUpgrade;
 	bool _willBeDestroy;
 };
 

@@ -111,7 +111,10 @@ bool StoreLayer::init()
 	_iconHP->setIcon();
 	_iconHP->setLabelStats();
 	this->addChild(_iconHP, 4);
-
+	_bomb = Dynamite::create();
+	_bomb->show();
+	_bomb->setVisible(false);
+	this->addChild(_bomb, 4);
 	return true;
 }
 void StoreLayer::TouchWeaponButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
@@ -126,6 +129,10 @@ void StoreLayer::TouchQuitButton(Ref* pSender, cocos2d::ui::Widget::TouchEventTy
 		_btnGamePlayLayer->resumeGame();
 		experimental::AudioEngine::stop(shopMusic);
 	}
+}
+void StoreLayer::setCallBackBomb(std::function<void(Dynamite* HP)> callbackBomb)
+{
+	_callbackBomb = callbackBomb;
 }
 void StoreLayer::TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
 {
@@ -188,9 +195,16 @@ void StoreLayer::TouchUpgradeButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 					_callbackHP(_iconHP);
 				}
 			}
-			else if (_shopTotalMoney >= _iconGun->_Stats._Price && pSender == listButtonItem.at(2))
+			else if (_shopTotalMoney >= (PRICE_BOMB*BOMB_NUMBER) && pSender == listButtonItem.at(2))
 			{
-
+				_shopTotalMoney = _shopTotalMoney - (PRICE_BOMB*BOMB_NUMBER);
+				_btnGamePlayLayer->setTotalMoney(_shopTotalMoney);
+				_Money->setMoney(_shopTotalMoney);
+				_bomb->recharge = true;
+				if (_callbackBomb)
+				{
+					_callbackBomb(_bomb);
+				}
 			}
 		}
 
@@ -223,6 +237,7 @@ void StoreLayer::TouchUpgradeWeaponButton(Ref* pSender, cocos2d::ui::Widget::Tou
 		_chon = UPGRADE_INDEX;
 		_iconGun->hide();
 		_iconHP->iconItemHide();
+		_bomb->setVisible(false);
 	}
 
 }
@@ -232,6 +247,7 @@ void StoreLayer::TouchItemButton(Ref* pSender, cocos2d::ui::Widget::TouchEventTy
 	{
 		_iconGun->show();
 		_iconHP->iconItemShow();
+		_bomb->setVisible(true);
 		_chon = BUY_ITEM_INDEX;
 	}
 }
