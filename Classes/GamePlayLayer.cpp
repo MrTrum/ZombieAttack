@@ -107,7 +107,7 @@ bool GamePlayLayer::init(int playStage)
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
 	_hero->setCallBack([=]()
 	{
-		auto endgame = EndGame::create("DEFEATED", scenePlay);
+		auto endgame = EndGame::create("Game Over", scenePlay);
 		endgame->getMax(_totalMoney);
 		this->addChild(endgame, 5);
 		endgame->runNumber();
