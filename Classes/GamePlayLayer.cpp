@@ -76,6 +76,7 @@ bool GamePlayLayer::init(int playStage)
 	}
 	//Play music game
 	experimental::AudioEngine::stopAll();
+	_totalMoney= UserDefault::getInstance()->getIntegerForKey("CurrentMoney", 0);
 	_musicGame = experimental::AudioEngine::play2d("audio/nhacGame.mp3", true, 3.0f);
 
 	Size winSize = Director::getInstance()->getWinSize();
