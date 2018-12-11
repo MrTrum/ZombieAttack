@@ -1,4 +1,6 @@
 #include "UI/EndGame/EndGame.h"
+#include "GamePlayLayer.h"
+#include "MapScene.h"
 USING_NS_CC;
 using namespace ui;
 EndGame::EndGame()
@@ -10,10 +12,10 @@ EndGame::EndGame()
 EndGame::~EndGame()
 {
 }
-EndGame *EndGame::create(std::string endStr)
+EndGame *EndGame::create(std::string endStr, int curStage)
 {
 	EndGame *pRet = new(std::nothrow) EndGame();
-	if (pRet && pRet->init(endStr))
+	if (pRet && pRet->init(endStr, curStage))
 	{
 		pRet->autorelease();
 		return pRet;
@@ -25,7 +27,7 @@ EndGame *EndGame::create(std::string endStr)
 		return nullptr;
 	}
 }
-bool EndGame::init(std::string endStr)
+bool EndGame::init(std::string endStr, int curStage)
 {
 	if (!Layout::init())
 	{
@@ -35,6 +37,7 @@ bool EndGame::init(std::string endStr)
 	this->setContentSize(winSize);
 	this->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	this->setTouchEnabled(true);
+	_curStage = curStage;
 
 	_outputTxt = Label::createWithTTF(endStr, "fonts/Creepster-Regular.ttf", 100);
 	_outputTxt->setPosition(Vec2(winSize.width*0.5f, winSize.height*0.8f));
@@ -90,7 +93,7 @@ void EndGame::plusNumber(float dt)
 }
 void EndGame::runNumber()
 {
-	this->schedule(schedule_selector(EndGame::plusNumber));
+	this->schedule(schedule_selector(EndGame::plusNumber,0.0001f));
 }
 void EndGame::setGamePlayLayerPtr(GamePlayLayer* ptr)
 {
@@ -101,7 +104,12 @@ void EndGame::TouchNextButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType 
 
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
-		
+		int checkStage = UserDefault::getInstance()->getIntegerForKey("UnlockedStage", 1);
+		if (_curStage < checkStage)
+		{
+			auto scene = GamePlayLayer::createGamePlayLayer(++_curStage);
+			Director::getInstance()->replaceScene(TransitionFadeBL::create(0.5f, scene));
+		}
 	}
 
 }
@@ -109,13 +117,19 @@ void EndGame::TouchReplayButton(Ref* pSender, cocos2d::ui::Widget::TouchEventTyp
 {
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
-
+		int checkStage = UserDefault::getInstance()->getIntegerForKey("UnlockedStage", 1);
+		if (_curStage <= checkStage)
+		{
+			auto scene = GamePlayLayer::createGamePlayLayer(_curStage);
+			Director::getInstance()->replaceScene(TransitionFadeBL::create(0.5f, scene));
+		}
 	}
 }
 void EndGame::TouchMapButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType)
 {
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
-
+		auto scene = MapScene::createMap();
+		Director::getInstance()->replaceScene(TransitionFadeBL::create(0.5f, scene));
 	}
 }

@@ -99,6 +99,7 @@ private:
 	PoolSkill		*_poolSkill;
 	SkillZombie     *_skillZombie;
 	int				_musicGame;
+	bool			_isTxtVisible;
 /*Tú*/
 private:
 	Vec2 _iconPos;
@@ -124,7 +125,6 @@ private:
 	int _Level, _Bullet, _baseBullet,_LevelHP,_totalHP;
 	int scenePlay;
 	int dem;
-	
 };
 
 #endif // !_GAME_PLAY_LAYER

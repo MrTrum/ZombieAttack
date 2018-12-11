@@ -107,7 +107,7 @@ bool GamePlayLayer::init(int playStage)
 	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
 	_hero->setCallBack([=]()
 	{
-		auto endgame = EndGame::create("DEFEATED");
+		auto endgame = EndGame::create("DEFEATED", scenePlay);
 		endgame->getMax(_totalMoney);
 		this->addChild(endgame, 5);
 		endgame->runNumber();
@@ -380,7 +380,7 @@ void GamePlayLayer::onTouchReloadBtn(Ref* pSender, cocos2d::ui::Widget::TouchEve
 	if (_Bullet != 30)
 	{
 		_isReloading = true;
-		throwOutputText("Reloading", 2);
+		throwOutputText("RELOADING", 2);
 		scheduleOnce(schedule_selector(GamePlayLayer::reloading), 2.0f);
 	}
 }
@@ -502,14 +502,19 @@ void GamePlayLayer::createGoldBag(Vec2 deadPos)
 			this->CoinFly(deadPos, 0.15f * i, [=]()
 			{
 				this->removeChildByTag(GOLD_BAG_TAG);
-				auto endgame = EndGame::create("COMPLETED");
+				auto endgame = EndGame::create("COMPLETED", scenePlay);
 				endgame->getMax(_totalMoney);
 				this->addChild(endgame, 5);
-				endgame->runNumber();
+				int currentUnlocked = UserDefault::getInstance()->getIntegerForKey("UnlockedStage", 1);
 				def->setIntegerForKey("CurrentBullet", _Bullet);
 				def->setIntegerForKey("CurrentTotalBullet", _totalBullet);
 				def->setIntegerForKey("CurrentMoney", _totalMoney);
+				if (scenePlay == currentUnlocked)
+				{
+					def->setIntegerForKey("UnlockedStage", ++currentUnlocked);
+				}
 				def->flush();
+				endgame->runNumber();
 			});
 
 		}
@@ -629,10 +634,10 @@ void GamePlayLayer::addUI()
 	_outputTxt->enableOutline(cocos2d::Color4B::RED, 2);
 	_outputTxt->enableShadow(Color4B::RED, Size(10, -10), -5);
 	_outputTxt->setPosition(winSize.width * 0.5f, winSize.height * 0.75f);
-	Blink *rdTxtBlink = Blink::create(5, 12);
-	_outputTxt->runAction(rdTxtBlink);
+	/*Blink *rdTxtBlink = Blink::create(5, 12);
+	_outputTxt->runAction(rdTxtBlink);*/
 
-	throwOutputText("READY !!!!", 3);
+	throwOutputText("READY !!!", 3);
 	//paused effect
 	_blurBG = Sprite::create("Untitled.png");
 	addChild(_blurBG, 4);
@@ -641,7 +646,7 @@ void GamePlayLayer::addUI()
 	float scaleY = winSize.height / _blurBG->getContentSize().height;
 	_blurBG->setScaleX(scaleX);
 	_blurBG->setScaleY(scaleY);
-	_blurBG->setOpacity(30);
+	_blurBG->setOpacity(220);
 	_blurBG->setVisible(false);
 	_woodPane = Sprite::create("woodpane.png");
 	addChild(_woodPane, 4);
@@ -685,14 +690,17 @@ Point GamePlayLayer::touchToPoint(Touch* touch)
 void GamePlayLayer::throwOutputText(std::string txt, int duration)
 {
 	_outputTxt->setString(txt);
-	_outputTxt->setVisible(true);
-	DelayTime *readyTime = DelayTime::create(duration);
-	CallFunc *removeRdTxt = CallFunc::create([=]
+	_isTxtVisible = true;
+	auto bAction = CallFunc::create([=]
 	{
-		_outputTxt->setVisible(false);
-	}
-	);
-	runAction(Sequence::create(readyTime, removeRdTxt, NULL));
+		Blink *rdTxtBlink = Blink::create(duration, duration * 2.4);
+		_outputTxt->runAction(rdTxtBlink);
+	});
+	CallFunc *hideRdTxt = CallFunc::create([=]
+	{
+		_isTxtVisible = false;
+	});
+	runAction(Sequence::create(bAction,DelayTime::create(duration), hideRdTxt, NULL));
 }
 
 void GamePlayLayer::update(float dt)
@@ -717,6 +725,10 @@ void GamePlayLayer::update(float dt)
 	_numberHP->setString(StringUtils::format("%02d", _totalHP));
 	_dynLeft->setString(StringUtils::format("%02d", _dynStock));
 	_bulletInMag->setString(StringUtils::format("%02d / %03d", _Bullet, _totalBullet));
+	if (!_isTxtVisible)
+	{
+		_outputTxt->setVisible(false);
+	}
 }
 
 void GamePlayLayer::updatePressed(float dt)
@@ -734,8 +746,8 @@ void GamePlayLayer::updatePressed(float dt)
 			else
 			{
 				_isReloading = true;
-				throwOutputText("Reloading", 3);
-				scheduleOnce(schedule_selector(GamePlayLayer::reloading), 3.0f);
+				throwOutputText("RELOADING", 2);
+				scheduleOnce(schedule_selector(GamePlayLayer::reloading), 2.0f);
 			}
 		}
 	}

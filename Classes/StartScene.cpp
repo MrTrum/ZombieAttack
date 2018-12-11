@@ -109,9 +109,7 @@ bool StartScene::init()
 	_quitBtn->setPosition(Vec2(winSize.width * 0.5f, winSize.height * 0.35f));
 	_quitBtn->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_quitBtn->addTouchEventListener(CC_CALLBACK_2(StartScene::onTouchQuitBtn, this));
-
 	
-
 	scheduleUpdate();
 	return true;
 }
@@ -142,7 +140,7 @@ void StartScene::onTouchStartBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventTy
 	{
 
 		auto scene = GamePlayLayer::createGamePlayLayer(1);
-		Director::getInstance()->replaceScene(scene);
+		Director::getInstance()->replaceScene(TransitionFadeBL::create(0.5f, scene));
 	}
 }
 
@@ -159,7 +157,7 @@ void StartScene::onTouchMapsBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventTyp
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
 	{
 		auto scene = MapScene::createMap();
-		Director::getInstance()->replaceScene(scene);
+		Director::getInstance()->replaceScene(TransitionFadeBL::create(0.5f, scene));
 	}
 }
 

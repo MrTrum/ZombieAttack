@@ -11,8 +11,8 @@ class EndGame : public cocos2d::ui::Layout
 public:
 	EndGame();
 	~EndGame();
-	static EndGame* create(std::string endStr);
-	bool init(std::string endStr);
+	static EndGame* create(std::string endStr, int curStage);
+	bool init(std::string endStr, int  curStage);
 	void TouchNextButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void TouchReplayButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void TouchMapButton(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
@@ -30,6 +30,7 @@ private:
 	cocos2d::Label* _outputTxt;
 	cocos2d::Label* _labelScore2;
 	int min, max;
+	int _curStage;
 };
 
 #endif // !_END_GAME_H
