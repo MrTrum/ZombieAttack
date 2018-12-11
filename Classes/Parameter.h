@@ -81,7 +81,7 @@
 #define HEALTH_ZOMBIE9							300.0f
 #define HEALTH_ZOMBIE10							300.0f
 #define HEALTH_ZOMBIE11							300.0f
-#define HEALTH_ZOMBIE100						1500.0f
+#define HEALTH_ZOMBIE100						1000.0f
 
 #define START_POS								Vec2(winSize * 0.26f)
 #define BULLET_VEC								1000.0f
@@ -89,7 +89,7 @@
 #define GOLD_BAG_TAG							131
 
 #define DAMAGE_OF_ZOMBIE2						0.5f
-#define DAMAGE_OF_BOSS							25.0f
+#define DAMAGE_OF_BOSS							15.0f
 //DAMAGE M4A1
 #define DAMAGE_M4A1                             30
 //NUMBER BULLET SHOOT

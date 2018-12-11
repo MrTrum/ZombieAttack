@@ -432,12 +432,6 @@ void PoolZombie::createZombie_4(float delta)
 		auto Z_Order = ZOrder(positionY);
 		this->addChild(zombie, Z_Order);
 
-		if (_scenePlay == 6)
-		{
-			_numberZombie = 100;
-			zombie->setScale(0.5f);
-		}
-
 		float positionX = getPosX(zombie->getTag(), positionY);
 		int timeMoveTo = getTimeMove(zombie->getTag());
 
