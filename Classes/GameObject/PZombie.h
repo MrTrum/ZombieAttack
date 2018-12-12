@@ -40,7 +40,7 @@ private:
 	//bool						_isWalk;
 	//bool						_isAttack;
 	/*bool						_isDead;*/
-	void update(float delta);
+	void update(float delta) override;
 public:
 	PZombie();
 	~PZombie();

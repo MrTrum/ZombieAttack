@@ -3,9 +3,8 @@
 #include "GamePlayLayer.h"
 #include "MapScene.h"
 #include "StartScene.h"
-#include "UI/Menu/MenuLayer.h"
 
-// #define USE_AUDIO_ENGINE 1
+#define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
 
 #if USE_AUDIO_ENGINE && USE_SIMPLE_AUDIO_ENGINE
@@ -63,7 +62,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("zombie2", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+        glview = GLViewImpl::createWithRect("Zombie Attack", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
 #else
         glview = GLViewImpl::create("zombie2");
 #endif
@@ -71,7 +70,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     // turn on display FPS
-    director->setDisplayStats(true);
+    director->setDisplayStats(false);
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0f / 60);
@@ -99,8 +98,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
 	// tắt start scene để test cho lẹ.
-	//auto scene = StartScene::createStartScene();
-	auto scene = GamePlayLayer::createGamePlayLayer(6);
+	auto scene = StartScene::createStartScene();
+	//auto scene = GamePlayLayer::createGamePlayLayer(6);
 	//auto scene = MapScene::createMap();
     // run
     director->runWithScene(scene);

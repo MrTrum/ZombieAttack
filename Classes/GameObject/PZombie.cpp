@@ -3,7 +3,7 @@
 #include "GamePlayLayer.h"
 #include "PoolObject/PoolZombie.h"
 #include "PoolObject/PoolSkill.h"
-
+#include "AudioEngine.h"
 
 USING_NS_CC;
 
@@ -125,9 +125,7 @@ void PZombie::update(float delta)
 {
 	if (this->getTag() == 100)
 	{
-		/*cocos2d::log("Pos = deltaX = %f deltaY = %f", this->getPositionX(), this->getPositionY());
-		cocos2d::log("Anchor = %f %f", this->getAnchorPoint().x, this->getAnchorPoint().y);
-		cocos2d::log("Spr Anchor = %f %f", _spr->getAnchorPoint().x, this->getAnchorPoint().y);*/
+		//do something i dont know
 	}
 } 
 
@@ -207,6 +205,7 @@ void PZombie::onCollission(GameObject *obj)
 	auto zombirtag = this->getTag();
 	if (obj->getTag() == TAG_BULLET || obj->getTag() == TAG_DYNAMITE)
 	{
+		experimental::AudioEngine::play2d("audio/bullet_impact_flesh.ogg");
 		this->damage = obj->getDamage();
 		checkDamage();
 	}

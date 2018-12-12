@@ -66,7 +66,7 @@ protected:
 	void throwOutputText(std::string txt, int duration);
 	void reloading(float dt);
 	void addUI();
-	void update(float dt);
+	void update(float dt) override;
 	void onTouchReloadBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 private:
 	MyStore			*_myStore;

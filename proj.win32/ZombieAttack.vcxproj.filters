@@ -37,9 +37,6 @@
     <Filter Include="src\UI\GameStats">
       <UniqueIdentifier>{98327ede-fe32-435b-bac5-e92590089ba1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\UI\Menu">
-      <UniqueIdentifier>{b7ca2330-2775-457e-93f8-bd9c248e0ab5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\UI\NumberMoney">
       <UniqueIdentifier>{ad487b67-cd87-4e7d-ab8b-6ed75ec15a1c}</UniqueIdentifier>
     </Filter>
@@ -58,12 +55,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GamePlayLayer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ShakeAction.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Store.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameObject\Border.cpp">
@@ -108,9 +99,6 @@
     <ClCompile Include="..\Classes\UI\GameStats\WeaponStats.cpp">
       <Filter>src\UI\GameStats</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\UI\Menu\MenuLayer.cpp">
-      <Filter>src\UI\Menu</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\UI\NumberMoney\Money.cpp">
       <Filter>src\UI\NumberMoney</Filter>
     </ClCompile>
@@ -142,7 +130,7 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>src\Weapon\M4A1</Filter>
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,12 +147,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Parameter.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ShakeAction.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Store.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameObject\Border.h">
@@ -208,9 +190,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\UI\GameStats\WeaponStats.h">
       <Filter>src\UI\GameStats</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UI\Menu\MenuLayer.h">
-      <Filter>src\UI\Menu</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\UI\NumberMoney\Money.h">
       <Filter>src\UI\NumberMoney</Filter>

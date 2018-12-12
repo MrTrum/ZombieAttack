@@ -25,7 +25,7 @@ public:
 protected:
 private:
 	float _Dmg;
-	void update(float dt);
+	void update(float dt) override;
 private:
 	PhysicsBody	*_physics;
 	ParticleSystemQuad	*_particle;

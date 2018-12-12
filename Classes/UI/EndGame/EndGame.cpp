@@ -93,7 +93,7 @@ void EndGame::plusNumber(float dt)
 }
 void EndGame::runNumber()
 {
-	this->schedule(schedule_selector(EndGame::plusNumber,0.0001f));
+	this->schedule(schedule_selector(EndGame::plusNumber));
 }
 void EndGame::setGamePlayLayerPtr(GamePlayLayer* ptr)
 {

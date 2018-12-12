@@ -13,7 +13,7 @@ public:
 	void PlayAnimation();
 	void ScaleCoinAnimation();
 	bool FlyAnimation(cocos2d::Vec2 iconPos, std::function<void()> callback);
-	void update(float dt);
+	void update(float dt) override;
 private:
 	cocos2d::Sprite* _Coin;
 	int _coinVal = 1;

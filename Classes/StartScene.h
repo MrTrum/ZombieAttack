@@ -20,7 +20,7 @@ public:
 	void onTouchStartBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void onTouchMapsBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void onTouchQuitBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-	void update(float dt);
+	void update(float dt) override;
 private:
 	Size winSize;
 	InfiniteParallaxNode	*_parallaxBG;

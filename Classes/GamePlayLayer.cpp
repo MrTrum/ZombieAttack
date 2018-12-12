@@ -15,8 +15,6 @@
 #include "BackgroundLayer.h"
 #include "UI/Coin/Coin.h"
 #include <ui/UIWidget.h>
-#include "ShakeAction.h"
-#include "Store.h"
 #include "UI/EndGame/EndGame.h"
 
 USING_NS_CC;
@@ -84,20 +82,12 @@ bool GamePlayLayer::init(int playStage)
 	scenePlay = playStage;
 
 #pragma region Plists
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("redneck_idle.plist", "redneck_idle.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/M16idle.plist", "weapon/M16idle.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/M16firing.plist", "weapon/M16firing.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("icon.plist", "icon.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsSkill.plist", "images/assetsSkill.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist", "images/coin.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/numbers.plist", "images/numbers.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/item.plist", "images/item.png");
+	
 #pragma endregion
 
 #pragma region Components
 	//add BG
-	Director::getInstance()->setClearColor(cocos2d::Color4F::WHITE);
+	setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_bg = BackgroundLayer::create();
 	this->addChild(_bg);
 	auto _gBorder = Border::create();
@@ -392,7 +382,7 @@ void GamePlayLayer::onTouchReloadBtn(Ref* pSender, cocos2d::ui::Widget::TouchEve
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
 	Point location = touch->getLocationInView();
-	_location = CCDirector::getInstance()->convertToGL(location);
+	_location = Director::getInstance()->convertToGL(location);
 	if (_iconDynamite->getBoundingBox().containsPoint(_location) && _iconDynamite->getTag() == TAG_DYNAMITE_BTN)
 	{
 		_getDynTag = TAG_DYNAMITE_BTN;
@@ -430,7 +420,7 @@ void GamePlayLayer::potionButton(Ref* pSender, cocos2d::ui::Widget::TouchEventTy
 void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
 	Point location = touch->getLocationInView();
-	_location = CCDirector::getInstance()->convertToGL(location);
+	_location = Director::getInstance()->convertToGL(location);
 	if (touch && _touchOffset.x && _touchOffset.y)
 	{
 		if (_getDynTag == TAG_DYNAMITE_BTN)
@@ -445,7 +435,7 @@ void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
 {
 	Size winSize = Director::getInstance()->getWinSize();
 	_isShootingBegan = false;
-	if (_getDynTag = TAG_DYNAMITE_BTN)
+	if (_getDynTag == TAG_DYNAMITE_BTN)
 	{
 		Vec2 droppedPos = _sprDynamite->getPosition();
 		_sprDynamite->setVisible(false);

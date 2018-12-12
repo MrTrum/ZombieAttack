@@ -7,6 +7,7 @@
 #include <climits>
 #include <cstdlib>
 #include <iostream>
+#include "InfiniteParallaxNode.h"
 USING_NS_CC;
 
 class StageBtn;
@@ -18,12 +19,13 @@ public:
 	bool init();
 	CREATE_FUNC(MapScene);
 	static Scene* createMap();
-	void update(float delta);
+	void update(float delta) override;
 	bool onTouchBegan(Touch*, Event*);
 	void onTouchMoved(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touches, Event* event);
 	void onTouchCancelled(Touch* touches, Event* event);
 private:
+	InfiniteParallaxNode	*_parallaxBG;
 	StageBtn				*_stageBtn;
 	Vec2					_startPos;
 	Vec2					_endPos;

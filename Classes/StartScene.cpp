@@ -1,6 +1,7 @@
 #include "StartScene.h"
 #include "AudioEngine.h"
 #include "GamePlayLayer.h"
+//#include "LoadingScene.h"
 #include "MapScene.h"
 
 StartScene::StartScene()
@@ -15,8 +16,6 @@ Scene * StartScene::createStartScene()
 {
 	Scene* scene = Scene::createWithPhysics();
 	PhysicsWorld* world = scene->getPhysicsWorld();
-	//remember to turn off debug when release
-	//world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	StartScene* node = StartScene::create();
 	scene->addChild(node);
 	return scene;
@@ -29,6 +28,17 @@ bool StartScene::init()
 		return false;
 	}
 	winSize = Director::getInstance()->getWinSize();
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("redneck_idle.plist", "redneck_idle.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/M16idle.plist", "weapon/M16idle.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("weapon/M16firing.plist", "weapon/M16firing.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("icon.plist", "icon.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsZombie.plist", "images/assetsZombie.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/assetsSkill.plist", "images/assetsSkill.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist", "images/coin.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/numbers.plist", "images/numbers.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/item.plist", "images/item.png");
+
+
 	//Load music
 	experimental::AudioEngine::preload("audio/nhacMenuScene.mp3");
 	experimental::AudioEngine::preload("audio/nhacMap.mp3");
@@ -38,6 +48,7 @@ bool StartScene::init()
 	experimental::AudioEngine::preload("audio/nhacKhiBamVaoTuiVang.mp3");
 	experimental::AudioEngine::preload("audio/m16_fire.ogg");
 	experimental::AudioEngine::preload("audio/m16_reload.ogg");
+	experimental::AudioEngine::preload("audio/bullet_impact_flesh.ogg");
 
 	//Play music
 	experimental::AudioEngine::play2d("audio/nhacMenuScene.mp3");
@@ -139,7 +150,7 @@ void StartScene::onTouchStartBtn(Ref* pSender, cocos2d::ui::Widget::TouchEventTy
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
 	{
 
-		auto scene = GamePlayLayer::createGamePlayLayer(1);
+		auto scene = GamePlayLayer::createGamePlayLayer(UserDefault::getInstance()->getIntegerForKey("LastEndedStage",1));
 		Director::getInstance()->replaceScene(TransitionFadeBL::create(0.5f, scene));
 	}
 }

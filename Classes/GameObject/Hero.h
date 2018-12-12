@@ -46,12 +46,11 @@ protected:
 	void						heroWounded(float delta);
 private:
 	Size						winSize;
-	static std::map<AnimationType, AnimationInfo>	_mapAnimation;
 	cocos2d::Sprite				*_sprhero;
 	cocos2d::Sprite				*_sprheroarm;
-	float _health;
+	float						_health;
 	cocos2d::Vector<GameObject*>_zombiesAreAttackingHeroes;
-	void						update(float delta);
+	void						update(float delta) override;
 	ui::LoadingBar				*_healthbarHero;
 	cocos2d::Vector<PZombie*>   _listZombieCollision;
 	std::function<void()> _callback;

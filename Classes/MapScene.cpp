@@ -58,13 +58,32 @@ bool MapScene::init()
 	
 	auto house = Sprite::create("SelectLevel_House.png");
 	addChild(house);
+	house->setScale(scale);
 	house->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	for (int i = 1; i < 7; i++)
 	{
-		auto posX = winSize.width * (0.35f + i * 0.15f);
-		auto posY = winSize.height * random(0.25f, 0.45f);
+		auto posX = winSize.width * (0.25f + i * 0.25f);
+		auto posY = winSize.height * random(0.20f, 0.55f);
 		_stageBtn = StageBtn::create(i, Vec2(posX, posY));
 		addChild(_stageBtn);
+	}
+
+	_parallaxBG = InfiniteParallaxNode::create();
+	addChild(_parallaxBG);
+	for (int i = 0; i < 10; i++)
+	{
+		auto _fog = Sprite::create("fog2.png");
+		_fog->setOpacity(30);
+		_fog->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		_fog->setScale(random(1.5f, 3.0f));
+		_parallaxBG->addChild(
+			_fog,
+			random(-4, 3),
+			Vec2(0.5, 3),
+			Vec2(winSize.width *
+				random(0.1f, 1.5f)
+				, winSize.height * random(0.1f, 0.9f))
+		);
 	}
 	scheduleUpdate();
 	return true;
@@ -80,6 +99,9 @@ void MapScene::update(float delta)
 	{
 		this->setPosition(-winSize.width, 0.0f);
 	}
+	Vec2 scrollDecrement = Point(1, 0);
+	_parallaxBG->setPosition(_parallaxBG->getPosition() - scrollDecrement);
+	_parallaxBG->updatePosition();
 }
 
 bool MapScene::onTouchBegan(Touch *touch, Event *event)
