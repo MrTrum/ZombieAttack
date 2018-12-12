@@ -100,6 +100,8 @@ bool GamePlayLayer::init(int playStage)
 	{
 		auto endgame = EndGame::create("Game Over", scenePlay);
 		endgame->getMax(_totalMoney);
+		def->setIntegerForKey("CurrentMoney", _totalMoney);
+		def->flush();
 		this->addChild(endgame, 5);
 		endgame->runNumber();
 	});
@@ -716,6 +718,9 @@ void GamePlayLayer::update(float dt)
 	_numberHP->setString(StringUtils::format("%02d", _totalHP));
 	_dynLeft->setString(StringUtils::format("%02d", _dynStock));
 	_bulletInMag->setString(StringUtils::format("%02d / %03d", _Bullet, _totalBullet));
+	def->setIntegerForKey("CurrentBullet", _Bullet);
+	def->setIntegerForKey("CurrentTotalBullet", _totalBullet);
+	def->flush();
 	if (!_isTxtVisible)
 	{
 		_outputTxt->setVisible(false);

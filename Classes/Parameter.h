@@ -95,7 +95,7 @@
 //NUMBER BULLET SHOOT
 #define NUMBER_BULLET_SHOOT						20
 //NUMBER BULLET M4A1
-#define NUMBER_BULLET_M4A1                      1200
+#define NUMBER_BULLET_M4A1                      120
 //PRICE M4A1
 #define PRICE_M4A1                              200
 //PRICE BULLET M4A1
