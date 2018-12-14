@@ -12,7 +12,6 @@ public:
 	virtual bool init();
 private:
 	cocos2d::Sprite *_sprBG;
-	cocos2d::Sprite *_sprBase;
 };
 
 #endif // !_BACKGROUND_LAYER_H_

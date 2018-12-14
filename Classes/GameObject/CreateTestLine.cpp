@@ -41,9 +41,9 @@ bool CreateTestLine::init(int tag, Vec2 location)
 	this->addChild(linePhysics);
 	this->setTag(tag);
 
-
 	auto physicsForLine = PhysicsBody::createBox(Size(1, winSize.height));
 	physicsForLine->setContactTestBitmask(true);
+	physicsForLine->setPositionOffset(Vec2(winSize.width * -0.05f, winSize.height * 0.5f));
 	physicsForLine->setDynamic(false);
 	physicsForLine->setGroup(-2);
 	this->setPhysicsBody(physicsForLine);
@@ -53,21 +53,7 @@ bool CreateTestLine::init(int tag, Vec2 location)
 }
 void CreateTestLine::onCollission(GameObject *obj)
 {
-	/*auto pzombie = static_cast<PZombie*>(obj);
-	pzombie->Attack();
-	if (obj->getTag() == 6 || obj->getTag() == 7)
-	{
-		auto actionWalk = CallFunc::create([=]
-		{
-			pzombie->Attack();
-		});
-		auto actionSkill = CallFunc::create([=]
-		{
-			pzombie->playAnimationSkill(pzombie->getTag());
-		});
-		auto spawn = Spawn::create(actionWalk, actionSkill, nullptr);
-		pzombie->runAction(spawn);
-	}*/
+
 }
 
 

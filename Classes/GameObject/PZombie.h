@@ -23,12 +23,8 @@ public:
 	float damage;
 
 	static float damageOfZombie;
-	enum Stage
-	{
-		DEAD,
-		ALIVE
-	};
 private:
+	Size						_zombieSize;
 	Sprite*						_spr;
 	int							_tag;
 	std::string					_stringName;
@@ -37,9 +33,6 @@ private:
 	Vec2						_target;
 	SkillZombie*				_skill;
 	std::vector<float>			_listHealthZombie;
-	//bool						_isWalk;
-	//bool						_isAttack;
-	/*bool						_isDead;*/
 	void update(float delta) override;
 public:
 	PZombie();

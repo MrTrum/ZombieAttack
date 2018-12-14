@@ -83,8 +83,8 @@
 #define HEALTH_ZOMBIE11							300.0f
 #define HEALTH_ZOMBIE100						1000.0f
 
-#define START_POS								Vec2(winSize * 0.26f)
-#define BULLET_VEC								1000.0f
+#define START_POS								Vec2(winSize.width * 0.2f, winSize.height * 0.25f)
+#define BULLET_VEC								3000.0f
 //GOLD_BAG TAG
 #define GOLD_BAG_TAG							131
 

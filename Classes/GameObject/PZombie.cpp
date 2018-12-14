@@ -97,15 +97,18 @@ bool PZombie::init(PoolZombie *ptr, std::string zombieName, int tag)
 	{
 		return false;
 	}
+	Size winSize = Director::getInstance()->getWinSize();
 	ptrPoolZombie = ptr;
 	_tag = tag;
 	_stringName = zombieName;
 
 	_spr = Sprite::createWithSpriteFrameName(zombieName + "1.png");
 	this->addChild(_spr);
-
+	_spr->setScale(winSize.height / _spr->getContentSize().height * 0.6f);
+	_zombieSize = _spr->getContentSize();
 	//Set Physics
-	auto physics = PhysicsBody::createBox(Size(_spr->getContentSize().width - 60.0f, _spr->getContentSize().height));
+	auto physics = PhysicsBody::createBox(Size(_spr->getContentSize().width *(winSize.height / (_spr->getContentSize().height * 1.3f)* 0.6f) ,
+		winSize.height * 0.6f));
 	physics->setContactTestBitmask(true);
 	physics->setDynamic(false);
 	physics->setGroup(-1);
@@ -134,13 +137,13 @@ void PZombie::setHealthBar(float percent)
 	auto winSize = Director::getInstance()->getWinSize();
 
 	healthbarZombie = ui::LoadingBar::create("HealthBar.png");
-	this->addChild(healthbarZombie);
+	_spr->addChild(healthbarZombie);
+	//healthbarZombie->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	healthbarZombie->setName("HealthBar");
 	healthbarZombie->setDirection(ui::LoadingBar::Direction::LEFT);
-	healthbarZombie->setScaleX(0.35f);
-	healthbarZombie->setScaleY(1.2f);
 	healthbarZombie->setPercent(percent);
-	healthbarZombie->setPosition(Vec2(0.0f, 200.0f));
+	healthbarZombie->setScale(winSize.width / healthbarZombie->getContentSize().width * 0.05f, 1.0f);
+	healthbarZombie->setPosition(Vec2(_zombieSize.width * 0.5f, _zombieSize.height * 1.2f));
 }
 
 void PZombie::resetHealthBar(float percent)

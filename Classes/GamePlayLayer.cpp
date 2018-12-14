@@ -32,6 +32,11 @@ GamePlayLayer::GamePlayLayer()
 	_LevelHP = 1;
 	_totalHP = 0;
 	_totalMoney = 0;
+	_isTxtVisible = false;
+	_checkMoney = false;
+	_isShootingBegan = false;
+	_isReloading = false;
+	_location = Point(0.0f, 0.0f);
 	dem = 0;
 }
 
@@ -59,8 +64,7 @@ Scene * GamePlayLayer::createGamePlayLayer(int stage)
 {
 	Scene* scene = Scene::createWithPhysics();
 	PhysicsWorld* world = scene->getPhysicsWorld();
-	//remember to turn off debug when release
-	/*world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);*/
+	world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	GamePlayLayer* node = GamePlayLayer::create(stage);
 	scene->addChild(node);
 	return scene;
@@ -76,32 +80,28 @@ bool GamePlayLayer::init(int playStage)
 	experimental::AudioEngine::stopAll();
 	_totalMoney= UserDefault::getInstance()->getIntegerForKey("CurrentMoney", 0);
 	_musicGame = experimental::AudioEngine::play2d("audio/nhacGame.mp3", true, 3.0f);
+	setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 
 	Size winSize = Director::getInstance()->getWinSize();
 	this->removeAllChildren();
 	scenePlay = playStage;
 
-#pragma region Plists
-	
-#pragma endregion
-
 #pragma region Components
 	//add BG
-	setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_bg = BackgroundLayer::create();
-	this->addChild(_bg);
+	this->addChild(_bg,0);
+	float scaleX = winSize.width / _bg->getContentSize().width;
+	float scaleY = winSize.height / _bg->getContentSize().height;
+	_bg->setScale(scaleX, scaleY);
 	auto _gBorder = Border::create();
 	addChild(_gBorder);
 	//add hero
 	_hero = Hero::create();
-	this->addChild(_hero, 3);
-	_hero->setPosition(winSize.width * 0.17f, winSize.height * 0.16f);
+	this->addChild(_hero, 2);
 	_hero->setCallBack([=]()
 	{
 		auto endgame = EndGame::create("Game Over", scenePlay);
 		endgame->getMax(_totalMoney);
-		def->setIntegerForKey("CurrentMoney", _totalMoney);
-		def->flush();
 		this->addChild(endgame, 5);
 		endgame->runNumber();
 	});
@@ -122,21 +122,18 @@ bool GamePlayLayer::init(int playStage)
 
 	auto getline = CreateTestLine::create(TAG_LINE, locationHero);
 	getline->setPosition(winSize.width * 0.9f, 0.0f);
-	this->addChild(getline, 3);
+	this->addChild(getline, 2);
 
 	auto getline2 = CreateTestLine::create(TAG_LINE2, locationHero);
 	getline2->setPosition(winSize.width * 0.4f, 0.0f);
-	this->addChild(getline2, 3);
+	this->addChild(getline2, 2);
 
 	auto poolZombie = PoolZombie::create(this, scenePlay);
-	this->addChild(poolZombie, 3);
+	this->addChild(poolZombie, 2);
 
 	auto listenEventPhysic = EventListenerPhysicsContact::create();
 	listenEventPhysic->onContactBegin = CC_CALLBACK_1(GamePlayLayer::onContactBegin, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenEventPhysic, this);
-#pragma endregion
-
-#pragma region UI
 	//tao icon tien
 	this->IconCoinCreate();
 	// tạo số tiền
@@ -145,51 +142,14 @@ bool GamePlayLayer::init(int playStage)
 	this->addChild(_Money, 4);
 	//tao nut pause
 	auto _pauseBtn = cocos2d::ui::Button::create("images/PauseButton.png");
-	_pauseBtn->setPosition(Vec2(winSize.width*0.025f, winSize.height*0.968f));
+	_pauseBtn->setPosition(Vec2(0, winSize.height*0.90f));
+	_pauseBtn->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_pauseBtn->setScale(2.0f);
 	_pauseBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchPauseButton, this));
 
 	this->addChild(_pauseBtn, 4);
-	// all button
-	_resumeBtn = cocos2d::ui::Button::create("btn_style1.png");
-	_resumeBtn->setPosition(Vec2(winSize.width*0.5f, winSize.height*0.7f));
-	_resumeBtn->setScale(0.7f);
-	_resumeBtn->setTag(1);
-	_resumeBtn->setVisible(false);
 
-	_resumeBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchResumeButton, this));
-	this->addChild(_resumeBtn, 4);
-	//Label Play
-	_labelResume = Label::createWithTTF("Resume", "fonts/kenvector_future.ttf", 25);
-	_labelResume->setPosition(_resumeBtn->getPosition());
-	_labelResume->setRotation(5);
-	_labelResume->setVisible(false);
-	this->addChild(_labelResume, 4);
-	_shopBtn = cocos2d::ui::Button::create("btn_style2.png");
-	_shopBtn->setPosition(Vec2(winSize.width*0.5f, winSize.height*0.5f));
-	_shopBtn->setScale(0.7f);
-	_shopBtn->setTag(1);
-	_shopBtn->setVisible(false);
-	_shopBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchShopButton, this));
-	this->addChild(_shopBtn, 4);
-	//Label Play
-	_labelShop = Label::createWithTTF("Shop", "fonts/kenvector_future.ttf", 25);
-	_labelShop->setPosition(_shopBtn->getPosition());
-	_labelShop->setVisible(false);
-	this->addChild(_labelShop, 4);
-	//Button Quit
-	_quitBtn = cocos2d::ui::Button::create("btn_style3.png");
-	_quitBtn->setPosition(Vec2(winSize.width*0.5f, winSize.height*0.3f));
-	_quitBtn->setScale(0.7f);
-	_quitBtn->setTag(1);
-	_quitBtn->setVisible(false);
-	_quitBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchQuitButton, this));
-	this->addChild(_quitBtn, 4);
-	//Label Quit
-	_labelQuit = Label::createWithTTF("Quit", "fonts/kenvector_future.ttf", 25);
-	_labelQuit->setPosition(_quitBtn->getPosition());
-	_labelQuit->setVisible(false);
-	_labelQuit->setRotation(-5);
-	this->addChild(_labelQuit, 4);
+	
 	//Level
 	def = UserDefault::getInstance();
 	_gunM4A1 = M4A1::create();
@@ -275,12 +235,6 @@ void GamePlayLayer::TouchPauseButton(Ref* pSender, cocos2d::ui::Widget::TouchEve
 		_iconDynamite->setTag(554);
 		_woodPane->setVisible(true);
 		_blurBG->setVisible(true);
-		_resumeBtn->setVisible(true);
-		_labelResume->setVisible(true);
-		_quitBtn->setVisible(true);
-		_labelQuit->setVisible(true);
-		_shopBtn->setVisible(true);
-		_labelShop->setVisible(true);
 	}
 }
 
@@ -292,12 +246,6 @@ void GamePlayLayer::TouchResumeButton(Ref* pSender, cocos2d::ui::Widget::TouchEv
 		_iconDynamite->setTag(TAG_DYNAMITE_BTN);
 		_woodPane->setVisible(false);
 		_blurBG->setVisible(false);
-		_resumeBtn->setVisible(false);
-		_labelResume->setVisible(false);
-		_quitBtn->setVisible(false);
-		_labelQuit->setVisible(false);
-		_shopBtn->setVisible(false);
-		_labelShop->setVisible(false);
 		experimental::AudioEngine::resume(_musicGame);
 	}
 }
@@ -344,12 +292,6 @@ void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 		_Shop->setGamePlayLayerPtr(this);
 		_Shop->setTotalMoney(_totalMoney);
 		_Money->setVisible(false);
-		_resumeBtn->setVisible(false);
-		_labelResume->setVisible(false);
-		_quitBtn->setVisible(false);
-		_labelQuit->setVisible(false);
-		_shopBtn->setVisible(false);
-		_labelShop->setVisible(false);
 		this->addChild(_Shop, 10);
 	}
 }
@@ -383,6 +325,7 @@ void GamePlayLayer::onTouchReloadBtn(Ref* pSender, cocos2d::ui::Widget::TouchEve
 #pragma region Touch Events
 bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 {
+	Size winSize = Director::getInstance()->getWinSize();
 	Point location = touch->getLocationInView();
 	_location = Director::getInstance()->convertToGL(location);
 	if (_iconDynamite->getBoundingBox().containsPoint(_location) && _iconDynamite->getTag() == TAG_DYNAMITE_BTN)
@@ -396,7 +339,7 @@ bool GamePlayLayer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event*)
 		_isShootingBegan = false;
 		return true;
 	}
-	else
+	else if(_location.x >= winSize.width * 0.2f)
 	{
 		_isShootingBegan = true;
 		return true;
@@ -542,13 +485,6 @@ void GamePlayLayer::resumeGame()
 {
 	_woodPane->setVisible(true);
 	_blurBG->setVisible(true);
-	_resumeBtn->setVisible(true);
-	_labelResume->setVisible(true);
-	_quitBtn->setVisible(true);
-	_labelQuit->setVisible(true);
-	_shopBtn->setVisible(true);
-	_labelShop->setVisible(true);
-	_Money->setVisible(true);
 }
 
 void GamePlayLayer::moneyChange()
@@ -641,11 +577,52 @@ void GamePlayLayer::addUI()
 	_blurBG->setScaleY(scaleY);
 	_blurBG->setOpacity(220);
 	_blurBG->setVisible(false);
+	
 	_woodPane = Sprite::create("woodpane.png");
 	addChild(_woodPane, 4);
 	_woodPane->setPosition(winSize * 0.5f);
 	_woodPane->setVisible(false);
-	_woodPane->setScale(0.7f);
+	_woodPane->setScale(winSize.height / _woodPane->getContentSize().height * 0.8f);
+	// all button
+	_resumeBtn = cocos2d::ui::Button::create("btn_style1.png");
+	_resumeBtn->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_resumeBtn->setPosition(Vec2(_woodPane->getContentSize().width * 0.5f, _woodPane->getContentSize().height * 0.7f));
+	//_resumeBtn->setScale(0.7f);
+	_resumeBtn->setTag(1);
+	_resumeBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchResumeButton, this));
+	_woodPane->addChild(_resumeBtn, 4);
+	//Label Play
+	_labelResume = Label::createWithTTF("Resume", "fonts/kenvector_future.ttf", 60);
+	_labelResume->setRotation(5);
+	_labelResume->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_labelResume->setPosition(Vec2(_resumeBtn->getContentSize() * 0.5f));
+	_resumeBtn->addChild(_labelResume, 4);
+	_shopBtn = cocos2d::ui::Button::create("btn_style2.png");
+	_shopBtn->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_shopBtn->setPosition(Vec2(_woodPane->getContentSize().width * 0.5f, _woodPane->getContentSize().height * 0.5f));
+	//_shopBtn->setScale(0.7f);
+	_shopBtn->setTag(1);
+	_shopBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchShopButton, this));
+	_woodPane->addChild(_shopBtn, 4);
+	//Label Play
+	_labelShop = Label::createWithTTF("Shop", "fonts/kenvector_future.ttf", 60);
+	_labelShop->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_labelShop->setPosition(Vec2(_shopBtn->getContentSize() * 0.5f));
+	_shopBtn->addChild(_labelShop, 4);
+	//Button Quit
+	_quitBtn = cocos2d::ui::Button::create("btn_style3.png");
+	_quitBtn->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_quitBtn->setPosition(Vec2(_woodPane->getContentSize().width * 0.5f, _woodPane->getContentSize().height * 0.3f));
+	//_quitBtn->setScale(0.7f);
+	_quitBtn->setTag(1);
+	_quitBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchQuitButton, this));
+	_woodPane->addChild(_quitBtn, 4);
+	//Label Quit
+	_labelQuit = Label::createWithTTF("Quit", "fonts/kenvector_future.ttf", 60);
+	_labelQuit->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_labelQuit->setPosition(Vec2(_quitBtn->getContentSize() * 0.5f));
+	_labelQuit->setRotation(-5);
+	_quitBtn->addChild(_labelQuit, 4);
 
 	//magazine ui
 	auto _sprMag = Sprite::create("oval.png");
@@ -698,6 +675,7 @@ void GamePlayLayer::throwOutputText(std::string txt, int duration)
 
 void GamePlayLayer::update(float dt)
 {
+	auto winSize = Director::getInstance()->getWinSize();
 	if (_dynStock <= 0)
 	{
 		_iconDynamite->setSpriteFrame("btn_dynamite_empty.png");
@@ -718,12 +696,13 @@ void GamePlayLayer::update(float dt)
 	_numberHP->setString(StringUtils::format("%02d", _totalHP));
 	_dynLeft->setString(StringUtils::format("%02d", _dynStock));
 	_bulletInMag->setString(StringUtils::format("%02d / %03d", _Bullet, _totalBullet));
-	def->setIntegerForKey("CurrentBullet", _Bullet);
-	def->setIntegerForKey("CurrentTotalBullet", _totalBullet);
-	def->flush();
 	if (!_isTxtVisible)
 	{
 		_outputTxt->setVisible(false);
+	}
+	if (_location.x <= winSize.width * 0.2f)
+	{
+		_isShootingBegan = false;
 	}
 }
 

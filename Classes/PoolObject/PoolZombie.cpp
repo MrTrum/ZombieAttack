@@ -460,22 +460,26 @@ void PoolZombie::setFrameBloodBar()
 {
 	Size winSize = Director::getInstance()->getWinSize();
 
-	auto frameBloodBar = Sprite::create("FrameBloodBar.png");
-	frameBloodBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-	frameBloodBar->setPosition(winSize.width - 10.0f, winSize.height - 20.0f);
-	frameBloodBar->setScaleY(0.17f);
-	frameBloodBar->setScaleX(0.25f);
-	addChild(frameBloodBar, 1);
+	_frameBloodBar = Sprite::create("OutLine.png");
+	_frameBloodBar->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_frameBloodBar->setPosition(Vec2(winSize.width - _frameBloodBar->getContentSize().width * 0.6f
+		, winSize.height * 0.94f));
+	_frameBloodBar->setScale(
+		(winSize.width / _frameBloodBar->getContentSize().width) * 0.25f,
+		(winSize.height / _frameBloodBar->getContentSize().height) * 0.04f
+	);
+	addChild(_frameBloodBar, 1);
 
-	auto booshead = Sprite::create("BossHead.png");
-	booshead->setPosition(winSize.width - 175.0f, winSize.height - 42.0f);
-	booshead->setScale(0.1f);
-	addChild(booshead, 1);
+	auto bosshead = Sprite::create("BossHead.png");
+	bosshead->setPosition(winSize.width - _frameBloodBar->getContentSize().width / 2,
+		 winSize.height - _frameBloodBar->getContentSize().width / 2);
+	bosshead->setScale(_frameBloodBar->getContentSize().height / bosshead->getContentSize().height);
+	_frameBloodBar->addChild(bosshead, 1);
 
 	auto zombiehead = Sprite::create("ZombieHead.png");
-	zombiehead->setPosition(winSize.width - 230.0f, winSize.height - 20.0f);
-	zombiehead->setScale(0.25f);
-	addChild(zombiehead, 1);
+	zombiehead->setPosition(_frameBloodBar->getContentSize().width * 0.25f, _frameBloodBar->getContentSize().height * 0.5f);
+	zombiehead->setScale(_frameBloodBar->getContentSize().height / zombiehead->getContentSize().height);
+	_frameBloodBar->addChild(zombiehead, 1);
 }
 
 void PoolZombie::setBloodBar(float percent)
@@ -483,13 +487,10 @@ void PoolZombie::setBloodBar(float percent)
 	auto winSize = Director::getInstance()->getWinSize();
 
 	bloodbar = ui::LoadingBar::create("BloodBar.png");
-	this->addChild(bloodbar, 2);
+	_frameBloodBar->addChild(bloodbar, 2);
 	bloodbar->setDirection(ui::LoadingBar::Direction::RIGHT);
-	bloodbar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-	bloodbar->setScaleX(0.26f);
-	bloodbar->setScaleY(0.20f);
+	bloodbar->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	bloodbar->setPercent(percent);
-	bloodbar->setPosition(Vec2(winSize.width - 10.0f, winSize.height - 20.0f));
 }
 
 void PoolZombie::updateBloodBar(float percent)

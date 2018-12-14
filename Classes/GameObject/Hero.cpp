@@ -6,7 +6,7 @@
 
 USING_NS_CC;
 
-#define HEALTH_HERO  100.0f;
+#define HEALTH_HERO  1.0f;
 
 Hero::Hero()
 {
@@ -24,33 +24,42 @@ bool Hero::init()
 		return false;
 	}
 	Size winSize = Director::getInstance()->getWinSize();
+	setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	//add base
+	_sprBase = Sprite::create("house.png");
+	this->addChild(_sprBase);
+	_sprBase->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_sprBase->setScale(winSize.height / _sprBase->getContentSize().height * 0.7f);
 
-	auto frameBloodBar = Sprite::create("BloodBarHero.png");
-	frameBloodBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-	frameBloodBar->setPosition(Vec2(90.0f, 520.0f));
-	frameBloodBar->setScaleY(0.17f);
-	frameBloodBar->setScaleX(0.25f);
-	addChild(frameBloodBar, 1);
+	_frameBloodBar = Sprite::create("OutLine.png");
+	_frameBloodBar->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_frameBloodBar->setPosition(Vec2(winSize.width * 0.05f, winSize.height * 0.94f));
+	_frameBloodBar->setScale(
+		(winSize.width / _frameBloodBar->getContentSize().width) * 0.25f,
+		(winSize.height / _frameBloodBar->getContentSize().height) * 0.04f
+	);
+	addChild(_frameBloodBar, 1);
 
 	_sprhero = Sprite::createWithSpriteFrameName("idle00.png");
+	_sprhero->setScale(winSize.height / _sprhero->getContentSize().height * 0.15f);
 	this->addChild(_sprhero);
 	this->setTag(TAG_HERO);
 	_sprhero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	this->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	this->setContentSize(_sprhero->getContentSize());
-	_sprhero->setScale(1.0f);
+	_sprhero->setPosition(Vec2(winSize.width * 0.14f,
+		winSize.height * 0.17f));
 	this->setHealthBar(100);
 
 	_sprheroarm = Sprite::createWithSpriteFrameName("M16idle00.png");
-	addChild(_sprheroarm);
+	_sprhero->addChild(_sprheroarm);
 	_sprheroarm->setName("Hero");
 	_sprheroarm->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_sprheroarm->setPosition(winSize.width * 0.015f, winSize.height * 0.06f);
+	_sprheroarm->setPosition(_sprhero->getContentSize().width * 0.14f, _sprhero->getContentSize().height * 0.32f);
 
-	auto physicForHero = PhysicsBody::createBox(_sprhero->getContentSize() * 2.5f);
+	auto physicForHero = PhysicsBody::createBox(Size(winSize.width * 0.3f, winSize.height * 0.7));
 	physicForHero->setDynamic(false);
 	physicForHero->setContactTestBitmask(true);
 	physicForHero->setGroup(-2);
+	physicForHero->setPositionOffset(Vec2(winSize.width * 0.20f, winSize.height * 0.375f));
 	this->setPhysicsBody(physicForHero);
 
 	Animation* fatguyanim = Animation::create();
@@ -159,13 +168,10 @@ void Hero::setCallBack(std::function<void()> callback)
 void Hero::setHealthBar(float percent)
 {
 	_healthbarHero = ui::LoadingBar::create("HeroBar.png");
-	this->addChild(_healthbarHero, 2);
-	_healthbarHero->setDirection(ui::LoadingBar::Direction::LEFT);
-	_healthbarHero->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
-	_healthbarHero->setScaleX(0.26f);
-	_healthbarHero->setScaleY(0.20f);
 	_healthbarHero->setPercent(percent);
-	_healthbarHero->setPosition(Vec2(89.0f, 520.0f));
+	_frameBloodBar->addChild(_healthbarHero, 2);
+	_healthbarHero->setDirection(ui::LoadingBar::Direction::LEFT);
+	_healthbarHero->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 }
 
 void Hero::updateHealthBar(float percent)

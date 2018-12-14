@@ -39,6 +39,7 @@ private:
 	cocos2d::Vector<PZombie*>   _listZombie2Total;
 	GamePlayLayer*				_gamePlayLayerPtr;
 	ui::LoadingBar				*bloodbar;
+	Sprite						*_frameBloodBar;
 	int							_numberZombie;
 	int							_check;
 	int							_setTagZombie[4];

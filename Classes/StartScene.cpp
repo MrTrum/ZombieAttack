@@ -1,7 +1,6 @@
 #include "StartScene.h"
 #include "AudioEngine.h"
 #include "GamePlayLayer.h"
-//#include "LoadingScene.h"
 #include "MapScene.h"
 
 StartScene::StartScene()

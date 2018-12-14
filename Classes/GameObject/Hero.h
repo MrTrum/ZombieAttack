@@ -9,29 +9,10 @@
 #include "GameObject/PZombie.h"
 #include "GamePlayLayer.h"
 
-struct AnimationInfo {
-	std::string _name;
-	int _numframe;
-	float _fps;
-	float _loop;
-	AnimationInfo(std::string name, int numframe, float fps, float loop) 
-	{
-		_name = name;
-		_numframe = numframe;
-		_fps = fps;
-		_loop = loop;
-	}
-};
-
+USING_NS_CC;
 class Hero : public GameObject
 {
 public:
-	enum class AnimationType
-	{
-		SHOOT,
-		RELOAD,
-		IDLE
-	};
 	Hero();
 	~Hero();
 	CREATE_FUNC(Hero);
@@ -46,8 +27,10 @@ protected:
 	void						heroWounded(float delta);
 private:
 	Size						winSize;
-	cocos2d::Sprite				*_sprhero;
-	cocos2d::Sprite				*_sprheroarm;
+	Sprite				*_frameBloodBar;
+	Sprite				*_sprBase;
+	Sprite				*_sprhero;
+	Sprite				*_sprheroarm;
 	float						_health;
 	cocos2d::Vector<GameObject*>_zombiesAreAttackingHeroes;
 	void						update(float delta) override;
