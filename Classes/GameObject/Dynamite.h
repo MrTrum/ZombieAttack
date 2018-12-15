@@ -18,7 +18,7 @@ public:
 	void onCollission(GameObject *obj);
 	float getDamage() override;
 	void kaBoooom(Vec2 droppedPos);
-	void show();
+	void show(Size panel);
 	void hide();
 	void setLabelStats();
 	bool recharge = false;

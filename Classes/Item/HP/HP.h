@@ -2,12 +2,14 @@
 #define _HP_H
 #include "UI/GameStats/ItemStats.h"
 #include "cocos2d.h"
+
+USING_NS_CC;
 class HP : public cocos2d::Node
 {
 public:
 	HP();
 	~HP();
-	void setIcon();
+	void setIcon(Size panel);
 	void setLabelStats();
 	void setItemIcon();
 	void iconUpgradeHide(int number,int price);
@@ -22,6 +24,7 @@ public:
 	void show();
 	bool recharge = false;
 private:
+	Size	_panel;
 	cocos2d::Sprite* _HP;
 	cocos2d::Sprite* _iconHP;
 	cocos2d::Sprite* _basicStat;

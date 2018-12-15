@@ -2,7 +2,7 @@
 #include "AudioEngine.h"
 #include "GamePlayLayer.h"
 #include "MapScene.h"
-#include "Store.h"
+//#include "Store.h"
 
 StartScene::StartScene()
 {
@@ -53,8 +53,8 @@ bool StartScene::init()
 
 	//Play music
 	experimental::AudioEngine::play2d("audio/nhacMenuScene.mp3");
-	auto _myStore = MyStore::create();
-	addChild(_myStore, 6);
+	/*auto _myStore = MyStore::create();
+	addChild(_myStore, 6);*/
 
 	auto _bg = Sprite::create("BG.png");
 	addChild(_bg);

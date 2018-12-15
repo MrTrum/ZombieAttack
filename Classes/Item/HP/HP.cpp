@@ -1,6 +1,6 @@
 #include "Item/HP/HP.h"
 #include "Parameter.h"
-USING_NS_CC;
+
 #define UPGRADEBTN_WIDTH_POSITION 0.185f
 #define UPGRADEBTN_HEIGHT_POSITION 0.25f
 #define UPGRADEBTN_DISTANCT_POSITION 0.45f
@@ -25,12 +25,12 @@ void HP::iconItemShow()
 	_labelNum->setVisible(false);
 	Size winSize = Director::getInstance()->getWinSize();
 	_iconBuyHP = Sprite::create("images/Heart.png");
-	_iconBuyHP->setPosition(winSize.height*(0.18f + 0.49f), winSize.width*0.28f);
+	_iconBuyHP->setPosition(_panel.width * 0.43f, _panel.height * 0.45f);
 	_iconBuyHP->setScale(0.5f);
 	this->addChild(_iconBuyHP);
 	std::string _dmgStr = StringUtils::format("  +  %i", itemStat._NumberItem);
 	_labelBuyHP = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", 30);
-	_labelBuyHP->setPosition(winSize.height*(0.33f + 0.49f), winSize.width*0.28f);
+	_labelBuyHP->setPosition(_panel.width * 0.56f, _panel.height * 0.45f);
 	this->addChild(_labelBuyHP);
 	std::string _priceStr = StringUtils::format("  %i", (PRICE_NUMBER_HP*itemStat._NumberItem));
 	_labelUpgrade->setString(_priceStr);
@@ -43,38 +43,39 @@ void HP::iconItemHide()
 	_labelNum->setVisible(true);
 	_iconBuyHP->setVisible(false);
 	_labelBuyHP->setVisible(false);
-
 }
-void HP::setIcon()
+
+void HP::setIcon(Size panel)
 {
+	_panel = panel;
 	Size winSize = Director::getInstance()->getWinSize();
 	_iconHP = Sprite::create("images/potion.png");
-	_iconHP->setPosition(winSize.height*(0.28f + 0.47f), winSize.width*(0.42f));
+	_iconHP->setPosition(panel.width * 0.51f, panel.height * 0.7f);
 	_iconHP->setScale(0.5f);
 	this->addChild(_iconHP);
 	_basicStat = Sprite::create("images/Plus.png");
-	_basicStat->setPosition(winSize.height*(0.18f + 0.47f), winSize.width*(0.31f));
+	_basicStat->setPosition(panel.width * 0.43f, panel.height * 0.55f);
 	_basicStat->setScale(0.75f);
 	this->addChild(_basicStat);
 	std::string _dmgStr = StringUtils::format("  %i", itemStat._BasicStat);
-	_labelStat = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", 30);
-	_labelStat->setPosition(winSize.height*(0.33f + 0.47f), winSize.width*(0.31f));
+	_labelStat = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", winSize.height * 0.07f);
+	_labelStat->setPosition(panel.width * 0.56f, panel.height * 0.55f);
 	this->addChild(_labelStat);
 	_itemNum = Sprite::create("images/Heart.png");
-	_itemNum->setPosition(winSize.height*(0.18f + 0.47f), winSize.width*(0.24f));
+	_itemNum->setPosition(panel.width * 0.43f, panel.height * 0.42f);
 	_itemNum->setScale(0.28f);
 	this->addChild(_itemNum);
 	std::string _numStr = StringUtils::format("  %i", itemStat._NumberItem);
-	_labelNum = Label::createWithTTF(_numStr, "fonts/kenvector_future.ttf", 30);
-	_labelNum->setPosition(winSize.height*(0.33f + 0.47f), winSize.width*(0.24f));
+	_labelNum = Label::createWithTTF(_numStr, "fonts/kenvector_future.ttf", winSize.height * 0.07f);
+	_labelNum->setPosition(panel.width * 0.56f, panel.height * 0.42f);
 	this->addChild(_labelNum);
 	_Price = Sprite::createWithSpriteFrameName("coin1.png");
-	_Price->setPosition(Vec2(winSize.width*(PRICE_WIDTH_POSITION + 0.32f), winSize.height*PRICE_HEIGHT_POSITION));
-	_Price->setScale(0.15f);
+	_Price->setPosition(panel.width * 0.43f, panel.height * 0.25f);
+	_Price->setScale(0.3f);
 	this->addChild(_Price);
 	std::string _priceStr = StringUtils::format("  %i", itemStat._Price);
-	_labelUpgrade = Label::createWithTTF(_priceStr, "fonts/kenvector_future.ttf", 25);
-	_labelUpgrade->setPosition(Vec2(winSize.width*(PRICE_LABEL_WIDTH_POSITION + 0.32f), winSize.height*PRICE_LABEL_HEIGHT_POSITION));
+	_labelUpgrade = Label::createWithTTF(_priceStr, "fonts/kenvector_future.ttf", winSize.height * 0.07f);
+	_labelUpgrade->setPosition(panel.width * 0.52f, panel.height * 0.25f);
 	_labelUpgrade->setColor(cocos2d::Color3B(0, 0, 0));
 	this->addChild(_labelUpgrade);
 }

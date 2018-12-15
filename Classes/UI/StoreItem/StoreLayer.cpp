@@ -4,17 +4,7 @@
 #include "math.h"
 #include "AudioEngine.h"
 
-#define ITEM_WIDTH_POSITION 0.05f
-#define ITEM_HEIGHT_POSITION 0.25f
-#define ITEM_DISTANCT_POSITION 0.32f
-#define UPGRADEBTN_WIDTH_POSITION 0.185f
-#define UPGRADEBTN_HEIGHT_POSITION 0.25f
-#define UPGRADEBTN_DISTANCT_POSITION 0.32f
-#define PRICE_WIDTH_POSITION 0.11f
-#define PRICE_HEIGHT_POSITION 0.25f
-#define PRICE_LABEL_WIDTH_POSITION 0.18f
-#define PRICE_LABEL_HEIGHT_POSITION 0.25f
-#define PRICE_DISTANCT_POSITION 0.32f
+
 #define UPGRADE_INDEX 0
 #define BUY_ITEM_INDEX 1
 StoreLayer::StoreLayer()
@@ -44,19 +34,24 @@ bool StoreLayer::init()
 	_shop->setPosition(Vec2(0.0f, 0.0f));
 	_shop->setContentSize(Size(visibleSize.width, visibleSize.height));
 	addChild(_shop);
+	auto shopSize = _shop->getContentSize();
 	//shop item
 	for (int i = 0; i < 3; i++)
 	{
 		auto _ItemWeapon = Sprite::create("images/ItemWeapon.png");
 		_ItemWeapon->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-		_ItemWeapon->setScale(1.0f, 1.5f);
-		_ItemWeapon->setPosition(Vec2(winSize.width*(ITEM_WIDTH_POSITION + (ITEM_DISTANCT_POSITION*i)), winSize.height*ITEM_HEIGHT_POSITION));
+		_ItemWeapon->setScale(shopSize.width/ _ItemWeapon->getContentSize().width * (0.7f/3 ),
+			shopSize.height / _ItemWeapon->getContentSize().height * 0.55f);
+		_ItemWeapon->setPosition(Vec2(shopSize.width * 0.1f + i *( _ItemWeapon->getContentSize().width + shopSize.width * 0.15f)
+			, shopSize.height * 0.2f ));
 		_shop->addChild(_ItemWeapon);
 		listSpriteItem.pushBack(_ItemWeapon);
 		_upgradeBtn = cocos2d::ui::Button::create("images/UpgradeWeapon.png");
-		_upgradeBtn->setPosition(Vec2(winSize.width*(UPGRADEBTN_WIDTH_POSITION + (ITEM_DISTANCT_POSITION*i)), winSize.height*UPGRADEBTN_HEIGHT_POSITION));
+		_upgradeBtn->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		_upgradeBtn->setPosition(Vec2(_ItemWeapon->getContentSize().width *0.5f
+			, _ItemWeapon->getContentSize().height * 0.1f));
 		_upgradeBtn->addTouchEventListener(CC_CALLBACK_2(StoreLayer::TouchUpgradeButton, this));
-		_shop->addChild(_upgradeBtn);
+		_ItemWeapon->addChild(_upgradeBtn);
 		listButtonItem.pushBack(_upgradeBtn);
 	}
 
@@ -88,7 +83,8 @@ bool StoreLayer::init()
 	_weaponBtn->setPosition(Vec2(visibleSize.width*0.8f, visibleSize.height*0.12f));
 	_weaponBtn->addTouchEventListener(CC_CALLBACK_2(StoreLayer::TouchWeaponButton, this));
 	_shop->addChild(_weaponBtn);
-	auto _labelWeapon = Label::createWithTTF("Weapon", "fonts/kenvector_future.ttf", 25);
+	_weaponBtn->setEnabled(false);
+	auto _labelWeapon = Label::createWithTTF("Coming Soon", "fonts/kenvector_future.ttf", 25);
 	_labelWeapon->setPosition(_weaponBtn->getPosition());
 	_labelWeapon->setColor(cocos2d::Color3B(0, 0, 0));
 	this->addChild(_labelWeapon);
@@ -103,16 +99,16 @@ bool StoreLayer::init()
 	_iconGun->baseBullet = UserDefault::getInstance()->getIntegerForKey("CurrentTotalBullet");
 	int tempLevel = (_iconGun->_Level);
 	_iconGun->_Stats.setStats(DAMAGE_M4A1 + (10 * tempLevel), NUMBER_BULLET_SHOOT + (10* tempLevel), PRICE_M4A1*1.5*tempLevel);
-	_iconGun->setIcon();
+	_iconGun->setIcon(shopSize);
 	_shop->addChild(_iconGun, 4);
 	//Icon HP
 	_iconHP = new HP();
 	_iconHP->itemStat.setStats(STAT_HP, NUMBER_HP, PRICE_HP);
-	_iconHP->setIcon();
+	_iconHP->setIcon(shopSize);
 	_iconHP->setLabelStats();
 	_shop->addChild(_iconHP, 4);
 	_bomb = Dynamite::create();
-	_bomb->show();
+	_bomb->show(shopSize);
 	_bomb->setVisible(false);
 	_shop->addChild(_bomb, 4);
 	return true;
