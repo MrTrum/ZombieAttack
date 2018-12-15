@@ -6,7 +6,7 @@
 
 USING_NS_CC;
 
-#define HEALTH_HERO  1.0f;
+#define HEALTH_HERO  100.0f;
 
 Hero::Hero()
 {

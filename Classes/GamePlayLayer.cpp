@@ -13,6 +13,7 @@
 #include "PoolObject/PoolExplo.h"
 #include "PoolObject/PoolSkill.h"
 #include "BackgroundLayer.h"
+#include "Store.h"
 #include "UI/Coin/Coin.h"
 #include <ui/UIWidget.h>
 #include "UI/EndGame/EndGame.h"
@@ -64,7 +65,7 @@ Scene * GamePlayLayer::createGamePlayLayer(int stage)
 {
 	Scene* scene = Scene::createWithPhysics();
 	PhysicsWorld* world = scene->getPhysicsWorld();
-	world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	GamePlayLayer* node = GamePlayLayer::create(stage);
 	scene->addChild(node);
 	return scene;
@@ -142,14 +143,12 @@ bool GamePlayLayer::init(int playStage)
 	this->addChild(_Money, 4);
 	//tao nut pause
 	auto _pauseBtn = cocos2d::ui::Button::create("images/PauseButton.png");
-	_pauseBtn->setPosition(Vec2(0, winSize.height*0.90f));
+	_pauseBtn->setPosition(Vec2(0, winSize.height*0.91f));
 	_pauseBtn->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_pauseBtn->setScale(2.0f);
+	_pauseBtn->setScale(winSize.height / _pauseBtn->getContentSize().height * 0.09f);
 	_pauseBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::TouchPauseButton, this));
+	this->addChild(_pauseBtn, 3);
 
-	this->addChild(_pauseBtn, 4);
-
-	
 	//Level
 	def = UserDefault::getInstance();
 	_gunM4A1 = M4A1::create();
@@ -187,10 +186,12 @@ bool GamePlayLayer::init(int playStage)
 	//Icon HP
 	auto buttonHide = cocos2d::ui::Button::create("icon_potion.png");
 	this->addChild(buttonHide, 2);
+	buttonHide->setScale(winSize.height / buttonHide->getContentSize().height * 0.1f);
 	buttonHide->setPosition(Vec2(winSize.width * 0.85f, winSize.height * 0.87f));
 	buttonHide->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::potionButton, this));
 	_iconHPHide = Sprite::createWithSpriteFrameName("icon_potion.png");
 	_iconHPHide->setPosition(buttonHide->getPosition());
+	_iconHPHide->setScale(winSize.height / _iconHPHide->getContentSize().height * 0.1f);
 	this->addChild(_iconHPHide, 2);
 	_numberHP = Label::createWithTTF(StringUtils::format("%02d", _totalHP), "fonts/Marker Felt.ttf", 20);
 	_iconHPHide->addChild(_numberHP);
@@ -257,6 +258,7 @@ void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 {
 	if (eEventType == cocos2d::ui::Widget::TouchEventType::ENDED)
 	{
+		auto winSize = Director::getInstance()->getWinSize();
 		_Shop = StoreLayer::create();
 		_Shop->setCallBack([=](M4A1* Gun)
 		{
@@ -547,6 +549,7 @@ void GamePlayLayer::addUI()
 	addChild(_iconDynamite, 3);
 	_iconDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
 	_iconDynamite->setTag(TAG_DYNAMITE_BTN);
+	_iconDynamite->setScale(winSize.height / _iconDynamite->getContentSize().height * 0.1f);
 	_sprDynamite = Sprite::create("weapon_dynamite.png");
 	addChild(_sprDynamite, 2);
 	_sprDynamite->setPosition(Vec2(winSize.width * 0.75f, winSize.height * 0.87f));
@@ -556,15 +559,13 @@ void GamePlayLayer::addUI()
 	_dynLeft->setPosition(Vec2(50.0f, 15.0f));
 	_dynLeft->enableOutline(cocos2d::Color4B::BLACK, 3);
 	//warrning txt
-	_outputTxt = Label::createWithTTF("", "fonts/Creepster-Regular.ttf", 80);
+	_outputTxt = Label::createWithTTF("", "fonts/Creepster-Regular.ttf", winSize.height * 0.1f);
 	_outputTxt->setVisible(false);
 	addChild(_outputTxt, 2);
 	_outputTxt->setColor(cocos2d::Color3B::GREEN);
 	_outputTxt->enableOutline(cocos2d::Color4B::RED, 2);
 	_outputTxt->enableShadow(Color4B::RED, Size(10, -10), -5);
 	_outputTxt->setPosition(winSize.width * 0.5f, winSize.height * 0.75f);
-	/*Blink *rdTxtBlink = Blink::create(5, 12);
-	_outputTxt->runAction(rdTxtBlink);*/
 
 	throwOutputText("READY !!!", 3);
 	//paused effect
@@ -625,21 +626,21 @@ void GamePlayLayer::addUI()
 	_quitBtn->addChild(_labelQuit, 4);
 
 	//magazine ui
-	auto _sprMag = Sprite::create("oval.png");
+	auto _sprMag = Sprite::create("MagBG.png");
 	_sprMag->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_sprMag->setPosition(Vec2(winSize.width * 0.09f, winSize.height * 0.03f));
+	_sprMag->setPosition(Vec2(winSize.width * 0.07f, winSize.height * 0.03f));
 	addChild(_sprMag, 2);
-	_sprMag->setScale(0.15f);
+	_sprMag->setScale(winSize.height / _sprMag->getContentSize().height * 0.065f);
 	auto _reloadBtn = cocos2d::ui::Button::create("MagUI.png");
 	_reloadBtn->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_reloadBtn->setPosition(winSize * 0.03f);
 	_reloadBtn->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::onTouchReloadBtn, this));
-	_reloadBtn->setScale(0.15f);
+	_reloadBtn->setScale(winSize.height / _sprMag->getContentSize().height * 0.05f);
 	this->addChild(_reloadBtn, 2);
-	_bulletInMag = Label::createWithTTF("aaa", "fonts/Marker Felt.ttf", 20);
-	addChild(_bulletInMag, 2);
-	_bulletInMag->enableOutline(cocos2d::Color4B::BLACK, 3);
-	_bulletInMag->setPosition(Vec2(winSize.width * 0.17f, winSize.height * 0.06f));
+	_bulletInMag = Label::createWithTTF("aaa", "fonts/Marker Felt.ttf", _sprMag->getContentSize().height * 0.5f);
+	_sprMag->addChild(_bulletInMag, 2);
+	_bulletInMag->enableOutline(cocos2d::Color4B::BLACK, 5);
+	_bulletInMag->setPosition(Vec2(_sprMag->getContentSize() * 0.45f));
 }
 
 bool GamePlayLayer::isTouchingSprite(Touch* touch)
@@ -779,6 +780,7 @@ void GamePlayLayer::throwDynamite(Vec2 droppedPos)
 			_dynamite = _poolDynamite->createExplo();
 			this->addChild(_dynamite, 3);
 			_dynamite->setPosition(droppedPos);
+			experimental::AudioEngine::play2d("audio/explosion.mp3");
 			_dynamite->kaBoooom(droppedPos);
 		});
 		runAction(Sequence::create(DelayTime::create(0.5), callExplo, nullptr));

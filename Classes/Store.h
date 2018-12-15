@@ -21,25 +21,21 @@ public:
 	void gunShop();
 	void healthShop();
 	void armorShop();
-	enum {
-		GUN = 1,
-		HEALTH = 2,
-		ARMOR = 3,
-		TO_BE_REMOVE = 999
-	};
 private:
-	Size	winSize;
-	Size	paperSize;
+	Size		_sprShopSize;
+	Size		shopSize;
+	Size		paperSize;
 	int			getEnum;
 	float		scale;
 	ui::Button	*_closeBtn;
+	ui::Button	*_selectGun;
+	ui::Button	*_selectHealth;
+	ui::Button	*_selectArmor;
 	ui::Button	*_upgradeGun;
 	ui::Button	*_upgradeHealth;
 	ui::Button	*_upgradeArmor;
+	Sprite		*_sprShop;
 	Sprite		*_sprUpLayer;
-	Sprite		*_sprUpGun;
-	Sprite		*_sprUpHealth;
-	Sprite		*_sprUpArmor;
 	bool		_isBtnOpen;
 	RotateBy	*rotate;
 };

@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 
+USING_NS_CC;
 class Money : public cocos2d::Node
 {
 public:

@@ -2,6 +2,7 @@
 #include "AudioEngine.h"
 #include "GamePlayLayer.h"
 #include "MapScene.h"
+#include "Store.h"
 
 StartScene::StartScene()
 {
@@ -48,9 +49,12 @@ bool StartScene::init()
 	experimental::AudioEngine::preload("audio/m16_fire.ogg");
 	experimental::AudioEngine::preload("audio/m16_reload.ogg");
 	experimental::AudioEngine::preload("audio/bullet_impact_flesh.ogg");
+	experimental::AudioEngine::preload("audio/explosion.ogg");
 
 	//Play music
 	experimental::AudioEngine::play2d("audio/nhacMenuScene.mp3");
+	auto _myStore = MyStore::create();
+	addChild(_myStore, 6);
 
 	auto _bg = Sprite::create("BG.png");
 	addChild(_bg);
