@@ -35,7 +35,7 @@ bool Money::init()
 	for (int i = 0; i < NUM_SPRITE; i++)
 	{
 		_money = Sprite::createWithSpriteFrameName("0.png");
-		_money->setPosition(Vec2(winSize.width*(NUMBER_GAMEPLAY_POSITION_WIDTH + (NUMBER_DISTANT*i)), winSize.height*NUMBER_GAMEPLAY_POSITION_HEIGHT));
+		_money->setPosition(Vec2(0.0f + i * _money->getContentSize().width * 0.2f ,0.0f));
 		_money->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		_money->setScale(0.13f);
 		this->addChild(_money);
@@ -56,7 +56,7 @@ void Money::setShopMoneyPos()
 	for (int i = 0; i < NUM_SPRITE; i++)
 	{
 		money = _listSprite.at(i);
-		money->setPosition(Vec2(winSize.width*(NUMBER_SHOP_POSITION_WIDTH + (NUMBER_DISTANT*i)), winSize.height*NUMBER_SHOP_POSITION_HEIGHT));
+		money->setPosition(Vec2(winSize.width * (NUMBER_SHOP_POSITION_WIDTH + (NUMBER_DISTANT*i)), winSize.height*NUMBER_SHOP_POSITION_HEIGHT));
 	}
 }
 void Money::setMoney(int money)

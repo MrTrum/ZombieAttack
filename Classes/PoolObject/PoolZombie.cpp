@@ -461,8 +461,8 @@ void PoolZombie::setFrameBloodBar()
 	Size winSize = Director::getInstance()->getWinSize();
 
 	_frameBloodBar = Sprite::create("OutLine.png");
-	_frameBloodBar->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_frameBloodBar->setPosition(Vec2(winSize.width - _frameBloodBar->getContentSize().width * 0.6f
+	_frameBloodBar->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
+	_frameBloodBar->setPosition(Vec2(winSize.width * 0.97f
 		, winSize.height * 0.94f));
 	_frameBloodBar->setScale(
 		(winSize.width / _frameBloodBar->getContentSize().width) * 0.25f,

@@ -26,30 +26,29 @@ bool StoreLayer::init()
 	shopMusic = experimental::AudioEngine::play2d("audio/nhacVaoShop.mp3");
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("images/coin.plist", "images/coin.png");
-	auto visibleSize = Director::getInstance()->getVisibleSize();
+	//auto visibleSize = Director::getInstance()->getVisibleSize();
 	Size winSize = Director::getInstance()->getWinSize();
 	//shop 
 	auto _shop = Sprite::create("images/shop.png");
 	_shop->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_shop->setPosition(Vec2(0.0f, 0.0f));
-	_shop->setContentSize(Size(visibleSize.width, visibleSize.height));
+	_shop->setScale(winSize.width / _shop->getContentSize().width, winSize.height / _shop->getContentSize().height);
 	addChild(_shop);
 	auto shopSize = _shop->getContentSize();
 	//shop item
 	for (int i = 0; i < 3; i++)
 	{
-		auto _ItemWeapon = Sprite::create("images/ItemWeapon.png");
+		auto _ItemWeapon = Sprite::create("images/itemBG.png");
 		_ItemWeapon->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-		_ItemWeapon->setScale(shopSize.width/ _ItemWeapon->getContentSize().width * (0.7f/3 ),
-			shopSize.height / _ItemWeapon->getContentSize().height * 0.55f);
-		_ItemWeapon->setPosition(Vec2(shopSize.width * 0.1f + i *( _ItemWeapon->getContentSize().width + shopSize.width * 0.15f)
-			, shopSize.height * 0.2f ));
+		_ItemWeapon->setScale( 1.20f, 1.0f);
+		_ItemWeapon->setPosition(Vec2(shopSize.width * 0.06f + i *( _ItemWeapon->getContentSize().width + shopSize.width * 0.05f)
+			, shopSize.height * 0.25f ));
 		_shop->addChild(_ItemWeapon);
 		listSpriteItem.pushBack(_ItemWeapon);
 		_upgradeBtn = cocos2d::ui::Button::create("images/UpgradeWeapon.png");
 		_upgradeBtn->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		_upgradeBtn->setPosition(Vec2(_ItemWeapon->getContentSize().width *0.5f
-			, _ItemWeapon->getContentSize().height * 0.1f));
+			, _ItemWeapon->getContentSize().height * 0.09f));
 		_upgradeBtn->addTouchEventListener(CC_CALLBACK_2(StoreLayer::TouchUpgradeButton, this));
 		_ItemWeapon->addChild(_upgradeBtn);
 		listButtonItem.pushBack(_upgradeBtn);
@@ -57,40 +56,46 @@ bool StoreLayer::init()
 
 	//quit button
 	_quitShop = cocos2d::ui::Button::create("images/quit_shop.png");
-	_quitShop->setPosition(Vec2(visibleSize.width*0.95f, visibleSize.height*0.9f));
+	_quitShop->setPosition(Vec2(shopSize.width*0.95f, shopSize.height*0.9f));
 	_quitShop->addTouchEventListener(CC_CALLBACK_2(StoreLayer::TouchQuitButton, this));
 	_shop->addChild(_quitShop);
 	//Upgrade Item button
 	_upgradeItemBtn = cocos2d::ui::Button::create("images/ShopButton.png");
-	_upgradeItemBtn->setPosition(Vec2(visibleSize.width*0.2f, visibleSize.height*0.12f));
+	_upgradeItemBtn->setPosition(Vec2(shopSize.width*0.2f, shopSize.height*0.12f));
 	_upgradeItemBtn->addTouchEventListener(CC_CALLBACK_2(StoreLayer::TouchUpgradeWeaponButton, this));
 	_shop->addChild(_upgradeItemBtn);
-	auto _labelUpgradeItem = Label::createWithTTF("Upgrade", "fonts/kenvector_future.ttf", 25);
-	_labelUpgradeItem->setPosition(_upgradeItemBtn->getPosition());
+	auto _labelUpgradeItem = Label::createWithTTF("Upgrade", "fonts/kenvector_future.ttf", _upgradeItemBtn->getContentSize().height * 0.6f);
+	_labelUpgradeItem->setPosition(_upgradeItemBtn->getContentSize() * 0.5f);
+	_labelUpgradeItem->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_labelUpgradeItem->setColor(cocos2d::Color3B(0, 0, 0));
-	_shop->addChild(_labelUpgradeItem);
+	_upgradeItemBtn->addChild(_labelUpgradeItem);
 	//Item button
 	_itemBtn = cocos2d::ui::Button::create("images/ShopButton.png");
-	_itemBtn->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height*0.12f));
+	_itemBtn->setPosition(Vec2(shopSize.width*0.5f, shopSize.height*0.12f));
 	_itemBtn->addTouchEventListener(CC_CALLBACK_2(StoreLayer::TouchItemButton, this));
 	_shop->addChild(_itemBtn);
-	auto _labelItem = Label::createWithTTF("Item", "fonts/kenvector_future.ttf", 25);
-	_labelItem->setPosition(_itemBtn->getPosition());
+	auto _labelItem = Label::createWithTTF("Item", "fonts/kenvector_future.ttf", _upgradeItemBtn->getContentSize().height * 0.6f);
+	_labelItem->setPosition(_upgradeItemBtn->getContentSize() * 0.5f);
+	_labelItem->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_labelItem->setColor(cocos2d::Color3B(0, 0, 0));
-	_shop->addChild(_labelItem);
+	_itemBtn->addChild(_labelItem);
 	//Weapon button
 	_weaponBtn = cocos2d::ui::Button::create("images/ShopButton.png");
-	_weaponBtn->setPosition(Vec2(visibleSize.width*0.8f, visibleSize.height*0.12f));
+	_weaponBtn->setPosition(Vec2(shopSize.width*0.8f, shopSize.height*0.12f));
 	_weaponBtn->addTouchEventListener(CC_CALLBACK_2(StoreLayer::TouchWeaponButton, this));
 	_shop->addChild(_weaponBtn);
 	_weaponBtn->setEnabled(false);
-	auto _labelWeapon = Label::createWithTTF("Coming Soon", "fonts/kenvector_future.ttf", 25);
-	_labelWeapon->setPosition(_weaponBtn->getPosition());
+	auto _labelWeapon = Label::createWithTTF("Coming Soon", "fonts/kenvector_future.ttf", _upgradeItemBtn->getContentSize().height * 0.6f);
+	_labelWeapon->setPosition(_upgradeItemBtn->getContentSize() * 0.5f);
+	_labelWeapon->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_labelWeapon->setColor(cocos2d::Color3B(0, 0, 0));
-	this->addChild(_labelWeapon);
+	_weaponBtn->addChild(_labelWeapon);
 	//money number
 	_Money = Money::create();
-	_Money->setShopMoneyPos();
+	_Money->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_Money->setPosition(Vec2(shopSize.width * 0.45f,
+		shopSize.height * 0.96f
+	));
 	_shop->addChild(_Money);
 	//Icon gun
 	_iconGun = M4A1::create();

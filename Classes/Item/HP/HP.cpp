@@ -29,7 +29,7 @@ void HP::iconItemShow()
 	_iconBuyHP->setScale(0.5f);
 	this->addChild(_iconBuyHP);
 	std::string _dmgStr = StringUtils::format("  +  %i", itemStat._NumberItem);
-	_labelBuyHP = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", 30);
+	_labelBuyHP = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", winSize.height * 0.06f);
 	_labelBuyHP->setPosition(_panel.width * 0.56f, _panel.height * 0.45f);
 	this->addChild(_labelBuyHP);
 	std::string _priceStr = StringUtils::format("  %i", (PRICE_NUMBER_HP*itemStat._NumberItem));
@@ -58,7 +58,7 @@ void HP::setIcon(Size panel)
 	_basicStat->setScale(0.75f);
 	this->addChild(_basicStat);
 	std::string _dmgStr = StringUtils::format("  %i", itemStat._BasicStat);
-	_labelStat = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", winSize.height * 0.07f);
+	_labelStat = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", winSize.height * 0.06f);
 	_labelStat->setPosition(panel.width * 0.56f, panel.height * 0.55f);
 	this->addChild(_labelStat);
 	_itemNum = Sprite::create("images/Heart.png");
@@ -66,16 +66,16 @@ void HP::setIcon(Size panel)
 	_itemNum->setScale(0.28f);
 	this->addChild(_itemNum);
 	std::string _numStr = StringUtils::format("  %i", itemStat._NumberItem);
-	_labelNum = Label::createWithTTF(_numStr, "fonts/kenvector_future.ttf", winSize.height * 0.07f);
+	_labelNum = Label::createWithTTF(_numStr, "fonts/kenvector_future.ttf", winSize.height * 0.06f);
 	_labelNum->setPosition(panel.width * 0.56f, panel.height * 0.42f);
 	this->addChild(_labelNum);
 	_Price = Sprite::createWithSpriteFrameName("coin1.png");
-	_Price->setPosition(panel.width * 0.43f, panel.height * 0.25f);
+	_Price->setPosition(panel.width * 0.44f, panel.height * 0.3f);
 	_Price->setScale(0.3f);
 	this->addChild(_Price);
 	std::string _priceStr = StringUtils::format("  %i", itemStat._Price);
-	_labelUpgrade = Label::createWithTTF(_priceStr, "fonts/kenvector_future.ttf", winSize.height * 0.07f);
-	_labelUpgrade->setPosition(panel.width * 0.52f, panel.height * 0.25f);
+	_labelUpgrade = Label::createWithTTF(_priceStr, "fonts/kenvector_future.ttf", winSize.height * 0.06f);
+	_labelUpgrade->setPosition(panel.width * 0.53f, panel.height * 0.3f);
 	_labelUpgrade->setColor(cocos2d::Color3B(0, 0, 0));
 	this->addChild(_labelUpgrade);
 }

@@ -23,8 +23,8 @@ public:
 	void setLabelStats();
 	bool recharge = false;
 protected:
-private:
 	float _Dmg;
+private:
 	void update(float dt) override;
 private:
 	PhysicsBody	*_physics;

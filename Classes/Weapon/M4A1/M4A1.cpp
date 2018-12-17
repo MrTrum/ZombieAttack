@@ -41,7 +41,7 @@ void M4A1::setIcon(Size panel)
 	_Dmg->setScale(0.12f);
 	this->addChild(_Dmg);
 	std::string _dmgStr = StringUtils::format("  %i", _Stats._Damage);
-	_labelDmg = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", winSize.height * 0.07f);
+	_labelDmg = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", winSize.height * 0.06f);
 	_labelDmg->setPosition(panel.width * 0.27f, panel.height * 0.55f);
 	this->addChild(_labelDmg);
 	_bulletNum = Sprite::create("images/bulletNum.png");
@@ -49,16 +49,16 @@ void M4A1::setIcon(Size panel)
 	_bulletNum->setScale(0.18f);
 	this->addChild(_bulletNum);
 	std::string _numStr = StringUtils::format("  %i", _Stats._BulletNumber);
-	_labelNum = Label::createWithTTF(_numStr, "fonts/kenvector_future.ttf", winSize.height * 0.07f);
+	_labelNum = Label::createWithTTF(_numStr, "fonts/kenvector_future.ttf", winSize.height * 0.06f);
 	_labelNum->setPosition(panel.width * 0.27f, panel.height * 0.42f);
 	this->addChild(_labelNum);
 	_Price = Sprite::createWithSpriteFrameName("coin1.png");
-	_Price->setPosition(panel.width * 0.14f, panel.height * 0.25f);
+	_Price->setPosition(panel.width * 0.15f, panel.height * 0.3f);
 	_Price->setScale(0.3f);
 	this->addChild(_Price);
 	std::string _priceStr = StringUtils::format("  %i", _Stats._Price);
-	_labelUpgrade = Label::createWithTTF(_priceStr, "fonts/kenvector_future.ttf", winSize.height * 0.07f);
-	_labelUpgrade->setPosition(panel.width * 0.23f, panel.height * 0.25f);
+	_labelUpgrade = Label::createWithTTF(_priceStr, "fonts/kenvector_future.ttf", winSize.height * 0.06f);
+	_labelUpgrade->setPosition(panel.width * 0.24f, panel.height * 0.3f);
 	_labelUpgrade->setColor(cocos2d::Color3B(0, 0, 0));
 	this->addChild(_labelUpgrade);
 	
@@ -96,7 +96,7 @@ void M4A1::show()
 	_buyBullet->setScale(0.4f);
 	this->addChild(_buyBullet);
 	std::string _dmgStr = StringUtils::format("  +  %i", _Stats._BulletNumber * 2);
-	_labelBuyBullet = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", winSize.height * 0.07f);
+	_labelBuyBullet = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", winSize.height * 0.06f);
 	_labelBuyBullet->setPosition(_panel.width * 0.27f, _panel.height * 0.45f);
 	this->addChild(_labelBuyBullet);
 	int test = (PRICE_BULLET_M4A1*_Stats._BulletNumber);

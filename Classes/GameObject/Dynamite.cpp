@@ -2,7 +2,6 @@
 
 Dynamite::Dynamite()
 {
-	_Dmg = 100.0f;
 	_willBeDestroy = false;
 }
 
@@ -16,16 +15,19 @@ bool Dynamite::init()
 	{
 		return false;
 	}
+	auto winSize = Director::getInstance()->getWinSize();
 	setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_physics = PhysicsBody::createCircle(60.0f);
+	setContentSize(Size(winSize.width * 0.15f, winSize.width * 0.15f));
+	_physics = PhysicsBody::createCircle(winSize.width * 0.15f);
 	_physics->setContactTestBitmask(true);
 	_physics->setDynamic(false);
 	_physics->setGroup(-2);
 	this->setPhysicsBody(_physics);
 	_particle = ParticleSystemQuad::create("explo.plist");
 	this->addChild(_particle);
-	_particle->setScale(0.5f);
+	_particle->setScale(1.2);
 	_particle->setPosition(_physics->getPosition());
+	_Dmg = 200.0f;
 	this->setTag(TAG_DYNAMITE);
 	scheduleUpdate();
 	return true;
@@ -42,17 +44,17 @@ void Dynamite::show(Size panel)
 	_bombNum->setScale(2.3f);
 	this->addChild(_bombNum);
 	std::string _dmgStr = StringUtils::format("  +  %i", 5);
-	_labelNum = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", 30);
+	_labelNum = Label::createWithTTF(_dmgStr, "fonts/kenvector_future.ttf", panel.height * 0.06f);
 	_labelNum->setPosition(panel.width * 0.85f, panel.height * 0.45f);
 	this->addChild(_labelNum);
 	int test = (PRICE_BOMB*BOMB_NUMBER);
 	_Price = Sprite::createWithSpriteFrameName("coin1.png");
-	_Price->setPosition(panel.width * 0.72f, panel.height * 0.25f);
+	_Price->setPosition(panel.width * 0.73f, panel.height * 0.3f);
 	_Price->setScale(0.3f);
 	this->addChild(_Price);
 	std::string _priceStr = StringUtils::format("  %i", test);
-	_labelUpgrade = Label::createWithTTF(_priceStr, "fonts/kenvector_future.ttf", winSize.height * 0.07f);
-	_labelUpgrade->setPosition(Vec2(winSize.width*0.80f, winSize.height*0.25f));
+	_labelUpgrade = Label::createWithTTF(_priceStr, "fonts/kenvector_future.ttf", panel.height * 0.06f);
+	_labelUpgrade->setPosition(Vec2(panel.width*0.81f, panel.height*0.3f));
 	_labelUpgrade->setColor(cocos2d::Color3B(0, 0, 0));
 	_labelUpgrade->setString(_priceStr);
 	this->addChild(_labelUpgrade);

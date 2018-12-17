@@ -140,6 +140,9 @@ bool GamePlayLayer::init(int playStage)
 	// tạo số tiền
 	_Money = Money::create();
 	_Money->setMoney(_totalMoney);
+	_Money->setPosition(Vec2(winSize.width * 0.45f,
+		winSize.height * 0.96f
+	));
 	this->addChild(_Money, 4);
 	//tao nut pause
 	auto _pauseBtn = cocos2d::ui::Button::create("images/PauseButton.png");
@@ -293,7 +296,7 @@ void GamePlayLayer::TouchShopButton(Ref* pSender, cocos2d::ui::Widget::TouchEven
 		});
 		_Shop->setGamePlayLayerPtr(this);
 		_Shop->setTotalMoney(_totalMoney);
-		_Money->setVisible(false);
+		//_Money->setVisible(false);
 		this->addChild(_Shop, 10);
 	}
 }
@@ -685,6 +688,7 @@ void GamePlayLayer::update(float dt)
 	if (_dynStock > 0)
 	{
 		_iconDynamite->setTag(TAG_DYNAMITE_BTN);
+		_iconDynamite->setSpriteFrame("btn_dynamite.png");
 	}
 	if (_totalHP <= 0)
 	{

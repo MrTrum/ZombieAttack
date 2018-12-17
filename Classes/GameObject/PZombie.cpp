@@ -206,10 +206,16 @@ void PZombie::onCollission(GameObject *obj)
 {
 	auto objtag = obj->getTag();
 	auto zombirtag = this->getTag();
-	if (obj->getTag() == TAG_BULLET || obj->getTag() == TAG_DYNAMITE)
+	if (obj->getTag() == TAG_BULLET)
 	{
 		experimental::AudioEngine::play2d("audio/bullet_impact_flesh.ogg");
 		this->damage = obj->getDamage();
+		checkDamage();
+	}
+	if (obj->getTag() == TAG_DYNAMITE)
+	{
+		experimental::AudioEngine::play2d("audio/bullet_impact_flesh.ogg");
+		this->damage = 200.0f;
 		checkDamage();
 	}
 	else if (obj->getTag() == TAG_LINE && (this->getTag() >= TAG_ZOMBIE6 && this->getTag() <= TAG_ZOMBIE11))

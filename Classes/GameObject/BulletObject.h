@@ -23,7 +23,7 @@ public:
 	Vec2 vector;
 	void bulletFire(Vec2 location);
 protected:
-	int _Dmg;
+	float _Dmg;
 private:
 	void poolAndRemoveBullet();
 private:

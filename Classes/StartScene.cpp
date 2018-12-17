@@ -70,7 +70,7 @@ bool StartScene::init()
 	for (int i = 0; i < 10; i++)
 	{
 		auto _fog = Sprite::create("fog.png");
-		_fog->setOpacity(30);
+		_fog->setOpacity(50);
 		_fog->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 		_fog->setScale(randomValueBetween(1.5, 3));
 		_parallaxBG->addChild(
@@ -82,7 +82,7 @@ bool StartScene::init()
 				, winSize.height * randomValueBetween(0.1f, 0.9f))
 		);
 	}
-	_startBtnTxt = Label::createWithTTF("START GAME", "fonts/Creepster-Regular.ttf", 50);
+	_startBtnTxt = Label::createWithTTF("START GAME", "fonts/Creepster-Regular.ttf", winSize.height * 0.07f);
 	_startBtnTxt->setColor(cocos2d::Color3B::WHITE);
 	_startBtnTxt->enableOutline(cocos2d::Color4B::RED, 5);
 	_startBtnTxt->enableShadow(Color4B::BLACK, Size(2, -2), -5);
@@ -96,7 +96,7 @@ bool StartScene::init()
 	_startBtn->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_startBtn->addTouchEventListener(CC_CALLBACK_2(StartScene::onTouchStartBtn, this));
 
-	_mapsBtnTxt = Label::createWithTTF("STAGES", "fonts/Creepster-Regular.ttf", 50);
+	_mapsBtnTxt = Label::createWithTTF("STAGES", "fonts/Creepster-Regular.ttf", winSize.height * 0.07f);
 	_mapsBtnTxt->setColor(cocos2d::Color3B::WHITE);
 	_mapsBtnTxt->enableOutline(cocos2d::Color4B::RED, 5);
 	_mapsBtnTxt->enableShadow(Color4B::BLACK, Size(2, -2), -5);
@@ -110,7 +110,7 @@ bool StartScene::init()
 	_mapsBtn->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_mapsBtn->addTouchEventListener(CC_CALLBACK_2(StartScene::onTouchMapsBtn, this));
 
-	_quitBtnTxt = Label::createWithTTF("QUIT", "fonts/Creepster-Regular.ttf", 50);
+	_quitBtnTxt = Label::createWithTTF("QUIT", "fonts/Creepster-Regular.ttf", winSize.height * 0.07f);
 	_quitBtnTxt->setColor(cocos2d::Color3B::WHITE);
 	_quitBtnTxt->enableOutline(cocos2d::Color4B::RED, 5);
 	_quitBtnTxt->enableShadow(Color4B::BLACK, Size(2, -2), -5);
